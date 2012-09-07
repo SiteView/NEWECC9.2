@@ -26,5 +26,6 @@ public class SetUpModle {
 	}
 	public SetUpModle(){
 		list.add(new UserManageModle());
+		list.add(new TableDutyModle());
 	}
 }

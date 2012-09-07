@@ -17,6 +17,7 @@ import SiteView.ecc.Modle.MachineModle;
 import SiteView.ecc.Modle.MonitorSetUpModel;
 import SiteView.ecc.Modle.SetUpModle;
 import SiteView.ecc.Modle.SiteViewEcc;
+import SiteView.ecc.Modle.TableDutyModle;
 import SiteView.ecc.Modle.UserManageModle;
 import siteview.windows.forms.ImageHelper;
 
@@ -45,6 +46,8 @@ public class EccTreeLabelProvider extends LabelProvider {
 			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/AlarmLog.jpg");
 		}else if(element instanceof MonitorSetUpModel){
 			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/monitorsetup.bmp");
+		}else if(element instanceof TableDutyModle){
+			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/TableDuty.jpg");
 		}
 		return null;
 	}
@@ -76,6 +79,8 @@ public class EccTreeLabelProvider extends LabelProvider {
 			return ((AlarmLogModle) element).getName();
 		}else if(element instanceof MonitorSetUpModel){
 			return ((MonitorSetUpModel) element).getName();
+		}else if(element instanceof TableDutyModle){
+			return ((TableDutyModle) element).getName();
 		}
 		return null;
 	}
