@@ -37,7 +37,7 @@ import SiteView.ecc.dialog.AddUserDig;
 import SiteView.ecc.dialog.TaxAuthority;
 import Siteview.Windows.Forms.ConnectionBroker;
 import Siteview.Xml.Scope;
-import adminloader.forms.security.UserManagerDlg;
+//import adminloader.forms.security.UserManagerDlg;
 
 public class UserManager extends EditorPart {
 	public UserManager() {

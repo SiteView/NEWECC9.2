@@ -8,6 +8,7 @@ import org.eclipse.jface.viewers.Viewer;
 
 import SiteView.ecc.Modle.AlarmModle;
 import SiteView.ecc.Modle.GroupModle;
+import SiteView.ecc.Modle.MonitorSetUpModel;
 import SiteView.ecc.Modle.SetUpModle;
 import SiteView.ecc.Modle.SiteViewEcc;
 
@@ -47,6 +48,8 @@ public class EccTreeContentProvider implements ITreeContentProvider {
 	     }else if(parentElement instanceof AlarmModle){
 	    	 AlarmModle set=(AlarmModle) parentElement;
 	    	 return set.getList().toArray();
+	     }else if(parentElement instanceof MonitorSetUpModel){
+	    	 return null;
 	     }
 		return null;
 	}
@@ -74,6 +77,8 @@ public class EccTreeContentProvider implements ITreeContentProvider {
 			return true;
 		}else if(element instanceof AlarmModle){
 			return true;
+		}else if(element instanceof MonitorSetUpModel){
+			return false;
 		}
 		return false;
 	} 

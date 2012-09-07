@@ -14,6 +14,7 @@ import SiteView.ecc.Modle.AlarmRuleModle;
 import SiteView.ecc.Modle.AlarmTacticsModle;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MachineModle;
+import SiteView.ecc.Modle.MonitorSetUpModel;
 import SiteView.ecc.Modle.SetUpModle;
 import SiteView.ecc.Modle.SiteViewEcc;
 import SiteView.ecc.Modle.UserManageModle;
@@ -42,6 +43,8 @@ public class EccTreeLabelProvider extends LabelProvider {
 			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/AlarmTactics.jpg");
 		}else if(element instanceof AlarmLogModle){
 			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/AlarmLog.jpg");
+		}else if(element instanceof MonitorSetUpModel){
+			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/monitorsetup.bmp");
 		}
 		return null;
 	}
@@ -71,6 +74,8 @@ public class EccTreeLabelProvider extends LabelProvider {
 			return ((AlarmTacticsModle) element).getName();
 		}else if(element instanceof AlarmLogModle){
 			return ((AlarmLogModle) element).getName();
+		}else if(element instanceof MonitorSetUpModel){
+			return ((MonitorSetUpModel) element).getName();
 		}
 		return null;
 	}

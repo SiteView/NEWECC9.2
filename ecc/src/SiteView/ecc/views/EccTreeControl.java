@@ -46,7 +46,7 @@ import Siteview.Windows.Forms.ConnectionBroker;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
-import adminloader.forms.security.UserManagerDlg;
+//import adminloader.forms.security.UserManagerDlg;
 import core.busobmaint.BusObMaintView;
 import core.busobmaint.BusObNewInput;
 import siteview.windows.forms.ImageHelper;

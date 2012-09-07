@@ -39,9 +39,11 @@ import SiteView.ecc.Control.EccTreeContentProvider;
 import SiteView.ecc.Control.EccTreeLabelProvider;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MachineModle;
+import SiteView.ecc.Modle.MonitorSetUpModel;
 import SiteView.ecc.Modle.SiteViewEcc;
 import SiteView.ecc.Modle.UserManageModle;
 import SiteView.ecc.data.SiteViewData;
+import SiteView.ecc.dialog.MonitorSetUp;
 import SiteView.ecc.editors.EccControl;
 import SiteView.ecc.editors.EccControlInput;
 import SiteView.ecc.editors.UserManager;
@@ -96,6 +98,9 @@ public class EccTreeControl extends ViewPart {
 						} catch (PartInitException e1) {
 							e1.printStackTrace();
 						}
+				}else if(item instanceof MonitorSetUpModel){
+					 MonitorSetUp msu = new MonitorSetUp(null);
+					 msu.open();
 				}else if(item instanceof GroupModle){
 					 IWorkbenchPage page = Activator.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();  
 					 IEditorPart editor = page.findEditor(eee); 

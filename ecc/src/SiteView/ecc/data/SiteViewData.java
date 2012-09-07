@@ -12,6 +12,7 @@ import system.Collections.IEnumerator;
 import SiteView.ecc.Modle.AlarmModle;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MachineModle;
+import SiteView.ecc.Modle.MonitorSetUpModel;
 import SiteView.ecc.Modle.SetUpModle;
 import SiteView.ecc.Modle.SiteViewEcc;
 import SiteView.ecc.tools.FileTools;
@@ -86,6 +87,7 @@ public class SiteViewData {
 		if(hasSuperUser){
 			site.add(new SetUpModle());
 			site.add(new AlarmModle());	
+			site.add(new MonitorSetUpModel());
 		}
 		if(permissions.get("userManage")!=null){
 			site.add(new SetUpModle());
