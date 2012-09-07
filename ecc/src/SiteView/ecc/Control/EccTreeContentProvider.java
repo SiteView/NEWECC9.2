@@ -6,6 +6,7 @@ import java.util.List;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
+import SiteView.ecc.Modle.AlarmModle;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.SetUpModle;
 import SiteView.ecc.Modle.SiteViewEcc;
@@ -43,6 +44,9 @@ public class EccTreeContentProvider implements ITreeContentProvider {
 	     }else if(parentElement instanceof SetUpModle){
 	    	 SetUpModle set=(SetUpModle) parentElement;
 	    	 return set.getList().toArray();
+	     }else if(parentElement instanceof AlarmModle){
+	    	 AlarmModle set=(AlarmModle) parentElement;
+	    	 return set.getList().toArray();
 	     }
 		return null;
 	}
@@ -67,6 +71,8 @@ public class EccTreeContentProvider implements ITreeContentProvider {
 				return true;
 			}
 		}else if(element instanceof SetUpModle){
+			return true;
+		}else if(element instanceof AlarmModle){
 			return true;
 		}
 		return false;

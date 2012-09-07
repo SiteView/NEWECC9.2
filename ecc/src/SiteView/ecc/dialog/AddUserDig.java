@@ -292,7 +292,6 @@ public class AddUserDig extends Dialog {
 	@Override
 	protected void buttonPressed(int buttonId) {
 		if(buttonId==IDialogConstants.OK_ID){
-			
 			if(EditUser){
 				if(!oldLogId.equals(txtLoginId.getText().trim())){
 					if(UserInfor.usersid.contains(txtLoginId.getText().trim())){
@@ -328,7 +327,7 @@ public class AddUserDig extends Dialog {
 				}
 				UserInfor.usersid.add(txtLoginId.getText().trim());
 				user.set_SecurityGroupName("º‡≤‚æ≠¿Ì");
-				user.set_SecurityGroupId("0093C762577346CD8F016A47D42097D3");
+				user.set_SecurityGroupId("A480780155C14D42AE9F30BB6086ECC6");
 			}
 			user.set_LoginId(txtLoginId.getText().trim());
 			user.set_TrackPresence(chkPersent.getSelection());

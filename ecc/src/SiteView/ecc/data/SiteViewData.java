@@ -9,6 +9,7 @@ import java.util.Map;
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
 
+import SiteView.ecc.Modle.AlarmModle;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MachineModle;
 import SiteView.ecc.Modle.SetUpModle;
@@ -41,7 +42,7 @@ public class SiteViewData {
 		if(hasSuperUser){
 			while(interfaceTableIEnum.MoveNext()) {
 				BusinessObject bo = (BusinessObject) interfaceTableIEnum.get_Current();
-				GroupModle g = new GroupModle(bo,true,true,true,true,true,true,true);
+				GroupModle g = new GroupModle(bo,true,true,true,true,true,true,true,true);
 				List<GroupModle> sub = createTreeItem(bo.get_RecId());
 				g.setGroups(sub);
 				List<MachineModle> machine = createMachines(bo.get_RecId());
@@ -67,6 +68,7 @@ public class SiteViewData {
 							g.setDeleteGroup((Boolean)bo1.GetField("DeleteGroup").get_NativeValue());
 							g.setDeleteMchine((Boolean)bo1.GetField("DeleteMachine").get_NativeValue());
 							g.setDeleteMonitor((Boolean)bo1.GetField("DeleteMonitor").get_NativeValue());
+							g.setEditmonitor((Boolean)bo1.GetField("EditMonitor").get_NativeValue());
 							List<GroupModle> sub = createTreeItem(bo.get_RecId());
 							g.setGroups(sub);
 							List<MachineModle> machine = createMachines(bo.get_RecId());
@@ -81,7 +83,16 @@ public class SiteViewData {
 		groups_0.addAll(list);
 		siteview.setList(list);
 		site.add(siteview);
-		site.add(new SetUpModle());
+		if(hasSuperUser){
+			site.add(new SetUpModle());
+			site.add(new AlarmModle());	
+		}
+		if(permissions.get("userManage")!=null){
+			site.add(new SetUpModle());
+		}
+		if(permissions.get("告警")!=null){
+			site.add(new AlarmModle());	
+		}
 		return site;
 	}
 
@@ -118,14 +129,14 @@ public class SiteViewData {
 		while (interfaceTableIEnum.MoveNext()) {
 			BusinessObject bo = (BusinessObject) interfaceTableIEnum.get_Current();// 获取集合中的当前元素
 			if(hasSuperUser){
-				GroupModle g = new GroupModle(bo,true,true,true,true,true,true,true);
+				GroupModle g = new GroupModle(bo,true,true,true,true,true,true,true,true);
 				g.setGroups(createTreeItem(bo.get_RecId()));
 				g.setMachines(createMachines(bo.get_RecId()));
 				subgroups.put(bo.get_RecId(), g);
 				list.add(g);
 			}else if(permissions.get(bo.get_RecId())!=null ){
 				BusinessObject bo1=permissions.get(bo.get_RecId());
-				if(bo1.GetField("PermissionsType").get_NativeValue().toString().equals("Machine")
+				if(bo1.GetField("PermissionsType").get_NativeValue().toString().equals("Group")
 						&&(Boolean)((BusinessObject)permissions.get(bo.get_RecId())).GetField("SelectPerimissions").get_NativeValue()){
 					GroupModle g = new GroupModle(bo);
 					g.setAddMachine((Boolean)bo1.GetField("AddMachine").get_NativeValue());
@@ -135,6 +146,7 @@ public class SiteViewData {
 					g.setDeleteGroup((Boolean)bo1.GetField("DeleteGroup").get_NativeValue());
 					g.setDeleteMchine((Boolean)bo1.GetField("DeleteMachine").get_NativeValue());
 					g.setDeleteMonitor((Boolean)bo1.GetField("DeleteMonitor").get_NativeValue());
+					g.setEditmonitor((Boolean)bo1.GetField("EditMonitor").get_NativeValue());
 					g.setGroups(createTreeItem(bo.get_RecId()));
 					g.setMachines(createMachines(bo.get_RecId()));
 					subgroups.put(bo.get_RecId(), g);

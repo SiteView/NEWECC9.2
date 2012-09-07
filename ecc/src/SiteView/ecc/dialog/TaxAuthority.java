@@ -20,7 +20,6 @@ import SiteView.ecc.data.SiteViewData;
 import SiteView.ecc.data.UserInfor;
 import SiteView.ecc.editors.UserManager;
 import SiteView.ecc.tools.FileTools;
-import SiteView.ecc.views.EccTreeControl;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
@@ -59,7 +58,6 @@ public class TaxAuthority extends Dialog {
 	Button but5;
 	Button but6;
 	Button but7;
-	Button but8;
 	Button but9;
 	Button but10;
 	Button but11;
@@ -206,16 +204,12 @@ public class TaxAuthority extends Dialog {
 		but7.setBounds(10, 10, 93, 16);
 		but7.setText("\u6DFB\u52A0\u76D1\u6D4B\u5668");
 
-		but8 = new Button(composite_6, SWT.CHECK);
-		but8.setBounds(10, 40, 93, 16);
-		but8.setText("\u6DFB\u52A0\u8BBE\u5907");
-
 		but9 = new Button(composite_6, SWT.CHECK);
-		but9.setBounds(10, 69, 93, 16);
+		but9.setBounds(10, 40, 93, 16);
 		but9.setText("\u7F16\u8F91\u8BBE\u5907");
 
 		but10 = new Button(composite_6, SWT.CHECK);
-		but10.setBounds(10, 101, 93, 16);
+		but10.setBounds(10, 70, 93, 16);
 		but10.setText("\u5220\u9664\u8BBE\u5907");
 
 		composite_7 = new Composite(sashForm_2, SWT.BORDER);
@@ -266,9 +260,6 @@ public class TaxAuthority extends Dialog {
 							but7.setSelection((Boolean) userPermission
 									.get(macid).GetField("AddMonitor")
 									.get_NativeValue());
-							but8.setSelection((Boolean) userPermission
-									.get(macid).GetField("AddMachine")
-									.get_NativeValue());
 							but9.setSelection((Boolean) userPermission
 									.get(macid).GetField("EditMachine")
 									.get_NativeValue());
@@ -285,9 +276,8 @@ public class TaxAuthority extends Dialog {
 						Authority();
 					} else {
 						selectionButton(false);
-						Map map = (Map) item.getData();
-						String id = map.get("_id").toString();
-						id = id.substring(id.lastIndexOf("/") + 1);
+						GroupModle map = (GroupModle) item.getData();
+						String id = map.getBo().get_RecId();
 						flag[0] = false;
 						flag[1] = true;
 						flag[2] = false;
@@ -346,7 +336,7 @@ public class TaxAuthority extends Dialog {
 				String s=bo.GetField("GroupName").get_NativeValue().toString();
 				treeItem1 = new TreeItem(treeItem, SWT.NONE | SWT.CHECK);
 				treeItem1.setText(s);
-				treeItem1.setData(bo);
+				treeItem1.setData(group);
 				String id=bo.get_RecId();
 				if (userPermission.get(id) != null) {
 					treeItem1.setChecked((Boolean) userPermission.get(id)
@@ -359,26 +349,6 @@ public class TaxAuthority extends Dialog {
 				treeItem1.setExpanded(true);
 			}
 		}
-		
-//		for (int i = 0; i < EccTreeControl.groups_0.size(); i++) {
-//			Map map = EccTreeControl.groups_0.get(i);
-//			String id = map.get("_id").toString();
-//			id = id.substring(id.lastIndexOf("/") + 1);
-//			String s = map.get("_name").toString();
-//			treeItem1 = new TreeItem(treeItem, SWT.NONE | SWT.CHECK);
-//			treeItem1.setText(s);
-//			treeItem1.setData(map); // SelectPerimissions
-//			if (userPermission.get(id) != null) {
-//				treeItem1.setChecked((Boolean) userPermission.get(id)
-//						.GetField("SelectPerimissions").get_NativeValue());
-//			} else {
-//				treeItem1.setChecked(false);
-//			}
-//			treeItem1.setImage(ImageHelper.LoadImage(Activator.PLUGIN_ID,
-//					"icons/node.jpg"));
-//			createItem(map, treeItem1, id);
-//			treeItem1.setExpanded(true);
-//		}
 		treeItem.setExpanded(true);
 	}
 
@@ -391,7 +361,7 @@ public class TaxAuthority extends Dialog {
 			TreeItem treeItem2 = new TreeItem(treeItem1, SWT.NONE
 					| SWT.CHECK);
 			treeItem2.setText(bo.GetField("GroupName").get_NativeValue().toString());
-			treeItem2.setData(bo);
+			treeItem2.setData(g);
 			if (userPermission.get(subid) != null) {
 				treeItem2.setChecked(true);
 			} else {
@@ -439,52 +409,52 @@ public class TaxAuthority extends Dialog {
 		}
 	}
 
-	private void createItem(Map map, TreeItem treeItem1, String id) {
-		// TODO Auto-generated method stub
-		List<Map<String, Object>> subgroup = EccTreeControl.groups_subgroups
-				.get(id);
-		if (subgroup != null) {
-			for (int i = 0; i < subgroup.size(); i++) {
-				Map submap = subgroup.get(i);
-				String subid = submap.get("_id").toString();
-				subid = subid.substring(subid.lastIndexOf("/") + 1);
-				TreeItem treeItem2 = new TreeItem(treeItem1, SWT.NONE
-						| SWT.CHECK);
-				treeItem2.setText(submap.get("_name").toString());
-				treeItem2.setData(submap);
-				if (userPermission.get(subid) != null) {
-					treeItem2.setChecked(true);
-				} else {
-					treeItem2.setChecked(false);
-				}
-				treeItem2.setImage(ImageHelper.LoadImage(Activator.PLUGIN_ID,
-						"icons/node.jpg"));
-				createItem(submap, treeItem2, subid);
-
-			}
-		}
-		ICollection machine = EccTreeControl.groups_machines.get(id);
-		if (machine != null && machine.get_Count() > 0) {
-			IEnumerator interfaceTableIEnum = machine.GetEnumerator();
-			if (interfaceTableIEnum.MoveNext()) {
-				BusinessObject bo = (BusinessObject) interfaceTableIEnum
-						.get_Current();
-				TreeItem treeItem3 = new TreeItem(treeItem1, SWT.NONE
-						| SWT.CHECK);
-				treeItem3.setText(bo.GetField("ServerAddress")
-						.get_NativeValue().toString());
-				treeItem3.setData(bo);
-				String macid = bo.get_RecId();
-				if (userPermission.get(macid) != null) {
-					treeItem3.setChecked(true);
-				} else {
-					treeItem3.setChecked(false);
-				}
-				treeItem3.setImage(ImageHelper.LoadImage(Activator.PLUGIN_ID,
-						"icons/shebei.jpg"));
-			}
-		}
-	}
+//	private void createItem(Map map, TreeItem treeItem1, String id) {
+//		// TODO Auto-generated method stub
+//		List<Map<String, Object>> subgroup = EccTreeControl.groups_subgroups
+//				.get(id);
+//		if (subgroup != null) {
+//			for (int i = 0; i < subgroup.size(); i++) {
+//				Map submap = subgroup.get(i);
+//				String subid = submap.get("_id").toString();
+//				subid = subid.substring(subid.lastIndexOf("/") + 1);
+//				TreeItem treeItem2 = new TreeItem(treeItem1, SWT.NONE
+//						| SWT.CHECK);
+//				treeItem2.setText(submap.get("_name").toString());
+//				treeItem2.setData(submap);
+//				if (userPermission.get(subid) != null) {
+//					treeItem2.setChecked(true);
+//				} else {
+//					treeItem2.setChecked(false);
+//				}
+//				treeItem2.setImage(ImageHelper.LoadImage(Activator.PLUGIN_ID,
+//						"icons/node.jpg"));
+//				createItem(submap, treeItem2, subid);
+//
+//			}
+//		}
+//		ICollection machine = EccTreeControl.groups_machines.get(id);
+//		if (machine != null && machine.get_Count() > 0) {
+//			IEnumerator interfaceTableIEnum = machine.GetEnumerator();
+//			if (interfaceTableIEnum.MoveNext()) {
+//				BusinessObject bo = (BusinessObject) interfaceTableIEnum
+//						.get_Current();
+//				TreeItem treeItem3 = new TreeItem(treeItem1, SWT.NONE
+//						| SWT.CHECK);
+//				treeItem3.setText(bo.GetField("ServerAddress")
+//						.get_NativeValue().toString());
+//				treeItem3.setData(bo);
+//				String macid = bo.get_RecId();
+//				if (userPermission.get(macid) != null) {
+//					treeItem3.setChecked(true);
+//				} else {
+//					treeItem3.setChecked(false);
+//				}
+//				treeItem3.setImage(ImageHelper.LoadImage(Activator.PLUGIN_ID,
+//						"icons/shebei.jpg"));
+//			}
+//		}
+//	}
 
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
@@ -610,10 +580,9 @@ public class TaxAuthority extends Dialog {
 				BusinessObject bo = ConnectionBroker.get_SiteviewApi()
 						.get_BusObService().Create("Permissions");
 				if (treeitem1.equals(item)) {
-					if (item.getData() instanceof Map) {
-						Map map = (Map) item.getData();
-						String id = map.get("_id").toString();
-						id = id.substring(id.lastIndexOf("/") + 1);
+					if (item.getData() instanceof GroupModle) {
+						GroupModle map = (GroupModle) item.getData();
+						String id =map.getBo().get_RecId();
 						if (userPermission.size() == 0
 								|| userPermission.get(id) == null) {
 							bo.GetField("PermissionsType").SetValue(
@@ -679,8 +648,6 @@ public class TaxAuthority extends Dialog {
 									new SiteviewValue(id));
 							bo.GetField("AddMonitor").SetValue(
 									new SiteviewValue(but7.getSelection()));
-							bo.GetField("AddMachine").SetValue(
-									new SiteviewValue(but8.getSelection()));
 							bo.GetField("EditMachine").SetValue(
 									new SiteviewValue(but9.getSelection()));
 							bo.GetField("DeleteMachine").SetValue(
@@ -701,8 +668,6 @@ public class TaxAuthority extends Dialog {
 								BusinessObject bo1 = userPermission.get(id);
 								bo1.GetField("AddMonitor").SetValue(
 										new SiteviewValue(but7.getSelection()));
-								bo1.GetField("AddMachine").SetValue(
-										new SiteviewValue(but8.getSelection()));
 								bo1.GetField("EditMachine").SetValue(
 										new SiteviewValue(but9.getSelection()));
 								bo1.GetField("DeleteMachine")
@@ -725,10 +690,9 @@ public class TaxAuthority extends Dialog {
 						}
 					}
 				} else {
-					if (treeitem1.getData() instanceof Map) {
-						Map map = (Map) treeitem1.getData();
-						String id = map.get("_id").toString();
-						id = id.substring(id.lastIndexOf("/") + 1);
+					if (treeitem1.getData() instanceof GroupModle) {
+						GroupModle map = (GroupModle) treeitem1.getData();
+						String id = map.getBo().get_RecId();
 						if (userPermission.size() == 0
 								|| userPermission.get(id) == null) {
 							bo.GetField("PermissionsType").SetValue(
@@ -799,10 +763,9 @@ public class TaxAuthority extends Dialog {
 			if (treeitem1.getChecked()) {
 				BusinessObject bo = ConnectionBroker.get_SiteviewApi()
 						.get_BusObService().Create("Permissions");
-				if (treeitem1.getData() instanceof Map) {
-					Map map = (Map) treeitem1.getData();
-					String id = map.get("_id").toString();
-					id = id.substring(id.lastIndexOf("/") + 1);
+				if (treeitem1.getData() instanceof GroupModle) {
+					GroupModle map = (GroupModle) treeitem1.getData();
+					String id = map.getBo().get_RecId();
 					if (userPermission.size() == 0
 							|| userPermission.get(id) == null) {
 						bo.GetField("PermissionsType").SetValue(
@@ -864,7 +827,6 @@ public class TaxAuthority extends Dialog {
 		but5.setSelection(flag);
 		but6.setSelection(flag);
 		but7.setSelection(flag);
-		but8.setSelection(flag);
 		but9.setSelection(flag);
 		but10.setSelection(flag);
 		but11.setSelection(flag);

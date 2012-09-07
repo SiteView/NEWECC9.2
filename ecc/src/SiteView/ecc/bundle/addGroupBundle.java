@@ -33,7 +33,7 @@ public class addGroupBundle implements IAutoTaskExtension {
 		//加载本组
 		addGroups("GroupId="+groupId);
 		//存在父组，先加载父组
-		GroupModle groupModle=new GroupModle(bo,true,true,true,true,true,true,true);
+		GroupModle groupModle=new GroupModle(bo,true,true,true,true,true,true,true,true);
 		SiteViewData.subgroups.put(groupId, groupModle);
 		if(parentId!=null && !parentId.equals("")){
 			GroupModle group=SiteViewData.subgroups.get(parentId); 

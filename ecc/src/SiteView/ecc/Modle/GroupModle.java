@@ -16,8 +16,14 @@ public class GroupModle {
 	private boolean deleteGroup;//É¾³ý×é
 	private boolean deleteMchine;//É¾³ýÉè±¸
 	private boolean deleteMonitor;//É¾³ý¼à²âÆ÷
+	private boolean editmonitor;//±à¼­¼à²âÆ÷
 	
-	
+	public boolean isEditmonitor() {
+		return editmonitor;
+	}
+	public void setEditmonitor(boolean editmonitor) {
+		this.editmonitor = editmonitor;
+	}
 	public boolean isEditGroup() {
 		return editGroup;
 	}
@@ -76,7 +82,7 @@ public class GroupModle {
 	}
 	public GroupModle(BusinessObject bo, boolean editGroup,
 			boolean addSubGroup, boolean addMachine, boolean addMonitor,
-			boolean deleteGroup, boolean deleteMchine, boolean deleteMonitor) {
+			boolean deleteGroup, boolean deleteMchine, boolean deleteMonitor,boolean editormonitor) {
 		super();
 		this.bo = bo;
 		this.editGroup = editGroup;
@@ -86,6 +92,7 @@ public class GroupModle {
 		this.deleteGroup = deleteGroup;
 		this.deleteMchine = deleteMchine;
 		this.deleteMonitor = deleteMonitor;
+		this.editmonitor=editormonitor;
 	}
 	public void setGroups(List<GroupModle> groups) {
 		this.groups = groups;

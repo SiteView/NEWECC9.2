@@ -14,9 +14,11 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.TableViewer;
 
 
@@ -88,13 +90,17 @@ public class UserManager extends EditorPart {
 			}
 		});
 		btnNewButton.setBounds(0, 5, 50, 20);
-		btnNewButton.setText("\u6DFB\u52A0");
+		btnNewButton.setText("添加");
 
 		Button button = new Button(composite_2, SWT.NONE);
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				UserModle u=(UserModle) tableItem.getData();
+				if(u.getUserType().equals("管理员用户")){
+					MessageDialog.openInformation(new Shell(), "提示", "管理员用户不能删除");
+					return ;
+				}
 				UserInfor.usersid.remove(u.getLogname());
 				UserInfor.list.remove(u);
 				ConnectionBroker.get_SiteviewApi().get_AuthenticationService().DeleteUser(u.getUsers(), true);
@@ -104,38 +110,26 @@ public class UserManager extends EditorPart {
 			}
 		});
 		button.setBounds(55, 5, 50, 20);
-		button.setText("\u5220\u9664");
+		button.setText("删除");
 		Button btnNewButton_1 = new Button(composite_2, SWT.NONE);
-		btnNewButton_1.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				
-			}
-		});
 		btnNewButton_1.setBounds(110, 5, 50, 20);
-		btnNewButton_1.setText("\u5141\u8BB8");
+		btnNewButton_1.setText("允许");
 
 		Button btnNewButton_2 = new Button(composite_2, SWT.NONE);
-		btnNewButton_2.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				
-			}
-		});
 		btnNewButton_2.setBounds(165, 5, 50, 20);
-		btnNewButton_2.setText("\u7981\u6B62");
+		btnNewButton_2.setText("禁止");
 
 		Button btnNewButton_3 = new Button(composite_2, SWT.NONE);
 		btnNewButton_3.setBounds(220, 5, 50, 20);
-		btnNewButton_3.setText("\u5237\u65B0");
-
-		Button btnNewButton_4 = new Button(composite_2, SWT.NONE);
-		btnNewButton_4.addSelectionListener(new SelectionAdapter() {
+		btnNewButton_3.setText("刷新");
+		btnNewButton_3.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				TableViewer.refresh();
 			}
 		});
+		
+		Button btnNewButton_4 = new Button(composite_2, SWT.NONE);
 		btnNewButton_4.setBounds(275, 5, 50, 20);
 		btnNewButton_4.setText("\u5E2E\u52A9");
 

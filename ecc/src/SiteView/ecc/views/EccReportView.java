@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -17,6 +18,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -25,6 +27,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
+import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.bundle.EditGroupBundle;
 import SiteView.ecc.dialog.ParticularInfo;
 import SiteView.ecc.editors.EccControl;
@@ -107,7 +110,11 @@ public class EccReportView extends ViewPart {
 			@Override
 			public void handleEvent(Event event) {
 				// TODO Auto-generated method stub
-				BusObMaintView.open(ConnectionBroker.get_SiteviewApi(),(BusinessObject)EccControl.item.getData());
+				if(((GroupModle)SiteView.ecc.view.EccTreeControl.item).isEditmonitor()){
+					BusObMaintView.open(ConnectionBroker.get_SiteviewApi(),(BusinessObject)EccControl.item.getData());
+				}else{
+					MessageDialog.openQuestion(new Shell(), "警告", "您没有编辑权限");
+				}
 			}
 		});
 		
@@ -141,6 +148,10 @@ public class EccReportView extends ViewPart {
 			@Override
 			public void handleEvent(Event event) {
 				// TODO Auto-generated method stub
+				if(!((GroupModle)SiteView.ecc.view.EccTreeControl.item).isDeleteMonitor()){
+					MessageDialog.openQuestion(new Shell(), "警告", "您没有删除监测器的权限");
+					return ;
+				}
 				BusinessObject bo=(BusinessObject)EccControl.item.getData();
 				bo.DeleteObject(ConnectionBroker.get_SiteviewApi());
 				String groupId=bo.GetFieldOrSubfield("Groups_valid").get_NativeValue().toString();

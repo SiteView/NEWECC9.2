@@ -8,6 +8,10 @@ import org.eclipse.swt.graphics.Image;
 import Siteview.Api.BusinessObject;
 
 import SiteView.ecc.Activator;
+import SiteView.ecc.Modle.AlarmLogModle;
+import SiteView.ecc.Modle.AlarmModle;
+import SiteView.ecc.Modle.AlarmRuleModle;
+import SiteView.ecc.Modle.AlarmTacticsModle;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MachineModle;
 import SiteView.ecc.Modle.SetUpModle;
@@ -30,6 +34,14 @@ public class EccTreeLabelProvider extends LabelProvider {
 			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/Setup.jpg");
 		}else if(element instanceof UserManageModle){
 			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/user.bmp");
+		}else if(element instanceof AlarmModle){
+			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/Alarm.jpg");
+		}else if(element instanceof AlarmRuleModle){
+			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/Alarm.jpg");
+		}else if(element instanceof AlarmTacticsModle){
+			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/AlarmTactics.jpg");
+		}else if(element instanceof AlarmLogModle){
+			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/AlarmLog.jpg");
 		}
 		return null;
 	}
@@ -51,6 +63,14 @@ public class EccTreeLabelProvider extends LabelProvider {
 			return ((SetUpModle) element).getName();
 		}else if(element instanceof UserManageModle){
 			return ((UserManageModle) element).getName();
+		}else if(element instanceof AlarmModle){
+			return ((AlarmModle) element).getName();
+		}else if(element instanceof AlarmRuleModle){
+			return ((AlarmRuleModle) element).getName();
+		}else if(element instanceof AlarmTacticsModle){
+			return ((AlarmTacticsModle) element).getName();
+		}else if(element instanceof AlarmLogModle){
+			return ((AlarmLogModle) element).getName();
 		}
 		return null;
 	}
