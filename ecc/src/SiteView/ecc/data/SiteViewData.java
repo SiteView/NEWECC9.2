@@ -85,9 +85,9 @@ public class SiteViewData {
 		siteview.setList(list);
 		site.add(siteview);
 		if(hasSuperUser){
+			site.add(new MonitorSetUpModel());
 			site.add(new SetUpModle());
 			site.add(new AlarmModle());	
-			site.add(new MonitorSetUpModel());
 		}
 		if(permissions.get("userManage")!=null){
 			site.add(new SetUpModle());
