@@ -1,5 +1,7 @@
 package SiteView.ecc.dialog;
 
+import java.util.List;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
@@ -14,6 +16,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Button;
 
+import SiteView.ecc.Modle.TableModle;
+import SiteView.ecc.editors.TableDuty;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
@@ -92,8 +96,16 @@ public class AddTableDuty extends Dialog{
 					new SiteviewValue(text_1.getText()));
 			bo.GetField("DutyTableDec").SetValue(//得到第三个文本框里的数据
 					new SiteviewValue(combo.getText()));
-			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,
+			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,//将数据存储到数据库
 					true);
+			TableModle tableModle=new TableModle(bo);
+			tableModle.setDutyTableDec(text_1.getText());
+			tableModle.setDutyTableName(text.getText());
+			tableModle.setDutyTableType(combo.getText());
+			List list=(List) TableDuty.TableViewer.getInput();
+			list.add(tableModle);
+			TableDuty.TableViewer.setInput(tableModle);
+			TableDuty.TableViewer.refresh();
 		}
 		this.close();
 	}

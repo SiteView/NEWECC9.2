@@ -1,18 +1,28 @@
 package SiteView.ecc.Modle;
 
+import Siteview.Api.BusinessObject;
+import system.DateTime;
+
 public class TableModle{
 public String DutyTableName;
 public String DutyTableType;
 public String DutyTableDec;
-
-
+public BusinessObject bo;
 public TableModle(){
 	
 }
-
-
 public String getDutyTableName() {
 	return DutyTableName;
+}
+public BusinessObject getBo() {
+	return bo;
+}
+public TableModle(BusinessObject bo) {
+	super();
+	this.bo = bo;
+}
+public void setBo(BusinessObject bo) {
+	this.bo = bo;
 }
 public void setDutyTableName(String dutyTableName) {
 	DutyTableName = dutyTableName;

@@ -18,29 +18,38 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.internal.ole.win32.CONTROLINFO;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormAttachment;
 
+import system.Collections.ICollection;
+import system.Collections.IEnumerator;
 import SiteView.ecc.Control.DutyDetailContentProvider;
 import SiteView.ecc.Control.DutyDetailLabelProvider;
 import SiteView.ecc.Control.TableDutyContentProvider;
 import SiteView.ecc.Control.TableDutyLabelProvider;
+import SiteView.ecc.Modle.DetailModel;
+import SiteView.ecc.Modle.TableModle;
 import SiteView.ecc.data.DutyDetailInfor;
 import SiteView.ecc.data.TableDutyInfor;
 import SiteView.ecc.dialog.AddDutyDetail;
 import SiteView.ecc.dialog.AddTableDuty;
+import SiteView.ecc.tools.FileTools;
+import Siteview.Api.BusinessObject;
+import Siteview.Windows.Forms.ConnectionBroker;
 
 
 
 public class TableDuty extends EditorPart{
 	public static String ID = "SiteView.ecc.editors.TableDuty";
-	public static TableViewer TableViewer;
-	public static TableViewer TableViewer1;
+	public static TableViewer TableViewer;//第一个表单
 	public Table table;
 	public static TableItem tableItem;
+	public static TableViewer TableViewer1;//第二个表单
+	public static TableItem tableItem1;
 	private Table table_1;
 	public TableDuty(){
 		
@@ -86,24 +95,40 @@ public class TableDuty extends EditorPart{
 			}
 		});
 		
-		Button button_1 = new Button(composite, SWT.NONE);
+		Button button_1 = new Button(composite, SWT.NONE);//控制第一个表单的删除按钮
 		button_1.setAlignment(SWT.LEFT);
 		fd_button.right = new FormAttachment(button_1, -6);
 		FormData fd_button_1 = new FormData();
 		fd_button_1.top = new FormAttachment(button, 0, SWT.TOP);
 		button_1.setLayoutData(fd_button_1);
 		button_1.setText("\u5220\u9664");
+		button_1.addSelectionListener(new SelectionAdapter(){//删除按钮监听事件
+			public void widgetSelected(SelectionEvent e){
+				TableModle tm=(TableModle) tableItem.getData();
+				BusinessObject bo=tm.getBo();
+				bo.DeleteObject(ConnectionBroker.get_SiteviewApi());
+				TableDutyInfor.list.remove(tm);
+				TableViewer.setInput(TableDutyInfor.list);
+				TableViewer.refresh();
+				
+			}
+		});
 		
-		Button button_2 = new Button(composite, SWT.NONE);
+		Button button_2 = new Button(composite, SWT.NONE);//第三个按钮刷新
 		button_2.setAlignment(SWT.LEFT);
-
+		button_2.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				TableViewer.refresh();
+			}
+		});
 		fd_button_1.right = new FormAttachment(button_2, -6);
 		FormData fd_button_2 = new FormData();
 		fd_button_2.top = new FormAttachment(button, 0, SWT.TOP);
 		button_2.setLayoutData(fd_button_2);
 		button_2.setText("\u5237\u65B0");
 		
-		Button btnNewButton = new Button(composite, SWT.NONE);
+		Button btnNewButton = new Button(composite, SWT.NONE);//第四个帮助按钮
 		btnNewButton.setAlignment(SWT.LEFT);
 		fd_button_2.right = new FormAttachment(100, -464);
 		FormData fd_btnNewButton = new FormData();
@@ -132,6 +157,11 @@ public class TableDuty extends EditorPart{
 		table.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				tableItem=(TableItem) e.item;
+		
+				TableViewer1.setContentProvider(new DutyDetailContentProvider());
+				TableViewer1.setLabelProvider(new DutyDetailLabelProvider());
+			    TableViewer1.setInput(DutyDetailInfor.getDutyDetailInfor());
+				tableItem1=table_1.getItem(0);
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 	
@@ -157,7 +187,7 @@ public class TableDuty extends EditorPart{
 		
 		Composite composite_3 = new Composite(sashForm, SWT.NONE);
 		
-		Button btnNewButton_1 = new Button(composite_3, SWT.NONE);//第二个添加按钮
+		Button btnNewButton_1 = new Button(composite_3, SWT.NONE);//添加按钮
 		btnNewButton_1.setBounds(27, 10, 47, 22);
 		btnNewButton_1.setText("\u6DFB\u52A0");
 		btnNewButton_1.addSelectionListener(new SelectionAdapter(){//添加按钮事件
@@ -167,9 +197,20 @@ public class TableDuty extends EditorPart{
 			}
 		});
 		
-		Button btnNewButton_2 = new Button(composite_3, SWT.NONE);
+		Button btnNewButton_2 = new Button(composite_3, SWT.NONE);//控制第二个表单的删除按钮
 		btnNewButton_2.setBounds(86, 10, 47, 22);
 		btnNewButton_2.setText("\u5220\u9664");
+		btnNewButton_2.addSelectionListener(new SelectionAdapter(){//删除按钮监听事件
+			public void widgetSelected(SelectionEvent e){
+				DetailModel dm=(DetailModel) tableItem.getData();
+				BusinessObject bo=dm.getBo();
+				bo.DeleteObject(ConnectionBroker.get_SiteviewApi());
+				TableDutyInfor.list.remove(dm);
+				TableViewer1.setInput(TableDutyInfor.list);
+				TableViewer1.refresh();
+				
+			}
+		});
 		
 		Label lblNewLabel_2 = new Label(sashForm, SWT.NONE);
 		lblNewLabel_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
@@ -179,13 +220,21 @@ public class TableDuty extends EditorPart{
 		composite_2.setLayout(new FillLayout());
 		composite_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		
-		TableViewer1 =  new TableViewer(composite_2, SWT.MULTI
+		TableViewer1 =  new TableViewer(composite_2, SWT.MULTI//值班信息表
 				 |SWT.FULL_SELECTION | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL
 				| SWT.CHECK);
 		table_1 = TableViewer1.getTable();
 		table_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		table_1.setHeaderVisible(true);
 		table_1.setLinesVisible(true);
+		table_1.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				tableItem=(TableItem) e.item;
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+	
+			}
+		});
 		
 		TableColumn tblclmnNewColumn_4 = new TableColumn(table_1, SWT.NONE);
 		tblclmnNewColumn_4.setWidth(100);
@@ -216,11 +265,9 @@ public class TableDuty extends EditorPart{
 		TableViewer.setLabelProvider(new TableDutyLabelProvider());
 		TableViewer.setInput(TableDutyInfor.getTableDutyInfor());
 		tableItem=table.getItem(0);
+	
 		
-//		TableViewer1.setContentProvider(new DutyDetailContentProvider());
-//		TableViewer1.setLabelProvider(new DutyDetailLabelProvider());
-//		TableViewer.setInput(DutyDetailInfor.getDutyDetailInfor());
-//		tableItem=table.getItem(0);
+		
 	}
 	
 	@Override

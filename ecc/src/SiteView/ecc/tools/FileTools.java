@@ -60,12 +60,23 @@ public class FileTools {
 		return Activator.getDefault().getStateLocation().makeAbsolute()
 				.toFile().getAbsolutePath();
 	}
+	public static ICollection getBussCollection(String s){
+		ISiteviewApi siteviewApi = ConnectionBroker.get_SiteviewApi();
+		SiteviewQuery query = new SiteviewQuery();
+		query.AddBusObQuery(s, QueryInfoToGet.All);
+		XmlElement xml=null;
+   //     xml=query.get_CriteriaBuilder().FieldAndValueExpression(key,Operators.Equals,value);
+		query.set_BusObSearchCriteria(xml);
+		ICollection iCollenction = siteviewApi.get_BusObService()
+				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);
+		return iCollenction;
+	}
 	public static ICollection getBussCollection(String key,String value,String s){
 		ISiteviewApi siteviewApi = ConnectionBroker.get_SiteviewApi();
 		SiteviewQuery query = new SiteviewQuery();
 		query.AddBusObQuery(s, QueryInfoToGet.All);
 		XmlElement xml=null;
-		xml=query.get_CriteriaBuilder().FieldAndValueExpression(key,Operators.Equals,value);
+        xml=query.get_CriteriaBuilder().FieldAndValueExpression(key,Operators.Equals,value);
 		query.set_BusObSearchCriteria(xml);
 		ICollection iCollenction = siteviewApi.get_BusObService()
 				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);

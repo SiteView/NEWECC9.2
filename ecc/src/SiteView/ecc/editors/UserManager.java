@@ -92,7 +92,7 @@ public class UserManager extends EditorPart {
 		btnNewButton.setBounds(0, 5, 50, 20);
 		btnNewButton.setText("Ìí¼Ó");
 
-		Button button = new Button(composite_2, SWT.NONE);
+		Button button = new Button(composite_2, SWT.NONE);//É¾³ý°´Å¥
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {

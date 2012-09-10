@@ -1,6 +1,7 @@
 package SiteView.ecc.dialog;
 
 import java.util.Calendar;
+import java.util.List;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -16,8 +17,13 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.DateTime;
+
+import SiteView.ecc.Modle.DetailModel;
+import SiteView.ecc.editors.TableDuty;
+import Siteview.SiteviewValue;
+import Siteview.Api.BusinessObject;
+import Siteview.Windows.Forms.ConnectionBroker;
 
 public class AddDutyDetail extends Dialog{
 	private Button applyButton;
@@ -25,6 +31,8 @@ public class AddDutyDetail extends Dialog{
 	private Text text;
 	private Text text_1;
 	private Combo combo;
+	private DateTime startTime;
+	private DateTime endTime;
 	public AddDutyDetail(Shell parent) {
 		super(parent);
 	}
@@ -49,7 +57,7 @@ public class AddDutyDetail extends Dialog{
 		lblNewLabel.setText("\u63A5\u6536\u544A\u8B66\u77ED\u4FE1\u624B\u673A\u53F7\u7801");
 		
 		text = new Text(g, SWT.BORDER);
-		text.setBounds(176, 24, 145, 18);
+		text.setBounds(176, 24, 145, 18);//第一个文本输入框
 		
 		Label lblNewLabel_1 = new Label(g, SWT.NONE);
 		lblNewLabel_1.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
@@ -57,14 +65,14 @@ public class AddDutyDetail extends Dialog{
 		lblNewLabel_1.setText("\u63A5\u6536\u544A\u8B66\u4FE1\u606F\u90AE\u7BB1");
 		
 		text_1 = new Text(g, SWT.BORDER);
-		text_1.setBounds(176, 52, 145, 18);
+		text_1.setBounds(176, 52, 145, 18);//第二个文本输入框
 		
 		Label lblNewLabel_2 = new Label(g, SWT.NONE);
 		lblNewLabel_2.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
 		lblNewLabel_2.setBounds(20, 85, 122, 18);
 		lblNewLabel_2.setText("\u65E5\u671F");
 		
-		combo = new Combo(g, SWT.NONE);
+		combo = new Combo(g, SWT.NONE);//第三个文本输入框
 		combo.setSize(145, 20);
 		combo.setLocation(176, 85);
 		for (int i = 1; i <= 31; i++) {
@@ -77,9 +85,9 @@ public class AddDutyDetail extends Dialog{
 		lblNewLabel_3.setText("\u5F00\u59CB\u65F6\u95F4");
 		
 		Calendar startcal = Calendar.getInstance();
-		final DateTime startTime = new DateTime(g, SWT.TIME
+		startTime = new DateTime(g, SWT.TIME
 				| SWT.SHORT);
-		startTime.setLocation(176, 120);
+		startTime.setLocation(176, 120);//第四个文本输入框
 		startTime.setSize(79, 21);
 		FormData fd_startTime = new FormData();
 		startTime.setLayoutData(fd_startTime);
@@ -93,9 +101,9 @@ public class AddDutyDetail extends Dialog{
 		lblNewLabel_4.setText("\u7ED3\u675F\u65F6\u95F4");
 		
 		Calendar endcal = Calendar.getInstance();
-		final DateTime endTime = new DateTime(g, SWT.TIME
+	    endTime = new DateTime(g, SWT.TIME
 				| SWT.SHORT);
-		endTime.setLocation(176, 151);
+		endTime.setLocation(176, 151);//第五个文本输入框
 		endTime.setSize(79, 21);
 		endTime.setHours(endcal.get(Calendar.HOUR_OF_DAY));
 		endTime.setMinutes(endcal.get(Calendar.MINUTE));
@@ -108,7 +116,33 @@ public class AddDutyDetail extends Dialog{
     }
 	protected void buttonPressed(int buttonId){
 		if(buttonId==IDialogConstants.OK_ID){
+			BusinessObject bo = ConnectionBroker.get_SiteviewApi()//得到数据库表
+					.get_BusObService().Create("DutyDetail");
+			bo.GetField("ReceiveAlarmpPhone").SetValue(//得到第一个文本框里的数据
+					new SiteviewValue(text.getText()));
+			bo.GetField("ReceiveAlarmEmail").SetValue(//得到第二个文本框里的数据
+					new SiteviewValue(text_1.getText()));
+			bo.GetField("CreatedDateTime").SetValue(//得到第三个文本框里的数据
+					new SiteviewValue(combo.getText()));
+			bo.GetField("StartTime").SetValue(//得到第四个文本框里的数据
+					new SiteviewValue("startTime.getHours()"+"startTime.getMinutes()"));
+			bo.GetField("EndTime").SetValue(//得到第五个文本框里的数据
+					new SiteviewValue("endTime.getHours()"+"endTime.getMinutes()"));
+			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,
+					true);////将数据存储到数据库
 			
+			DetailModel detailModel=new DetailModel(bo);
+			detailModel.setCreatedDateTime(combo.getText());
+			detailModel.setReceiveAlarmpPhone(text.getText());
+			detailModel.setReceiveAlarmEmail(text_1.getText());
+			detailModel.setStartTime("startTime.getHours()"+"startTime.getMinutes()");
+			detailModel.setEndTime("endTime.getHours()"+"endTime.getMinutes()");
+			
+			List list=(List) TableDuty.TableViewer1.getInput();
+		    list.add(detailModel);
+			TableDuty.TableViewer1.setInput(detailModel);
+			TableDuty.TableViewer1.refresh();
 		}
+		this.close();
 	}
 }

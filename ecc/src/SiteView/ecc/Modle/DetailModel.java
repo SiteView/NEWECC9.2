@@ -1,25 +1,39 @@
 package SiteView.ecc.Modle;
 
+import Siteview.Api.BusinessObject;
 import system.DateTime;
 
 public class DetailModel {
 	public String ReceiveAlarmpPhone;
 	public String ReceiveAlarmEmail;
-	public DateTime CreatedDateTime;
-	public DateTime StartTime;
-	public DateTime EndTime;
+	public String CreatedDateTime;
+	public String StartTime;
+	public String EndTime;
+	public BusinessObject bo;
+	public BusinessObject getBo() {
+		return bo;
+	}
+	public void setBo(BusinessObject bo) {
+		this.bo = bo;
+	}
 	public DetailModel(){
 		
 	}
-	public DetailModel(String receiveAlarmpPhone,String receiveAlarmEmail,
-		DateTime createdDateTime,DateTime startTime,DateTime endTime){
+	public DetailModel(BusinessObject bo) {
 		super();
-
-		ReceiveAlarmpPhone=receiveAlarmpPhone;
-		ReceiveAlarmEmail=receiveAlarmEmail;
-		CreatedDateTime=createdDateTime;
-		StartTime=startTime;
-		EndTime=endTime;
+		this.bo = bo;
+	}
+	
+	public DetailModel(String receiveAlarmpPhone, String receiveAlarmEmail,
+			String createdDateTime, String startTime, String endTime,
+			BusinessObject bo) {
+		super();
+		ReceiveAlarmpPhone = receiveAlarmpPhone;
+		ReceiveAlarmEmail = receiveAlarmEmail;
+		CreatedDateTime = createdDateTime;
+		StartTime = startTime;
+		EndTime = endTime;
+		this.bo = bo;
 	}
 	public String getReceiveAlarmpPhone() {
 		return ReceiveAlarmpPhone;
@@ -36,29 +50,24 @@ public class DetailModel {
 	public void setReceiveAlarmEmail(String receiveAlarmEmail) {
 		ReceiveAlarmEmail = receiveAlarmEmail;
 	}
-
-	public DateTime getCreatedDateTime() {
+	public String getCreatedDateTime() {
 		return CreatedDateTime;
 	}
-
-	public void setCreatedDateTime(DateTime createdDateTime) {
+	public void setCreatedDateTime(String createdDateTime) {
 		CreatedDateTime = createdDateTime;
 	}
-
-	public DateTime getStartTime() {
+	public String getStartTime() {
 		return StartTime;
 	}
-
-	public void setStartTime(DateTime startTime) {
+	public void setStartTime(String startTime) {
 		StartTime = startTime;
 	}
-
-	public DateTime getEndTime() {
+	public String getEndTime() {
 		return EndTime;
 	}
-
-	public void setEndTime(DateTime endTime) {
+	public void setEndTime(String endTime) {
 		EndTime = endTime;
 	}
+
 
 }

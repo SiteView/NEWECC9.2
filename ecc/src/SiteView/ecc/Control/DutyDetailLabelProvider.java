@@ -1,7 +1,5 @@
 package SiteView.ecc.Control;
 
-import org.eclipse.jface.viewers.IBaseLabelProvider;
-import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
@@ -10,7 +8,7 @@ import siteview.windows.forms.ImageHelper;
 
 import SiteView.ecc.Activator;
 import SiteView.ecc.Modle.DetailModel;
-import SiteView.ecc.Modle.TableModle;
+
 
 public class DutyDetailLabelProvider extends LabelProvider implements ITableLabelProvider {
 
@@ -26,18 +24,18 @@ public class DutyDetailLabelProvider extends LabelProvider implements ITableLabe
 	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		// TODO Auto-generated method stub
-		if(element instanceof TableModle){
+		if(element instanceof DetailModel){
 			DetailModel dm=(DetailModel) element;
 			if(columnIndex==0){
 				return dm.getReceiveAlarmpPhone();
 			}else if(columnIndex==1){
 				return dm.getReceiveAlarmEmail();
 			}else if(columnIndex==2){
-				return dm.getCreatedDateTime().toString();
+				return dm.getCreatedDateTime();
 			}else if(columnIndex==3){
-				return dm.getStartTime().toString();
+				return dm.getStartTime();
 			}else if(columnIndex==4){
-				return dm.getEndTime().toString();
+				return dm.getEndTime();
 			}
 		}
 		return null;
