@@ -119,20 +119,28 @@ public class MonitorSetUp extends Dialog {
 						set1.add(str);
 					}
 					set1.add(selectId);
+					System.out.println(set1);
 					createTableItem(set1);
 				} else {
 					DeletChild(item);
-					if(item.getText()!="Ecc9.2"){						
-						Set<String> set2 = selectAllId(((BusinessObject) item.getData()).get_RecId());
+					if (item.getText() != "Ecc9.2") {
+						Set<String> set2 = selectAllId(((BusinessObject) item
+								.getData()).get_RecId());
 						set2.add(((BusinessObject) item.getData()).get_RecId());
 						for (String string : set2) {
 							set1.remove(string);
 						}
-						if(set1.size()==0){
-							DeletParent(item);
-						}else if(set1.size()!=0){
-							DeletParent(item);
-							treeItem.setChecked(true);
+						TreeItem treeitem1 = item.getParentItem();
+						TreeItem[] ti1 = treeitem1.getItems();
+						int length = ti1.length;
+						for (int i = 0; i < ti1.length; i++) {
+							if (ti1[i].getChecked()) {
+								item.setChecked(false);
+								break;
+							}
+							if (i == length - 1) {
+								DeletParent(item);
+							}
 						}
 						TableItem[] ti = table.getItems();
 						for (TableItem tableItem : ti) {
@@ -386,8 +394,8 @@ public class MonitorSetUp extends Dialog {
 		Set<String> set = new HashSet<String>();
 		ICollection icollGroup = null;
 		IEnumerator ienumGroup = null;
-		icollGroup = FileTools.getBussCollection("ParentGroupId_Valid", groupid,
-				"EccGroup");
+		icollGroup = FileTools.getBussCollection("ParentGroupId_Valid",
+				groupid, "EccGroup");
 		ienumGroup = icollGroup.GetEnumerator();
 		if (ienumGroup != null) {
 			while (ienumGroup.MoveNext()) {
@@ -454,7 +462,10 @@ public class MonitorSetUp extends Dialog {
 	protected void buttonPressed(int buttonId) {
 		if (buttonId == IDialogConstants.OK_ID) {
 			BusinessObject bo = (BusinessObject) tableItem.getData();
-			bo=SiteView.ecc.views.EccTreeControl.CreateBo("RecId", bo.get_RecId(), "Ecc."+bo.GetField("EccType").get_NativeValue().toString());
+			bo = SiteView.ecc.views.EccTreeControl.CreateBo("RecId",
+					bo.get_RecId(), "Ecc."
+							+ bo.GetField("EccType").get_NativeValue()
+									.toString());
 			if (text.getText() != "") {
 				bo.GetField("frequency").SetValue(
 						new SiteviewValue(text.getText()));
@@ -474,7 +485,10 @@ public class MonitorSetUp extends Dialog {
 			this.close();
 		} else if (buttonId == IDialogConstants.FINISH_ID) {
 			BusinessObject bo = (BusinessObject) tableItem.getData();
-			bo=SiteView.ecc.views.EccTreeControl.CreateBo("RecId", bo.get_RecId(), "Ecc."+bo.GetField("EccType").get_NativeValue().toString());
+			bo = SiteView.ecc.views.EccTreeControl.CreateBo("RecId",
+					bo.get_RecId(), "Ecc."
+							+ bo.GetField("EccType").get_NativeValue()
+									.toString());
 			if (text.getText() != "") {
 				bo.GetField("frequency").SetValue(
 						new SiteviewValue(Double.parseDouble(text.getText())));

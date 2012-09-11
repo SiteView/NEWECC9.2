@@ -9,16 +9,19 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.util.BundleUtility;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
@@ -37,29 +40,43 @@ import SiteView.ecc.Action.pingAction;
 import SiteView.ecc.Control.EccTreeComparer;
 import SiteView.ecc.Control.EccTreeContentProvider;
 import SiteView.ecc.Control.EccTreeLabelProvider;
+import SiteView.ecc.Modle.AbsoluteTimeModel;
+import SiteView.ecc.Modle.EmailSetUpModel;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MachineModle;
+import SiteView.ecc.Modle.MessageSetUpModel;
 import SiteView.ecc.Modle.MonitorSetUpModel;
+import SiteView.ecc.Modle.RelativeTimeModel;
 import SiteView.ecc.Modle.SiteViewEcc;
 import SiteView.ecc.Modle.TableDutyModle;
+import SiteView.ecc.Modle.TaskPlanModel;
+import SiteView.ecc.Modle.TimeQuantumModel;
 import SiteView.ecc.Modle.UserManageModle;
 import SiteView.ecc.data.SiteViewData;
 import SiteView.ecc.dialog.MonitorSetUp;
+import SiteView.ecc.editors.AbsoluteTime;
+import SiteView.ecc.editors.AbsoluteTimeInput;
 import SiteView.ecc.editors.EccControl;
 import SiteView.ecc.editors.EccControlInput;
+import SiteView.ecc.editors.EmailSetUp;
+import SiteView.ecc.editors.EmailSetUpInput;
+import SiteView.ecc.editors.MessageSetUp;
+import SiteView.ecc.editors.MessageSetUpInput;
+import SiteView.ecc.editors.RelativeTime;
+import SiteView.ecc.editors.RelativeTimeInput;
 import SiteView.ecc.editors.TableDuty;
 import SiteView.ecc.editors.TableDutyInput;
+import SiteView.ecc.editors.TaskPlan;
+import SiteView.ecc.editors.TaskPlanInput;
+import SiteView.ecc.editors.TimeQuantum;
+import SiteView.ecc.editors.TimeQuantumInput;
 import SiteView.ecc.editors.UserManager;
 import SiteView.ecc.editors.UserManagerInput;
 import Siteview.Operators;
 import Siteview.QueryInfoToGet;
-import Siteview.RunForChildrenBusObsActionDef.Children;
 import Siteview.SiteviewQuery;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
-import org.eclipse.wb.swt.SWTResourceManager;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Tree;
 
 public class EccTreeControl extends ViewPart {
 	EccControlInput eee=new EccControlInput();
@@ -101,9 +118,45 @@ public class EccTreeControl extends ViewPart {
 						} catch (PartInitException e1) {
 							e1.printStackTrace();
 						}
+				}else if(item instanceof EmailSetUpModel){
+					 try {
+							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new EmailSetUpInput(), EmailSetUp.ID);
+						} catch (PartInitException e1) {
+							e1.printStackTrace();
+						}
+				}else if(item instanceof MessageSetUpModel){
+					 try {
+							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new MessageSetUpInput(), MessageSetUp.ID);
+						} catch (PartInitException e1) {
+							e1.printStackTrace();
+						}
 				}else if(item instanceof TableDutyModle){
 					try {
 						   PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new TableDutyInput(), TableDuty.ID);
+					} catch (PartInitException e1) {
+						e1.printStackTrace();
+					}
+				}else if(item instanceof TaskPlanModel){
+					try {
+						   PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new TaskPlanInput(), TaskPlan.ID);
+					} catch (PartInitException e1) {
+						e1.printStackTrace();
+					}
+				}else if(item instanceof AbsoluteTimeModel){
+					try {
+						   PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new AbsoluteTimeInput(), AbsoluteTime.ID);
+					} catch (PartInitException e1) {
+						e1.printStackTrace();
+					}
+				}else if(item instanceof TimeQuantumModel){
+					try {
+						   PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new TimeQuantumInput(), TimeQuantum.ID);
+					} catch (PartInitException e1) {
+						e1.printStackTrace();
+					}
+				}else if(item instanceof RelativeTimeModel){
+					try {
+						   PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new RelativeTimeInput(), RelativeTime.ID);
 					} catch (PartInitException e1) {
 						e1.printStackTrace();
 					}

@@ -8,16 +8,22 @@ import org.eclipse.swt.graphics.Image;
 import Siteview.Api.BusinessObject;
 
 import SiteView.ecc.Activator;
+import SiteView.ecc.Modle.AbsoluteTimeModel;
 import SiteView.ecc.Modle.AlarmLogModle;
 import SiteView.ecc.Modle.AlarmModle;
 import SiteView.ecc.Modle.AlarmRuleModle;
 import SiteView.ecc.Modle.AlarmTacticsModle;
+import SiteView.ecc.Modle.EmailSetUpModel;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MachineModle;
+import SiteView.ecc.Modle.MessageSetUpModel;
 import SiteView.ecc.Modle.MonitorSetUpModel;
+import SiteView.ecc.Modle.RelativeTimeModel;
 import SiteView.ecc.Modle.SetUpModle;
 import SiteView.ecc.Modle.SiteViewEcc;
 import SiteView.ecc.Modle.TableDutyModle;
+import SiteView.ecc.Modle.TaskPlanModel;
+import SiteView.ecc.Modle.TimeQuantumModel;
 import SiteView.ecc.Modle.UserManageModle;
 import siteview.windows.forms.ImageHelper;
 
@@ -48,6 +54,18 @@ public class EccTreeLabelProvider extends LabelProvider {
 			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/monitorsetup.bmp");
 		}else if(element instanceof TableDutyModle){
 			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/TableDuty.jpg");
+		}else if(element instanceof EmailSetUpModel){
+			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/emailSetUp.jpg");
+		}else if(element instanceof MessageSetUpModel){
+			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/messageSetUp.jpg");
+		}else if(element instanceof TaskPlanModel){
+			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/taskPlan.jpg");
+		}else if(element instanceof AbsoluteTimeModel){
+			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/taskPlan.jpg");
+		}else if(element instanceof TimeQuantumModel){
+			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/taskPlan.jpg");
+		}else if(element instanceof RelativeTimeModel){
+			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/taskPlan.jpg");
 		}
 		return null;
 	}
@@ -81,6 +99,18 @@ public class EccTreeLabelProvider extends LabelProvider {
 			return ((MonitorSetUpModel) element).getName();
 		}else if(element instanceof TableDutyModle){
 			return ((TableDutyModle) element).getName();
+		}else if(element instanceof EmailSetUpModel){
+			return ((EmailSetUpModel) element).getName();
+		}else if(element instanceof MessageSetUpModel){
+			return ((MessageSetUpModel) element).getName();
+		}else if(element instanceof TaskPlanModel){
+			return ((TaskPlanModel) element).getName();
+		}else if(element instanceof AbsoluteTimeModel){
+			return ((AbsoluteTimeModel) element).getName();
+		}else if(element instanceof TimeQuantumModel){
+			return ((TimeQuantumModel) element).getName();
+		}else if(element instanceof RelativeTimeModel){
+			return ((RelativeTimeModel) element).getName();
 		}
 		return null;
 	}

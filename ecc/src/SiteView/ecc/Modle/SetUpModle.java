@@ -25,7 +25,10 @@ public class SetUpModle {
 		this.list = list;
 	}
 	public SetUpModle(){
-		list.add(new UserManageModle());
+		list.add(new EmailSetUpModel());
+		list.add(new MessageSetUpModel());
 		list.add(new TableDutyModle());
+		list.add(new UserManageModle());
+		list.add(new TaskPlanModel());
 	}
 }

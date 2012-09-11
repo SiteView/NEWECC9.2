@@ -11,6 +11,7 @@ import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MonitorSetUpModel;
 import SiteView.ecc.Modle.SetUpModle;
 import SiteView.ecc.Modle.SiteViewEcc;
+import SiteView.ecc.Modle.TaskPlanModel;
 
 public class EccTreeContentProvider implements ITreeContentProvider {
 	private List<Object> siteview;
@@ -50,6 +51,9 @@ public class EccTreeContentProvider implements ITreeContentProvider {
 	    	 return set.getList().toArray();
 	     }else if(parentElement instanceof MonitorSetUpModel){
 	    	 return null;
+	     }else if(parentElement instanceof TaskPlanModel){
+	    	 TaskPlanModel task= (TaskPlanModel) parentElement;
+	    	 return task.getList().toArray();
 	     }
 		return null;
 	}
@@ -79,6 +83,8 @@ public class EccTreeContentProvider implements ITreeContentProvider {
 			return true;
 		}else if(element instanceof MonitorSetUpModel){
 			return false;
+		}else if(element instanceof TaskPlanModel){
+			return true;
 		}
 		return false;
 	} 

@@ -46,6 +46,42 @@
           id="SiteView.ecc.editors.AlarmRule"
           name="报警规则">
     </editor>
+    <editor
+          class="SiteView.ecc.editors.TaskPlan"
+          default="false"
+          id="SiteView.ecc.editors.TaskPlan"
+          name="任务计划">
+    </editor>
+    <editor
+          class="SiteView.ecc.editors.AbsoluteTime"
+          default="false"
+          id="SiteView.ecc.editors.AbsoluteTime"
+          name="绝对时间任务计划">
+    </editor>
+    <editor
+          class="SiteView.ecc.editors.TimeQuantum"
+          default="false"
+          id="SiteView.ecc.editors.TimeQuantum"
+          name="时间段任务计划">
+    </editor>
+    <editor
+          class="SiteView.ecc.editors.RelativeTime"
+          default="false"
+          id="SiteView.ecc.editors.RelativeTime"
+          name="相对时间任务计划">
+    </editor>
+    <editor
+          class="SiteView.ecc.editors.EmailSetUp"
+          default="false"
+          id="SiteView.ecc.editors.EmailSetUp"
+          name="邮件设置">
+    </editor>
+    <editor
+          class="SiteView.ecc.editors.MessageSetUp"
+          default="false"
+          id="SiteView.ecc.editors.MessageSetUp"
+          name="短信设置">
+    </editor>
  </extension>
  <extension
        point="Siteview.Forms.Common.LayoutExtension">
