@@ -180,7 +180,6 @@ public class Machine extends SiteViewObject {
     public static void registerMachines(Enumeration enumeration) {
         registerMachines(enumeration, null);
     }
-
     /**
      * 
      * 
@@ -302,8 +301,6 @@ public class Machine extends SiteViewObject {
             array.add("NetBIOS");
             array.add("NetBIOS");
         }
-        array.add("wmi");
-        array.add("WMI");
         array.add("ssh");
         array.add("SSH");
         return array;

@@ -139,4 +139,10 @@ public class RemoteMacheineBundle implements IAutoTaskExtension {
 		EccTreeControl.treeViewer.insert(groupModle, machine, 0);
 		addGroupBundle.setAuther(machine, bo.get_RecId());
 	}
+	
+	public void addMonitor(BusinessObject bo){
+		String groupid=bo.GetField("Groups").get_NativeValue().toString();
+		GroupModle groupModle=SiteViewData.subgroups.get(groupid);
+		GroupModle group=new GroupModle(bo, true, true, true, true,true,true,true,true);
+	}
 }

@@ -84,9 +84,9 @@ public class WmiService {
 				String freeSpace = str.split(";")[1];
 				long freeSpaceL = Long.parseLong(freeSpace.substring(freeSpace.indexOf("=")+3, freeSpace.length()-2));
 				String size = str.split(";")[2];
-				long sizeL = Long.parseLong(size.substring(freeSpace.indexOf("=")+3, freeSpace.length()-2));
-				String syl = (""+((sizeL - freeSpaceL)/sizeL)).substring(0, 3);//磁盘使用率
-				al[0] = Long.parseLong(syl);
+				long sizeL = Long.parseLong(size.substring(size.indexOf("=")+3, size.length()-2));
+				String syl = (""+(((double)sizeL - (double)freeSpaceL)/(double)sizeL)*100);//磁盘使用率
+				al[0] = Long.parseLong(syl.split("\\.")[0]);
 				al[1] = sizeL;
 				al[2] = freeSpaceL;
 				System.out.println("str------------------"+str);
@@ -300,7 +300,10 @@ public class WmiService {
 
 		// 域（一般为空字符），用户名，密码
 		wmiService.connect("", "administrator", "88888888");
-		wmiService.getDiskSpace("D:");
+//		long[] lo = wmiService.getDiskSpace("C:");
+//		for(int i=0;i<lo.length;i++){
+//			System.out.println(lo[i]);
+//		}
 
 //		// 系统信息
 //		wmiService.query("SELECT * FROM Win32_ComputerSystem");

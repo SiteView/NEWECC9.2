@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 
 public class JDBCForSQL {
 	private static Connection conn = getConnection();
+
 	/**
 	 * get Connection
 	 * 
@@ -71,6 +72,7 @@ public class JDBCForSQL {
 			e.printStackTrace();
 		}
 	}
+
 	public void testConnection() {
 		if (conn == null)
 			conn=getConnection();
@@ -83,5 +85,33 @@ public class JDBCForSQL {
 			}
 		} catch (SQLException e) {
 		} 
+	}
+
+	public static void main(String[] args) {
+		JDBCForSQL jdbc = new JDBCForSQL();
+		// SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		// Timestamp d2=new Timestamp(System.currentTimeMillis());
+		// jdbc.savaLog("insert into MonitorLog(RecId,ownerID,MonitorStatus,MonitorName,MonitorId,MonitorMassage,CreatedDateTime)values('ad26c8ee090d47dfaa9a3ee477c1ba90','lili','good','ping131','1','0.01 sec*39**','"+Timestamp.valueOf(f.format(d2))+"')");
+		String query_sql = "select * from Ecc where Groups_Valid ='5042ACCD47B2495A97D814DCB4D3E2B9'";
+		ResultSet eccrs = JDBCForSQL.sql_ConnectExecute_Select(query_sql);
+		ResultSetMetaData metaData;
+		try {
+			metaData = eccrs.getMetaData();
+			int colum = metaData.getColumnCount();
+			while (eccrs.next()) {
+				for (int i = 1; i < colum; i++) {
+					// Get colum name
+					String columName = metaData.getColumnName(i);
+					String datavalue = eccrs.getString(columName);
+					System.out.println("ÁÐ£º" + columName + " Öµ£º" + datavalue);
+					if (datavalue == null )
+						System.out.println("¿ÕÁÐ£º" + columName);
+				}
+
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

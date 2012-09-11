@@ -541,11 +541,8 @@ public class ApiRmiServer extends java.rmi.server.UnicastRemoteObject implements
 			vector=Platform.getDisks(hostname);//磁盘
 			array_1 = Platform.getProcesses(hostname, true);//服务
 		}
-		System.out.println("磁盘vector............"+vector+"..............");
-		System.out.println("服务array_1............"+array_1+"..............");
 		String s1[]=new String[vector.size()/2];
 		String s2[]=new String[array_1.size()];
-		
 		Enumeration disk = vector.elements();
 		int i=0;
 		while (disk.hasMoreElements()) {

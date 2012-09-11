@@ -687,7 +687,6 @@ public class FrameFile {
 	}
 
 	public static void throwError(String s, String s1) throws IOException {
-		System.out.println("*** error: " + s + ", " + s1);
 		File file = new File(Platform.getRoot() + File.separator + "logs"
 				+ File.separator + "config.log");
 		RandomAccessFile randomaccessfile = null;

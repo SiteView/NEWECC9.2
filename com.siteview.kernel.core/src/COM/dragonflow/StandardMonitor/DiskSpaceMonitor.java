@@ -20,7 +20,6 @@ package COM.dragonflow.StandardMonitor;
 import COM.dragonflow.HTTP.HTTPRequest;
 import COM.dragonflow.Log.LogManager;
 import COM.dragonflow.Page.CGI;
-import COM.dragonflow.Page.WmiService;
 import COM.dragonflow.Properties.*;
 import COM.dragonflow.SiteView.*;
 import COM.dragonflow.SiteViewException.SiteViewException;
@@ -48,50 +47,19 @@ public class DiskSpaceMonitor extends ServerMonitor
 
  protected boolean update()
  {
-	 System.out.println("调用了 diskSpace update方法////////////////////////////////////////");
      String s = getProperty(diskProperty());
-     System.out.println("......磁盘属性......"+s);
      Array array = null;
      if(monitorDebugLevel == 3)
      {
          array = new Array();
      }
-     HashMap m = this.getClassProperties();
-//     System.out.println("监听器中的hashMap++++++++++++++++++++"+m);
-//     System.out.println("*************************LogPropertites***********----------------"+this.getLogProperties());
-//     System.out.println(m.get("elements").getClass());
-     
-//     this.getClassProperties().get("_class").toString();
      String s1 = getProperty(pMachineName);
-//     System.out.println(".....设备名称..........."+s1);
-//     System.out.println("............设备............"+Machine.OS_NAME[Machine.getOS(currentStatus)]);
-     long al[] = null;
-     Machine machine = Machine.getMachine(s1);
-     System.out.println("......Machine.getOSName('_os')......"+Machine.getOSName("_os"));
-     System.out.println("..........machine........."+machine);
-     System.out.println(".....设备名称..........."+s1);
-     if("NT".equals(Machine.getOSName("_os"))&&machine!=null&&!s1.startsWith("remote:")){
-    	 String address = machine.getSetting("_host").substring(2);
-    	 String user = (String)machine.getSetting("_login");
-         user = user.replaceAll("\\d", "").replaceAll("\\.", "").replaceAll("\\\\", "");
-     	 String pw = (String)machine.getSetting("_password");
-     	System.out.println("address................"+address);
-    	System.out.println("user................"+user);
-    	System.out.println("pw................"+pw);
-    	 WmiService ws = new WmiService(address);
-    	 ws.connect("", user, pw);
-    	 al = ws.getDiskSpace(s);
-     	 ws.disconnect();
-//    	 al = Platform.getDiskFull(s, s1, this, array);
-     }else{
-    	 al = Platform.getDiskFull(s, s1, this, array);
-     }
-//     long al[] = Platform.getDiskFull(s, s1, this, array);
-     long l = al[0];//使用率
-     long l1 = al[2];//总大小(字节)
-     long l2 = l1 - al[1];//剩余空间
-     String s2 = "" + l2 / 0x100000L;//剩余空间(MB)
-     String s3 = "" + l1 / 0x100000L;//总大小(MB)
+     long al[] = Platform.getDiskFull(s, s1, this, array);
+     long l = al[0];
+     long l1 = al[2];
+     long l2 = l1 - al[1];
+     String s2 = "" + l2 / 0x100000L;
+     String s3 = "" + l1 / 0x100000L;
      if(stillActive())
      {
          synchronized(this)
@@ -121,7 +89,6 @@ public class DiskSpaceMonitor extends ServerMonitor
                  setProperty(pStateString, l + "% full, " + s2 + "MB free, " + s3 + "MB total");
              }
          }
-         System.out.println("*************************LogPropertites***********----------------"+this.getLogProperties());
      }
      return true;
  }

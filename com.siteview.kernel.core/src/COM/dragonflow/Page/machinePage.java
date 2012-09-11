@@ -267,7 +267,7 @@ public class machinePage extends COM.dragonflow.Page.remoteBase
         return array;
     }
 
-    void doTest(COM.dragonflow.SiteView.Machine machine,jgl.HashMap hashMap)
+    void doTest(COM.dragonflow.SiteView.Machine machine)
     {
         String s = "";
         boolean flag = request.getValue("detail").length() > 0;
@@ -420,10 +420,4 @@ public class machinePage extends COM.dragonflow.Page.remoteBase
         }
         return s;
     }
-
-	@Override
-	void doTest(Machine machine) {
-		// TODO Auto-generated method stub
-		
-	}
 }

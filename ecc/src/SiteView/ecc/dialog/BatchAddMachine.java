@@ -16,6 +16,15 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+
+import system.Configuration.SettingValueElement;
+
+import SiteView.ecc.Modle.GroupModle;
+import SiteView.ecc.data.SiteViewData;
+import SiteView.ecc.view.EccTreeControl;
+import Siteview.SiteviewValue;
+import Siteview.Api.BusinessObject;
+import Siteview.Windows.Forms.ConnectionBroker;
 /**
  * 新建设备时批量添加监测器
  *  @author Administrator
@@ -218,13 +227,53 @@ public class BatchAddMachine extends Dialog {
 	
 	protected void buttonPressed(int buttonId) {
 		if(buttonId==IDialogConstants.OK_ID){
-			
+			List<GroupModle> list=null;
 			for(int i=0;i<monitors.size();i++){
+				list=new ArrayList<GroupModle>();
 				String s=monitors.get(i);
+				BusinessObject bo=null;
 				if(s.equals("Ecc.ping")){
-					
+					bo=ConnectionBroker.get_SiteviewApi().get_BusObService().Create(s);
+					bo.GetField("Groups").SetValue(new SiteviewValue(group));
+					bo.GetField("PingHostName").SetValue(new SiteviewValue(hostname));
+					bo.GetField("PingTimeout").SetValue(new SiteviewValue(5000));
+					bo.GetField("PingSize").SetValue(new SiteviewValue(100));
+				}else if(s.equals("Ecc.CPUUtilization")){
+					bo=ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Ecc.CPUUtilization");
+					bo.GetField("Groups").SetValue(new SiteviewValue(group));
+					bo.GetField("PingHostName").SetValue(new SiteviewValue(hostname));
+				}else if(s.equals("Ecc.DiskSpace--")){
+					bo=ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Ecc.DiskSpace");
+					bo.GetField("Groups").SetValue(new SiteviewValue(group));
+					bo.GetField("PingHostName").SetValue(new SiteviewValue(hostname));
+					bo.GetField("DiskName").SetValue(new SiteviewValue(s.substring(s.lastIndexOf("-")+1)));
+					bo.GetField("PingHostName").SetValue(new SiteviewValue(hostname));
+				}else if(s.equals("Ecc.Server--")){
+					bo=ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Ecc.Server");
+					bo.GetField("Groups").SetValue(new SiteviewValue(group));
+					bo.GetField("PingHostName").SetValue(new SiteviewValue(hostname));
+					bo.GetField("SerServer").SetValue(new SiteviewValue(s.substring(s.lastIndexOf("-")+1)));
+				}
+				if(bo!=null){
+					bo.GetField("frequency").SetValue(new SiteviewValue(10));
+					bo.GetField("timeUnitSelf").SetValue(new SiteviewValue("Minute"));
+					//bo.GetField("timeUnitList_Valid").SetValue(new SiteviewValue("4DCE3849C1CD4F73B927A417ADBEA659"));
+					bo.GetField("verifyErrorFrequency").SetValue(new SiteviewValue(0));
+					bo.GetField("ErrorFrequency").SetValue(new SiteviewValue("Minute"));
+					bo.GetField("dependscondition").SetValue(new SiteviewValue("good"));
+					//bo.GetField("dependscondition_Valid").SetValue(new SiteviewValue("B2FC0D40C49D46CF987DE8F3D250A5C7"));
+					bo.GetField("title").SetValue(new SiteviewValue(hostname+":"+s));
+					bo.SaveObject(ConnectionBroker.get_SiteviewApi(), false, true);
+					GroupModle subgroupModle=new GroupModle(bo, true, true, true, true,true,true,true,true);
+					list.add(subgroupModle);
 				}
 			}
+			if(list!=null){
+				GroupModle groupModle=SiteViewData.subgroups.get(group);
+				groupModle.getGroups().addAll(list);
+				EccTreeControl.treeViewer.update(groupModle, new String[]{"groups"});
+			}
+			this.close();
 		}
 		super.buttonPressed(buttonId);
 	}

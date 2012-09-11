@@ -10,8 +10,8 @@
 package COM.dragonflow.Page;
 
 import java.util.Enumeration;
+
 import jgl.Array;
-import COM.dragonflow.SiteView.Machine;
 import COM.dragonflow.Utils.CounterLock;
 import COM.dragonflow.Utils.SSHCommandLine;
 
@@ -190,22 +190,6 @@ public class ntmachinePage extends COM.dragonflow.Page.remoteBase
         sshcommandline.exec(s, machine, true);
         return sshcommandline.exitValue == 0 ? 0 : 100;
     }
-    
-    int doWMITest(COM.dragonflow.SiteView.Machine machine){
-    	String address = (String)machine.getSetting("_host").substring(2);
-    	String user = (String)machine.getSetting("_login");
-    	user = user.replaceAll("\\d", "").replaceAll("\\.", "").replaceAll("\\\\", "");
-    	String pw = (String)machine.getSetting("_password");
-    	WmiService ws = new WmiService(address);
-    	System.out.println("address................"+address);
-    	System.out.println("user................"+user);
-    	System.out.println("pw................"+pw);
-    	ws.connect("", user, pw);
-    	int a = ws.query("select Name from Win32_LogicalDisk where DriveType=3");
-    	System.out.println("a....................................."+a);
-    	ws.disconnect();
-    	return a>0?0:100;
-    }
 
     jgl.Array getListTableRow(jgl.HashMap hashmap, String s)
     {
@@ -230,7 +214,7 @@ public class ntmachinePage extends COM.dragonflow.Page.remoteBase
         return array;
     }
 
-    void doTest(COM.dragonflow.SiteView.Machine machine,jgl.HashMap hashMap)
+   public void doTest(COM.dragonflow.SiteView.Machine machine)
     {
         boolean flag = false;
         int i = 0;
@@ -241,13 +225,9 @@ public class ntmachinePage extends COM.dragonflow.Page.remoteBase
             outputStream.println("<p>Testing connection to : <b>" + machine.getProperty(COM.dragonflow.SiteView.Machine.pHost) + "</b>");
             outputStream.println("<HR><PRE>");
             outputStream.flush();
-            String method = machine.getProperty(COM.dragonflow.SiteView.Machine.pMethod);
-            if(method.equals("ssh"))
+            if(machine.getProperty(COM.dragonflow.SiteView.Machine.pMethod).equals("ssh"))
             {
                 i = doSSHTest(machine);
-            }else if(method.equals("wmi")){
-            	i = doWMITest(machine);
-            	System.out.println("i....................................."+i);
             } else
             if(COM.dragonflow.SiteView.SiteViewGroup.currentSiteView().internalServerActive())
             {
@@ -434,11 +414,5 @@ public class ntmachinePage extends COM.dragonflow.Page.remoteBase
     	ws.disconnect();
     	return a>0?0:100;
     }
-
-	@Override
-	void doTest(Machine machine) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
