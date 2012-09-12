@@ -159,5 +159,9 @@
           Class="SiteView.ecc.bundle.EditsMonitorBundle"
           Name="编辑监测器1">
     </AutoTaskExtension>
+    <AutoTaskExtension
+          Class="SiteView.ecc.bundle.EmailAlarmBundle"
+          Name="邮件报警">
+    </AutoTaskExtension>
  </extension>
  </plugin>

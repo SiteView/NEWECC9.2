@@ -4,6 +4,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Map;
 
+import org.eclipse.swt.widgets.Composite;
+
 import SiteView.ecc.tools.TextUtils;
 import Siteview.Api.BusinessObject;
 import Siteview.Api.Relationship;
@@ -127,5 +129,23 @@ public class EditorRemoteMacheineBundle implements IAutoTaskExtension {
 			}
 		}
 		return remoteMachineInfo;
+	}
+
+	@Override
+	public boolean hasCustomUI() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void creatConfigUI(Composite parent, Map<String, String> params) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Map<String, String> getConfig() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

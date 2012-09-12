@@ -2,6 +2,8 @@ package SiteView.ecc.bundle;
 
 import java.util.Map;
 
+import org.eclipse.swt.widgets.Composite;
+
 import siteview.IAutoTaskExtension;
 import COM.dragonflow.Api.APIInterfaces;
 import SiteView.ecc.dialog.ChooseDiskSpace;
@@ -23,6 +25,24 @@ public class ReturnDiskSpace implements IAutoTaskExtension {
 			ChooseDiskSpace space=new ChooseDiskSpace(null,disk,bo);
 			space.open();	
 		}
+		return null;
+	}
+
+	@Override
+	public boolean hasCustomUI() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void creatConfigUI(Composite parent, Map<String, String> params) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Map<String, String> getConfig() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

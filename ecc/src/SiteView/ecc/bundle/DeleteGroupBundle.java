@@ -4,6 +4,8 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.swt.widgets.Composite;
+
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.SiteViewEcc;
 import SiteView.ecc.data.SiteViewData;
@@ -88,5 +90,20 @@ public class DeleteGroupBundle implements IAutoTaskExtension {
 		ICollection iCollenction =  ConnectionBroker.get_SiteviewApi().get_BusObService()
 				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);
 		return iCollenction;
+	}
+	@Override
+	public boolean hasCustomUI() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public void creatConfigUI(Composite parent, Map<String, String> params) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public Map<String, String> getConfig() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -6,6 +6,8 @@ import java.rmi.registry.Registry;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.swt.widgets.Composite;
+
 import COM.dragonflow.Api.APIInterfaces;
 import COM.dragonflow.SiteViewException.SiteViewException;
 import SiteView.ecc.Modle.GroupModle;
@@ -153,5 +155,23 @@ public class EditGroupBundle implements IAutoTaskExtension {
 			e.printStackTrace();
 		}
 		return rmiServer;
+	}
+
+	@Override
+	public boolean hasCustomUI() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void creatConfigUI(Composite parent, Map<String, String> params) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Map<String, String> getConfig() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

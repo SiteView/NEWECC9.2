@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TreeItem;
 
 import SiteView.ecc.Activator;
@@ -95,5 +96,23 @@ public class addGroupBundle implements IAutoTaskExtension {
 		bo.GetField("DeleteMonitor").SetValue(new SiteviewValue(true));
 		SiteViewData.permissions.put(id, bo);
 		bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+	}
+
+	@Override
+	public boolean hasCustomUI() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void creatConfigUI(Composite parent, Map<String, String> params) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Map<String, String> getConfig() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

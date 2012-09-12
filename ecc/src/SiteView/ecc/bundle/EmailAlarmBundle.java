@@ -2,42 +2,40 @@ package SiteView.ecc.bundle;
 
 import java.util.Map;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-
-import Siteview.Api.BusinessObject;
+import org.eclipse.swt.widgets.Label;
 
 import siteview.IAutoTaskExtension;
 
-public class EditsMonitorBundle implements IAutoTaskExtension {
+public class EmailAlarmBundle implements IAutoTaskExtension {
 
-	public EditsMonitorBundle() {
+	public EmailAlarmBundle() {
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public String run(Map<String, Object> params) throws Exception {
 		// TODO Auto-generated method stub
-		EditGroupBundle edit=new EditGroupBundle();
-		BusinessObject bo = (BusinessObject) params.get("_CUROBJ_");
-		String groupId=bo.GetFieldOrSubfield("Groups_valid").get_NativeValue().toString();
-		String id=bo.get_RecId();
-		if(EditMonitorBundle.map!=null){
-			String s=EditMonitorBundle.map.get(id);
-			edit.updateGroup("GroupId="+s);
-		}
-		edit.updateGroup("GroupId="+groupId);
 		return null;
 	}
 
 	@Override
 	public boolean hasCustomUI() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	@Override
 	public void creatConfigUI(Composite parent, Map<String, String> params) {
 		// TODO Auto-generated method stub
+		parent.setLayout(new FillLayout());
+		Label label=new Label(parent, SWT.NONE);
+		label.setText("±¨¾¯Ãû³Æ");
 		
 	}
 

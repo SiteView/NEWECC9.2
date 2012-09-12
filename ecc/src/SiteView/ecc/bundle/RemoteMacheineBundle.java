@@ -9,6 +9,7 @@ import javax.xml.ws.Holder;
 
 
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
 import SiteView.ecc.Modle.GroupModle;
@@ -144,5 +145,20 @@ public class RemoteMacheineBundle implements IAutoTaskExtension {
 		String groupid=bo.GetField("Groups").get_NativeValue().toString();
 		GroupModle groupModle=SiteViewData.subgroups.get(groupid);
 		GroupModle group=new GroupModle(bo, true, true, true, true,true,true,true,true);
+	}
+	@Override
+	public boolean hasCustomUI() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public void creatConfigUI(Composite parent, Map<String, String> params) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public Map<String, String> getConfig() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

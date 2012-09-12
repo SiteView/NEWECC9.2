@@ -3,6 +3,8 @@ package SiteView.ecc.bundle;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.swt.widgets.Composite;
+
 import SiteView.ecc.views.EccTreeControl;
 import Siteview.Api.BusinessObject;
 
@@ -23,6 +25,21 @@ public class EditMonitorBundle implements IAutoTaskExtension {
 			map=new HashMap<String,String>();
 			map.put(id, oldgroupId);
 		}
+		return null;
+	}
+	@Override
+	public boolean hasCustomUI() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public void creatConfigUI(Composite parent, Map<String, String> params) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public Map<String, String> getConfig() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
