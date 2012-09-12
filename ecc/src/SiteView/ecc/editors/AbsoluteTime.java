@@ -64,10 +64,14 @@ public class AbsoluteTime extends EditorPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
+		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
+		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		Composite composite = new Composite(sashForm, SWT.NONE);
+		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		Label label = new Label(composite, SWT.NONE);
@@ -102,19 +106,20 @@ public class AbsoluteTime extends EditorPart {
 		
 		TableViewer tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION | SWT.CHECK);
 		table = tableViewer.getTable();
+		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		
-		TableColumn tblclmnNewColumn_1 = new TableColumn(table, SWT.CENTER);
-		tblclmnNewColumn_1.setWidth(350);
+		TableColumn tblclmnNewColumn_1 = new TableColumn(table, SWT.LEFT);
+		tblclmnNewColumn_1.setWidth(150);
 		tblclmnNewColumn_1.setText("\u540D\u79F0");
 		
-		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.CENTER);
-		tblclmnNewColumn.setWidth(350);
+		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.LEFT);
+		tblclmnNewColumn.setWidth(150);
 		tblclmnNewColumn.setText("\u63CF\u8FF0");
 		
-		TableColumn tableColumn_1 = new TableColumn(table, SWT.CENTER);
-		tableColumn_1.setWidth(350);
+		TableColumn tableColumn_1 = new TableColumn(table, SWT.LEFT);
+		tableColumn_1.setWidth(150);
 		tableColumn_1.setText("\u7F16\u8F91");
 		sashForm.setWeights(new int[] {1, 2, 34});
 

@@ -72,6 +72,7 @@ public class TaskPlan extends EditorPart {
 		SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
 		
 		Composite composite = new Composite(sashForm, SWT.NONE);
+		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		Label label = new Label(composite, SWT.NONE);
@@ -79,10 +80,12 @@ public class TaskPlan extends EditorPart {
 		label.setText("\u4EFB\u52A1\u8BA1\u5212");
 		
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
+		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		composite_1.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		TableViewer tableViewer = new TableViewer(composite_1, SWT.MULTI | SWT.FULL_SELECTION);
 		table = tableViewer.getTable();
+		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		table.setHeaderVisible(true);
 		
 		table.addSelectionListener(new SelectionListener() {
@@ -114,13 +117,13 @@ public class TaskPlan extends EditorPart {
 			}
 		});
 		
-		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.CENTER);
+		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.LEFT);
 		tblclmnNewColumn.setText("\u540D\u79F0");
 		tblclmnNewColumn.setWidth(150);
 		
-		TableColumn tableColumn = new TableColumn(table, SWT.CENTER);
+		TableColumn tableColumn = new TableColumn(table, SWT.LEFT);
 		tableColumn.setText("\u8BF4\u660E");
-		tableColumn.setWidth(900);
+		tableColumn.setWidth(650);
 		sashForm.setWeights(new int[] {1, 40});
 
 		tableViewer.setContentProvider(new TaskPlanContentProvider());

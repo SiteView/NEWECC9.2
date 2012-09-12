@@ -62,10 +62,13 @@ public class MessageSetUp extends EditorPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
+		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
+		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		Composite composite = new Composite(sashForm, SWT.NONE);
+		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		Label lblNewLabel = new Label(composite, SWT.NONE);
@@ -73,6 +76,7 @@ public class MessageSetUp extends EditorPart {
 		lblNewLabel.setText("\u77ED\u4FE1\u8BBE\u7F6E");
 		
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
+		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		composite_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		Button addButton = new Button(composite_1, SWT.NONE);
@@ -97,6 +101,7 @@ public class MessageSetUp extends EditorPart {
 		helpButton.setText("帮助");
 		
 		Composite composite_2 = new Composite(sashForm, SWT.NONE);
+		composite_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		composite_2.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		Label label = new Label(composite_2, SWT.NONE);
@@ -105,26 +110,28 @@ public class MessageSetUp extends EditorPart {
 		
 		TableViewer tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.H_SCROLL);
 		table = tableViewer.getTable();
+		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
-		tblclmnNewColumn.setWidth(260);
+		tblclmnNewColumn.setWidth(150);
 		tblclmnNewColumn.setText("\u540D\u79F0");
 		
 		TableColumn tableColumn = new TableColumn(table, SWT.NONE);
-		tableColumn.setWidth(260);
+		tableColumn.setWidth(150);
 		tableColumn.setText("\u72B6\u6001");
 		
 		TableColumn tableColumn_1 = new TableColumn(table, SWT.NONE);
-		tableColumn_1.setWidth(260);
+		tableColumn_1.setWidth(150);
 		tableColumn_1.setText("\u624B\u673A\u53F7\u7801");
 		
 		TableColumn tableColumn_2 = new TableColumn(table, SWT.NONE);
-		tableColumn_2.setWidth(260);
+		tableColumn_2.setWidth(150);
 		tableColumn_2.setText("\u7F16\u8F91");
 		
 		TabFolder tabFolder = new TabFolder(sashForm, SWT.NONE);
+		tabFolder.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		TabItem tabItem = new TabItem(tabFolder, SWT.NONE);
 		tabItem.setText("以WEB方式发送短信");

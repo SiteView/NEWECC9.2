@@ -209,7 +209,6 @@ public class EmailAlarmBundle implements IAutoTaskExtension {
 				String id=bo.get_RecId();
 				treeItem1.setImage(ImageHelper.LoadImage(Activator.PLUGIN_ID,"icons/node.jpg"));
 				createItem(group, treeItem1);
-				treeItem1.setExpanded(true);
 			}
 		}
 		treeItem.setExpanded(true);

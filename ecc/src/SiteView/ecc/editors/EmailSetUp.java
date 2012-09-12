@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Text;
+import swing2swt.layout.FlowLayout;
 
 public class EmailSetUp extends EditorPart {
 	public static final String ID = "SiteView.ecc.editors.EmailSetUp";
@@ -54,11 +55,13 @@ public class EmailSetUp extends EditorPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
+		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
 		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		Composite composite = new Composite(sashForm, SWT.NONE);
+		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		Label lblNewLabel = new Label(composite, SWT.NONE);
@@ -67,42 +70,31 @@ public class EmailSetUp extends EditorPart {
 		
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
 		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		Button addButton = new Button(composite_1, SWT.NONE);
-		addButton.setSize(55, 25);
 		addButton.setText("Ìí¼Ó");
 		
 		Button delButton = new Button(composite_1, SWT.NONE);
-		delButton.setLocation(65, 0);
-		delButton.setSize(55, 25);
 		delButton.setText("É¾³ý");
 		
 		Button allowButton = new Button(composite_1, SWT.NONE);
-		allowButton.setLocation(130, 0);
-		allowButton.setSize(55, 25);
 		allowButton.setText("ÔÊÐí");
 		
 		Button forbidButton = new Button(composite_1, SWT.NONE);
-		forbidButton.setLocation(195, 0);
-		forbidButton.setSize(55, 25);
 		forbidButton.setText("½ûÖ¹");
 		
 		Button refreshButton = new Button(composite_1, SWT.NONE);
-		refreshButton.setLocation(260, 0);
-		refreshButton.setSize(55, 25);
 		refreshButton.setText("Ë¢ÐÂ");
 		
 		Button mouldButton = new Button(composite_1, SWT.NONE);
-		mouldButton.setLocation(325, 0);
-		mouldButton.setSize(55, 25);
 		mouldButton.setText("Ä£°åÉèÖÃ");
 		
 		Button helpButton = new Button(composite_1, SWT.NONE);
-		helpButton.setLocation(390, 0);
-		helpButton.setSize(55, 25);
 		helpButton.setText("°ïÖú");
 		
 		Composite composite_2 = new Composite(sashForm, SWT.NONE);
+		composite_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		composite_2.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		Label label = new Label(composite_2, SWT.NONE);
@@ -111,27 +103,29 @@ public class EmailSetUp extends EditorPart {
 		
 		TableViewer tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION |SWT.CHECK |SWT.V_SCROLL |SWT.H_SCROLL);
 		table = tableViewer.getTable();
+		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
-		tblclmnNewColumn.setWidth(260);
+		tblclmnNewColumn.setWidth(100);
 		tblclmnNewColumn.setText("\u540D\u79F0");
 		
 		TableColumn tableColumn = new TableColumn(table, SWT.NONE);
-		tableColumn.setWidth(260);
+		tableColumn.setWidth(100);
 		tableColumn.setText("\u72B6\u6001");
 		
 		TableColumn tblclmnNewColumn_1 = new TableColumn(table, SWT.NONE);
-		tblclmnNewColumn_1.setWidth(260);
+		tblclmnNewColumn_1.setWidth(150);
 		tblclmnNewColumn_1.setText("\u7535\u5B50\u90AE\u4EF6\u5730\u5740");
 		
 		TableColumn tableColumn_1 = new TableColumn(table, SWT.NONE);
-		tableColumn_1.setWidth(260);
+		tableColumn_1.setWidth(100);
 		tableColumn_1.setText("\u7F16\u8F91");
 		
 		
 		Composite composite_3 = new Composite(sashForm, SWT.NONE);
+		composite_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		composite_3.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		Label label_1 = new Label(composite_3, SWT.NONE);

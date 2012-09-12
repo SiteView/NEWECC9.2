@@ -167,5 +167,13 @@
           Class="SiteView.ecc.bundle.MassageAlarmBundle"
           Name="短信报警">
     </AutoTaskExtension>
+    <AutoTaskExtension
+          Class="SiteView.ecc.bundle.ScriptAlarmBundle"
+          Name="脚本报警">
+    </AutoTaskExtension>
+    <AutoTaskExtension
+          Class="SiteView.ecc.bundle.SoundAlarmBundle"
+          Name="声音报警">
+    </AutoTaskExtension>
  </extension>
  </plugin>
