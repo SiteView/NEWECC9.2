@@ -163,5 +163,9 @@
           Class="SiteView.ecc.bundle.EmailAlarmBundle"
           Name="邮件报警">
     </AutoTaskExtension>
+    <AutoTaskExtension
+          Class="SiteView.ecc.bundle.MassageAlarmBundle"
+          Name="短信报警">
+    </AutoTaskExtension>
  </extension>
  </plugin>
