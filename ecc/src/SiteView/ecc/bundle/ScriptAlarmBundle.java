@@ -4,18 +4,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-
-import siteview.IAutoTaskExtension;
-
-import org.eclipse.swt.custom.SashForm;
-import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.wb.swt.SWTResourceManager;
+
+import siteview.IAutoTaskExtension;
 
 public class ScriptAlarmBundle implements IAutoTaskExtension {
 	private Text text;
@@ -31,7 +32,6 @@ public class ScriptAlarmBundle implements IAutoTaskExtension {
 
 	@Override
 	public String run(Map<String, Object> params) throws Exception {
-		System.out.println("fasdf");
 		return null;
 	}
 
@@ -64,6 +64,31 @@ public class ScriptAlarmBundle implements IAutoTaskExtension {
 		tree.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		tree.setVisible(true);
 		tree.setHeaderVisible(true);
+		tree.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				TreeItem treeItem = (TreeItem) e.item;
+				if(treeItem.getChecked()){
+					SoundAlarmBundle.SelectParent(treeItem);
+					SoundAlarmBundle.SelectChild(treeItem);
+				}else{
+					SoundAlarmBundle.DeletChild(treeItem);
+					TreeItem item = treeItem.getParentItem();
+					TreeItem[] item1 = item.getItems();
+					for(int i=0;i<item1.length;i++){
+						if(item1[i].getChecked()){
+							treeItem.setChecked(false);
+							break;
+						}
+						if(i==item1.length-1){							
+							SoundAlarmBundle.DeletParent(treeItem);
+						}
+					}
+				}
+			}
+
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
 		EmailAlarmBundle.createTreeItem(tree);
 
 		Group groupSetUp = new Group(sashForm, SWT.NONE);

@@ -1,8 +1,6 @@
 package SiteView.ecc.dialog;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -119,7 +117,6 @@ public class MonitorSetUp extends Dialog {
 						set1.add(str);
 					}
 					set1.add(selectId);
-					System.out.println(set1);
 					createTableItem(set1);
 				} else {
 					DeletChild(item);
@@ -297,6 +294,12 @@ public class MonitorSetUp extends Dialog {
 		text_1 = new Text(composite_4, SWT.BORDER);
 		text_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1,
 				1));
+		text_1.addVerifyListener(new VerifyListener() {
+			public void verifyText(VerifyEvent e) {
+				boolean b = ("0123456789".indexOf(e.text) >= 0);
+				e.doit = b;
+			}
+		});
 
 		combo_1 = new Combo(composite_4, SWT.NONE);
 		combo_1.add("Second");
