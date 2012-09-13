@@ -4,18 +4,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import my.util.email.MailSenderInfo;
+import my.util.email.SimpleMailSender;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
 import siteview.IAutoTaskExtension;
 import siteview.windows.forms.ImageHelper;
-import src.MailSenderInfo;
-import src.SimpleMailSender;
 
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.custom.SashForm;
@@ -46,7 +46,20 @@ public class EmailAlarmBundle implements IAutoTaskExtension {
 	@Override
 	public String run(Map<String, Object> params) throws Exception {
 		// TODO Auto-generated method stub
-		
+		 MailSenderInfo mailInfo = new MailSenderInfo();    
+	     mailInfo.setMailServerHost("mail.dragonflow.com");    
+	     mailInfo.setMailServerPort("25");    
+	     mailInfo.setValidate(true);    
+	     mailInfo.setUserName("lihua.zhong");    
+	     mailInfo.setPassword("123456");//您的邮箱密码    
+	     mailInfo.setFromAddress("lihua.zhong@dragonflow.com");    
+	     mailInfo.setToAddress("lihua.zhong@dragonflow.com");    
+	     mailInfo.setSubject("设置邮箱标题 如http://www.guihua.org 中国桂花网");    
+	     mailInfo.setContent("设置邮箱内容 如http://www.guihua.org 中国桂花网 是中国最大桂花网站==");    
+	        //这个类主要来发送邮件   
+	     SimpleMailSender sms = new SimpleMailSender();   
+	         //sms.sendTextMail(mailInfo);//发送文体格式    
+	         sms.sendHtmlMail(mailInfo);//发送html格式   
 		return null;
 	}
 
@@ -209,6 +222,7 @@ public class EmailAlarmBundle implements IAutoTaskExtension {
 				String id=bo.get_RecId();
 				treeItem1.setImage(ImageHelper.LoadImage(Activator.PLUGIN_ID,"icons/node.jpg"));
 				createItem(group, treeItem1);
+				treeItem1.setExpanded(true);
 			}
 		}
 		treeItem.setExpanded(true);

@@ -33,6 +33,7 @@ public class EditGroupBundle implements IAutoTaskExtension {
 		String oldParntId=oldbo.GetField("ParentGroupId").get_NativeValue().toString();
 		String newParntId=bo.GetField("ParentGroupId").get_NativeValue().toString();
 		GroupModle oldParent;
+		String groupId=bo.get_RecId();
 		if(oldParntId.equals(newParntId)){
 			if(SiteViewData.subgroups.get(oldParntId)!=null){
 				oldParent=SiteViewData.subgroups.get(oldParntId);
@@ -55,6 +56,7 @@ public class EditGroupBundle implements IAutoTaskExtension {
 				EccTreeControl.treeViewer.update(site, new String[]{"list"});
 				EccTreeControl.treeViewer.update(oldGroup, new String[]{"bo"});
 				EccTreeControl.treeViewer.refresh();
+				updateGroup("GroupId="+groupId);
 			}
 			return null;
 		}
@@ -97,33 +99,6 @@ public class EditGroupBundle implements IAutoTaskExtension {
 		}
 		EccTreeControl.treeViewer.refresh();
 		SiteViewData.subgroups.put(bo.get_RecId(),oldGroup);
-		String groupId=bo.get_RecId();
-//		if(EccTreeControl.oldParentId.get(groupId)!=null&&parentId!=null&&!parentId.equals("")){
-//			String oldparentId=EccTreeControl.oldParentId.get(groupId);
-//			if(!oldparentId.equals(parentId)){
-//				APIInterfaces api=createAmiServer();
-//				try {
-//					if(api.getChildGroupInstances("SiteView/"+oldparentId).size()==1){
-//						BusinessObject oldparentbo=EccTreeControl.CreateBo("RecId",oldparentId, "EccGroup");
-//						oldparentbo.GetField("HasSubGroup").SetValue(new SiteviewValue("false"));
-//						oldparentbo.SaveObject(ConnectionBroker.get_SiteviewApi(), false, true);
-//					}
-//					EccTreeControl.oldParentId.put(groupId,parentId);
-//				} catch (RemoteException e) {
-//					e.printStackTrace();
-//				} catch (SiteViewException e) {
-//					e.printStackTrace();
-//				}
-//				
-//				BusinessObject bo1=EccTreeControl.CreateBo("RecId",parentId, "EccGroup");
-//				String s=bo1.GetField("HasSubGroup").get_NativeValue().toString();
-//				if(!s.equals("true")){
-//					bo1.GetField("HasSubGroup").SetValue(new SiteviewValue("true"));
-//					bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), false, true);
-//				}
-//				updateGroup("GroupId="+parentId);
-//			}
-//		}
 		updateGroup("GroupId="+groupId);
 		return null;
 	}

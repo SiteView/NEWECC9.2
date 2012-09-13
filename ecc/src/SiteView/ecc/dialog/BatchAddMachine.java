@@ -242,13 +242,13 @@ public class BatchAddMachine extends Dialog {
 					bo=ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Ecc.CPUUtilization");
 					bo.GetField("Groups").SetValue(new SiteviewValue(group));
 					bo.GetField("PingHostName").SetValue(new SiteviewValue(hostname));
-				}else if(s.equals("Ecc.DiskSpace--")){
+				}else if(s.startsWith("Ecc.DiskSpace--")){
 					bo=ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Ecc.DiskSpace");
 					bo.GetField("Groups").SetValue(new SiteviewValue(group));
 					bo.GetField("PingHostName").SetValue(new SiteviewValue(hostname));
 					bo.GetField("DiskName").SetValue(new SiteviewValue(s.substring(s.lastIndexOf("-")+1)));
 					bo.GetField("PingHostName").SetValue(new SiteviewValue(hostname));
-				}else if(s.equals("Ecc.Server--")){
+				}else if(s.startsWith("Ecc.Server--")){
 					bo=ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Ecc.Server");
 					bo.GetField("Groups").SetValue(new SiteviewValue(group));
 					bo.GetField("PingHostName").SetValue(new SiteviewValue(hostname));

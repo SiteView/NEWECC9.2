@@ -1,8 +1,15 @@
 package SiteView.ecc.editors;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
+
+import org.apache.activemq.network.ConduitBridge;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
@@ -10,6 +17,9 @@ import org.eclipse.ui.part.EditorPart;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Label;
@@ -17,10 +27,33 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Text;
 import swing2swt.layout.FlowLayout;
+import system.Collections.ICollection;
+import system.Collections.IEnumerator;
+import system.Windows.Forms.VisualStyles.FillType;
+
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+
+import SiteView.ecc.Control.TableComparer;
+import SiteView.ecc.Control.TableDutyContentProvider;
+import SiteView.ecc.Control.TableDutyLabelProvider;
+import SiteView.ecc.Modle.EmailModle;
+import SiteView.ecc.dialog.AddEmail;
+import SiteView.ecc.dialog.ConnectMail;
+import SiteView.ecc.dialog.MailModleSetUp;
+import SiteView.ecc.tools.FileTools;
+import Siteview.SiteviewValue;
+import Siteview.Api.BusinessObject;
+import Siteview.Windows.Forms.ConnectionBroker;
 
 public class EmailSetUp extends EditorPart {
 	public static final String ID = "SiteView.ecc.editors.EmailSetUp";
-	private Table table;
+	BusinessObject sendMailbo=null;
+	public static TableViewer tableViewer;
+	TableItem tableItem;
 	private Text text;
 	private Text text_1;
 	private Text text_2;
@@ -55,6 +88,19 @@ public class EmailSetUp extends EditorPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
+		ICollection ico=FileTools.getBussCollection("MailType", "send", "EccMail");
+		IEnumerator ien=ico.GetEnumerator();
+		while(ien.MoveNext()){
+			sendMailbo=(BusinessObject) ien.get_Current();
+		}
+		List list=new ArrayList();
+		ICollection ic=FileTools.getBussCollection("MailType", "receiver", "EccMail");
+		ien=ic.GetEnumerator();
+		while(ien.MoveNext()){
+			BusinessObject bo=(BusinessObject) ien.get_Current();
+			EmailModle m=new EmailModle(bo);
+			list.add(m);
+		}
 		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
@@ -73,6 +119,12 @@ public class EmailSetUp extends EditorPart {
 		composite_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		Button addButton = new Button(composite_1, SWT.NONE);
+		addButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				AddEmail addmail=new AddEmail(null);
+				addmail.open();
+			}
+		});
 		addButton.setText("添加");
 		
 		Button delButton = new Button(composite_1, SWT.NONE);
@@ -88,6 +140,12 @@ public class EmailSetUp extends EditorPart {
 		refreshButton.setText("刷新");
 		
 		Button mouldButton = new Button(composite_1, SWT.NONE);
+		mouldButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				MailModleSetUp m=new MailModleSetUp(null);
+				m.open();
+			}
+		});
 		mouldButton.setText("模板设置");
 		
 		Button helpButton = new Button(composite_1, SWT.NONE);
@@ -101,26 +159,48 @@ public class EmailSetUp extends EditorPart {
 		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		label.setText("\u90AE\u4EF6\u8BBE\u7F6E\u8BE6\u7EC6\u4FE1\u606F");
 		
-		TableViewer tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION |SWT.CHECK |SWT.V_SCROLL |SWT.H_SCROLL);
-		table = tableViewer.getTable();
+		tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION |SWT.CHECK |SWT.V_SCROLL |SWT.H_SCROLL);
+		final Table table = tableViewer.getTable();
 		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-		
+		table.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				tableItem=(TableItem) e.item;
+				tableItem.setChecked(true);
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+		table.addMouseListener(new MouseListener() {
+			public void mouseUp(MouseEvent e) {
+				for(TableItem ta:table.getItems()){
+					if(!ta.equals(tableItem)){
+						ta.setChecked(false);
+					}
+				}
+				if(e.x>385&&e.x<610){
+					AddEmail edit=new AddEmail(null,(EmailModle)tableItem.getData());
+					edit.open();
+				}
+			}
+			public void mouseDown(MouseEvent e) {}
+			public void mouseDoubleClick(MouseEvent e) {}
+		});
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
-		tblclmnNewColumn.setWidth(100);
+		tblclmnNewColumn.setWidth(104);
 		tblclmnNewColumn.setText("\u540D\u79F0");
 		
 		TableColumn tableColumn = new TableColumn(table, SWT.NONE);
-		tableColumn.setWidth(100);
+		tableColumn.setWidth(120);
 		tableColumn.setText("\u72B6\u6001");
 		
 		TableColumn tblclmnNewColumn_1 = new TableColumn(table, SWT.NONE);
-		tblclmnNewColumn_1.setWidth(150);
+		tblclmnNewColumn_1.setWidth(160);
 		tblclmnNewColumn_1.setText("\u7535\u5B50\u90AE\u4EF6\u5730\u5740");
 		
 		TableColumn tableColumn_1 = new TableColumn(table, SWT.NONE);
-		tableColumn_1.setWidth(100);
+		tableColumn_1.setWidth(112);
 		tableColumn_1.setText("\u7F16\u8F91");
 		
 		
@@ -162,20 +242,56 @@ public class EmailSetUp extends EditorPart {
 		
 		text = new Text(composite_4, SWT.BORDER);
 		text.setBounds(142, 20, 176, 20);
+		text.setText(sendMailbo.GetField("SendServer").get_NativeValue().toString());
 		
 		text_1 = new Text(composite_4, SWT.BORDER);
 		text_1.setBounds(142, 45, 176, 20);
+		text_1.setText(sendMailbo.GetField("MailAddress").get_NativeValue().toString());
 		
 		text_2 = new Text(composite_4, SWT.BORDER);
 		text_2.setBounds(142, 70, 176, 20);
+		text_2.setText(sendMailbo.GetField("BackupSendServer").get_NativeValue().toString());
 		
 		text_3 = new Text(composite_4, SWT.BORDER);
 		text_3.setBounds(142, 95, 176, 20);
+		text_3.setText(sendMailbo.GetField("MailUserName").get_NativeValue().toString());
 		
-		text_4 = new Text(composite_4, SWT.BORDER);
+		text_4 = new Text(composite_4, SWT.BORDER|SWT.PASSWORD);
 		text_4.setBounds(142, 120, 176, 20);
-		
+		text_4.setText(sendMailbo.GetField("MailPwd").get_NativeValue().toString());
 		Button btnNewButton = new Button(composite_4, SWT.NONE);
+		btnNewButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				 String check = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+				 Pattern regex = Pattern.compile(check); 
+				 if(text.getText()==null ||text.getText().equals("")){
+					 MessageDialog.openInformation(new Shell(), "提示", "请填写发送服务器");
+					 return;
+				 }else if(text_1.getText()==null ||text_1.getText().equals("")){
+					 MessageDialog.openInformation(new Shell(), "提示", "请填写Email地址");
+					 return;
+				 }else if(!regex.matcher(text_2.getText()).matches()){
+					 MessageDialog.openInformation(new Shell(), "提示", "Email格式不对");
+					 return;
+				 }else if(text_2.getText()==null ||text_2.getText().equals("")){
+					 MessageDialog.openInformation(new Shell(), "提示", "请填写备份发送服务器");
+					 return;
+				 }else if(text_3.getText()==null ||text_3.getText().equals("")){
+					 MessageDialog.openInformation(new Shell(), "提示", "请填写用户名");
+					 return;
+				 }else if(text_4.getText()==null ||text_4.getText().equals("")){
+					 MessageDialog.openInformation(new Shell(), "提示", "请填密码");
+					 return;
+				 }
+				sendMailbo.GetField("MailType").SetValue(new SiteviewValue("send"));
+				sendMailbo.GetField("SendServer").SetValue(new SiteviewValue(text.getText()));
+				sendMailbo.GetField("MailAddress").SetValue(new SiteviewValue(text_1.getText()));
+				sendMailbo.GetField("BackupSendServer").SetValue(new SiteviewValue(text_2.getText()));
+				sendMailbo.GetField("MailUserName").SetValue(new SiteviewValue(text_3.getText()));
+				sendMailbo.GetField("MailPwd").SetValue(new SiteviewValue(text_4.getText()));
+				sendMailbo.SaveObject(ConnectionBroker.get_SiteviewApi(), false, true);
+			}
+		});
 		btnNewButton.setBounds(65, 150, 72, 22);
 		btnNewButton.setText("\u5E94\u7528");
 		
@@ -184,10 +300,21 @@ public class EmailSetUp extends EditorPart {
 		btnNewButton_1.setText("\u91CD\u65B0\u83B7\u5F97");
 		
 		Button btnNewButton_2 = new Button(composite_4, SWT.NONE);
+		btnNewButton_2.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				ConnectMail con=new ConnectMail(null,sendMailbo);
+				con.open();
+			}
+		});
 		btnNewButton_2.setBounds(245, 150, 72, 22);
 		btnNewButton_2.setText("\u6D4B\u8BD5");
+		
+		tableViewer.setContentProvider(new TableDutyContentProvider());
+		tableViewer.setLabelProvider(new TableDutyLabelProvider());
+		tableViewer.setInput(list);
+		tableViewer.setComparer(new TableComparer());
 		sashForm.setWeights(new int[] {1, 2, 1, 20, 1, 15});
-
+		
 	}
 
 	public void setFocus() {

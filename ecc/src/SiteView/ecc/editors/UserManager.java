@@ -159,15 +159,21 @@ public class UserManager extends EditorPart {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
 				tableItem=(TableItem) e.item;
+				tableItem.setChecked(true);
 			}
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
-				// TODO Auto-generated method stub
+				tableItem.setChecked(false);
 			}
 		});
 		
 		table.addMouseListener(new MouseListener() {
 			public void mouseUp(MouseEvent e) {
+				for(TableItem ta:table.getItems()){
+					if(!ta.equals(tableItem)){
+						ta.setChecked(false);
+					}
+				}
 				if(e.x>509&&e.x<610){
 					AddUserDig edit=new AddUserDig(null);
 					int i= table.getSelectionIndex();
