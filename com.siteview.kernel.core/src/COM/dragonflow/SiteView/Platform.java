@@ -34,6 +34,8 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.media.Player;
+
 import jgl.Array;
 import jgl.HashMap;
 import COM.dragonflow.HTTP.HTTPRequest;
@@ -51,6 +53,7 @@ import COM.dragonflow.Utils.I18N;
 import COM.dragonflow.Utils.LUtils;
 import COM.dragonflow.Utils.LineReader;
 import COM.dragonflow.Utils.LocaleUtils;
+import COM.dragonflow.Utils.MachineUtil;
 import COM.dragonflow.Utils.MailUtils;
 import COM.dragonflow.Utils.Registry;
 import COM.dragonflow.Utils.RemoteCommandLine;
@@ -183,7 +186,6 @@ public class Platform {
                 for (Enumeration enumeration5 = vector.elements(); enumeration5
                         .hasMoreElements(); System.out.println("_name=" + s3)) {
                     String s1 = (String) enumeration5.nextElement();
-                    System.out.println("_disk=" + s1);
                     s3 = (String) enumeration5.nextElement();
                 }
 
@@ -826,7 +828,6 @@ public class Platform {
 
     public static long[] getDiskFull(String s, String s1,
             AtomicMonitor atomicmonitor, Array array) {
-    	System.out.println("调用 getDiskFull方法*/*/*/*/*/*/*/*/*/*/*/*/*/*/");
         long al[];
         label0: {
             al = new long[3];
@@ -977,14 +978,14 @@ public class Platform {
                     s4 = "";
             }
         }
-        System.out.println("isNTRemote(s1)......"+isNTRemote(s1));
         if (isNTRemote(s1)) {
             if (s3.indexOf("-connect") == -1)
                 s3 = s3 + " -connect";
             String s5 = " " + s1;
-            System.out.println("s1........."+s1);
             Machine machine = Machine.getNTMachine(s1);
-            System.out.println("machine......"+machine);
+//            if(machine==null){
+//            	machine = MachineUtil.getMachine("");
+//            }
             if (s4 != null && s4.length() > 0)
                 s5 = s5 + " -timeout " + s4;
             if (machine != null) {
@@ -3143,7 +3144,6 @@ public class Platform {
             return 0;
         int i = 0;
         String s1 = s;
-        System.out.println("perfexCommand(s)....."+s);
         String s2 = perfexCommand(s) + " =238";
         if (s1.startsWith("\\\\"))
             s1 = s1.substring(2);
@@ -3166,11 +3166,8 @@ public class Platform {
                 LogManager.log("RunMonitor",
                         "[kDebugPerfex]Check Permissions - Perfex command: "
                                 + s2);
-            System.out.println("s2..................."+s2);
-            System.out.println("s...................."+s);
             array1 = commandline.exec(s2, s);
             i = commandline.getExitValue();
-            System.out.println("commandline"+i);
         }
         for (int j = 0; j < array1.size(); j++) {
             String s3 = (String) array1.at(j);

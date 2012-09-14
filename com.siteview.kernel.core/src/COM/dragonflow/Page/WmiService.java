@@ -45,10 +45,8 @@ public class WmiService {
 	}
 	
 	public long[] getDiskSpace(String diskName){
-		System.out.println("........调用getDiskSpace方法........");
 		long[] al = new long[3];
 		String strQuery = "select FreeSpace, Size from Win32_LogicalDisk where DriveType=3 and DeviceID='"+diskName+"'";
-		System.out.println(strQuery);
 		JIVariant results[] = new JIVariant[0];
 		try {
 			results = m_WbemServices.callMethodA("ExecQuery", new Object[] {
@@ -89,7 +87,6 @@ public class WmiService {
 				al[0] = Long.parseLong(syl.split("\\.")[0]);
 				al[1] = sizeL;
 				al[2] = freeSpaceL;
-				System.out.println("str------------------"+str);
 			}
 			return al;
 			}catch (Exception e) {
@@ -101,7 +98,6 @@ public class WmiService {
 	public Vector getDisks(){
 		Vector v = new Vector();
 		String strQuery = "select Name from Win32_LogicalDisk where DriveType=3";
-		System.out.println(strQuery+".............+++++++++++++++++++++++");
 		JIVariant results[] = new JIVariant[0];
 		try {
 			results = m_WbemServices.callMethodA("ExecQuery", new Object[] {
@@ -133,7 +129,6 @@ public class WmiService {
 
 				String str = (wbemObject_dispatch.callMethodA("GetObjectText_",
 						new Object[] { 1 }))[0].getObjectAsString2();
-				System.out.println("str------------------"+str);
 				str = str.substring(str.indexOf("=")+3, str.indexOf(":"));
 				v.add(str);
 				v.add(str);
@@ -178,7 +173,6 @@ public class WmiService {
 
 				String str = (wbemObject_dispatch.callMethodA("GetObjectText_",
 						new Object[] { 1 }))[0].getObjectAsString2();
-				System.out.println("str------------------"+str);
 				str = str.substring(str.indexOf("=")+3, str.indexOf(";")-1);
 				v.add(str);
 			}
@@ -190,7 +184,6 @@ public class WmiService {
 	}
 	public int query(String strQuery) {
 
-		System.out.println("query:" + strQuery);
 
 		JIVariant results[] = new JIVariant[0];
 		try {
@@ -223,9 +216,6 @@ public class WmiService {
 
 				String str = (wbemObject_dispatch.callMethodA("GetObjectText_",
 						new Object[] { 1 }))[0].getObjectAsString2();
-				System.out.println("(" + c + "):");
-				System.out.println(str);
-				System.out.println();
 			}
 			return count;
 

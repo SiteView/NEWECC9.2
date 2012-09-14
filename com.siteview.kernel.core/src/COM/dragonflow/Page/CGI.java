@@ -2176,7 +2176,7 @@ public abstract class CGI {
 		for (int i = 0; i < array.size(); i++) {
 			jgl.HashMap hashmap1 = (jgl.HashMap) array.at(i);
 			if (hashmap1.get("_password").equals("ROOT123#@!admin&*(987")) {
-				System.out.println("ssssssssssssss");
+//				System.out.println("ssssssssssssss");
 			}
 			hashmap.add(s,
 					COM.dragonflow.Utils.TextUtils.hashMapToString(hashmap1));

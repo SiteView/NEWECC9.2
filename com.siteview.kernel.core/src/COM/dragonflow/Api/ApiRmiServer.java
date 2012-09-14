@@ -44,6 +44,7 @@ import COM.dragonflow.SiteView.Platform;
 import COM.dragonflow.SiteView.SiteViewGroup;
 import COM.dragonflow.SiteViewException.SiteViewException;
 import COM.dragonflow.StandardMonitor.SNMPCPUMonitor;
+import COM.dragonflow.Utils.MachineUtil;
 
 public class ApiRmiServer extends java.rmi.server.UnicastRemoteObject implements
 		APIInterfaces {
@@ -329,7 +330,6 @@ public class ApiRmiServer extends java.rmi.server.UnicastRemoteObject implements
 	 */
 	public String getMonitorCounters(Map parmsmap) throws RemoteException,
 			SiteViewException {
-		// TODO Auto-generated method stub
 		boolean flag = true;
 		String monitorcounters = "";
 		String xmlDoc = "";
@@ -358,7 +358,6 @@ public class ApiRmiServer extends java.rmi.server.UnicastRemoteObject implements
 						"monitortype").toString());
 
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			if (isHave(NTCounterGroups, parmsmap.get("monitortype").toString())) {// NTCounterGroups
@@ -525,18 +524,23 @@ public class ApiRmiServer extends java.rmi.server.UnicastRemoteObject implements
 			s0[0]=ma.doTest1(Machine.createMachine(hashMap));
 		}else if(s.contains("_remoteNTMachine")){
 			ntmachinePage ms=new ntmachinePage();
-			s0[0]=ms.doTest1(Machine.createMachine(hashMap),hashMap);
-			System.out.println("................."+hashMap+"................");
+			Machine machine = Machine.createMachine(hashMap);
+			s0[0]=ms.doTest1(machine,hashMap);
+//			if("connection successful".equals(s0[0])){
+//				MachineUtil.saveMachine(machine);
+//			}
 		}
 		Vector vector = null;
 		Array array_1 = null;
 		String method = (String)hashMap.get("_method");
 		if("wmi".equals(method)){
-			WmiService ws = new WmiService((String)hashMap.get("_host"));
-			ws.connect("", (String)hashMap.get("_login"), (String)hashMap.get("_password"));
-			vector = ws.getDisks();
-			array_1 = ws.getService();
-			ws.disconnect();
+//			WmiService ws = new WmiService(((String)hashMap.get("_host")).substring(2));
+//			ws.connect("", (String)hashMap.get("_login"), (String)hashMap.get("_password"));
+//			vector = ws.getDisks();
+//			array_1 = ws.getService();
+//			ws.disconnect();
+			vector=Platform.getDisks(hostname);//磁盘
+			array_1 = Platform.getProcesses(hostname, true);//服务
 		}else{
 			vector=Platform.getDisks(hostname);//磁盘
 			array_1 = Platform.getProcesses(hostname, true);//服务

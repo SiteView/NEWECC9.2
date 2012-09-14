@@ -18,6 +18,7 @@ package COM.dragonflow.SiteView;
  * 
  */
 import java.io.File;
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
@@ -37,7 +38,7 @@ import COM.dragonflow.Utils.TextUtils;
 // SiteViewObject, MasterConfig, Platform, Portal,
 // PortalSiteView, OSAdapter
 
-public class Machine extends SiteViewObject {
+public class Machine extends SiteViewObject implements Serializable{
 
     public static StringProperty pID;
 
