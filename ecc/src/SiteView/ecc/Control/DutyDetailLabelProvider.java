@@ -31,7 +31,7 @@ public class DutyDetailLabelProvider extends LabelProvider implements ITableLabe
 			}else if(columnIndex==1){
 				return dm.getReceiveAlarmEmail();
 			}else if(columnIndex==2){
-				return dm.getCreatedDateTime();
+				return dm.getWeek();
 			}else if(columnIndex==3){
 				return dm.getStartTime();
 			}else if(columnIndex==4){

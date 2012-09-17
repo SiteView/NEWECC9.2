@@ -25,7 +25,7 @@ import Siteview.Windows.Forms.ConnectionBroker;
 public class AddTableDuty extends Dialog{
 	private Text text;
 	private Text text_1;
-	private Combo combo;
+	public static Combo combo;
 	private Button applyButton;
 	private Button closeButton;
 	public AddTableDuty(Shell parent) {
@@ -39,7 +39,7 @@ public class AddTableDuty extends Dialog{
 		 newShell.setText("添加值班表信息");
 	}
 	@Override
-	protected Control createDialogArea(Composite parent){
+	public Control createDialogArea(Composite parent){
 		Composite container = (Composite) super.createDialogArea(parent);
          Group g=new Group(container,SWT.NONE);
          GridData gd_g = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
@@ -89,12 +89,12 @@ public class AddTableDuty extends Dialog{
 	protected void buttonPressed(int buttonId){
 		if(buttonId==IDialogConstants.OK_ID){
 			BusinessObject bo = ConnectionBroker.get_SiteviewApi()//得到数据库表
-					.get_BusObService().Create("EccDuty");
+					.get_BusObService().Create("EccDutyTable");
 			bo.GetField("DutyTableName").SetValue(//得到第一个文本框里的数据
 					new SiteviewValue(text.getText()));
 			bo.GetField("DutyTableDec").SetValue(//得到第二个文本框里的数据
 					new SiteviewValue(text_1.getText()));
-			bo.GetField("DutyTableDec").SetValue(//得到第三个文本框里的数据
+			bo.GetField("DutyTableType").SetValue(//得到第三个文本框里的数据
 					new SiteviewValue(combo.getText()));
 			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,//将数据存储到数据库
 					true);

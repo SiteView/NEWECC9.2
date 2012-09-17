@@ -19,7 +19,7 @@ public class TableDutyInfor {
 		list=new ArrayList<TableModle>();
 		ICollection icoll=null;
 		IEnumerator ienum=null;
-		icoll=FileTools.getBussCollection("EccDuty");
+		icoll=FileTools.getBussCollection("EccDutyTable");
 		ienum=icoll.GetEnumerator();
 		if(ienum!=null){
 			while(ienum.MoveNext()){

@@ -6,7 +6,7 @@ import system.DateTime;
 public class DetailModel {
 	public String ReceiveAlarmpPhone;
 	public String ReceiveAlarmEmail;
-	public String CreatedDateTime;
+	public String Week;
 	public String StartTime;
 	public String EndTime;
 	public BusinessObject bo;
@@ -24,16 +24,23 @@ public class DetailModel {
 		this.bo = bo;
 	}
 	
+	
 	public DetailModel(String receiveAlarmpPhone, String receiveAlarmEmail,
-			String createdDateTime, String startTime, String endTime,
-			BusinessObject bo) {
+			String week, String startTime, String endTime,
+		    BusinessObject bo) {
 		super();
 		ReceiveAlarmpPhone = receiveAlarmpPhone;
 		ReceiveAlarmEmail = receiveAlarmEmail;
-		CreatedDateTime = createdDateTime;
+		Week = week;
 		StartTime = startTime;
 		EndTime = endTime;
 		this.bo = bo;
+	}
+	public String getWeek() {
+		return Week;
+	}
+	public void setWeek(String week) {
+		Week = week;
 	}
 	public String getReceiveAlarmpPhone() {
 		return ReceiveAlarmpPhone;
@@ -50,12 +57,6 @@ public class DetailModel {
 	public void setReceiveAlarmEmail(String receiveAlarmEmail) {
 		ReceiveAlarmEmail = receiveAlarmEmail;
 	}
-	public String getCreatedDateTime() {
-		return CreatedDateTime;
-	}
-	public void setCreatedDateTime(String createdDateTime) {
-		CreatedDateTime = createdDateTime;
-	}
 	public String getStartTime() {
 		return StartTime;
 	}
@@ -68,6 +69,5 @@ public class DetailModel {
 	public void setEndTime(String endTime) {
 		EndTime = endTime;
 	}
-
 
 }

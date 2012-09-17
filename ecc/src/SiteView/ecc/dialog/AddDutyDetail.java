@@ -19,10 +19,14 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.DateTime;
 
+import system.Collections.IEnumerator;
+
 import SiteView.ecc.Modle.DetailModel;
+import SiteView.ecc.data.DutyDetailInfor;
 import SiteView.ecc.editors.TableDuty;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
+import Siteview.Api.BusinessObjectCollection;
 import Siteview.Windows.Forms.ConnectionBroker;
 
 public class AddDutyDetail extends Dialog{
@@ -33,8 +37,14 @@ public class AddDutyDetail extends Dialog{
 	private Combo combo;
 	private DateTime startTime;
 	private DateTime endTime;
-	public AddDutyDetail(Shell parent) {
-		super(parent);
+	private Calendar startcal;
+	public String type;
+    public BusinessObject bo1;
+    public static BusinessObject bo;
+	public AddDutyDetail(Shell shell,String type,BusinessObject bo1) {
+		super(shell);
+		this.type=type;
+		this.bo1=bo1;
 	}
 	protected void configureShell(Shell newShell) {
 		 super.configureShell(newShell);
@@ -75,16 +85,31 @@ public class AddDutyDetail extends Dialog{
 		combo = new Combo(g, SWT.NONE);//第三个文本输入框
 		combo.setSize(145, 20);
 		combo.setLocation(176, 85);
-		for (int i = 1; i <= 31; i++) {
-			combo.add(""+i); //循环添加选项
+		if("day".equals(type)){
+			combo.add("");
 		}
+		if("day of week".equals(type)){
+				combo.add("星期一");
+				combo.add("星期二");
+				combo.add("星期三");
+				combo.add("星期四");
+				combo.add("星期五");
+				combo.add("星期六");
+				combo.add("星期日");
+		}
+		if("day of month".equals(type)){
+			for (int i = 1; i <= 31; i++) {
+				combo.add(""+i); //循环添加选项
+			}
+		}
+		
 		
 		Label lblNewLabel_3 = new Label(g, SWT.NONE);
 		lblNewLabel_3.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
 		lblNewLabel_3.setBounds(20, 123, 122, 18);
 		lblNewLabel_3.setText("\u5F00\u59CB\u65F6\u95F4");
 		
-		Calendar startcal = Calendar.getInstance();
+		startcal = Calendar.getInstance();
 		startTime = new DateTime(g, SWT.TIME
 				| SWT.SHORT);
 		startTime.setLocation(176, 120);//第四个文本输入框
@@ -116,25 +141,30 @@ public class AddDutyDetail extends Dialog{
     }
 	protected void buttonPressed(int buttonId){
 		if(buttonId==IDialogConstants.OK_ID){
-			BusinessObject bo = ConnectionBroker.get_SiteviewApi()//得到数据库表
+		    bo = ConnectionBroker.get_SiteviewApi()//得到数据库表
 					.get_BusObService().Create("DutyDetail");
 			bo.GetField("ReceiveAlarmpPhone").SetValue(//得到第一个文本框里的数据
 					new SiteviewValue(text.getText()));
 			bo.GetField("ReceiveAlarmEmail").SetValue(//得到第二个文本框里的数据
 					new SiteviewValue(text_1.getText()));
-			bo.GetField("CreatedDateTime").SetValue(//得到第三个文本框里的数据
+			bo.GetField("Week").SetValue(//得到第三个文本框里的数据
 					new SiteviewValue(combo.getText()));
 			bo.GetField("StartTime").SetValue(//得到第四个文本框里的数据
-					new SiteviewValue("startTime.getHours()"+"startTime.getMinutes()"));
+					new SiteviewValue("startcal.get(Calendar.HOUR_OF_DAY)"+"startcal.get(Calendar.MINUTE)"+"startcal.get(Calendar.SECOND)"));
 			bo.GetField("EndTime").SetValue(//得到第五个文本框里的数据
-					new SiteviewValue("endTime.getHours()"+"endTime.getMinutes()"));
+					new SiteviewValue("endTime.getHours()"+"endTime.getMinutes()"+"endTime.getSeconds()"));
 			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,
-					true);////将数据存储到数据库
+					true);//将数据存储到数据库
+			
+			System.out.println("bo"+bo);
+			System.out.println("bo1"+bo1);
+		   
+	    	bo1.GetRelationship("EccDutyTableContainsDutyDetail").set_CurrentBusinessObject(bo);
 			
 			DetailModel detailModel=new DetailModel(bo);
-			detailModel.setCreatedDateTime(combo.getText());
 			detailModel.setReceiveAlarmpPhone(text.getText());
 			detailModel.setReceiveAlarmEmail(text_1.getText());
+			detailModel.setWeek((combo.getText()));
 			detailModel.setStartTime("startTime.getHours()"+"startTime.getMinutes()");
 			detailModel.setEndTime("endTime.getHours()"+"endTime.getMinutes()");
 			
@@ -142,7 +172,12 @@ public class AddDutyDetail extends Dialog{
 		    list.add(detailModel);
 			TableDuty.TableViewer1.setInput(detailModel);
 			TableDuty.TableViewer1.refresh();
+			
 		}
 		this.close();
 	}
+	public static BusinessObject getBo() {
+		return bo;
+	}
+	
 }
