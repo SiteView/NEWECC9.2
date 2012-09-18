@@ -109,7 +109,7 @@ public class DailyFileLogger extends COM.dragonflow.Log.BaseFileLogger
                     boolean flag2 = file2.renameTo(file6);
                     if(!flag2)
                     {
-                        COM.dragonflow.Log.LogManager.log("Error", "Could not rename old log file: " + file2.getAbsolutePath());
+//                        COM.dragonflow.Log.LogManager.log("Error", "Could not rename old log file: " + file2.getAbsolutePath());
                     }
                 } else
                 {
@@ -117,7 +117,7 @@ public class DailyFileLogger extends COM.dragonflow.Log.BaseFileLogger
                     boolean flag = file3.delete();
                     if(!flag)
                     {
-                        COM.dragonflow.Log.LogManager.log("Error", "Could not remove old log file: " + file3.getAbsolutePath());
+//                        COM.dragonflow.Log.LogManager.log("Error", "Could not remove old log file: " + file3.getAbsolutePath());
                     }
                 }
             } while(true);
@@ -138,7 +138,7 @@ public class DailyFileLogger extends COM.dragonflow.Log.BaseFileLogger
                     boolean flag3 = file4.renameTo(file7);
                     if(!flag3)
                     {
-                        COM.dragonflow.Log.LogManager.log("Error", "Could not rename old log file: " + file4.getAbsolutePath());
+//                        COM.dragonflow.Log.LogManager.log("Error", "Could not rename old log file: " + file4.getAbsolutePath());
                     }
                 } else
                 {
@@ -146,7 +146,7 @@ public class DailyFileLogger extends COM.dragonflow.Log.BaseFileLogger
                     boolean flag1 = file5.delete();
                     if(!flag1)
                     {
-                        COM.dragonflow.Log.LogManager.log("Error", "Could not remove old log file: " + file5.getAbsolutePath());
+//                        COM.dragonflow.Log.LogManager.log("Error", "Could not remove old log file: " + file5.getAbsolutePath());
                     }
                 }
             } while(true);

@@ -138,13 +138,13 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
             if(s4.length() > 0)
             {
                 propertyFilter = COM.dragonflow.Utils.TextUtils.split(s4, ",");
-                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, filter " + s4);
+//                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, filter " + s4);
             }
             String s5 = COM.dragonflow.Utils.TextUtils.getValue(hashmap, "_logJdbcPropertySkip" + logName);
             if(s5.length() > 0)
             {
                 propertySkip = COM.dragonflow.Utils.TextUtils.split(s5, ",");
-                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, skip " + s5);
+//                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, skip " + s5);
             }
             int i = COM.dragonflow.Utils.TextUtils.toInt(COM.dragonflow.Utils.TextUtils.getValue(hashmap, "_logJdbcMaxString" + logName));
             if(i > 0)
@@ -161,17 +161,17 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
             {
                 reconnectSeconds = 600;
             }
-            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, reconnect after " + reconnectSeconds + " seconds");
-            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, commit after " + autoCommit + " records");
+//            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, reconnect after " + reconnectSeconds + " seconds");
+//            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, commit after " + autoCommit + " records");
             if(method.length() > 0)
             {
-                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, method, " + method);
+//                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, method, " + method);
             }
-            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, loading, driver=" + driver);
+//            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, loading, driver=" + driver);
             java.lang.Class.forName(driver).newInstance();
             try
             {
-                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, connecting, url=" + s + ", " + s2);
+//                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, connecting, url=" + s + ", " + s2);
                 connection = java.sql.DriverManager.getConnection(s, s2, s3);
                 connection.setAutoCommit(false);
             }
@@ -179,7 +179,7 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
             {
                 if(s1.length() != 0)
                 {
-                    COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, connecting, backup=" + s1 + ", " + s2);
+//                    COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, connecting, backup=" + s1 + ", " + s2);
                     connection = java.sql.DriverManager.getConnection(s1, s2, s3);
                     connection.setAutoCommit(false);
                 } else
@@ -187,7 +187,7 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
                     throw exception;
                 }
             }
-            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, logged in");
+//            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, logged in");
         }
     }
 
@@ -197,18 +197,18 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
         java.sql.Statement statement = null;
         try
         {
-            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, log table exists?");
+//            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, log table exists?");
             statement = connection1.createStatement();
             if(COM.dragonflow.Utils.TextUtils.startsWithIgnoreCase(s, "call"))
             {
                 s = "{" + s + "}";
             }
             statement.executeUpdate(s);
-            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, log table created");
+//            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, log table created");
         }
         catch(java.lang.Exception exception)
         {
-            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, log table not created, " + exception);
+//            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, log table not created, " + exception);
             s1 = exception.getMessage();
         }
         finally
@@ -284,7 +284,7 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
         }
         catch(java.sql.SQLException sqlexception)
         {
-            COM.dragonflow.Log.LogManager.log("Error", "could not free parameters" + sqlexception.toString());
+//            COM.dragonflow.Log.LogManager.log("Error", "could not free parameters" + sqlexception.toString());
         }
     }
 
@@ -461,8 +461,8 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
         }
         catch(java.lang.Exception exception)
         {
-            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger error: " + exception + ", " + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pGroupID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pSample));
-            COM.dragonflow.Log.LogManager.log("Error", "jdbc logger error: " + exception + ", " + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pGroupID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pSample));
+//            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger error: " + exception + ", " + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pGroupID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pSample));
+//            COM.dragonflow.Log.LogManager.log("Error", "jdbc logger error: " + exception + ", " + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pGroupID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pSample));
             reconnectTime = (long)(reconnectSeconds * 1000) + java.lang.System.currentTimeMillis();
             closeConnection();
         }
@@ -533,8 +533,8 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
         }
         catch(java.lang.Exception exception)
         {
-            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger error: " + exception + ", " + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pGroupID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pSample));
-            COM.dragonflow.Log.LogManager.log("Error", "jdbc logger error: " + exception + ", " + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pGroupID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pSample));
+//            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger error: " + exception + ", " + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pGroupID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pSample));
+//            COM.dragonflow.Log.LogManager.log("Error", "jdbc logger error: " + exception + ", " + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pGroupID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pSample));
             reconnectTime = (long)(reconnectSeconds * 1000) + java.lang.System.currentTimeMillis();
             closeConnection();
         }
@@ -576,14 +576,14 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
             String s3 = createTable(connection, s2);
             if(s3.indexOf("invalid column name") != -1)
             {
-                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, fixup date column, " + s3);
+//                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, fixup date column, " + s3);
                 s2 = COM.dragonflow.Utils.TextUtils.replaceString(s2, "date VAR", "datex VAR");
                 hashmap.put("_logJdbcCreate" + logName, s2);
                 COM.dragonflow.SiteView.MasterConfig.saveMasterConfig(hashmap);
                 s3 = createTable(connection, s2);
             }
             vars = countVars(s1);
-            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, prepare insert, " + vars + ", " + s1);
+//            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, prepare insert, " + vars + ", " + s1);
             if(COM.dragonflow.Utils.TextUtils.startsWithIgnoreCase(s1, "call"))
             {
                 logStatementCache = connection.prepareCall("{" + s1 + "}");
@@ -591,7 +591,7 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
             {
                 logStatementCache = connection.prepareStatement(s1);
             }
-            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, connected");
+//            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, connected");
         }
         return logStatementCache;
     }
@@ -636,8 +636,8 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
         }
         catch(java.lang.Exception exception)
         {
-            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger error: " + exception);
-            COM.dragonflow.Log.LogManager.log("Error", "jdbc logger error: " + exception);
+//            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger error: " + exception);
+//            COM.dragonflow.Log.LogManager.log("Error", "jdbc logger error: " + exception);
             reconnectTime = (long)(reconnectSeconds * 1000) + java.lang.System.currentTimeMillis();
             closeConnection();
         }
@@ -665,7 +665,7 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
     {
         if(debug)
         {
-            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger commit start");
+//            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger commit start");
         }
         int i = array.size();
         java.sql.SQLException sqlexception = null;
@@ -696,14 +696,14 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
                     s = s + array1.at(l);
                 }
 
-                COM.dragonflow.Log.LogManager.log("Error", "jdbc logger error: exec, " + sqlexception1 + ", record=" + s);
+//                COM.dragonflow.Log.LogManager.log("Error", "jdbc logger error: exec, " + sqlexception1 + ", record=" + s);
                 clearParameters(preparedstatement);
             }
         }
         connection.commit();
         if(debug)
         {
-            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger commit complete, " + i + " records");
+//            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger commit complete, " + i + " records");
         }
         if(sqlexception != null)
         {
@@ -722,8 +722,8 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
         }
         catch(java.lang.Exception exception)
         {
-            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger error: " + exception);
-            COM.dragonflow.Log.LogManager.log("Error", "jdbc logger error: " + exception);
+//            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger error: " + exception);
+//            COM.dragonflow.Log.LogManager.log("Error", "jdbc logger error: " + exception);
         }
     }
 
@@ -745,12 +745,12 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
             try
             {
                 flushsafe(preparedstatement, array);
-                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger, flushed " + s);
+//                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger, flushed " + s);
             }
             catch(java.lang.Exception exception)
             {
-                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger error, closing " + s + ", " + exception);
-                COM.dragonflow.Log.LogManager.log("Error", "jdbc logger error: closing " + s + ", " + exception);
+//                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger error, closing " + s + ", " + exception);
+//                COM.dragonflow.Log.LogManager.log("Error", "jdbc logger error: closing " + s + ", " + exception);
             }
         }
 
@@ -758,7 +758,7 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
 
     void closeConnection()
     {
-        COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, closing database connection");
+//        COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, closing database connection");
         if(logStatementCache != null)
         {
             try
@@ -768,8 +768,8 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
             }
             catch(java.lang.Exception exception)
             {
-                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger error: closing statement, " + exception);
-                COM.dragonflow.Log.LogManager.log("Error", "jdbc logger error: closing statement, " + exception);
+//                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger error: closing statement, " + exception);
+//                COM.dragonflow.Log.LogManager.log("Error", "jdbc logger error: closing statement, " + exception);
             }
         }
         if(linkStatementCache != null)
@@ -781,8 +781,8 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
             }
             catch(java.lang.Exception exception1)
             {
-                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger error: closing link statement, " + exception1);
-                COM.dragonflow.Log.LogManager.log("Error", "jdbc logger error: closing link statement, " + exception1);
+//                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger error: closing link statement, " + exception1);
+//                COM.dragonflow.Log.LogManager.log("Error", "jdbc logger error: closing link statement, " + exception1);
             }
         }
         for(Enumeration enumeration = customStatements.keys(); enumeration.hasMoreElements();)
@@ -793,12 +793,12 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
             {
                 preparedstatement.close();
                 customStatements.remove(s);
-                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger, closed " + s);
+//                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger, closed " + s);
             }
             catch(java.lang.Exception exception3)
             {
-                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger error, closing " + s + ", " + exception3);
-                COM.dragonflow.Log.LogManager.log("Error", "jdbc logger error: closing " + s + ", " + exception3);
+//                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger error, closing " + s + ", " + exception3);
+//                COM.dragonflow.Log.LogManager.log("Error", "jdbc logger error: closing " + s + ", " + exception3);
             }
         }
 
@@ -811,8 +811,8 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
             }
             catch(java.lang.Exception exception2)
             {
-                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger error: closing, " + exception2);
-                COM.dragonflow.Log.LogManager.log("Error", "jdbc logger error: closing, " + exception2);
+//                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger error: closing, " + exception2);
+//                COM.dragonflow.Log.LogManager.log("Error", "jdbc logger error: closing, " + exception2);
             }
         }
         COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, closed");
@@ -848,14 +848,14 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
             java.sql.Statement statement = null;
             try
             {
-                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, checking link table");
+//                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, checking link table");
                 statement = connection.createStatement();
                 statement.executeUpdate(s2);
-                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, created link table");
+//                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, created link table");
             }
             catch(java.lang.Exception exception)
             {
-                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, link table exists, " + exception);
+//                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, link table exists, " + exception);
             }
             finally
             {
@@ -870,7 +870,7 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
                 catch(java.lang.Exception exception2) { }
             }
             linkVars = countVars(s1);
-            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, prepare insert, " + linkVars + ", " + s1);
+//            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, prepare insert, " + linkVars + ", " + s1);
             if(s1.startsWith("call"))
             {
                 linkStatementCache = connection.prepareCall("{" + s1 + "}");
@@ -878,7 +878,7 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
             {
                 linkStatementCache = connection.prepareStatement(s1);
             }
-            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, link connected");
+//            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, link connected");
         }
         return linkStatementCache;
     }
@@ -967,8 +967,8 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
         }
         catch(java.lang.Exception exception)
         {
-            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc link logger error: " + exception + ", " + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pGroupID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pSample));
-            COM.dragonflow.Log.LogManager.log("Error", "jdbc link logger error: " + exception + ", " + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pGroupID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pSample));
+//            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc link logger error: " + exception + ", " + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pGroupID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pSample));
+//            COM.dragonflow.Log.LogManager.log("Error", "jdbc link logger error: " + exception + ", " + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pGroupID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pSample));
             reconnectTime = (long)(reconnectSeconds * 1000) + java.lang.System.currentTimeMillis();
             closeConnection();
         }
@@ -1031,14 +1031,14 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
             java.sql.Statement statement = null;
             try
             {
-                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, checking " + s + " table");
+//                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, checking " + s + " table");
                 statement = connection.createStatement();
                 statement.executeUpdate(s9);
-                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, created " + s + " table, " + s9);
+//                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, created " + s + " table, " + s9);
             }
             catch(java.lang.Exception exception)
             {
-                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, " + s + " table exists, " + exception);
+//                COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, " + s + " table exists, " + exception);
             }
             finally
             {
@@ -1057,14 +1057,14 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
                 java.sql.Statement statement1 = null;
                 try
                 {
-                    COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, checking " + s + " table2");
+//                    COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, checking " + s + " table2");
                     statement1 = connection.createStatement();
                     statement1.executeUpdate(s10);
-                    COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, created2 " + s + ", " + s10);
+//                    COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, created2 " + s + ", " + s10);
                 }
                 catch(java.lang.Exception exception2)
                 {
-                    COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, " + s + " table2 exists,  " + exception2);
+//                    COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, " + s + " table2 exists,  " + exception2);
                 }
                 finally
                 {
@@ -1084,14 +1084,14 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
                 java.sql.Statement statement2 = null;
                 try
                 {
-                    COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, checking " + s + " table3");
+//                    COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, checking " + s + " table3");
                     statement2 = connection.createStatement();
                     statement2.executeUpdate(s11);
-                    COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, created3 " + s + ", " + s11);
+//                    COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, created3 " + s + ", " + s11);
                 }
                 catch(java.lang.Exception exception3)
                 {
-                    COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, " + s + " table3 exists,  " + exception3);
+//                    COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, " + s + " table3 exists,  " + exception3);
                 }
                 finally
                 {
@@ -1111,14 +1111,14 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
                 java.sql.Statement statement3 = null;
                 try
                 {
-                    COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, defining " + s);
+//                    COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, defining " + s);
                     statement3 = connection.createStatement();
                     statement3.executeUpdate(s8);
-                    COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, defined " + s + ", " + s8);
+//                    COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, defined " + s + ", " + s8);
                 }
                 catch(java.lang.Exception exception4)
                 {
-                    COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, not defined, " + s + ", " + exception4);
+//                    COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, not defined, " + s + ", " + exception4);
                 }
                 finally
                 {
@@ -1133,7 +1133,7 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
                     catch(java.lang.Exception exception11) { }
                 }
             }
-            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, prepare " + s + " insert, " + s7);
+//            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, prepare " + s + " insert, " + s7);
             if(s7.startsWith("call"))
             {
                 obj = connection.prepareCall("{" + s7 + "}");
@@ -1142,7 +1142,7 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
                 obj = connection.prepareStatement(s7);
             }
             customStatements.put(s, obj);
-            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, " + s + " connected");
+//            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc log, " + s + " connected");
         }
         return ((java.sql.PreparedStatement) (obj));
     }
@@ -1185,8 +1185,8 @@ public class JdbcLogger extends COM.dragonflow.Log.Logger
         }
         catch(java.lang.Exception exception)
         {
-            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger error, " + s + ", " + exception + ", " + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pGroupID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pSample));
-            COM.dragonflow.Log.LogManager.log("Error", "jdbc logger error, " + s + ", " + exception + ", " + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pGroupID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pSample));
+//            COM.dragonflow.Log.LogManager.log("RunMonitor", "jdbc logger error, " + s + ", " + exception + ", " + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pGroupID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pSample));
+//            COM.dragonflow.Log.LogManager.log("Error", "jdbc logger error, " + s + ", " + exception + ", " + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pGroupID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pID) + "/" + propertiedobject.getProperty(COM.dragonflow.SiteView.AtomicMonitor.pSample));
             reconnectTime = (long)(reconnectSeconds * 1000) + java.lang.System.currentTimeMillis();
             closeConnection();
         }

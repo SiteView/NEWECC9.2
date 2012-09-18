@@ -58,7 +58,7 @@ public class LogManager {
         jgl.HashMap hashmap = COM.dragonflow.SiteView.MasterConfig.getMasterConfig();
         if (flag) {
             COM.dragonflow.Log.ConsoleLogger consolelogger = new ConsoleLogger();
-            COM.dragonflow.Log.LogManager.registerLogger("RunMonitor", consolelogger);
+//            COM.dragonflow.Log.LogManager.registerLogger("RunMonitor", consolelogger);
             COM.dragonflow.Log.LogManager.registerLogger("Error", consolelogger);
             COM.dragonflow.Log.LogManager.registerLogger("Alert", consolelogger);
             COM.dragonflow.Log.LogManager.registerLogger("URL", consolelogger);
@@ -69,10 +69,10 @@ public class LogManager {
         try {
             if (COM.dragonflow.Utils.TextUtils.getValue(hashmap, "_createDailyErrorLog").length() > 0) {
                 COM.dragonflow.Log.DailyFileLogger dailyfilelogger = new DailyFileLogger(s1 + "error.log", l1, l);
-                COM.dragonflow.Log.LogManager.registerLogger("Error", dailyfilelogger);
+//                COM.dragonflow.Log.LogManager.registerLogger("Error", dailyfilelogger);
             } else {
                 COM.dragonflow.Log.FileLogger filelogger = new FileLogger(s1 + "error.log", j, 0);
-                COM.dragonflow.Log.LogManager.registerLogger("Error", filelogger);
+//                COM.dragonflow.Log.LogManager.registerLogger("Error", filelogger);
             }
         } catch (java.io.IOException ioexception) {
             java.lang.System.err.println("Could not open error.log");
@@ -101,7 +101,7 @@ public class LogManager {
             } else {
                 obj = new FileLogger(s1 + "SiteView.log", i, k);
             }
-            COM.dragonflow.Log.LogManager.registerLogger("SiteViewLog", ((COM.dragonflow.Log.Logger) (obj)));
+//            COM.dragonflow.Log.LogManager.registerLogger("SiteViewLog", ((COM.dragonflow.Log.Logger) (obj)));
         } catch (java.io.IOException ioexception3) {
             java.lang.System.err.println("Could not open SiteView.log");
         }

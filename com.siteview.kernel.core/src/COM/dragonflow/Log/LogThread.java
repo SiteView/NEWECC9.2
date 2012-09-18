@@ -87,7 +87,7 @@ public class LogThread extends java.lang.Thread {
                 }
 
             } catch (java.lang.Exception exception) {
-                COM.dragonflow.Log.LogManager.log("error", "failure flushing logger: " + exception.toString());
+//                COM.dragonflow.Log.LogManager.log("error", "failure flushing logger: " + exception.toString());
 
             }
         }

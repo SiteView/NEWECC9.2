@@ -469,7 +469,7 @@ public class SiteViewGroup extends MonitorGroup {
 				httprequest1.setValue("hideState", "true");
 				httprequest.setValue("hideState", "true");
 			}
-			createMonitorCountLog();
+//			createMonitorCountLog();
 			if (getSetting("_autoStartup").length() != 0) {
 				if (!$assertionsDisabled
 						&& (getMonitorCount() < 0 || totalPointsUsed <= 0)
@@ -1584,7 +1584,7 @@ public class SiteViewGroup extends MonitorGroup {
 			groupsCache = new HashMap();
 			writeAllHTML();
 			if (!isStartingUp()) {
-				createMonitorCountLog();
+//				createMonitorCountLog();
 			}
 		}
 		monitorScheduler.resumeScheduler();

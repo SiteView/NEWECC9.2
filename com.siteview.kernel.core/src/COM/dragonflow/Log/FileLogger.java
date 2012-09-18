@@ -61,23 +61,23 @@ public class FileLogger extends COM.dragonflow.Log.BaseFileLogger {
             if (!file.renameTo(file1)) {
                 java.lang.System.out.println("RENAME ERROR:" + file.getAbsolutePath() + ", " + file1.getAbsolutePath());
             } else if (j > 0) {
-                COM.dragonflow.Log.LogManager.log("RunMonitor", "Starting to roll log file: " + file.getName());
+//                COM.dragonflow.Log.LogManager.log("RunMonitor", "Starting to roll log file: " + file.getName());
                 java.util.Date date = new Date(COM.dragonflow.SiteView.Platform.timeMillis() - (long) (j * 24 * 60 * 60 * 1000));
                 java.util.Date date1 = new Date(date.getYear(), date.getMonth(), date.getDate());
                 long l1 = COM.dragonflow.Utils.FileUtils.findOffsetForDate(file1, date1);
                 java.io.File file2 = new File(file.getAbsolutePath() + ".temp");
                 if (!COM.dragonflow.Utils.FileUtils.copyFile(file1, file, l1)) {
-                    COM.dragonflow.Log.LogManager.log("RunMonitor", "COPY ERROR:" + file1.getAbsolutePath() + ", " + file.getAbsolutePath());
+//                    COM.dragonflow.Log.LogManager.log("RunMonitor", "COPY ERROR:" + file1.getAbsolutePath() + ", " + file.getAbsolutePath());
                 }
                 if (!COM.dragonflow.Utils.FileUtils.copyFile(file1, file2, 0L, l1)) {
-                    COM.dragonflow.Log.LogManager.log("RunMonitor", "COPY ERROR:" + file1.getAbsolutePath() + ", " + file2.getAbsolutePath());
+//                    COM.dragonflow.Log.LogManager.log("RunMonitor", "COPY ERROR:" + file1.getAbsolutePath() + ", " + file2.getAbsolutePath());
                 } else {
                     file1.delete();
                     if (!file2.renameTo(file1)) {
-                        COM.dragonflow.Log.LogManager.log("RunMonitor", "RENAME ERROR:" + file2.getAbsolutePath() + ", " + file1.getAbsolutePath());
+//                        COM.dragonflow.Log.LogManager.log("RunMonitor", "RENAME ERROR:" + file2.getAbsolutePath() + ", " + file1.getAbsolutePath());
                     }
                 }
-                COM.dragonflow.Log.LogManager.log("RunMonitor", "Completed roll of " + file.getName());
+//                COM.dragonflow.Log.LogManager.log("RunMonitor", "Completed roll of " + file.getName());
             }
         }
     }
@@ -90,10 +90,10 @@ public class FileLogger extends COM.dragonflow.Log.BaseFileLogger {
         Object obj1 = null;
         try {
             String s1 = file.getPath();
-            java.io.OutputStreamWriter outputstreamwriter = currentFile.getFile(s1, true);
-            outputstreamwriter.write(s, 0, s.length());
-            outputstreamwriter.flush();
-        } catch (java.io.IOException ioexception) {
+//            java.io.OutputStreamWriter outputstreamwriter = currentFile.getFile(s1, true);
+//            outputstreamwriter.write(s, 0, s.length());
+//            outputstreamwriter.flush();
+        } catch (Exception ioexception) {
             java.lang.System.err.println("Could not open log file " + file + " Exception: " + ioexception.getMessage());
             ioexception.printStackTrace();
         }
