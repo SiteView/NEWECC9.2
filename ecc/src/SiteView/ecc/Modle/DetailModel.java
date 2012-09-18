@@ -23,11 +23,9 @@ public class DetailModel {
 		super();
 		this.bo = bo;
 	}
-	
-	
 	public DetailModel(String receiveAlarmpPhone, String receiveAlarmEmail,
-			String week, String startTime, String endTime,
-		    BusinessObject bo) {
+		   String week, String startTime, String endTime,
+		   BusinessObject bo) {
 		super();
 		ReceiveAlarmpPhone = receiveAlarmpPhone;
 		ReceiveAlarmEmail = receiveAlarmEmail;
@@ -69,5 +67,5 @@ public class DetailModel {
 	public void setEndTime(String endTime) {
 		EndTime = endTime;
 	}
-
+    
 }

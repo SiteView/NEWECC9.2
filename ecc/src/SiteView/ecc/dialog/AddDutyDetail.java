@@ -1,8 +1,12 @@
 package SiteView.ecc.dialog;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
@@ -19,28 +23,31 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.DateTime;
 
-import system.Collections.IEnumerator;
-
+import SiteView.ecc.Control.DutyDetailContentProvider;
+import SiteView.ecc.Control.DutyDetailLabelProvider;
 import SiteView.ecc.Modle.DetailModel;
 import SiteView.ecc.data.DutyDetailInfor;
 import SiteView.ecc.editors.TableDuty;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
-import Siteview.Api.BusinessObjectCollection;
 import Siteview.Windows.Forms.ConnectionBroker;
 
 public class AddDutyDetail extends Dialog{
 	private Button applyButton;
 	private Button closeButton;
-	private Text text;
-	private Text text_1;
-	private Combo combo;
-	private DateTime startTime;
-	private DateTime endTime;
-	private Calendar startcal;
+	public Text text;
+	public Text text_1;
+	public Combo combo;
+	public DateTime startTime;
+	public DateTime endTime;
+	public Calendar startcal;
 	public String type;
     public BusinessObject bo1;
     public static BusinessObject bo;
+    public String startTimeStr = "";	
+    public String endTimeStr = "";
+    public Map<String,BusinessObject> sub=new HashMap<String,BusinessObject>();
+    public String strID;
 	public AddDutyDetail(Shell shell,String type,BusinessObject bo1) {
 		super(shell);
 		this.type=type;
@@ -109,16 +116,28 @@ public class AddDutyDetail extends Dialog{
 		lblNewLabel_3.setBounds(20, 123, 122, 18);
 		lblNewLabel_3.setText("\u5F00\u59CB\u65F6\u95F4");
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		Date startDateTime  = new Date();
+		Date endDateTime  = new Date();
 		startcal = Calendar.getInstance();
+		startcal.setTime(startDateTime);
 		startTime = new DateTime(g, SWT.TIME
 				| SWT.SHORT);
 		startTime.setLocation(176, 120);//第四个文本输入框
 		startTime.setSize(79, 21);
 		FormData fd_startTime = new FormData();
-		startTime.setLayoutData(fd_startTime);
 		startTime.setHours(startcal.get(Calendar.HOUR_OF_DAY));
 		startTime.setMinutes(startcal.get(Calendar.MINUTE));
 		startTime.setSeconds(startcal.get(Calendar.SECOND));
+		startTimeStr=startTime.getHours() + ":"
+				+ startTime.getMinutes() + ":" + startTime.getSeconds();
+		 try {
+				startDateTime = sdf.parse(startTimeStr);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		startTimeStr = new SimpleDateFormat("HH:mm:ss")
+		.format(startcal.getTime());
 		
 		Label lblNewLabel_4 = new Label(g, SWT.NONE);
 		lblNewLabel_4.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
@@ -126,6 +145,7 @@ public class AddDutyDetail extends Dialog{
 		lblNewLabel_4.setText("\u7ED3\u675F\u65F6\u95F4");
 		
 		Calendar endcal = Calendar.getInstance();
+		endcal.setTime(endDateTime);
 	    endTime = new DateTime(g, SWT.TIME
 				| SWT.SHORT);
 		endTime.setLocation(176, 151);//第五个文本输入框
@@ -133,13 +153,24 @@ public class AddDutyDetail extends Dialog{
 		endTime.setHours(endcal.get(Calendar.HOUR_OF_DAY));
 		endTime.setMinutes(endcal.get(Calendar.MINUTE));
 		endTime.setSeconds(endcal.get(Calendar.SECOND));
+		endTimeStr=endTime.getHours() + ":"
+				+ endTime.getMinutes() + ":" + endTime.getSeconds();
+		try {
+			endDateTime = sdf.parse(endTimeStr);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		endTimeStr = new SimpleDateFormat("HH:mm:ss")
+		.format(endcal.getTime());
+		
 		return container;
 	}
-	protected void createButtonsForButtonBar(Composite parent) {//设置保存和取消两个按钮
+	public void createButtonsForButtonBar(Composite parent) {//设置保存和取消两个按钮
 		applyButton = createButton(parent, IDialogConstants.OK_ID, "保存",true);
 		closeButton=createButton(parent, IDialogConstants.CANCEL_ID, "取消", true);
     }
-	protected void buttonPressed(int buttonId){
+	public void buttonPressed(int buttonId){
+	    strID=bo1.get_Id();
 		if(buttonId==IDialogConstants.OK_ID){
 		    bo = ConnectionBroker.get_SiteviewApi()//得到数据库表
 					.get_BusObService().Create("DutyDetail");
@@ -150,34 +181,37 @@ public class AddDutyDetail extends Dialog{
 			bo.GetField("Week").SetValue(//得到第三个文本框里的数据
 					new SiteviewValue(combo.getText()));
 			bo.GetField("StartTime").SetValue(//得到第四个文本框里的数据
-					new SiteviewValue("startcal.get(Calendar.HOUR_OF_DAY)"+"startcal.get(Calendar.MINUTE)"+"startcal.get(Calendar.SECOND)"));
+					new SiteviewValue(startTimeStr));
 			bo.GetField("EndTime").SetValue(//得到第五个文本框里的数据
-					new SiteviewValue("endTime.getHours()"+"endTime.getMinutes()"+"endTime.getSeconds()"));
+					new SiteviewValue(endTimeStr));
 			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,
-					true);//将数据存储到数据库
+					true);//将数据存储到数据
 			
-			System.out.println("bo"+bo);
-			System.out.println("bo1"+bo1);
-		   
-	    	bo1.GetRelationship("EccDutyTableContainsDutyDetail").set_CurrentBusinessObject(bo);
+			sub.put(strID, bo);	
 			
-			DetailModel detailModel=new DetailModel(bo);
-			detailModel.setReceiveAlarmpPhone(text.getText());
-			detailModel.setReceiveAlarmEmail(text_1.getText());
-			detailModel.setWeek((combo.getText()));
-			detailModel.setStartTime("startTime.getHours()"+"startTime.getMinutes()");
-			detailModel.setEndTime("endTime.getHours()"+"endTime.getMinutes()");
-			
-			List list=(List) TableDuty.TableViewer1.getInput();
-		    list.add(detailModel);
-			TableDuty.TableViewer1.setInput(detailModel);
-			TableDuty.TableViewer1.refresh();
-			
-		}
+//			TableDuty.TableViewer1.setContentProvider(new DutyDetailContentProvider());
+//			TableDuty.TableViewer1.setLabelProvider(new DutyDetailLabelProvider());
+//			TableDuty.TableViewer1.setInput(DutyDetailInfor.getDutyDetailInfor(sub,strID));
+            
+//			DetailModel detailModel=new DetailModel(bo);
+//			detailModel.setReceiveAlarmpPhone(text.getText());
+//			detailModel.setReceiveAlarmEmail(text_1.getText());
+//			detailModel.setWeek((combo.getText()));
+//			detailModel.setStartTime(startTimeStr);
+//			detailModel.setEndTime(endTimeStr);
+//			List list=(List) TableDuty.TableViewer1.getInput();
+//		    list.add(detailModel);
+//			TableDuty.TableViewer1.setInput(detailModel);
+//			TableDuty.TableViewer1.refresh();
+					}
 		this.close();
 	}
+	
 	public static BusinessObject getBo() {
 		return bo;
+	}
+	public static void setBo(BusinessObject bo) {
+		AddDutyDetail.bo = bo;
 	}
 	
 }

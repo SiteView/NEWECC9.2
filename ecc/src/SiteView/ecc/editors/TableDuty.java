@@ -1,5 +1,9 @@
 package SiteView.ecc.editors;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -51,6 +55,8 @@ public class TableDuty extends EditorPart{
 	public Button btnNewButton_1;
 	public String type;
 	public BusinessObject bo1;
+	public Map<String,BusinessObject> sub=new HashMap<String,BusinessObject>();
+	public BusinessObject bo=AddDutyDetail.getBo();
 	public TableDuty(){
 		
 	}
@@ -174,21 +180,13 @@ public class TableDuty extends EditorPart{
 				TableModle tm=(TableModle) tableItem.getData();
 				bo1=tm.getBo();
 				type=bo1.GetField("DutyTableType").get_NativeValue().toString();//得到选中的对象的类型
-				BusinessObject bo=AddDutyDetail.getBo();
-				System.out.println("a:"+bo);
-				IEnumerator ienum=bo1.get_Relationships().GetEnumerator();
-		    	if(ienum!=null){
-		    		System.out.println("1");
-		    		while(ienum.MoveNext()){
-		    			System.out.println("2");
-		    			if(ienum.get_Current()!=null){
-		    				System.out.println("3");
-		    				TableViewer1.setContentProvider(new DutyDetailContentProvider());
-							TableViewer1.setLabelProvider(new DutyDetailLabelProvider());
-							TableViewer1.setInput(DutyDetailInfor.getDutyDetailInfor(bo));
-		    			}
-		    		}
-		    	}	
+				
+				String strID=bo1.get_RecId();
+				sub.put(strID, bo);	
+				System.out.println(bo.get_RecId());
+				TableDuty.TableViewer1.setContentProvider(new DutyDetailContentProvider());
+				TableDuty.TableViewer1.setLabelProvider(new DutyDetailLabelProvider());
+				TableDuty.TableViewer1.setInput(DutyDetailInfor.getDutyDetailInfor(sub,strID));
 			}
 			
 			public void widgetDefaultSelected(SelectionEvent e) {

@@ -768,9 +768,9 @@ public class TrendReportView extends ViewPart {
 		ChartComposite frame = new ChartComposite(chatComposite, SWT.NONE,
 				chart, true);
 		FormData fd_frame = new FormData();
-		fd_frame.top = new FormAttachment(0, 20);
+		fd_frame.top = new FormAttachment(reportImgLabel, 9);
 		fd_frame.left = new FormAttachment(0);
-		fd_frame.bottom = new FormAttachment(0, 242);
+		fd_frame.bottom = new FormAttachment(0, 243);
 		fd_frame.right = new FormAttachment(100);
 		frame.setLayoutData(fd_frame);
 		reportForm.setWeights(new int[] {218, 240});
