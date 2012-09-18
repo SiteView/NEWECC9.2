@@ -1,8 +1,14 @@
 package SiteView.ecc.bundle;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import my.util.sound.TestMusic;
+
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -18,6 +24,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
+import SiteView.ecc.Activator;
+
 public class SoundAlarmBundle implements IAutoTaskExtension {
 	private Text text;
 	private Text text_1;
@@ -32,7 +40,12 @@ public class SoundAlarmBundle implements IAutoTaskExtension {
 
 	@Override
 	public String run(Map<String, Object> params) throws Exception {
-		// TODO Auto-generated method stub
+		URL url = Activator.getDefault().getBundle().getResource("sounds/1262.wav");
+		String path = FileLocator.toFileURL(url).toString();
+		path=path.substring(path.indexOf("/")+1,path.length());
+		TestMusic sound=new TestMusic(path);
+		InputStream stream =new ByteArrayInputStream(sound.getSamples());
+		sound.play(stream);
 		return null;
 	}
 
