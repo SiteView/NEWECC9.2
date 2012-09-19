@@ -23,6 +23,9 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.DateTime;
 
+import system.Collections.ICollection;
+import system.Collections.IEnumerator;
+
 import SiteView.ecc.Control.DutyDetailContentProvider;
 import SiteView.ecc.Control.DutyDetailLabelProvider;
 import SiteView.ecc.Modle.DetailModel;
@@ -43,11 +46,10 @@ public class AddDutyDetail extends Dialog{
 	public Calendar startcal;
 	public String type;
     public BusinessObject bo1;
-    public static BusinessObject bo;
+    public BusinessObject bo;
     public String startTimeStr = "";	
     public String endTimeStr = "";
-    public Map<String,BusinessObject> sub=new HashMap<String,BusinessObject>();
-    public String strID;
+
 	public AddDutyDetail(Shell shell,String type,BusinessObject bo1) {
 		super(shell);
 		this.type=type;
@@ -170,7 +172,6 @@ public class AddDutyDetail extends Dialog{
 		closeButton=createButton(parent, IDialogConstants.CANCEL_ID, "取消", true);
     }
 	public void buttonPressed(int buttonId){
-	    strID=bo1.get_Id();
 		if(buttonId==IDialogConstants.OK_ID){
 		    bo = ConnectionBroker.get_SiteviewApi()//得到数据库表
 					.get_BusObService().Create("DutyDetail");
@@ -186,32 +187,19 @@ public class AddDutyDetail extends Dialog{
 					new SiteviewValue(endTimeStr));
 			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,
 					true);//将数据存储到数据
-			
-			sub.put(strID, bo);	
-			
-//			TableDuty.TableViewer1.setContentProvider(new DutyDetailContentProvider());
-//			TableDuty.TableViewer1.setLabelProvider(new DutyDetailLabelProvider());
-//			TableDuty.TableViewer1.setInput(DutyDetailInfor.getDutyDetailInfor(sub,strID));
             
-//			DetailModel detailModel=new DetailModel(bo);
-//			detailModel.setReceiveAlarmpPhone(text.getText());
-//			detailModel.setReceiveAlarmEmail(text_1.getText());
-//			detailModel.setWeek((combo.getText()));
-//			detailModel.setStartTime(startTimeStr);
-//			detailModel.setEndTime(endTimeStr);
-//			List list=(List) TableDuty.TableViewer1.getInput();
-//		    list.add(detailModel);
-//			TableDuty.TableViewer1.setInput(detailModel);
-//			TableDuty.TableViewer1.refresh();
+			DetailModel detailModel=new DetailModel(bo);
+			detailModel.setReceiveAlarmpPhone(text.getText());
+			detailModel.setReceiveAlarmEmail(text_1.getText());
+			detailModel.setWeek((combo.getText()));
+			detailModel.setStartTime(startTimeStr);
+			detailModel.setEndTime(endTimeStr);
+			List list=(List) TableDuty.TableViewer1.getInput();
+		    list.add(detailModel);
+			TableDuty.TableViewer1.setInput(detailModel);
+			TableDuty.TableViewer1.refresh();
 					}
 		this.close();
-	}
-	
-	public static BusinessObject getBo() {
-		return bo;
-	}
-	public static void setBo(BusinessObject bo) {
-		AddDutyDetail.bo = bo;
 	}
 	
 }

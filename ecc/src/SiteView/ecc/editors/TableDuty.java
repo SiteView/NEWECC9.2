@@ -18,6 +18,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -53,12 +55,12 @@ public class TableDuty extends EditorPart{
 	public static TableItem tableItem1;//第二个表单的第一行
 	public Table table_1;
 	public Button btnNewButton_1;
+	public Button btnNewButton_2;
 	public String type;
 	public BusinessObject bo1;
-	public Map<String,BusinessObject> sub=new HashMap<String,BusinessObject>();
-	public BusinessObject bo=AddDutyDetail.getBo();
-	public TableDuty(){
-		
+	
+	public TableDuty() {
+		super();
 	}
 	@Override
 	public void init(IEditorSite site, IEditorInput input)
@@ -88,7 +90,7 @@ public class TableDuty extends EditorPart{
 		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		composite.setLayout(new FormLayout());
 		
-		Button button = new Button(composite, SWT.NONE);//第一个添加按钮
+		Button button = new Button(composite, SWT.NONE);//控制第一个表单的添加按钮
 		button.setAlignment(SWT.LEFT);
 		FormData fd_button = new FormData();
 		fd_button.top = new FormAttachment(0);
@@ -154,7 +156,7 @@ public class TableDuty extends EditorPart{
 		
         Composite composite_3 = new Composite(sashForm, SWT.NONE);
 		
-	    btnNewButton_1 = new Button(composite_3, SWT.NONE);//添加按钮
+	    btnNewButton_1 = new Button(composite_3, SWT.NONE);//控制第二个表单的添加按钮
 		btnNewButton_1.setBounds(27, 10, 47, 22);
 		btnNewButton_1.setText("\u6DFB\u52A0");
 		btnNewButton_1.setEnabled(false);
@@ -162,6 +164,22 @@ public class TableDuty extends EditorPart{
 			public void widgetSelected(SelectionEvent e){
 				AddDutyDetail addDutyDetail=new AddDutyDetail(null,type,bo1);
 				addDutyDetail.open();
+			}
+		});
+		
+		btnNewButton_2 = new Button(composite_3, SWT.NONE);//控制第二个表单的删除按钮
+		btnNewButton_2.setBounds(86, 10, 47, 22);
+		btnNewButton_2.setText("\u5220\u9664");
+		btnNewButton_2.setEnabled(false);
+		btnNewButton_2.addSelectionListener(new SelectionAdapter(){//删除按钮监听事件
+			public void widgetSelected(SelectionEvent e){
+				DetailModel dm=(DetailModel) tableItem1.getData();
+				BusinessObject bo=dm.getBo();
+				bo.DeleteObject(ConnectionBroker.get_SiteviewApi());
+				DutyDetailInfor.list.remove(dm);
+				TableViewer1.setInput(DutyDetailInfor.list);
+				TableViewer1.refresh();
+				
 			}
 		});
 		
@@ -175,26 +193,51 @@ public class TableDuty extends EditorPart{
 		table.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				tableItem=(TableItem) e.item;
-				btnNewButton_1.setEnabled(true);//添加按钮可以使用
 				tableItem.setChecked(true);//复选框被选中
+				btnNewButton_1.setEnabled(true);//添加按钮可以使用
+				btnNewButton_2.setEnabled(true);//删除按钮可以使用
+				
 				TableModle tm=(TableModle) tableItem.getData();
 				bo1=tm.getBo();
 				type=bo1.GetField("DutyTableType").get_NativeValue().toString();//得到选中的对象的类型
 				
-				String strID=bo1.get_RecId();
-				sub.put(strID, bo);	
-				System.out.println(bo.get_RecId());
-				TableDuty.TableViewer1.setContentProvider(new DutyDetailContentProvider());
-				TableDuty.TableViewer1.setLabelProvider(new DutyDetailLabelProvider());
-				TableDuty.TableViewer1.setInput(DutyDetailInfor.getDutyDetailInfor(sub,strID));
+				if("day".equals(type)){
+					TableDuty.TableViewer1.setContentProvider(new DutyDetailContentProvider());
+					TableDuty.TableViewer1.setLabelProvider(new DutyDetailLabelProvider());
+					TableDuty.TableViewer1.setInput(DutyDetailInfor.getDutyDetaildayInfor());
+				}else if("day of week".equals(type)){
+					TableDuty.TableViewer1.setContentProvider(new DutyDetailContentProvider());
+					TableDuty.TableViewer1.setLabelProvider(new DutyDetailLabelProvider());
+					TableDuty.TableViewer1.setInput(DutyDetailInfor.getDutyDetailweekInfor());
+				}else if("day of month".equals(type)){
+					TableDuty.TableViewer1.setContentProvider(new DutyDetailContentProvider());
+					TableDuty.TableViewer1.setLabelProvider(new DutyDetailLabelProvider());
+					TableDuty.TableViewer1.setInput(DutyDetailInfor.getDutyDetailmonthInfor());
+				}
 			}
 			
 			public void widgetDefaultSelected(SelectionEvent e) {
-				tableItem=(TableItem) e.item;
 				tableItem.setChecked(false);
 			}
 		});
-		
+		table.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+			}
+			@Override
+			public void mouseDown(MouseEvent e) {
+			}
+			@Override
+			public void mouseUp(MouseEvent e) {
+				for(TableItem ta:table.getItems()){
+					if(!ta.equals(tableItem)){
+						ta.setChecked(false);
+					}
+				}
+				
+			}
+			
+		});
 		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.CENTER);
 		tblclmnNewColumn.setWidth(100);
@@ -211,24 +254,6 @@ public class TableDuty extends EditorPart{
 		TableColumn tblclmnNewColumn_3 = new TableColumn(table, SWT.CENTER);
 		tblclmnNewColumn_3.setWidth(100);
 		tblclmnNewColumn_3.setText("\u7F16\u8F91");
-		
-		
-		
-		
-		Button btnNewButton_2 = new Button(composite_3, SWT.NONE);//控制第二个表单的删除按钮
-		btnNewButton_2.setBounds(86, 10, 47, 22);
-		btnNewButton_2.setText("\u5220\u9664");
-		btnNewButton_2.addSelectionListener(new SelectionAdapter(){//删除按钮监听事件
-			public void widgetSelected(SelectionEvent e){
-				DetailModel dm=(DetailModel) tableItem1.getData();
-				BusinessObject bo=dm.getBo();
-				bo.DeleteObject(ConnectionBroker.get_SiteviewApi());
-				TableDutyInfor.list.remove(dm);
-				TableViewer1.setInput(TableDutyInfor.list);
-				TableViewer1.refresh();
-				
-			}
-		});
 		
 		Label lblNewLabel_2 = new Label(sashForm, SWT.NONE);
 		lblNewLabel_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
