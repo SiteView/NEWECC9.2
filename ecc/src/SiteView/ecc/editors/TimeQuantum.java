@@ -15,7 +15,8 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.wb.swt.SWTResourceManager;
-import swing2swt.layout.FlowLayout;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 
 public class TimeQuantum extends EditorPart {
 	public static final String ID="SiteView.ecc.editors.TimeQuantum";
@@ -75,18 +76,27 @@ public class TimeQuantum extends EditorPart {
 		
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
 		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		composite_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		composite_1.setLayout(null);
 		
 		Button btnNewButton = new Button(composite_1, SWT.NONE);
+		btnNewButton.setBounds(10, 0, 36, 22);
 		btnNewButton.setText("\u6DFB\u52A0");
 		
 		Button button = new Button(composite_1, SWT.NONE);
+		button.setBounds(52, 0, 36, 22);
 		button.setText("\u5220\u9664");
 		
 		Button button_1 = new Button(composite_1, SWT.NONE);
+		button_1.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+			}
+		});
+		button_1.setBounds(94, 0, 36, 22);
 		button_1.setText("\u5237\u65B0");
 		
 		Button button_2 = new Button(composite_1, SWT.NONE);
+		button_2.setBounds(136, 0, 36, 22);
 		button_2.setText("\u5E2E\u52A9");
 		
 		TableViewer tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION | SWT.CHECK);

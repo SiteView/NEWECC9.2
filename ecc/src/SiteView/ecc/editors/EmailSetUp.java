@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import org.apache.activemq.network.ConduitBridge;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
@@ -18,18 +17,14 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Text;
-import swing2swt.layout.FlowLayout;
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
-import system.Windows.Forms.VisualStyles.FillType;
 
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
@@ -116,9 +111,10 @@ public class EmailSetUp extends EditorPart {
 		
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
 		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		composite_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		composite_1.setLayout(null);
 		
 		Button addButton = new Button(composite_1, SWT.NONE);
+		addButton.setBounds(10, 0, 36, 22);
 		addButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				AddEmail addmail=new AddEmail(null);
@@ -128,18 +124,23 @@ public class EmailSetUp extends EditorPart {
 		addButton.setText("Ìí¼Ó");
 		
 		Button delButton = new Button(composite_1, SWT.NONE);
+		delButton.setBounds(52, 0, 36, 22);
 		delButton.setText("É¾³ý");
 		
 		Button allowButton = new Button(composite_1, SWT.NONE);
+		allowButton.setBounds(94, 0, 36, 22);
 		allowButton.setText("ÔÊÐí");
 		
 		Button forbidButton = new Button(composite_1, SWT.NONE);
+		forbidButton.setBounds(136, 0, 36, 22);
 		forbidButton.setText("½ûÖ¹");
 		
 		Button refreshButton = new Button(composite_1, SWT.NONE);
+		refreshButton.setBounds(178, 0, 36, 22);
 		refreshButton.setText("Ë¢ÐÂ");
 		
 		Button mouldButton = new Button(composite_1, SWT.NONE);
+		mouldButton.setBounds(220, 0, 60, 22);
 		mouldButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				MailModleSetUp m=new MailModleSetUp(null);
@@ -149,6 +150,12 @@ public class EmailSetUp extends EditorPart {
 		mouldButton.setText("Ä£°åÉèÖÃ");
 		
 		Button helpButton = new Button(composite_1, SWT.NONE);
+		helpButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+			}
+		});
+		helpButton.setBounds(286, 0, 36, 22);
 		helpButton.setText("°ïÖú");
 		
 		Composite composite_2 = new Composite(sashForm, SWT.NONE);

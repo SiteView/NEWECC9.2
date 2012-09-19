@@ -15,7 +15,6 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.layout.FillLayout;
-import swing2swt.layout.FlowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.TableColumn;
 
@@ -77,27 +76,34 @@ public class MessageSetUp extends EditorPart {
 		
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
 		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		composite_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		composite_1.setLayout(null);
 		
 		Button addButton = new Button(composite_1, SWT.NONE);
+		addButton.setBounds(10, 0, 36, 22);
 		addButton.setText("Ìí¼Ó");
 		
 		Button delButton = new Button(composite_1, SWT.NONE);
+		delButton.setBounds(52, 0, 36, 22);
 		delButton.setText("É¾³ý");
 		
 		Button allowButton = new Button(composite_1, SWT.NONE);
+		allowButton.setBounds(94, 0, 36, 22);
 		allowButton.setText("ÔÊÐí");
 		
 		Button forbidButton = new Button(composite_1, SWT.NONE);
+		forbidButton.setBounds(136, 0, 36, 22);
 		forbidButton.setText("½ûÖ¹");
 		
 		Button refreshButton = new Button(composite_1, SWT.NONE);
+		refreshButton.setBounds(178, 0, 36, 22);
 		refreshButton.setText("Ë¢ÐÂ");
 		
 		Button mouldButton = new Button(composite_1, SWT.NONE);
+		mouldButton.setBounds(220, 0, 60, 22);
 		mouldButton.setText("Ä£°åÉèÖÃ");
 		
 		Button helpButton = new Button(composite_1, SWT.NONE);
+		helpButton.setBounds(286, 0, 36, 22);
 		helpButton.setText("°ïÖú");
 		
 		Composite composite_2 = new Composite(sashForm, SWT.NONE);

@@ -16,7 +16,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.wb.swt.SWTResourceManager;
-import swing2swt.layout.FlowLayout;
 import org.eclipse.swt.widgets.Button;
 
 import SiteView.ecc.dialog.AddAbsoluteTime;
@@ -80,9 +79,10 @@ public class AbsoluteTime extends EditorPart {
 		
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
 		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		composite_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		composite_1.setLayout(null);
 		
 		Button btnNewButton = new Button(composite_1, SWT.NONE);
+		btnNewButton.setBounds(10, 0, 36, 22);
 		btnNewButton.setText("\u6DFB\u52A0");
 		btnNewButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
@@ -96,12 +96,15 @@ public class AbsoluteTime extends EditorPart {
 		});
 		
 		Button button = new Button(composite_1, SWT.NONE);
+		button.setBounds(52, 0, 36, 22);
 		button.setText("\u5220\u9664");
 		
 		Button button_1 = new Button(composite_1, SWT.NONE);
+		button_1.setBounds(94, 0, 36, 22);
 		button_1.setText("\u5237\u65B0");
 		
 		Button button_2 = new Button(composite_1, SWT.NONE);
+		button_2.setBounds(136, 0, 36, 22);
 		button_2.setText("\u5E2E\u52A9");
 		
 		TableViewer tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION | SWT.CHECK);
