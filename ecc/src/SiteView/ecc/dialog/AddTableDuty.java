@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Button;
 
 import SiteView.ecc.Modle.TableModle;
+import SiteView.ecc.data.TableDutyInfor;
 import SiteView.ecc.editors.TableDuty;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
@@ -102,9 +103,8 @@ public class AddTableDuty extends Dialog{
 			tableModle.setDutyTableDec(text_1.getText());
 			tableModle.setDutyTableName(text.getText());
 			tableModle.setDutyTableType(combo.getText());
-			List list=(List) TableDuty.TableViewer.getInput();
-			list.add(tableModle);
-			TableDuty.TableViewer.setInput(tableModle);
+			TableDutyInfor.list.add(tableModle);
+			TableDuty.TableViewer.setInput(TableDutyInfor.list);
 			TableDuty.TableViewer.refresh();
 		}
 		this.close();

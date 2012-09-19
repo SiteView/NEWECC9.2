@@ -115,11 +115,14 @@ public class TableDuty extends EditorPart{
 			public void widgetSelected(SelectionEvent e){//删除按钮监听事件
 				TableModle tm=(TableModle) tableItem.getData();
 				BusinessObject bo=tm.getBo();
-				bo.DeleteObject(ConnectionBroker.get_SiteviewApi());
-				TableDutyInfor.list.remove(tm);
+				bo.DeleteObject(ConnectionBroker.get_SiteviewApi());//将数据库的数据删除
+				TableDutyInfor.list.remove(tm);//将表单里的数据删除
 				TableViewer.setInput(TableDutyInfor.list);
 				TableViewer.refresh();
 				
+				DutyDetailInfor.list.clear();//将表单里的数据删除
+				TableViewer1.setInput(DutyDetailInfor.list);
+				TableViewer1.refresh();
 			}
 		});
 		
@@ -175,8 +178,8 @@ public class TableDuty extends EditorPart{
 			public void widgetSelected(SelectionEvent e){
 				DetailModel dm=(DetailModel) tableItem1.getData();
 				BusinessObject bo=dm.getBo();
-				bo.DeleteObject(ConnectionBroker.get_SiteviewApi());
-				DutyDetailInfor.list.remove(dm);
+				bo.DeleteObject(ConnectionBroker.get_SiteviewApi());//将数据库的数据删除
+				DutyDetailInfor.list.remove(dm);//将表单里的数据删除
 				TableViewer1.setInput(DutyDetailInfor.list);
 				TableViewer1.refresh();
 				
@@ -202,17 +205,17 @@ public class TableDuty extends EditorPart{
 				type=bo1.GetField("DutyTableType").get_NativeValue().toString();//得到选中的对象的类型
 				
 				if("day".equals(type)){
-					TableDuty.TableViewer1.setContentProvider(new DutyDetailContentProvider());
-					TableDuty.TableViewer1.setLabelProvider(new DutyDetailLabelProvider());
-					TableDuty.TableViewer1.setInput(DutyDetailInfor.getDutyDetaildayInfor());
+					TableViewer1.setContentProvider(new DutyDetailContentProvider());
+					TableViewer1.setLabelProvider(new DutyDetailLabelProvider());
+					TableViewer1.setInput(DutyDetailInfor.getDutyDetaildayInfor());
 				}else if("day of week".equals(type)){
-					TableDuty.TableViewer1.setContentProvider(new DutyDetailContentProvider());
-					TableDuty.TableViewer1.setLabelProvider(new DutyDetailLabelProvider());
-					TableDuty.TableViewer1.setInput(DutyDetailInfor.getDutyDetailweekInfor());
+					TableViewer1.setContentProvider(new DutyDetailContentProvider());
+					TableViewer1.setLabelProvider(new DutyDetailLabelProvider());
+					TableViewer1.setInput(DutyDetailInfor.getDutyDetailweekInfor());
 				}else if("day of month".equals(type)){
-					TableDuty.TableViewer1.setContentProvider(new DutyDetailContentProvider());
-					TableDuty.TableViewer1.setLabelProvider(new DutyDetailLabelProvider());
-					TableDuty.TableViewer1.setInput(DutyDetailInfor.getDutyDetailmonthInfor());
+					TableViewer1.setContentProvider(new DutyDetailContentProvider());
+					TableViewer1.setLabelProvider(new DutyDetailLabelProvider());
+					TableViewer1.setInput(DutyDetailInfor.getDutyDetailmonthInfor());
 				}
 			}
 			

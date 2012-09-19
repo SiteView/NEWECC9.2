@@ -194,9 +194,8 @@ public class AddDutyDetail extends Dialog{
 			detailModel.setWeek((combo.getText()));
 			detailModel.setStartTime(startTimeStr);
 			detailModel.setEndTime(endTimeStr);
-			List list=(List) TableDuty.TableViewer1.getInput();
-		    list.add(detailModel);
-			TableDuty.TableViewer1.setInput(detailModel);
+			DutyDetailInfor.list.add(detailModel);
+			TableDuty.TableViewer1.setInput(DutyDetailInfor.list);
 			TableDuty.TableViewer1.refresh();
 					}
 		this.close();
