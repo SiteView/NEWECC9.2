@@ -49,7 +49,9 @@ public class AddDutyDetail extends Dialog{
     public BusinessObject bo;
     public String startTimeStr = "";	
     public String endTimeStr = "";
-
+    public Label lblNewLabel_2;
+    public Label lblNewLabel_3;
+    public Label lblNewLabel_4;
 	public AddDutyDetail(Shell shell,String type,BusinessObject bo1) {
 		super(shell);
 		this.type=type;
@@ -86,18 +88,69 @@ public class AddDutyDetail extends Dialog{
 		text_1 = new Text(g, SWT.BORDER);
 		text_1.setBounds(176, 52, 145, 18);//第二个文本输入框
 		
-		Label lblNewLabel_2 = new Label(g, SWT.NONE);
-		lblNewLabel_2.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
-		lblNewLabel_2.setBounds(20, 85, 122, 18);
-		lblNewLabel_2.setText("\u65E5\u671F");
 		
-		combo = new Combo(g, SWT.NONE);//第三个文本输入框
-		combo.setSize(145, 20);
-		combo.setLocation(176, 85);
 		if("day".equals(type)){
-			combo.add("");
+			lblNewLabel_3 = new Label(g, SWT.NONE);//开始时间标签
+			lblNewLabel_3.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
+			lblNewLabel_3.setBounds(20, 88, 122, 18);
+			lblNewLabel_3.setText("\u5F00\u59CB\u65F6\u95F4");
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+			Date startDateTime  = new Date();
+			Date endDateTime  = new Date();
+			startcal = Calendar.getInstance();
+			startcal.setTime(startDateTime);
+			startTime = new DateTime(g, SWT.TIME
+					| SWT.SHORT);
+			startTime.setLocation(176, 88);//开始时间文本输入框
+			startTime.setSize(79, 21);
+			FormData fd_startTime = new FormData();
+			startTime.setHours(startcal.get(Calendar.HOUR_OF_DAY));
+			startTime.setMinutes(startcal.get(Calendar.MINUTE));
+			startTime.setSeconds(startcal.get(Calendar.SECOND));
+			startTimeStr=startTime.getHours() + ":"
+					+ startTime.getMinutes() + ":" + startTime.getSeconds();
+			 try {
+					startDateTime = sdf.parse(startTimeStr);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			startTimeStr = new SimpleDateFormat("HH:mm:ss")
+			.format(startcal.getTime());
+			
+			lblNewLabel_4 = new Label(g, SWT.NONE);//结束时间标签
+			lblNewLabel_4.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
+			lblNewLabel_4.setBounds(20, 123, 122, 18);
+			lblNewLabel_4.setText("\u7ED3\u675F\u65F6\u95F4");
+			
+			Calendar endcal = Calendar.getInstance();
+			endcal.setTime(endDateTime);
+		    endTime = new DateTime(g, SWT.TIME
+					| SWT.SHORT);
+			endTime.setLocation(176, 123);//结束时间文本输入框
+			endTime.setSize(79, 21);
+			endTime.setHours(endcal.get(Calendar.HOUR_OF_DAY));
+			endTime.setMinutes(endcal.get(Calendar.MINUTE));
+			endTime.setSeconds(endcal.get(Calendar.SECOND));
+			endTimeStr=endTime.getHours() + ":"
+					+ endTime.getMinutes() + ":" + endTime.getSeconds();
+			try {
+				endDateTime = sdf.parse(endTimeStr);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			endTimeStr = new SimpleDateFormat("HH:mm:ss")
+			.format(endcal.getTime());
 		}
 		if("day of week".equals(type)){
+			    lblNewLabel_2 = new Label(g, SWT.NONE);//日期标签
+			    lblNewLabel_2.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
+			    lblNewLabel_2.setBounds(20, 85, 122, 18);
+			    lblNewLabel_2.setText("星期:");
+			    
+			    combo = new Combo(g, SWT.NONE);//日期标签文本输入框
+				combo.setSize(145, 20);
+				combo.setLocation(176, 85);
 				combo.add("星期一");
 				combo.add("星期二");
 				combo.add("星期三");
@@ -105,66 +158,126 @@ public class AddDutyDetail extends Dialog{
 				combo.add("星期五");
 				combo.add("星期六");
 				combo.add("星期日");
+				combo.select(0);
+				
+				lblNewLabel_3 = new Label(g, SWT.NONE);//开始时间标签
+				lblNewLabel_3.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
+				lblNewLabel_3.setBounds(20, 115, 122, 18);
+				lblNewLabel_3.setText("\u5F00\u59CB\u65F6\u95F4");
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+				Date startDateTime  = new Date();
+				Date endDateTime  = new Date();
+				startcal = Calendar.getInstance();
+				startcal.setTime(startDateTime);
+				startTime = new DateTime(g, SWT.TIME
+						| SWT.SHORT);
+				startTime.setLocation(176, 112);//开始时间文本输入框
+				startTime.setSize(79, 21);
+				FormData fd_startTime = new FormData();
+				startTime.setHours(startcal.get(Calendar.HOUR_OF_DAY));
+				startTime.setMinutes(startcal.get(Calendar.MINUTE));
+				startTime.setSeconds(startcal.get(Calendar.SECOND));
+				startTimeStr=startTime.getHours() + ":"
+						+ startTime.getMinutes() + ":" + startTime.getSeconds();
+				 try {
+						startDateTime = sdf.parse(startTimeStr);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+				startTimeStr = new SimpleDateFormat("HH:mm:ss")
+				.format(startcal.getTime());
+				
+				lblNewLabel_4 = new Label(g, SWT.NONE);//结束时间标签
+				lblNewLabel_4.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
+				lblNewLabel_4.setBounds(20, 152, 122, 18);
+				lblNewLabel_4.setText("\u7ED3\u675F\u65F6\u95F4");
+				
+				Calendar endcal = Calendar.getInstance();
+				endcal.setTime(endDateTime);
+			    endTime = new DateTime(g, SWT.TIME
+						| SWT.SHORT);
+			    endTime.setLocation(176, 149);//结束时间文本输入框
+				endTime.setSize(79, 21);
+				endTime.setHours(endcal.get(Calendar.HOUR_OF_DAY));
+				endTime.setMinutes(endcal.get(Calendar.MINUTE));
+				endTime.setSeconds(endcal.get(Calendar.SECOND));
+				endTimeStr=endTime.getHours() + ":"
+						+ endTime.getMinutes() + ":" + endTime.getSeconds();
+				try {
+					endDateTime = sdf.parse(endTimeStr);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				endTimeStr = new SimpleDateFormat("HH:mm:ss")
+				.format(endcal.getTime());
 		}
 		if("day of month".equals(type)){
+			lblNewLabel_2 = new Label(g, SWT.NONE);//日期标签
+		    lblNewLabel_2.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
+		    lblNewLabel_2.setBounds(20, 85, 122, 18);
+			lblNewLabel_2.setText("日期:");
+			
+			combo = new Combo(g, SWT.NONE);//日期标签文本输入框
+			combo.setSize(145, 20);
+			combo.setLocation(176, 85);
 			for (int i = 1; i <= 31; i++) {
 				combo.add(""+i); //循环添加选项
 			}
-		}
-		
-		
-		Label lblNewLabel_3 = new Label(g, SWT.NONE);
-		lblNewLabel_3.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
-		lblNewLabel_3.setBounds(20, 123, 122, 18);
-		lblNewLabel_3.setText("\u5F00\u59CB\u65F6\u95F4");
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-		Date startDateTime  = new Date();
-		Date endDateTime  = new Date();
-		startcal = Calendar.getInstance();
-		startcal.setTime(startDateTime);
-		startTime = new DateTime(g, SWT.TIME
-				| SWT.SHORT);
-		startTime.setLocation(176, 120);//第四个文本输入框
-		startTime.setSize(79, 21);
-		FormData fd_startTime = new FormData();
-		startTime.setHours(startcal.get(Calendar.HOUR_OF_DAY));
-		startTime.setMinutes(startcal.get(Calendar.MINUTE));
-		startTime.setSeconds(startcal.get(Calendar.SECOND));
-		startTimeStr=startTime.getHours() + ":"
-				+ startTime.getMinutes() + ":" + startTime.getSeconds();
-		 try {
-				startDateTime = sdf.parse(startTimeStr);
+			combo.select(0);
+			
+			lblNewLabel_3 = new Label(g, SWT.NONE);//开始时间标签
+			lblNewLabel_3.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
+			lblNewLabel_3.setBounds(20, 115, 122, 18);
+			lblNewLabel_3.setText("\u5F00\u59CB\u65F6\u95F4");
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+			Date startDateTime  = new Date();
+			Date endDateTime  = new Date();
+			startcal = Calendar.getInstance();
+			startcal.setTime(startDateTime);
+			startTime = new DateTime(g, SWT.TIME
+					| SWT.SHORT);
+			startTime.setLocation(176, 112);//开始时间文本输入框
+			startTime.setSize(79, 21);
+			FormData fd_startTime = new FormData();
+			startTime.setHours(startcal.get(Calendar.HOUR_OF_DAY));
+			startTime.setMinutes(startcal.get(Calendar.MINUTE));
+			startTime.setSeconds(startcal.get(Calendar.SECOND));
+			startTimeStr=startTime.getHours() + ":"
+					+ startTime.getMinutes() + ":" + startTime.getSeconds();
+			 try {
+					startDateTime = sdf.parse(startTimeStr);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			startTimeStr = new SimpleDateFormat("HH:mm:ss")
+			.format(startcal.getTime());
+			
+			lblNewLabel_4 = new Label(g, SWT.NONE);//结束时间标签
+			lblNewLabel_4.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
+			lblNewLabel_4.setBounds(20, 152, 122, 18);
+			lblNewLabel_4.setText("\u7ED3\u675F\u65F6\u95F4");
+			
+			Calendar endcal = Calendar.getInstance();
+			endcal.setTime(endDateTime);
+		    endTime = new DateTime(g, SWT.TIME
+					| SWT.SHORT);
+		    endTime.setLocation(176, 149);//结束时间文本输入框
+			endTime.setSize(79, 21);
+			endTime.setHours(endcal.get(Calendar.HOUR_OF_DAY));
+			endTime.setMinutes(endcal.get(Calendar.MINUTE));
+			endTime.setSeconds(endcal.get(Calendar.SECOND));
+			endTimeStr=endTime.getHours() + ":"
+					+ endTime.getMinutes() + ":" + endTime.getSeconds();
+			try {
+				endDateTime = sdf.parse(endTimeStr);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-		startTimeStr = new SimpleDateFormat("HH:mm:ss")
-		.format(startcal.getTime());
-		
-		Label lblNewLabel_4 = new Label(g, SWT.NONE);
-		lblNewLabel_4.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
-		lblNewLabel_4.setBounds(20, 154, 122, 18);
-		lblNewLabel_4.setText("\u7ED3\u675F\u65F6\u95F4");
-		
-		Calendar endcal = Calendar.getInstance();
-		endcal.setTime(endDateTime);
-	    endTime = new DateTime(g, SWT.TIME
-				| SWT.SHORT);
-		endTime.setLocation(176, 151);//第五个文本输入框
-		endTime.setSize(79, 21);
-		endTime.setHours(endcal.get(Calendar.HOUR_OF_DAY));
-		endTime.setMinutes(endcal.get(Calendar.MINUTE));
-		endTime.setSeconds(endcal.get(Calendar.SECOND));
-		endTimeStr=endTime.getHours() + ":"
-				+ endTime.getMinutes() + ":" + endTime.getSeconds();
-		try {
-			endDateTime = sdf.parse(endTimeStr);
-		} catch (ParseException e) {
-			e.printStackTrace();
+			endTimeStr = new SimpleDateFormat("HH:mm:ss")
+			.format(endcal.getTime());
 		}
-		endTimeStr = new SimpleDateFormat("HH:mm:ss")
-		.format(endcal.getTime());
-		
 		return container;
 	}
 	public void createButtonsForButtonBar(Composite parent) {//设置保存和取消两个按钮

@@ -11,18 +11,18 @@ public BusinessObject bo;
 public TableModle(){
 	
 }
-public String getDutyTableName() {
-	return DutyTableName;
-}
-public BusinessObject getBo() {
-	return bo;
-}
 public TableModle(BusinessObject bo) {
 	super();
 	this.bo = bo;
 }
+public String getDutyTableName() {
+	return DutyTableName;
+}
 public void setBo(BusinessObject bo) {
 	this.bo = bo;
+}
+public BusinessObject getBo() {
+	return bo;
 }
 public void setDutyTableName(String dutyTableName) {
 	DutyTableName = dutyTableName;
@@ -40,13 +40,12 @@ public void setDutyTableDec(String dutyTableDec) {
 	DutyTableDec = dutyTableDec;
 }
 public TableModle(String dutyTableName, String dutyTableType,
-		String dutyTableDetail) {
+		String dutyTableDetail,BusinessObject bo) {
 	super();
 	DutyTableName = dutyTableName;
 	DutyTableType = dutyTableType;
 	DutyTableDec = dutyTableDetail;
-	
-	
+	bo=bo;	
 }
 
 }
