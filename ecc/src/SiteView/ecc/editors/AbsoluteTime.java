@@ -19,6 +19,8 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Button;
 
 import SiteView.ecc.dialog.AddAbsoluteTime;
+import Siteview.Api.DefinitionLibrary;
+import Siteview.Windows.Forms.ConnectionBroker;
 
 public class AbsoluteTime extends EditorPart {
 	public static final String ID="SiteView.ecc.editors.AbsoluteTime";
