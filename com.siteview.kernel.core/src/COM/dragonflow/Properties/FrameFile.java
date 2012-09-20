@@ -33,6 +33,18 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.UUID;
 
+import system.Collections.ICollection;
+import system.Collections.IEnumerator;
+import system.Xml.XmlElement;
+
+import Siteview.Operators;
+import Siteview.QueryInfoToGet;
+import Siteview.SiteviewQuery;
+import Siteview.SiteviewValue;
+import Siteview.Api.BusinessObject;
+import Siteview.Api.ISiteviewApi;
+import Siteview.Windows.Forms.ConnectionBroker;
+
 import com.sun.corba.se.impl.orbutil.GetPropertyAction;
 
 import jgl.Array;
@@ -553,32 +565,74 @@ public class FrameFile {
 		s=s.trim();
 		s = s.replaceAll("\n", "*");
 		String department=MonitorGroup.groupnameip.get(groupName)+" "+monitorid;
+//		ICollection ico=getBussCollection("monitorid", monitorid, "EccDyn");
+//		IEnumerator ien=ico.GetEnumerator();
+		BusinessObject bo=null;
+//				bo=CreateBo("monitorid", monitorid, "EccDyn");
+		String RecId;
+//		if(bo!=null){
+//			RecId=bo.get_RecId();
+//			long time = System.currentTimeMillis();
+//			SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//			Timestamp LastModDateTime = new Timestamp(time);
+//			String status=bo.GetField("").get_NativeValue().toString();
+//			int statuscount=(Integer) bo.GetField("").get_NativeValue();
+//			if(status.equals(category)){
+//				statuscount++;
+//			}else{
+//				statuscount=0;
+//			}
+//			bo.GetField("category").SetValue(new SiteviewValue(category));
+//			bo.GetField("monitorDesc").SetValue(new SiteviewValue(s));
+//			bo.GetField("LastModDateTime").SetValue(new SiteviewValue(LastModDateTime));
+//			bo.GetField("groupid").SetValue(new SiteviewValue(groupName));
+//			bo.GetField("monitorName").SetValue(new SiteviewValue(name));
+//			bo.GetField("Department").SetValue(new SiteviewValue(department));
+//			bo.GetField("MonitorType").SetValue(new SiteviewValue(type));
+//			bo.GetField("StatusCount").SetValue(new SiteviewValue(statuscount));
+//			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), false, true);
+//		}
 		ResultSet rs = JDBCForSQL
 				.sql_ConnectExecute_Select("select * from EccDyn where monitorid='"
 						+ monitorid + "'");
-		String RecId;
 		try {
-
 			if (rs.next()) {
 				RecId = rs.getString("RecId");
 				long time = System.currentTimeMillis();
+				int count=rs.getInt("StatusConut");
+				if(rs.getString("category").equals(category)){
+					count++;
+				}else{
+					count=1;
+				}
 				SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Timestamp LastModDateTime = new Timestamp(time);
 
 				String sql = "update EccDyn set category='" + category
 						+ "',monitorDesc='" + s + "',LastModDateTime='"
-						+ LastModDateTime + "',groupid='" + groupName
+						+ LastModDateTime  +"',StatusConut='"+count+"',groupid='" + groupName
 						+ "',monitorName='"+name+"',Department='"+department+"',MonitorType='"+type+"' where RecId='" + RecId + "'";
 				JDBCForSQL.execute_Insert(sql);
-			} else {
+			} 
+		else {
 				long time = System.currentTimeMillis();
 				SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Timestamp CreatedDateTime = new Timestamp(time);
-
+//				bo=ConnectionBroker.get_SiteviewApi().get_BusObService().Create("EccDyn");
+//				bo.GetField("category").SetValue(new SiteviewValue(category));
+//				bo.GetField("monitorDesc").SetValue(new SiteviewValue(s));
+//				bo.GetField("monitorid").SetValue(new SiteviewValue(monitorid));
+//				bo.GetField("LastModDateTime").SetValue(new SiteviewValue(CreatedDateTime));
+//				bo.GetField("CreatedDateTime").SetValue(new SiteviewValue(CreatedDateTime));
+//				bo.GetField("groupid").SetValue(new SiteviewValue(groupName));
+//				bo.GetField("monitorName").SetValue(new SiteviewValue(name));
+//				bo.GetField("Department").SetValue(new SiteviewValue(department));
+//				bo.GetField("MonitorType").SetValue(new SiteviewValue(type));
+//				bo.GetField("StatusCount").SetValue(new SiteviewValue(0));
 				RecId = UUID.randomUUID().toString().replace("-", "");
-				String sql = "insert into EccDyn (RecId,category,monitorDesc,monitorid,LastModDateTime,CreatedDateTime,groupid,monitorName,Department,MonitorType)"
+				String sql = "insert into EccDyn (RecId,category,monitorDesc,monitorid,LastModDateTime,CreatedDateTime,groupid,monitorName,Department,MonitorType,StatusConut)"
 						+ " values ('"+ RecId+ "','"+ category+ "','"+s+ "','"+ monitorid+ "','"+ CreatedDateTime+ "','"+ CreatedDateTime + "','" + groupName + "','"+name+"','"
-						+department+"','"+type+"')";
+						+department+"','"+type+"','1')";
 				JDBCForSQL.execute_Insert(sql);
 			}
 		} catch (Exception e) {
@@ -1347,9 +1401,6 @@ public class FrameFile {
 				}
 			}
 
-			System.out.println("------------------");
-			System.out.println("groups: " + k);
-			System.out.println("monitors: " + j);
 			System.exit(0);
 		}
 		if (args[0].startsWith("-monitors")) {
@@ -1491,5 +1542,21 @@ public class FrameFile {
 		}
 		return false;
 	}
-
+	public static  BusinessObject CreateBo(String key,String s,String s1) {
+		SiteviewQuery query = new SiteviewQuery();
+		query.AddBusObQuery(s1, QueryInfoToGet.All);
+		XmlElement xml ;
+		xml=query.get_CriteriaBuilder().FieldAndValueExpression(key,
+				Operators.Equals, s);
+		query.set_BusObSearchCriteria(xml);
+		ICollection iCollenction = ConnectionBroker.get_SiteviewApi().get_BusObService()
+				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);
+		BusinessObject bo=null;
+		IEnumerator interfaceTableIEnum = iCollenction.GetEnumerator();
+		if(interfaceTableIEnum.MoveNext()){
+			bo = (BusinessObject) interfaceTableIEnum
+					.get_Current();
+		}
+		return bo;
+	}
 }

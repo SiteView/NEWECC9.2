@@ -6,6 +6,7 @@ import java.util.List;
 public class SiteViewEcc {
 	private String name="SiteViewEcc9.2";
 	private boolean addGroup;
+	private List list;
 	public SiteViewEcc(){}
 	public SiteViewEcc(boolean addGroup, List<GroupModle> list) {
 		super();
@@ -18,7 +19,6 @@ public class SiteViewEcc {
 	public void setAddGroup(boolean addGroup) {
 		this.addGroup = addGroup;
 	}
-	private List list;
 	public String getName() {
 		return name;
 	}

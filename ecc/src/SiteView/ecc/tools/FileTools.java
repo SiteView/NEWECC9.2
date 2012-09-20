@@ -104,4 +104,26 @@ public class FileTools {
 		BusinessObject bo=EccTreeControl.CreateBo("RecId","5275F89B5ECB45B0859D7B1CA60D72F5", "Ecc.PingMonitor");
 		System.out.println(bo);
 	}
+	public static ICollection getBussCollection(Map<String,String> map,String s){
+		ISiteviewApi siteviewApi = ConnectionBroker.get_SiteviewApi();
+		SiteviewQuery query = new SiteviewQuery();
+		query.AddBusObQuery(s, QueryInfoToGet.All);
+		XmlElement[] xmls = new XmlElement[map.size()];
+		XmlElement xml;
+		Iterator<Entry<String, String>> iterator = map.entrySet().iterator();
+		int i=0;
+		while (iterator.hasNext()) {
+			String key = iterator.next().toString();
+			key = key.substring(0, key.indexOf("="));
+			xml = query.get_CriteriaBuilder().FieldAndValueExpression(key,
+					Operators.Equals, map.get(key).toString());
+			xmls[i++] = xml;
+		}
+		query.set_BusObSearchCriteria(query.get_CriteriaBuilder()
+				.AndExpressions(xmls));
+
+		ICollection iCollenction = siteviewApi.get_BusObService()
+				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);
+		return iCollenction;
+	}
 }
