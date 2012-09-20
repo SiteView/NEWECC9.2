@@ -41,6 +41,7 @@ import SiteView.ecc.Control.EccTreeComparer;
 import SiteView.ecc.Control.EccTreeContentProvider;
 import SiteView.ecc.Control.EccTreeLabelProvider;
 import SiteView.ecc.Modle.AbsoluteTimeModel;
+import SiteView.ecc.Modle.AlarmRuleModle;
 import SiteView.ecc.Modle.EmailSetUpModel;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MachineModle;
@@ -56,6 +57,8 @@ import SiteView.ecc.data.SiteViewData;
 import SiteView.ecc.dialog.MonitorSetUp;
 import SiteView.ecc.editors.AbsoluteTime;
 import SiteView.ecc.editors.AbsoluteTimeInput;
+import SiteView.ecc.editors.AlarmRule;
+import SiteView.ecc.editors.AlarmRuleInput;
 import SiteView.ecc.editors.EccControl;
 import SiteView.ecc.editors.EccControlInput;
 import SiteView.ecc.editors.EmailSetUp;
@@ -181,6 +184,12 @@ public class EccTreeControl extends ViewPart {
 							((EccControl)editor).tab((BusinessObject)EccControl.item.getData());
 						}
 					 }
+				}else if(item instanceof AlarmRuleModle){
+					try {
+						   PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new AlarmRuleInput(), AlarmRule.ID);
+					} catch (PartInitException e1) {
+						e1.printStackTrace();
+					}
 				}
 			}
 			

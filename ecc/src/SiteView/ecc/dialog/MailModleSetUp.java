@@ -16,11 +16,6 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-
 import SiteView.ecc.tools.FileTools;
 import Siteview.Api.BusinessObject;
 
@@ -31,6 +26,7 @@ public class MailModleSetUp extends Dialog{
 	private Text text;
 	private Text text_1;
 	private Text text_2;
+	public static java.util.List<BusinessObject> modles=null;
 	private BusinessObject bo;
 
 	public MailModleSetUp(Shell parentShell) {
@@ -43,13 +39,14 @@ public class MailModleSetUp extends Dialog{
 		super.configureShell(newShell);
 	}
 	protected Control createDialogArea(Composite parent) {
-		java.util.List<BusinessObject> modles=new ArrayList<BusinessObject>();
-		ICollection ico=FileTools.getBussCollection("EccMailModle");
-		IEnumerator ie=ico.GetEnumerator();
-		while(ie.MoveNext()){
-			modles.add((BusinessObject)ie.get_Current());
+		if(modles==null){
+			modles=new ArrayList<BusinessObject>();
+			ICollection ico=FileTools.getBussCollection("EccMailModle");
+			IEnumerator ie=ico.GetEnumerator();
+			while(ie.MoveNext()){
+				modles.add((BusinessObject)ie.get_Current());
+			}
 		}
-		
 		Composite composite = (Composite) super.createDialogArea(parent);
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
@@ -67,20 +64,6 @@ public class MailModleSetUp extends Dialog{
 			list.add(bo.GetField("MailModle").get_NativeValue().toString());
 			list.setData(bo);
 		}
-		list.addFocusListener(new FocusListener() {
-			
-			@Override
-			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println(e);
-			}
-			
-			@Override
-			public void focusGained(FocusEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
 //		list.addSelectionListener(new SelectionListener() {
 //			public void widgetSelected(SelectionEvent e) {
 //				bo=(BusinessObject) e.item.getData();

@@ -1,5 +1,6 @@
 package SiteView.ecc.bundle;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import my.util.email.SimpleMailSender;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Tree;
@@ -16,22 +18,27 @@ import org.eclipse.swt.widgets.TreeItem;
 
 import siteview.IAutoTaskExtension;
 import siteview.windows.forms.ImageHelper;
+import system.Collections.ICollection;
+import system.Collections.IEnumerator;
 
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Text;
 
 import SiteView.ecc.Activator;
+import SiteView.ecc.Modle.EmailModle;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MachineModle;
 import SiteView.ecc.data.SiteViewData;
+import SiteView.ecc.editors.EmailSetUp;
+import SiteView.ecc.tools.FileTools;
 import Siteview.Api.BusinessObject;
 
 public class EmailAlarmBundle implements IAutoTaskExtension {
 	private Text text;
 	private Text text_1;
 	private Text text_2;
-	private Text text_3;
+	private Combo text_3;
 	private Text text_4;
 	private Text text_5;
 	private Text text_6;
@@ -75,6 +82,16 @@ public class EmailAlarmBundle implements IAutoTaskExtension {
 	@Override
 	public void creatConfigUI(Composite parent, Map<String, String> params) {
 		// TODO Auto-generated method stub
+		if(EmailSetUp.list==null){
+			EmailSetUp.list=new ArrayList();
+			ICollection ic=FileTools.getBussCollection("MailType", "receiver", "EccMail");
+			IEnumerator ien=ic.GetEnumerator();
+			while(ien.MoveNext()){
+				BusinessObject bo=(BusinessObject) ien.get_Current();
+				EmailModle m=new EmailModle(bo);
+				EmailSetUp.list.add(m);
+			}
+		}
 		parent.setLayout(new FillLayout());
 		Composite group=new Composite(parent, SWT.NONE);
 		group.setLayout(new FillLayout());
@@ -135,12 +152,19 @@ public class EmailAlarmBundle implements IAutoTaskExtension {
 		label_4.setBounds(10, 160, 84, 12);
 		label_4.setText("\u5347\u7EA7\u63A5\u6536\u5730\u5740\uFF1A");
 		
-		text_3 = new Text(composite_1, SWT.BORDER);
+		text_3 = new Combo(composite_1, SWT.BORDER);
 		text_3.setBounds(100, 98, 162, 18);
-		if(params.get("EmailModle")!=null){
-			text_3.setText(params.get("EmailModle"));
-		}
-		
+		int i=0;
+		text_3.add("ÆäËû");
+		for(EmailModle email:EmailSetUp.list){
+			BusinessObject bo=email.getBo();
+			String s=bo.GetField("SetName").get_NativeValue().toString();
+			text_3.add(s);
+			i++;
+			if(params.get("EmailModle")!=null&&params.get("EmailModle").equals(s)){
+				text_3.select(i);
+				}
+			}
 		text_4 = new Text(composite_1, SWT.BORDER);
 		text_4.setBounds(100, 127, 162, 18);
 		if(params.get("UpgradeCount")!=null){

@@ -1,5 +1,6 @@
 package SiteView.ecc.dialog;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -14,6 +15,7 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -23,6 +25,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import SiteView.ecc.Modle.EmailModle;
 import SiteView.ecc.editors.EmailSetUp;
+import SiteView.ecc.tools.FileTools;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
@@ -32,10 +35,13 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.FillLayout;
 
+import system.Collections.ICollection;
+import system.Collections.IEnumerator;
+
 public class AddEmail extends Dialog{
 	private Text text_2;
 	private Text text_3;
-	private Text text_4;
+	private Combo text_4;
 	private Text text_5;
 	private Text text_6;
 	private Text text_7;
@@ -58,6 +64,14 @@ public class AddEmail extends Dialog{
 		super.configureShell(newShell);
 	}
 	protected Control createDialogArea(Composite parent) {
+		if(MailModleSetUp.modles==null){
+			MailModleSetUp.modles=new ArrayList<BusinessObject>();
+			ICollection ico=FileTools.getBussCollection("EccMailModle");
+			IEnumerator ie=ico.GetEnumerator();
+			while(ie.MoveNext()){
+				MailModleSetUp.modles.add((BusinessObject)ie.get_Current());
+			}
+		}
 		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		Composite composite = (Composite) super.createDialogArea(parent);
 		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
@@ -100,8 +114,11 @@ public class AddEmail extends Dialog{
 		lblEmail.setBounds(10, 21, 93, 12);
 		lblEmail.setText("email\u6A21\u677F\uFF1A");
 		
-		text_4 = new Text(group_1, SWT.BORDER);
+		text_4 = new Combo(group_1, SWT.NONE);
 		text_4.setBounds(109, 15, 304, 18);
+		for(BusinessObject bo:MailModleSetUp.modles){
+			text_4.add(bo.GetField("MailTitle").get_NativeValue().toString());
+		}
 		
 		Label label_1 = new Label(group_1, SWT.NONE);
 		label_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
@@ -184,6 +201,7 @@ public class AddEmail extends Dialog{
 				email=new EmailModle(bo);
 				EmailSetUp.tableViewer.insert(email, 0);
 			}
+			EmailSetUp.list=(List<EmailModle>) EmailSetUp.tableViewer.getInput();
 			EmailSetUp.tableViewer.refresh();
 		}
 		this.close();

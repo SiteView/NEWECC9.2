@@ -46,6 +46,7 @@ import Siteview.Windows.Forms.ConnectionBroker;
 
 public class EmailSetUp extends EditorPart {
 	public static final String ID = "SiteView.ecc.editors.EmailSetUp";
+	public static List<EmailModle> list;
 	BusinessObject sendMailbo=null;
 	public static TableViewer tableViewer;
 	TableItem tableItem;
@@ -88,13 +89,15 @@ public class EmailSetUp extends EditorPart {
 		while(ien.MoveNext()){
 			sendMailbo=(BusinessObject) ien.get_Current();
 		}
-		List list=new ArrayList();
-		ICollection ic=FileTools.getBussCollection("MailType", "receiver", "EccMail");
-		ien=ic.GetEnumerator();
-		while(ien.MoveNext()){
-			BusinessObject bo=(BusinessObject) ien.get_Current();
-			EmailModle m=new EmailModle(bo);
-			list.add(m);
+		if(list==null){
+			list=new ArrayList();
+			ICollection ic=FileTools.getBussCollection("MailType", "receiver", "EccMail");
+			ien=ic.GetEnumerator();
+			while(ien.MoveNext()){
+				BusinessObject bo=(BusinessObject) ien.get_Current();
+				EmailModle m=new EmailModle(bo);
+				list.add(m);
+			}
 		}
 		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
@@ -150,11 +153,6 @@ public class EmailSetUp extends EditorPart {
 		mouldButton.setText("ƒ£∞Â…Ë÷√");
 		
 		Button helpButton = new Button(composite_1, SWT.NONE);
-		helpButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-			}
-		});
 		helpButton.setBounds(286, 0, 36, 22);
 		helpButton.setText("∞Ô÷˙");
 		
