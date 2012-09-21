@@ -19,19 +19,20 @@ import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.widgets.Group;
 
-import SiteView.ecc.Control.EccTreeContentProvider;
-import SiteView.ecc.Control.EccTreeLabelProvider;
 import SiteView.ecc.Control.GroupTreeContentProvider;
 import SiteView.ecc.Control.GroupTreeLabelProvider;
+import SiteView.ecc.Modle.AlarmRuleInfo;
 import SiteView.ecc.Modle.EmailModle;
 import SiteView.ecc.Modle.MachineModle;
 import SiteView.ecc.Modle.TableModle;
-import SiteView.ecc.bundle.EmailAlarmBundle;
 import SiteView.ecc.data.SiteViewData;
 import SiteView.ecc.data.TableDutyInfor;
+import SiteView.ecc.editors.AlarmRule;
 import SiteView.ecc.editors.EmailSetUp;
 import SiteView.ecc.tools.FileTools;
+import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
+import Siteview.Windows.Forms.ConnectionBroker;
 
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Combo;
@@ -58,6 +59,10 @@ public class AddEmailAlarmRule extends Dialog {
 	public static List<MachineModle> service;
 	public static List<BusinessObject> messagemodels;
 	private String name;
+	Combo combo;//报警事件
+	Button button;//连续发送按钮
+	Button button_1;//只发一次
+	Button btnRadioButton;//选择发送
 
 	public AddEmailAlarmRule(Shell parentShell,String name) {
 		super(parentShell);
@@ -136,13 +141,13 @@ public class AddEmailAlarmRule extends Dialog {
 		label.setBounds(10, 24, 54, 12);
 		label.setText("\u62A5\u8B66\u4E8B\u4EF6");
 
-		Combo combo = new Combo(group_1, SWT.NONE);
+		combo = new Combo(group_1, SWT.NONE);
 		combo.setBounds(70, 21, 86, 20);
 		combo.add("危险");
 		combo.add("错误");
 		combo.select(0);
 
-		Button button = new Button(group_1, SWT.RADIO);
+		button = new Button(group_1, SWT.RADIO);
 		button.setBounds(10, 52, 160, 16);
 		button.setText("\u8FDE\u7EED\u4E0D\u65AD\u53D1\u9001\u8B66\u544A");
 		button.setBackground(SWTResourceManager
@@ -171,7 +176,7 @@ public class AddEmailAlarmRule extends Dialog {
 		lblNewLabel
 				.setText("\u6B21\u7B26\u5408\u62A5\u8B66\u53D1\u9001\u6761\u4EF6\u5F00\u59CB\u53D1\u9001\u62A5\u8B66 ");
 
-		Button button_1 = new Button(group_1, SWT.RADIO);
+		button_1 = new Button(group_1, SWT.RADIO);
 		button_1.setBounds(10, 117, 213, 16);
 		button_1.setText("\u62A5\u8B66\u53EA\u53D1\u9001\u4E00\u6B21");
 		button_1.setBackground(SWTResourceManager
@@ -199,7 +204,7 @@ public class AddEmailAlarmRule extends Dialog {
 		label_3.setBounds(136, 139, 218, 12);
 		label_3.setText("\u6B21\u7B26\u5408\u62A5\u8B66\u53D1\u9001\u6761\u4EF6\u65F6\u53D1\u9001\u62A5\u8B66");
 
-		Button btnRadioButton = new Button(group_1, SWT.RADIO);
+		btnRadioButton = new Button(group_1, SWT.RADIO);
 		btnRadioButton.setBounds(10, 175, 213, 16);
 		btnRadioButton.setText("\u9009\u62E9\u6027\u53D1\u9001\u8B66\u62A5");
 		btnRadioButton.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
@@ -606,9 +611,40 @@ public class AddEmailAlarmRule extends Dialog {
 	@Override
 	protected void buttonPressed(int buttonId) {
 		if(buttonId==IDialogConstants.OK_ID){
-			
+			if(buttonId==IDialogConstants.OK_ID){
+				BusinessObject bo=ConnectionBroker.get_SiteviewApi().get_BusObService().Create("EccAlarmRule");
+				if(name.equals("email")){				
+					bo.GetField("AlarmType").SetValue(new SiteviewValue("email"));
+				}else if(name.equals("message")){
+					bo.GetField("AlarmType").SetValue(new SiteviewValue("SMS"));
+				}else if(name.equals("script")){
+					bo.GetField("AlarmType").SetValue(new SiteviewValue("script"));
+				}else if(name.equals("sound")){
+					bo.GetField("AlarmType").SetValue(new SiteviewValue("sound"));
+				}
+				bo.GetField("AlarmEvent").SetValue(new SiteviewValue(combo.getText()));
+				if(button.getSelection()){				
+					bo.GetField("AlarmRule").SetValue(new SiteviewValue("continue"));
+					bo.GetField("StartCount").SetValue(new SiteviewValue(text.getText()));
+				}else if(button_1.getSelection()){
+					bo.GetField("AlarmRule").SetValue(new SiteviewValue("once"));
+					bo.GetField("StartCount").SetValue(new SiteviewValue(text_1.getText()));
+				}else if(btnRadioButton.getSelection()){
+					bo.GetField("AlarmRule").SetValue(new SiteviewValue("select"));
+					bo.GetField("StartCount").SetValue(new SiteviewValue(text_2.getText()));
+					bo.GetField("RepeatCount").SetValue(new SiteviewValue(text_3.getText()));
+				}
+				//bo.GetField("Status").SetValue(new SiteviewValue(true));
+				bo.GetField("MonitorId").SetValue(new SiteviewValue("lllllll1567156dghfghfjh761671857"));
+				bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+				AlarmRuleInfo ar=new AlarmRuleInfo(bo);
+				AlarmRule.list.add(ar);
+				AlarmRule.disposeTableItem();
+				AlarmRule.createTableItem();
+				this.close();
 		}else{
 			this.close();
+			}
 		}
 	}
 }
