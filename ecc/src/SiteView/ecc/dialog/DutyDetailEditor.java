@@ -1,5 +1,7 @@
 package SiteView.ecc.dialog;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -290,8 +292,9 @@ private Text text_4;
 	protected void buttonPressed(int buttonId){
 		if(bv.GetField("Week").get_NativeValue().toString().contentEquals("")){
 			if(buttonId==IDialogConstants.OK_ID){
+				BigDecimal  big=new BigDecimal(text.getText());
 				bv.GetField("ReceiveAlarmpPhone").SetValue(new SiteviewValue(text.getText()));//手机号码修改
-				dm.setReceiveAlarmpPhone(text.getText());
+				dm.setReceiveAlarmpPhone(big.doubleValue());
 				
 				bv.GetField("ReceiveAlarmEmail").SetValue(new SiteviewValue(text_1.getText()));//邮箱修改
 				dm.setReceiveAlarmEmail(text_1.getText());
@@ -307,8 +310,9 @@ private Text text_4;
 				||bv.GetField("Week").get_NativeValue().toString().contentEquals("星期五")||bv.GetField("Week").get_NativeValue().toString().contentEquals("星期六")
 				||bv.GetField("Week").get_NativeValue().toString().contentEquals("星期日")){
 			if(buttonId==IDialogConstants.OK_ID){
+				BigDecimal  big=new BigDecimal(text.getText());
 				bv.GetField("ReceiveAlarmpPhone").SetValue(new SiteviewValue(text.getText()));//手机号码修改
-				dm.setReceiveAlarmpPhone(text.getText());
+				dm.setReceiveAlarmpPhone(big.doubleValue());
 				
 				bv.GetField("ReceiveAlarmEmail").SetValue(new SiteviewValue(text_1.getText()));//邮箱修改
 				dm.setReceiveAlarmEmail(text_1.getText());
@@ -327,8 +331,9 @@ private Text text_4;
 				String str=""+i;
 				if(bv.GetField("Week").get_NativeValue().toString().contentEquals(str)){
 					if(buttonId==IDialogConstants.OK_ID){
+						BigDecimal  big=new BigDecimal(text.getText());
 						bv.GetField("ReceiveAlarmpPhone").SetValue(new SiteviewValue(text.getText()));//手机号码修改
-						dm.setReceiveAlarmpPhone(text.getText());
+						dm.setReceiveAlarmpPhone(big.doubleValue());
 						
 						bv.GetField("ReceiveAlarmEmail").SetValue(new SiteviewValue(text_1.getText()));//邮箱修改
 						dm.setReceiveAlarmEmail(text_1.getText());

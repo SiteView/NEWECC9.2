@@ -1,5 +1,7 @@
 package SiteView.ecc.dialog;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -300,9 +302,9 @@ public class AddDutyDetail extends Dialog{
 					new SiteviewValue(endTimeStr));
 			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,
 					true);//将数据存储到数据
-            
+			BigDecimal  big=new BigDecimal(text.getText());
 			DetailModel detailModel=new DetailModel(bo);
-			detailModel.setReceiveAlarmpPhone(text.getText());
+			detailModel.setReceiveAlarmpPhone(big.doubleValue());
 			detailModel.setReceiveAlarmEmail(text_1.getText());
 			detailModel.setWeek((combo.getText()));
 			detailModel.setStartTime(startTimeStr);

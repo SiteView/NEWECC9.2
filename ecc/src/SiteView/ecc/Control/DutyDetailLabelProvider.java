@@ -27,7 +27,7 @@ public class DutyDetailLabelProvider extends LabelProvider implements ITableLabe
 		if(element instanceof DetailModel){
 			DetailModel dm=(DetailModel) element;
 			if(columnIndex==0){
-				return dm.getReceiveAlarmpPhone();
+				return dm.getReceiveAlarmpPhone().toString();
 			}else if(columnIndex==1){
 				return dm.getReceiveAlarmEmail();
 			}else if(columnIndex==2){
