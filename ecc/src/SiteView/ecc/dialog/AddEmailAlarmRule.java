@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
@@ -18,10 +19,15 @@ import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.widgets.Group;
 
+import SiteView.ecc.Control.EccTreeContentProvider;
+import SiteView.ecc.Control.EccTreeLabelProvider;
+import SiteView.ecc.Control.GroupTreeContentProvider;
+import SiteView.ecc.Control.GroupTreeLabelProvider;
 import SiteView.ecc.Modle.EmailModle;
 import SiteView.ecc.Modle.MachineModle;
 import SiteView.ecc.Modle.TableModle;
 import SiteView.ecc.bundle.EmailAlarmBundle;
+import SiteView.ecc.data.SiteViewData;
 import SiteView.ecc.data.TableDutyInfor;
 import SiteView.ecc.editors.EmailSetUp;
 import SiteView.ecc.tools.FileTools;
@@ -89,11 +95,16 @@ public class AddEmailAlarmRule extends Dialog {
 				.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		group.setText("\u9009\u62E9\u62A5\u8B66\u8303\u56F4");
 		group.setLayout(new FillLayout());
-		Tree tree = new Tree(group, SWT.CHECK);
-		tree.setVisible(true);
+//		Tree tree = new Tree(group, SWT.CHECK);
+//		tree.setVisible(true);
+//		tree.setBackground(SWTResourceManager
+//				.getColor(SWT.COLOR_TITLE_FOREGROUND));
+//		EmailAlarmBundle.createTreeItem(tree);
+		TreeViewer treeViewer = new TreeViewer(group,SWT.CHECK);
+		Tree tree = treeViewer.getTree();
 		tree.setBackground(SWTResourceManager
 				.getColor(SWT.COLOR_TITLE_FOREGROUND));
-		EmailAlarmBundle.createTreeItem(tree);
+
 
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
 		composite_1.setBackground(SWTResourceManager
@@ -233,6 +244,9 @@ public class AddEmailAlarmRule extends Dialog {
 		label_5.setText("\u6B21\u65F6\u53D1\u9001\u62A5\u8B66");
 		sashForm_1.setWeights(new int[] { 130, 115 });
 		sashForm.setWeights(new int[] { 130, 311 });
+		treeViewer.setContentProvider(new GroupTreeContentProvider());
+		treeViewer.setLabelProvider(new GroupTreeLabelProvider());
+		treeViewer.setInput(SiteViewData.CreatTreeData());
 		return composite;
 	}
 

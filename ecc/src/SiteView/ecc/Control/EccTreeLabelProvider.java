@@ -67,8 +67,6 @@ public class EccTreeLabelProvider extends LabelProvider {
 			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/taskPlan.jpg");
 		}else if(element instanceof RelativeTimeModel){
 			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/taskPlan.jpg");
-		}else if(element instanceof MonitorModle){
-			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/taskPlan.jpg");
 		}
 		return null;
 	}
@@ -120,8 +118,6 @@ public class EccTreeLabelProvider extends LabelProvider {
 			return ((TimeQuantumModel) element).getName();
 		}else if(element instanceof RelativeTimeModel){
 			return ((RelativeTimeModel) element).getName();
-		}else if(element instanceof MonitorModle){
-			return ((MonitorModle) element).getBo().GetField("title").get_NativeValue().toString();
 		}
 		return null;
 	}

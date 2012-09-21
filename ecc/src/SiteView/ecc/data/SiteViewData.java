@@ -12,6 +12,7 @@ import system.Collections.IEnumerator;
 import SiteView.ecc.Modle.AlarmModle;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MachineModle;
+import SiteView.ecc.Modle.MonitorModle;
 import SiteView.ecc.Modle.MonitorSetUpModel;
 import SiteView.ecc.Modle.SetUpModle;
 import SiteView.ecc.Modle.SiteViewEcc;
@@ -171,10 +172,58 @@ public class SiteViewData {
 	
 	public static List CreatTreeData(){
 		List site = (List) EccTreeControl.treeViewer.getInput();
-		SiteViewEcc siteview =(SiteViewEcc) site.get(0);
+		List<SiteViewEcc> s0=new ArrayList<SiteViewEcc>();
+		s0.addAll(site);
+		SiteViewEcc siteview =(SiteViewEcc) s0.get(0);
 		List<GroupModle> list=siteview.getList();
-		for(GroupModle group:list){
+		siteview=new SiteViewEcc();
+		siteview.setList(getChile(list));
+		List ss=new ArrayList();
+		ss.add(siteview);
+		return ss;
+	}
+	
+	public static List<GroupModle> getChile(List<GroupModle> list){
+		List<MonitorModle> monitors=new ArrayList<MonitorModle>();
+		for(int n=0;n<list.size();n++){
+			GroupModle group=list.get(n);
+			List<MonitorModle> map=new ArrayList<MonitorModle>();
 			String groupId=group.getBo().get_RecId();
+			ICollection ico=FileTools.getBussCollection("Groups", groupId, "Ecc");
+			IEnumerator ienum=ico.GetEnumerator();
+			while(ienum.MoveNext()){
+				BusinessObject bo=(BusinessObject) ienum.get_Current();
+				MonitorModle monitor=new MonitorModle(bo);
+				if(bo.GetField("Machine").get_NativeValue().toString()==null ||bo.GetField("Machine").get_NativeValue().equals("")){
+					monitors.add(monitor);
+				}else{
+					map.add(monitor);
+				}
+			}
+			List<MachineModle> machines=group.getMachines();
+			if(machines!=null && machines.size()>0){
+				for(int i=0;i<machines.size();i++){
+					MachineModle m=machines.get(i);
+					List<MonitorModle> mio=new ArrayList<MonitorModle>();
+					String id=m.getBo().get_RecId();
+					for(int j=0;j<map.size();j++){
+						MonitorModle mo=map.get(j);
+						if(mo.getBo().GetField("Machine").get_NativeValue().toString().equals(id)){
+							mio.add(mo);
+							map.remove(j);
+							j--;
+						}
+					}
+					m.setMonitors(mio);
+					machines.remove(i);
+					machines.add(i, m);
+				}
+			}
+			group.setGroups(getChile(group.getGroups()));
+			group.setMachines(machines);
+			group.setMonitors(monitors);
+			list.remove(n);
+			list.add(n, group);
 		}
 		return list;
 	}
