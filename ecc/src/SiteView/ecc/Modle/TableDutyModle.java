@@ -1,7 +1,7 @@
 package SiteView.ecc.Modle;
 
 public class TableDutyModle {
-	public String name="值班表";
+	public String name="值班表设置";
 	public TableDutyModle(){}
 	public String getName() {
 		return name;

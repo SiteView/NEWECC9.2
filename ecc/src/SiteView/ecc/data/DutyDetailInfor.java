@@ -28,7 +28,7 @@ public class DutyDetailInfor {
 		if(ienum!=null){
 			while(ienum.MoveNext()){
 				BusinessObject bo=(BusinessObject) ienum.get_Current();
-				String receiveAlarmpPhone=bo.GetField("ReceiveAlarmpPhone").get_NativeValue().toString();//得到接收告警手机号码字段对应的值
+				String receiveAlarmpPhone= bo.GetField("ReceiveAlarmpPhone").get_NativeValue().toString();//得到接收告警手机号码字段对应的值
 				String receiveAlarmEmail=bo.GetField("ReceiveAlarmEmail").get_NativeValue().toString();//得到接收告警邮箱字段对应的值	
 				String DateTime=bo.GetField("Week").get_NativeValue().toString();//得到日期字段对应的值		
 				String startTime=bo.GetField("StartTime").get_NativeValue().toString();//得到开始日期字段对应的值

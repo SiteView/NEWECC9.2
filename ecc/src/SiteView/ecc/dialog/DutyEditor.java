@@ -121,7 +121,7 @@ public class DutyEditor extends Dialog {
 				tm.setDutyTableType(combo.getText());
 			}
 			
-			bb.SaveObject(ConnectionBroker.get_SiteviewApi(), true,//将数据存储到数据库
+			bb.SaveObject(ConnectionBroker.get_SiteviewApi(), true,//将修改后的数据存储到数据库
 					true);
 			
 			TableDuty.TableViewer.setInput(TableDutyInfor.list);

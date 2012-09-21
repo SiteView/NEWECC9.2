@@ -24,6 +24,8 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.FormData;
@@ -122,9 +124,9 @@ public class TableDuty extends EditorPart{
 				TableViewer.setInput(TableDutyInfor.list);
 				TableViewer.refresh();
 				
-				DutyDetailInfor.list.clear();//将表单里的数据删除
-				TableViewer1.setInput(DutyDetailInfor.list);
-				TableViewer1.refresh();
+//				DutyDetailInfor.list.clear();//将表单里的数据删除
+//				TableViewer1.setInput(DutyDetailInfor.list);
+//				TableViewer1.refresh();
 			}
 		});
 		
@@ -200,7 +202,6 @@ public class TableDuty extends EditorPart{
 				tableItem=(TableItem) e.item;
 				tableItem.setChecked(true);//复选框被选中
 				btnNewButton_1.setEnabled(true);//添加按钮可以使用
-				btnNewButton_2.setEnabled(true);//删除按钮可以使用
 				
 				TableModle tm=(TableModle) tableItem.getData();
 				bo1=tm.getBo();
@@ -281,6 +282,7 @@ public class TableDuty extends EditorPart{
 		table_1.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				tableItem1=(TableItem) e.item;
+				btnNewButton_2.setEnabled(true);//删除按钮可以使用
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 	
@@ -297,7 +299,7 @@ public class TableDuty extends EditorPart{
 			}
 			@Override
 			public void mouseUp(MouseEvent e) {
-				if(e.x>510&&e.x<590){
+				if(e.x>515&&e.x<590){
 					DetailModel dm=(DetailModel)tableItem1.getData();
 					BusinessObject bv=dm.getBo();
 					DutyDetailEditor detailEditor=new DutyDetailEditor(null,bv,dm);
@@ -307,27 +309,28 @@ public class TableDuty extends EditorPart{
 			
 		});
 		
-		TableColumn tblclmnNewColumn_4 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tblclmnNewColumn_4 = new TableColumn(table_1, SWT.CENTER);
 		tblclmnNewColumn_4.setWidth(100);
 		tblclmnNewColumn_4.setText("\u63A5\u6536\u544A\u8B66\u624B\u673A\u53F7\u7801");
+		
 		
 		TableColumn tblclmnNewColumn_5 = new TableColumn(table_1, SWT.NONE);
 		tblclmnNewColumn_5.setWidth(100);
 		tblclmnNewColumn_5.setText("\u63A5\u6536\u544A\u8B66\u90AE\u7BB1");
 		
-		TableColumn tblclmnNewColumn_6 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tblclmnNewColumn_6 = new TableColumn(table_1, SWT.CENTER);
 		tblclmnNewColumn_6.setWidth(100);
 		tblclmnNewColumn_6.setText("\u65E5\u671F");
 		
-		TableColumn tblclmnNewColumn_7 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tblclmnNewColumn_7 = new TableColumn(table_1, SWT.CENTER);
 		tblclmnNewColumn_7.setWidth(100);
 		tblclmnNewColumn_7.setText("\u5F00\u59CB\u65F6\u95F4");
 		
-		TableColumn tblclmnNewColumn_8 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tblclmnNewColumn_8 = new TableColumn(table_1, SWT.CENTER);
 		tblclmnNewColumn_8.setWidth(100);
 		tblclmnNewColumn_8.setText("\u7ED3\u675F\u65F6\u95F4");
 		
-		TableColumn tblclmnNewColumn_9 = new TableColumn(table_1, SWT.NONE);
+		TableColumn tblclmnNewColumn_9 = new TableColumn(table_1, SWT.CENTER);
 		tblclmnNewColumn_9.setText("\u7F16\u8F91");
 		tblclmnNewColumn_9.setWidth(100);
 		sashForm.setWeights(new int[] {25, 17, 180, 39, 19, 179});
