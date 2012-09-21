@@ -304,7 +304,7 @@ public class AddDutyDetail extends Dialog{
 					true);//将数据存储到数据
 			BigDecimal  big=new BigDecimal(text.getText());
 			DetailModel detailModel=new DetailModel(bo);
-			detailModel.setReceiveAlarmpPhone(big.doubleValue());
+			detailModel.setReceiveAlarmpPhone(big.toPlainString());
 			detailModel.setReceiveAlarmEmail(text_1.getText());
 			detailModel.setWeek((combo.getText()));
 			detailModel.setStartTime(startTimeStr);

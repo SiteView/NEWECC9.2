@@ -74,9 +74,10 @@ private Text text_4;
 		lblNewLabel.setText("\u63A5\u6536\u544A\u8B66\u77ED\u4FE1\u624B\u673A\u53F7\u7801:");
 		lblNewLabel.setBounds(30, 25, 164, 20);
 		
+		BigDecimal  big=new BigDecimal(bv.GetField("ReceiveAlarmpPhone").get_NativeValue().toString());
 		text = new Text(g, SWT.BORDER);
 		text.setBounds(197, 24, 181, 18);
-		text.setText(bv.GetField("ReceiveAlarmpPhone").get_NativeValue().toString());
+		text.setText(big.toPlainString());
 		
 		Label lblNewLabel_1 = new Label(g, SWT.NONE);//邮箱
 		lblNewLabel_1.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
@@ -294,7 +295,7 @@ private Text text_4;
 			if(buttonId==IDialogConstants.OK_ID){
 				BigDecimal  big=new BigDecimal(text.getText());
 				bv.GetField("ReceiveAlarmpPhone").SetValue(new SiteviewValue(text.getText()));//手机号码修改
-				dm.setReceiveAlarmpPhone(big.doubleValue());
+				dm.setReceiveAlarmpPhone(big.toPlainString());
 				
 				bv.GetField("ReceiveAlarmEmail").SetValue(new SiteviewValue(text_1.getText()));//邮箱修改
 				dm.setReceiveAlarmEmail(text_1.getText());
@@ -312,7 +313,7 @@ private Text text_4;
 			if(buttonId==IDialogConstants.OK_ID){
 				BigDecimal  big=new BigDecimal(text.getText());
 				bv.GetField("ReceiveAlarmpPhone").SetValue(new SiteviewValue(text.getText()));//手机号码修改
-				dm.setReceiveAlarmpPhone(big.doubleValue());
+				dm.setReceiveAlarmpPhone(big.toPlainString());
 				
 				bv.GetField("ReceiveAlarmEmail").SetValue(new SiteviewValue(text_1.getText()));//邮箱修改
 				dm.setReceiveAlarmEmail(text_1.getText());
@@ -333,7 +334,7 @@ private Text text_4;
 					if(buttonId==IDialogConstants.OK_ID){
 						BigDecimal  big=new BigDecimal(text.getText());
 						bv.GetField("ReceiveAlarmpPhone").SetValue(new SiteviewValue(text.getText()));//手机号码修改
-						dm.setReceiveAlarmpPhone(big.doubleValue());
+						dm.setReceiveAlarmpPhone(big.toPlainString());
 						
 						bv.GetField("ReceiveAlarmEmail").SetValue(new SiteviewValue(text_1.getText()));//邮箱修改
 						dm.setReceiveAlarmEmail(text_1.getText());

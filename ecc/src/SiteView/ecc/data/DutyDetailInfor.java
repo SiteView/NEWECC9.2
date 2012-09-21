@@ -30,7 +30,7 @@ public class DutyDetailInfor {
 		if(ienum!=null){
 			while(ienum.MoveNext()){
 				BusinessObject bo=(BusinessObject) ienum.get_Current();
-				Double receiveAlarmpPhone= bo.GetField("ReceiveAlarmpPhone").get_Value().ToNumber();//得到接收告警手机号码字段对应的值
+				String receiveAlarmpPhone= bo.GetField("ReceiveAlarmpPhone").get_NativeValue().toString();//得到接收告警手机号码字段对应的值
 				BigDecimal  big=new BigDecimal(receiveAlarmpPhone);
 
 				String receiveAlarmEmail=bo.GetField("ReceiveAlarmEmail").get_NativeValue().toString();//得到接收告警邮箱字段对应的值	
@@ -41,7 +41,7 @@ public class DutyDetailInfor {
 				if(DateTime.contentEquals("星期一")||DateTime.contentEquals("星期二")||DateTime.contentEquals("星期三")||DateTime.contentEquals("星期四")||DateTime.contentEquals("星期五")
 						||DateTime.contentEquals("星期六")||DateTime.contentEquals("星期日")){
 					DetailModel detail=new DetailModel(bo);
-					detail.setReceiveAlarmpPhone(big.doubleValue());
+					detail.setReceiveAlarmpPhone(big.toPlainString());
 					detail.setReceiveAlarmEmail(receiveAlarmEmail);
 					detail.setWeek(DateTime);
 					detail.setStartTime(startTime);
@@ -61,7 +61,7 @@ public class DutyDetailInfor {
 		if(ienum!=null){
 			while(ienum.MoveNext()){
 				BusinessObject bo=(BusinessObject) ienum.get_Current();
-				Double receiveAlarmpPhone= bo.GetField("ReceiveAlarmpPhone").get_Value().ToNumber();//得到接收告警手机号码字段对应的值
+				String receiveAlarmpPhone= bo.GetField("ReceiveAlarmpPhone").get_NativeValue().toString();//得到接收告警手机号码字段对应的值
 				BigDecimal  big=new BigDecimal(receiveAlarmpPhone);
 				String receiveAlarmEmail=bo.GetField("ReceiveAlarmEmail").get_NativeValue().toString();//得到接收告警邮箱字段对应的值	
 				String DateTime=bo.GetField("Week").get_NativeValue().toString();//得到日期字段对应的值		
@@ -70,7 +70,7 @@ public class DutyDetailInfor {
 				
 				if("".equals(DateTime)){
 					DetailModel detail=new DetailModel(bo);
-					detail.setReceiveAlarmpPhone(big.doubleValue());
+					detail.setReceiveAlarmpPhone(big.toPlainString());
 					detail.setReceiveAlarmEmail(receiveAlarmEmail);
 					detail.setWeek(DateTime);
 					detail.setStartTime(startTime);
@@ -90,7 +90,7 @@ public class DutyDetailInfor {
 		if(ienum!=null){
 			while(ienum.MoveNext()){
 				BusinessObject bo=(BusinessObject) ienum.get_Current();
-				Double receiveAlarmpPhone= bo.GetField("ReceiveAlarmpPhone").get_Value().ToNumber();//得到接收告警手机号码字段对应的值
+				String receiveAlarmpPhone= bo.GetField("ReceiveAlarmpPhone").get_NativeValue().toString();//得到接收告警手机号码字段对应的值
 				BigDecimal  big=new BigDecimal(receiveAlarmpPhone);
 				String receiveAlarmEmail=bo.GetField("ReceiveAlarmEmail").get_NativeValue().toString();//得到接收告警邮箱字段对应的值	
 				String DateTime=bo.GetField("Week").get_NativeValue().toString();//得到日期字段对应的值		
@@ -101,7 +101,7 @@ public class DutyDetailInfor {
 					String str=""+i;
 					if(str.equals(DateTime)){
 						DetailModel detail=new DetailModel(bo);
-						detail.setReceiveAlarmpPhone(big.doubleValue());
+						detail.setReceiveAlarmpPhone(big.toPlainString());
 						detail.setReceiveAlarmEmail(receiveAlarmEmail);
 						detail.setWeek(DateTime);
 						detail.setStartTime(startTime);

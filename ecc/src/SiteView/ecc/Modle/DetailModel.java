@@ -4,7 +4,7 @@ import Siteview.Api.BusinessObject;
 import system.DateTime;
 
 public class DetailModel {
-	public Double ReceiveAlarmpPhone;
+	public String ReceiveAlarmpPhone;
 	public String ReceiveAlarmEmail;
 	public String Week;
 	public String StartTime;
@@ -23,7 +23,7 @@ public class DetailModel {
 		super();
 		this.bo = bo;
 	}
-	public DetailModel(Double receiveAlarmpPhone, String receiveAlarmEmail,
+	public DetailModel(String receiveAlarmpPhone, String receiveAlarmEmail,
 		   String week, String startTime, String endTime,
 		   BusinessObject bo) {
 		super();
@@ -40,11 +40,11 @@ public class DetailModel {
 	public void setWeek(String week) {
 		Week = week;
 	}
-	public Double getReceiveAlarmpPhone() {
+	public String getReceiveAlarmpPhone() {
 		return ReceiveAlarmpPhone;
 	}
 
-	public void setReceiveAlarmpPhone(Double receiveAlarmpPhone) {
+	public void setReceiveAlarmpPhone(String receiveAlarmpPhone) {
 		ReceiveAlarmpPhone = receiveAlarmpPhone;
 	}
 

@@ -299,7 +299,7 @@ public class TableDuty extends EditorPart{
 			}
 			@Override
 			public void mouseUp(MouseEvent e) {
-				if(e.x>515&&e.x<590){
+				if(e.x>510&&e.x<600){
 					DetailModel dm=(DetailModel)tableItem1.getData();
 					BusinessObject bv=dm.getBo();
 					DutyDetailEditor detailEditor=new DutyDetailEditor(null,bv,dm);
