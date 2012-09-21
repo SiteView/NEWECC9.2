@@ -16,6 +16,7 @@ import SiteView.ecc.Modle.MonitorSetUpModel;
 import SiteView.ecc.Modle.SetUpModle;
 import SiteView.ecc.Modle.SiteViewEcc;
 import SiteView.ecc.tools.FileTools;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
 
@@ -166,5 +167,15 @@ public class SiteViewData {
 			BusinessObject bo=(BusinessObject) ienum.get_Current();
 			permissions.put(bo.GetField("PermissionsId").get_NativeValue().toString(), bo);
 		}
+	}
+	
+	public static List CreatTreeData(){
+		List site = (List) EccTreeControl.treeViewer.getInput();
+		SiteViewEcc siteview =(SiteViewEcc) site.get(0);
+		List<GroupModle> list=siteview.getList();
+		for(GroupModle group:list){
+			String groupId=group.getBo().get_RecId();
+		}
+		return list;
 	}
 }

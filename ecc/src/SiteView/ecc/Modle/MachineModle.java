@@ -1,14 +1,23 @@
 package SiteView.ecc.Modle;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Siteview.Api.BusinessObject;
 
 public class MachineModle {
 	private BusinessObject bo;
+	private List<MonitorModle> monitors=new ArrayList<MonitorModle>();
 	private boolean editMachine;//±à¼­Éè±¸
 	private boolean addMonitor;//Ôö¼Ó¼à²âÆ÷
 	private boolean deleteMchine;//É¾³ýÉè±¸
 	private boolean deleteMonitor;//É¾³ý¼à²âÆ÷
-	
+	public List<MonitorModle> getMonitors() {
+		return monitors;
+	}
+	public void setMonitors(List<MonitorModle> monitors) {
+		this.monitors = monitors;
+	}
 	public MachineModle(BusinessObject bo){
 		this.bo=bo;
 	}

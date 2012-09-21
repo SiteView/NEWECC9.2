@@ -17,6 +17,7 @@ import SiteView.ecc.Modle.EmailSetUpModel;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MachineModle;
 import SiteView.ecc.Modle.MessageSetUpModel;
+import SiteView.ecc.Modle.MonitorModle;
 import SiteView.ecc.Modle.MonitorSetUpModel;
 import SiteView.ecc.Modle.RelativeTimeModel;
 import SiteView.ecc.Modle.SetUpModle;
@@ -66,6 +67,8 @@ public class EccTreeLabelProvider extends LabelProvider {
 			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/taskPlan.jpg");
 		}else if(element instanceof RelativeTimeModel){
 			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/taskPlan.jpg");
+		}else if(element instanceof MonitorModle){
+			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/taskPlan.jpg");
 		}
 		return null;
 	}
@@ -82,7 +85,13 @@ public class EccTreeLabelProvider extends LabelProvider {
 		}else if(element instanceof MachineModle){
 			MachineModle machine=(MachineModle)element;
 			BusinessObject bo=machine.getBo();
-			return bo.GetField("ServerAddress").get_NativeValue().toString();
+			String type=bo.GetField("RemoteMachineType").get_NativeValue().toString();
+			if(type.equals("RemoteNT")){
+				type="(windows)";
+			}else{
+				type="(Unix)";
+			}
+			return bo.GetField("ServerAddress").get_NativeValue().toString()+type;
 		}else if(element instanceof SetUpModle){
 			return ((SetUpModle) element).getName();
 		}else if(element instanceof UserManageModle){
@@ -111,6 +120,8 @@ public class EccTreeLabelProvider extends LabelProvider {
 			return ((TimeQuantumModel) element).getName();
 		}else if(element instanceof RelativeTimeModel){
 			return ((RelativeTimeModel) element).getName();
+		}else if(element instanceof MonitorModle){
+			return ((MonitorModle) element).getBo().GetField("title").get_NativeValue().toString();
 		}
 		return null;
 	}

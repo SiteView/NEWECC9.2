@@ -8,6 +8,13 @@ import Siteview.Api.BusinessObject;
 public class GroupModle {
 	private List<GroupModle> groups=new ArrayList<GroupModle>();;
 	private List<MachineModle> machines=new ArrayList<MachineModle>();
+	private List<MonitorModle> monitors=new ArrayList<MonitorModle>();
+	public List<MonitorModle> getMonitors() {
+		return monitors;
+	}
+	public void setMonitors(List<MonitorModle> monitors) {
+		this.monitors = monitors;
+	}
 	private BusinessObject bo;
 	private boolean editGroup;//编辑组
 	private boolean addSubGroup;//增加子组

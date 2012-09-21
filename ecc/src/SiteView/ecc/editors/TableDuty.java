@@ -40,6 +40,8 @@ import SiteView.ecc.data.DutyDetailInfor;
 import SiteView.ecc.data.TableDutyInfor;
 import SiteView.ecc.dialog.AddDutyDetail;
 import SiteView.ecc.dialog.AddTableDuty;
+import SiteView.ecc.dialog.DutyDetailEditor;
+import SiteView.ecc.dialog.DutyEditor;
 import Siteview.Api.BusinessObject;
 import Siteview.Api.BusinessObjectCollection;
 import Siteview.Windows.Forms.ConnectionBroker;
@@ -237,9 +239,13 @@ public class TableDuty extends EditorPart{
 						ta.setChecked(false);
 					}
 				}
-				
+				if(e.x>300&&e.x<390){
+					TableModle tm=(TableModle) tableItem.getData();
+					BusinessObject bb=tm.getBo();
+					DutyEditor editor=new DutyEditor(null,bb,tm);
+					editor.open();
+				}
 			}
-			
 		});
 		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.CENTER);
@@ -280,7 +286,26 @@ public class TableDuty extends EditorPart{
 	
 			}
 		});
-		
+		table_1.addMouseListener(new MouseListener(){
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				
+			}
+			@Override
+			public void mouseDown(MouseEvent e) {
+				
+			}
+			@Override
+			public void mouseUp(MouseEvent e) {
+				if(e.x>510&&e.x<590){
+					DetailModel dm=(DetailModel)tableItem1.getData();
+					BusinessObject bv=dm.getBo();
+					DutyDetailEditor detailEditor=new DutyDetailEditor(null,bv,dm);
+					detailEditor.open();
+				}
+			}
+			
+		});
 		
 		TableColumn tblclmnNewColumn_4 = new TableColumn(table_1, SWT.NONE);
 		tblclmnNewColumn_4.setWidth(100);

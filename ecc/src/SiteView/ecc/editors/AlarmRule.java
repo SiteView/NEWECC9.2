@@ -1,30 +1,50 @@
 package SiteView.ecc.editors;
 
+import java.net.URL;
+
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.internal.util.BundleUtility;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.ImageData;
 
+import siteview.windows.forms.ImageResolver;
+import siteview.windows.forms.SwtImageConverter;
+
+import SiteView.ecc.Activator;
 import SiteView.ecc.dialog.AddEmailAlarmRule;
 
 public class AlarmRule extends EditorPart {
 	private Table table;
 	private Table table_1;
 	public static final String ID="SiteView.ecc.editors.AlarmRule";
+	private Action emailAction;//邮件报警
+	private Action messageAction;//短信报警
+	private Action scriptAction;//脚本报警
+	private Action soundAction;//声音报警
+	public Menu popmenu;
 	public AlarmRule() {
-		// TODO Auto-generated constructor stub
+		createAction();
 	}
 
 	@Override
@@ -71,14 +91,24 @@ public class AlarmRule extends EditorPart {
 		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		
 		Button button = new Button(composite, SWT.NONE);
-		button.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				AddEmailAlarmRule add=new AddEmailAlarmRule(null);
-				add.open();
-			}
-		});
 		button.setBounds(0, 10, 59, 22);
 		button.setText("\u6DFB\u52A0");
+		final MenuManager pm = new MenuManager();
+		pm.setRemoveAllWhenShown(true);
+		popmenu = pm.createContextMenu(button);
+		pm.addMenuListener(new IMenuListener() {
+			public void menuAboutToShow(IMenuManager manager) {
+				manager.add(emailAction);				
+				manager.add(messageAction);				
+				manager.add(scriptAction);				
+				manager.add(soundAction);				
+			}
+		});
+		button.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				popmenu.setVisible(true);
+			}
+		});
 		
 		Button button_1 = new Button(composite, SWT.NONE);
 		button_1.setBounds(75, 10, 59, 22);
@@ -170,8 +200,49 @@ public class AlarmRule extends EditorPart {
 		tblclmnNewColumn_1.setWidth(100);
 		tblclmnNewColumn_1.setText("\u62A5\u8B66\u72B6\u6001");
 		sashForm.setWeights(new int[] {25, 13, 221, 12, 191});
-		// TODO Auto-generated method stub
 
+	}
+	
+	private void createAction(){
+		emailAction = new Action("邮件报警") {
+			public void run(){
+				AddEmailAlarmRule add=new AddEmailAlarmRule(null,"email");
+				add.open();
+			}
+		};
+		URL url = BundleUtility.find(Platform.getBundle(Activator.PLUGIN_ID),"icons/email.jpg");
+		ImageDescriptor temp = ImageDescriptor.createFromURL(url);
+		emailAction.setImageDescriptor(temp);
+		
+		messageAction = new Action("短信报警") {
+			public void run(){
+				AddEmailAlarmRule add=new AddEmailAlarmRule(null,"message");
+				add.open();
+			}
+		};
+		URL url1 = BundleUtility.find(Platform.getBundle(Activator.PLUGIN_ID),"icons/message.jpg");
+		ImageDescriptor temp1 = ImageDescriptor.createFromURL(url1);
+		messageAction.setImageDescriptor(temp1);
+		
+		scriptAction = new Action("脚本报警") {
+			public void run(){
+				AddEmailAlarmRule add=new AddEmailAlarmRule(null,"script");
+				add.open();
+			}
+		};
+		URL url2 = BundleUtility.find(Platform.getBundle(Activator.PLUGIN_ID),"icons/script.jpg");
+		ImageDescriptor temp2 = ImageDescriptor.createFromURL(url2);
+		scriptAction.setImageDescriptor(temp2);
+		
+		soundAction = new Action("声音报警") {
+			public void run(){
+				AddEmailAlarmRule add=new AddEmailAlarmRule(null,"sound");
+				add.open();
+			}
+		};
+		URL url3 = BundleUtility.find(Platform.getBundle(Activator.PLUGIN_ID),"icons/sound.jpg");
+		ImageDescriptor temp3 = ImageDescriptor.createFromURL(url3);
+		soundAction.setImageDescriptor(temp3);
 	}
 
 	@Override

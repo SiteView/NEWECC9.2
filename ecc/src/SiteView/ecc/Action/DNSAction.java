@@ -33,7 +33,9 @@ public void run(){
 	String filePath = FileTools.getRealPath("\\files\\HostName.properties");
 	String s = Config.getReturnStr(filePath, this.getText());
 	if(s!=null){
-		busOb.GetField(s).SetValue(new SiteviewValue(machinebo.GetField("ServerAddress").get_NativeValue().toString()));
+		String m=machinebo.GetField("ServerAddress").get_NativeValue().toString();
+		busOb.GetField(s).SetValue(new SiteviewValue(m));
+		busOb.GetField("Machine").SetValue(new SiteviewValue(machinebo.get_RecId()));
 	}
 	try {
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new BusObNewInput(

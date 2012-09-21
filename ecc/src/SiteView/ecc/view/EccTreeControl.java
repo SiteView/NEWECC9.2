@@ -166,7 +166,7 @@ public class EccTreeControl extends ViewPart {
 				}else if(item instanceof MonitorSetUpModel){
 					 MonitorSetUp msu = new MonitorSetUp(null);
 					 msu.open();
-				}else if(item instanceof GroupModle){
+				}else if(item instanceof GroupModle||item instanceof MachineModle){
 					 IWorkbenchPage page = Activator.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();  
 					 IEditorPart editor = page.findEditor(eee); 
 					 if(editor==null){

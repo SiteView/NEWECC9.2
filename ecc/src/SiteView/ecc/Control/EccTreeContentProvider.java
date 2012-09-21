@@ -8,6 +8,8 @@ import org.eclipse.jface.viewers.Viewer;
 
 import SiteView.ecc.Modle.AlarmModle;
 import SiteView.ecc.Modle.GroupModle;
+import SiteView.ecc.Modle.MachineModle;
+import SiteView.ecc.Modle.MonitorModle;
 import SiteView.ecc.Modle.MonitorSetUpModel;
 import SiteView.ecc.Modle.SetUpModle;
 import SiteView.ecc.Modle.SiteViewEcc;
@@ -43,6 +45,11 @@ public class EccTreeContentProvider implements ITreeContentProvider {
 			list.addAll(category.getGroups());
 			list.addAll(category.getMachines());
 			return list.toArray();
+	     }else if(parentElement instanceof MachineModle){
+	    	 MachineModle m=(MachineModle) parentElement;
+	    	 if(m.getMonitors()!=null&&m.getMonitors().size()>0){
+	    		 return m.getMonitors().toArray();
+	    	 }
 	     }else if(parentElement instanceof SetUpModle){
 	    	 SetUpModle set=(SetUpModle) parentElement;
 	    	 return set.getList().toArray();
@@ -75,6 +82,10 @@ public class EccTreeContentProvider implements ITreeContentProvider {
 		}else if(element instanceof GroupModle){
 			GroupModle group=(GroupModle) element;
 			if(group.getGroups().size()>0||group.getMachines().size()>0){
+				return true;
+			}
+		}else if(element instanceof MachineModle){
+			if(((MachineModle)element).getMonitors()!=null&&((MachineModle)element).getMonitors().size()>0){
 				return true;
 			}
 		}else if(element instanceof SetUpModle){
