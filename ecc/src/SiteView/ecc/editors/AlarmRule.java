@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 
 import siteview.windows.forms.ImageHelper;
 import system.Collections.ICollection;
@@ -238,15 +239,15 @@ public class AlarmRule extends EditorPart {
 			}
 			item.setText(1, list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString());
 			item.setText(2, list.get(i).getBo().GetField("AlarmEvent").get_NativeValue().toString());
-//			if((Boolean)list.get(i).getBo().GetField("Status").get_NativeValue()){
-//				item.setImage(3,ImageHelper.LoadImage(Activator.PLUGIN_ID,"Image/promiss.bmp"));
-//				item.setText(3, "启动中");
-//			}else{
-//				item.setImage(3,ImageHelper.LoadImage(Activator.PLUGIN_ID,"Image/stop.bmp"));
-//				item.setText(3, "禁止");
-//			}
+			if((Boolean)list.get(i).getBo().GetField("RuleStatus").get_NativeValue()){
+				item.setImage(3,ImageHelper.LoadImage(Activator.PLUGIN_ID,"Image/promiss.bmp"));
+				item.setText(3, "启动中");
+			}else{
+				item.setImage(3,ImageHelper.LoadImage(Activator.PLUGIN_ID,"Image/stop.bmp"));
+				item.setText(3, "禁止");
+			}
 			item.setImage(4, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/edit.jpg"));
-			item.setData(list.get(i));
+			item.setData(list.get(i).getBo());
 		}
 	}
 	
@@ -273,7 +274,7 @@ public class AlarmRule extends EditorPart {
 		
 		messageAction = new Action("短信报警") {
 			public void run(){
-				AddEmailAlarmRule add=new AddEmailAlarmRule(null,"message");
+				AddEmailAlarmRule add=new AddEmailAlarmRule(null,"SMS");
 				add.open();
 			}
 		};

@@ -13,8 +13,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.widgets.Group;
@@ -24,6 +27,7 @@ import SiteView.ecc.Control.GroupTreeLabelProvider;
 import SiteView.ecc.Modle.AlarmRuleInfo;
 import SiteView.ecc.Modle.EmailModle;
 import SiteView.ecc.Modle.MachineModle;
+import SiteView.ecc.Modle.MonitorModle;
 import SiteView.ecc.Modle.TableModle;
 import SiteView.ecc.data.SiteViewData;
 import SiteView.ecc.data.TableDutyInfor;
@@ -54,31 +58,32 @@ public class AddEmailAlarmRule extends Dialog {
 	private static Text text_10;
 	private static Text text_13;
 	public static List<EmailModle> list = EmailSetUp.list;
-	public static List<BusinessObject> mailmodels =MailModleSetUp.modles;
+	public static List<BusinessObject> mailmodels = MailModleSetUp.modles;
 	public static List<TableModle> duty = TableDutyInfor.list;
 	public static List<MachineModle> service;
 	public static List<BusinessObject> messagemodels;
 	private String name;
-	Combo combo;//报警事件
-	Button button;//连续发送按钮
-	Button button_1;//只发一次
-	Button btnRadioButton;//选择发送
+	Combo combo;// 报警事件
+	Button button;// 连续发送按钮
+	Button button_1;// 只发一次
+	Button btnRadioButton;// 选择发送
+	Tree tree;
 
-	public AddEmailAlarmRule(Shell parentShell,String name) {
+	public AddEmailAlarmRule(Shell parentShell, String name) {
 		super(parentShell);
-		this.name=name;
+		this.name = name;
 	}
 
 	protected void configureShell(Shell newShell) {
 		newShell.setSize(650, 600);
 		newShell.setLocation(280, 100);
-		if(name=="email"){			
+		if (name == "email") {
 			newShell.setText("添加Email报警");
-		}else if(name=="message"){
+		} else if (name == "SMS") {
 			newShell.setText("添加短信报警");
-		}else if(name=="script"){
+		} else if (name == "script") {
 			newShell.setText("添加脚本报警");
-		}else if(name=="sound"){
+		} else if (name == "sound") {
 			newShell.setText("添加声音报警");
 		}
 		super.configureShell(newShell);
@@ -100,16 +105,28 @@ public class AddEmailAlarmRule extends Dialog {
 				.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		group.setText("\u9009\u62E9\u62A5\u8B66\u8303\u56F4");
 		group.setLayout(new FillLayout());
-//		Tree tree = new Tree(group, SWT.CHECK);
-//		tree.setVisible(true);
-//		tree.setBackground(SWTResourceManager
-//				.getColor(SWT.COLOR_TITLE_FOREGROUND));
-//		EmailAlarmBundle.createTreeItem(tree);
-		TreeViewer treeViewer = new TreeViewer(group,SWT.CHECK);
-		Tree tree = treeViewer.getTree();
+		TreeViewer treeViewer = new TreeViewer(group, SWT.CHECK);
+		tree = treeViewer.getTree();
 		tree.setBackground(SWTResourceManager
 				.getColor(SWT.COLOR_TITLE_FOREGROUND));
-
+		tree.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				TreeItem item=(TreeItem) e.item;
+				if(item.getChecked()){
+					SelectChild(item);
+					SelectParent(item);
+				}else{
+					DeletChild(item);
+				}
+				
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
 		composite_1.setBackground(SWTResourceManager
@@ -120,13 +137,13 @@ public class AddEmailAlarmRule extends Dialog {
 		sashForm_1.setBackground(SWTResourceManager
 				.getColor(SWT.COLOR_TITLE_FOREGROUND));
 
-		if(name=="email"){			
+		if (name == "email") {
 			createEmailGroup(sashForm_1);
-		}else if(name=="message"){
+		} else if (name == "SMS") {
 			createMessageGroup(sashForm_1);
-		}else if(name=="script"){
+		} else if (name == "script") {
 			createScriptGroup(sashForm_1);
-		}else if(name=="sound"){
+		} else if (name == "sound") {
 			createSoundGroup(sashForm_1);
 		}
 
@@ -207,7 +224,8 @@ public class AddEmailAlarmRule extends Dialog {
 		btnRadioButton = new Button(group_1, SWT.RADIO);
 		btnRadioButton.setBounds(10, 175, 213, 16);
 		btnRadioButton.setText("\u9009\u62E9\u6027\u53D1\u9001\u8B66\u62A5");
-		btnRadioButton.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		btnRadioButton.setBackground(SWTResourceManager
+				.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		btnRadioButton.setSelection(true);
 
 		Label lblNewLabel_1 = new Label(group_1, SWT.NONE);
@@ -254,6 +272,44 @@ public class AddEmailAlarmRule extends Dialog {
 		treeViewer.setInput(SiteViewData.CreatTreeData());
 		return composite;
 	}
+	
+	//选中某个子节点把父节点也选中
+	private void SelectParent(TreeItem item) {
+		if (item.getParent() != null && !item.getText().equals("SiteViewEcc9.2")) {
+			TreeItem treeItem = item.getParentItem();
+			treeItem.setChecked(true);
+			SelectParent(treeItem);
+		}
+	}
+
+	//选中某个节点若还有子节点则选中子节点
+	protected void SelectChild(TreeItem item) {
+		if (item.getItemCount() > 0) {
+			for (TreeItem t : item.getItems()) {
+				t.setChecked(true);
+				SelectChild(t);
+			}
+		}
+	}
+
+	//取消某个节点时取消下一级的子节点
+	protected void DeletChild(TreeItem item) {
+		if (item.getItemCount() > 0) {
+			for (TreeItem t : item.getItems()) {
+				t.setChecked(false);
+				DeletChild(t);
+			}
+		}
+	}
+	
+//	//取消所选节点的父节点
+//	private void DeleteParent(TreeItem item) {
+//		if (item.getParent() != null && !item.getText().equals("SiteViewEcc9.2")) {
+//			TreeItem treeItem = item.getParentItem();
+//			treeItem.setChecked(false);
+//			SelectParent(treeItem);
+//		}
+//	}
 
 	// 设置email报警
 	public static void createEmailGroup(SashForm sashForm) {
@@ -270,29 +326,30 @@ public class AddEmailAlarmRule extends Dialog {
 		text_4.setBounds(135, 20, 200, 18);
 
 		Label receiveAddress = new Label(group, SWT.NONE);
-		receiveAddress.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		receiveAddress.setBackground(SWTResourceManager
+				.getColor(SWT.COLOR_WHITE));
 		receiveAddress.setBounds(35, 48, 95, 18);
 		receiveAddress.setText("\u90AE\u4EF6\u63A5\u6536\u5730\u5740*\uFF1A");
 
 		Combo combo = new Combo(group, SWT.NONE);
 		combo.setBounds(135, 48, 200, 18);
 		combo.add("其他");
-		if(list==null){
-			list=new ArrayList();
-			ICollection ic=FileTools.getBussCollection("MailType", "receiver", "EccMail");
-			IEnumerator ien=ic.GetEnumerator();
-			while(ien.MoveNext()){
-				BusinessObject bo=(BusinessObject) ien.get_Current();
-				EmailModle m=new EmailModle(bo);
+		if (list == null) {
+			list = new ArrayList();
+			ICollection ic = FileTools.getBussCollection("MailType",
+					"receiver", "EccMail");
+			IEnumerator ien = ic.GetEnumerator();
+			while (ien.MoveNext()) {
+				BusinessObject bo = (BusinessObject) ien.get_Current();
+				EmailModle m = new EmailModle(bo);
 				list.add(m);
 			}
 		}
-		for(int i=0;i<list.size();i++){
-			BusinessObject bo =list.get(i).getBo(); 
+		for (int i = 0; i < list.size(); i++) {
+			BusinessObject bo = list.get(i).getBo();
 			combo.add(bo.GetField("SetName").get_NativeValue().toString());
 		}
 		combo.select(0);
-		
 
 		Label label = new Label(group, SWT.NONE);
 		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -309,16 +366,18 @@ public class AddEmailAlarmRule extends Dialog {
 
 		Combo combo_1 = new Combo(group, SWT.NONE);
 		combo_1.setBounds(135, 104, 200, 18);
-		if(mailmodels==null){
-			mailmodels=new ArrayList<BusinessObject>();
-			ICollection ico=FileTools.getBussCollection("ModleType","email","EccMailModle");
-			IEnumerator ie=ico.GetEnumerator();
-			while(ie.MoveNext()){
-				mailmodels.add((BusinessObject)ie.get_Current());
+		if (mailmodels == null) {
+			mailmodels = new ArrayList<BusinessObject>();
+			ICollection ico = FileTools.getBussCollection("ModleType", "email",
+					"EccMailModle");
+			IEnumerator ie = ico.GetEnumerator();
+			while (ie.MoveNext()) {
+				mailmodels.add((BusinessObject) ie.get_Current());
 			}
 		}
-		for(int i=0;i<mailmodels.size();i++){
-			combo_1.add(mailmodels.get(i).GetField("MailTitle").get_NativeValue().toString());
+		for (int i = 0; i < mailmodels.size(); i++) {
+			combo_1.add(mailmodels.get(i).GetField("MailTitle")
+					.get_NativeValue().toString());
 		}
 		combo_1.select(0);
 
@@ -356,18 +415,19 @@ public class AddEmailAlarmRule extends Dialog {
 		Combo combo_2 = new Combo(group, SWT.NONE);
 		combo_2.setBounds(135, 216, 200, 18);
 		combo_2.add("空");
-		if(duty==null){
+		if (duty == null) {
 			duty = new ArrayList<TableModle>();
-			ICollection ico=FileTools.getBussCollection("EccDutyTable");
-			IEnumerator ie=ico.GetEnumerator();
-			while(ie.MoveNext()){
-				BusinessObject bo=(BusinessObject) ie.get_Current();
+			ICollection ico = FileTools.getBussCollection("EccDutyTable");
+			IEnumerator ie = ico.GetEnumerator();
+			while (ie.MoveNext()) {
+				BusinessObject bo = (BusinessObject) ie.get_Current();
 				TableModle table = new TableModle(bo);
 				duty.add(table);
 			}
 		}
-		for(int i=0;i<duty.size();i++){
-			combo_2.add(duty.get(i).getBo().GetField("DutyTableName").get_NativeValue().toString());
+		for (int i = 0; i < duty.size(); i++) {
+			combo_2.add(duty.get(i).getBo().GetField("DutyTableName")
+					.get_NativeValue().toString());
 		}
 		combo_2.select(0);
 
@@ -375,7 +435,7 @@ public class AddEmailAlarmRule extends Dialog {
 		label_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		label_4.setBounds(35, 244, 95, 18);
 		label_4.setText("\u62A5\u8B66\u7B56\u7565\uFF1A");
-		
+
 		Combo combo_3 = new Combo(group, SWT.NONE);
 		combo_3.setBounds(135, 244, 200, 18);
 	}
@@ -395,10 +455,12 @@ public class AddEmailAlarmRule extends Dialog {
 		text_4.setBounds(135, 20, 200, 18);
 
 		Label receiveAddress = new Label(group, SWT.NONE);
-		receiveAddress.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		receiveAddress.setBackground(SWTResourceManager
+				.getColor(SWT.COLOR_WHITE));
 		receiveAddress.setBounds(35, 45, 95, 18);
-		receiveAddress.setText("\u62A5\u8B66\u63A5\u6536\u624B\u673A\u53F7*\uFF1A");
-		
+		receiveAddress
+				.setText("\u62A5\u8B66\u63A5\u6536\u624B\u673A\u53F7*\uFF1A");
+
 		Combo combo = new Combo(group, SWT.NONE);
 		combo.setBounds(135, 45, 200, 18);
 
@@ -414,7 +476,7 @@ public class AddEmailAlarmRule extends Dialog {
 		label_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		label_5.setBounds(35, 95, 95, 18);
 		label_5.setText("\u53D1\u9001\u65B9\u5F0F*\uFF1A");
-		
+
 		Combo combo_1 = new Combo(group, SWT.NONE);
 		combo_1.setBounds(135, 95, 200, 18);
 
@@ -422,19 +484,21 @@ public class AddEmailAlarmRule extends Dialog {
 		lblEmail.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblEmail.setBounds(35, 120, 95, 18);
 		lblEmail.setText("\u77ED\u4FE1\u6A21\u677F*\uFF1A");
-		
+
 		Combo combo_2 = new Combo(group, SWT.NONE);
 		combo_2.setBounds(135, 120, 200, 18);
-		if(messagemodels==null){
-			messagemodels=new ArrayList<BusinessObject>();
-			ICollection ico=FileTools.getBussCollection("ModleType","SMS","EccMailModle");
-			IEnumerator ie=ico.GetEnumerator();
-			while(ie.MoveNext()){
-				messagemodels.add((BusinessObject)ie.get_Current());
+		if (messagemodels == null) {
+			messagemodels = new ArrayList<BusinessObject>();
+			ICollection ico = FileTools.getBussCollection("ModleType", "SMS",
+					"EccMailModle");
+			IEnumerator ie = ico.GetEnumerator();
+			while (ie.MoveNext()) {
+				messagemodels.add((BusinessObject) ie.get_Current());
 			}
 		}
-		for(int i=0;i<messagemodels.size();i++){
-			combo_2.add(messagemodels.get(i).GetField("MailTitle").get_NativeValue().toString());
+		for (int i = 0; i < messagemodels.size(); i++) {
+			combo_2.add(messagemodels.get(i).GetField("MailTitle")
+					.get_NativeValue().toString());
 		}
 		combo_2.select(0);
 
@@ -468,7 +532,7 @@ public class AddEmailAlarmRule extends Dialog {
 				.getColor(SWT.COLOR_WHITE));
 		lblNewLabel_2.setBounds(35, 220, 95, 18);
 		lblNewLabel_2.setText("\u503C\u73ED\u62A5\u8B66\u5217\u8868\uFF1A");
-		
+
 		Combo combo_3 = new Combo(group, SWT.NONE);
 		combo_3.setBounds(135, 220, 200, 18);
 
@@ -476,7 +540,7 @@ public class AddEmailAlarmRule extends Dialog {
 		label_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		label_4.setBounds(35, 245, 95, 18);
 		label_4.setText("\u62A5\u8B66\u7B56\u7565\uFF1A");
-		
+
 		Combo combo_4 = new Combo(group, SWT.NONE);
 		combo_4.setBounds(135, 245, 200, 18);
 	}
@@ -496,25 +560,28 @@ public class AddEmailAlarmRule extends Dialog {
 		text_4.setBounds(135, 20, 200, 20);
 
 		Label receiveAddress = new Label(group, SWT.NONE);
-		receiveAddress.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		receiveAddress.setBackground(SWTResourceManager
+				.getColor(SWT.COLOR_WHITE));
 		receiveAddress.setBounds(35, 60, 95, 20);
 		receiveAddress.setText("\u9009\u62E9\u670D\u52A1\u5668*\uFF1A");
-		
+
 		Combo combo = new Combo(group, SWT.NONE);
 		combo.setBounds(135, 60, 200, 20);
 		combo.add("127.0.0.1");
-		if(service==null){
+		if (service == null) {
 			service = new ArrayList<MachineModle>();
-			ICollection iCollection = FileTools.getBussCollection("RemoteMachine");
+			ICollection iCollection = FileTools
+					.getBussCollection("RemoteMachine");
 			IEnumerator ie = iCollection.GetEnumerator();
-			while(ie.MoveNext()){
+			while (ie.MoveNext()) {
 				BusinessObject bo = (BusinessObject) ie.get_Current();
 				MachineModle model = new MachineModle(bo);
 				service.add(model);
 			}
 		}
-		for(int i=0;i<service.size();i++){
-			combo.add(service.get(i).getBo().GetField("ServerAddress").get_NativeValue().toString());
+		for (int i = 0; i < service.size(); i++) {
+			combo.add(service.get(i).getBo().GetField("ServerAddress")
+					.get_NativeValue().toString());
 		}
 		combo.select(0);
 
@@ -522,7 +589,7 @@ public class AddEmailAlarmRule extends Dialog {
 		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		label.setBounds(35, 100, 95, 20);
 		label.setText("\u9009\u62E9\u811A\u672C*\uFF1A");
-		
+
 		Combo combo_1 = new Combo(group, SWT.NONE);
 		combo_1.setBounds(135, 100, 200, 20);
 		combo_1.add("PlayRemoteSound");
@@ -545,7 +612,7 @@ public class AddEmailAlarmRule extends Dialog {
 		lblEmail.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblEmail.setBounds(35, 180, 95, 20);
 		lblEmail.setText("\u62A5\u8B66\u7B56\u7565\uFF1A");
-		
+
 		Combo combo_2 = new Combo(group, SWT.NONE);
 		combo_2.setBounds(135, 180, 200, 20);
 
@@ -607,44 +674,58 @@ public class AddEmailAlarmRule extends Dialog {
 		Button cancelButton = createButton(parent, IDialogConstants.CANCEL_ID,
 				"取消", true);
 	}
-	
+
 	@Override
 	protected void buttonPressed(int buttonId) {
-		if(buttonId==IDialogConstants.OK_ID){
-			if(buttonId==IDialogConstants.OK_ID){
-				BusinessObject bo=ConnectionBroker.get_SiteviewApi().get_BusObService().Create("EccAlarmRule");
-				if(name.equals("email")){				
-					bo.GetField("AlarmType").SetValue(new SiteviewValue("email"));
-				}else if(name.equals("message")){
-					bo.GetField("AlarmType").SetValue(new SiteviewValue("SMS"));
-				}else if(name.equals("script")){
-					bo.GetField("AlarmType").SetValue(new SiteviewValue("script"));
-				}else if(name.equals("sound")){
-					bo.GetField("AlarmType").SetValue(new SiteviewValue("sound"));
-				}
-				bo.GetField("AlarmEvent").SetValue(new SiteviewValue(combo.getText()));
-				if(button.getSelection()){				
-					bo.GetField("AlarmRule").SetValue(new SiteviewValue("continue"));
-					bo.GetField("StartCount").SetValue(new SiteviewValue(text.getText()));
-				}else if(button_1.getSelection()){
-					bo.GetField("AlarmRule").SetValue(new SiteviewValue("once"));
-					bo.GetField("StartCount").SetValue(new SiteviewValue(text_1.getText()));
-				}else if(btnRadioButton.getSelection()){
-					bo.GetField("AlarmRule").SetValue(new SiteviewValue("select"));
-					bo.GetField("StartCount").SetValue(new SiteviewValue(text_2.getText()));
-					bo.GetField("RepeatCount").SetValue(new SiteviewValue(text_3.getText()));
-				}
-				//bo.GetField("Status").SetValue(new SiteviewValue(true));
-				bo.GetField("MonitorId").SetValue(new SiteviewValue("lllllll1567156dghfghfjh761671857"));
-				bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
-				AlarmRuleInfo ar=new AlarmRuleInfo(bo);
-				AlarmRule.list.add(ar);
-				AlarmRule.disposeTableItem();
-				AlarmRule.createTableItem();
-				this.close();
-		}else{
-			this.close();
+		if (buttonId == IDialogConstants.OK_ID) {
+			BusinessObject bo = ConnectionBroker.get_SiteviewApi()
+					.get_BusObService().Create("EccAlarmRule");
+			if (name.equals("email")) {
+				bo.GetField("AlarmType").SetValue(new SiteviewValue("email"));
+			} else if (name.equals("SMS")) {
+				bo.GetField("AlarmType").SetValue(new SiteviewValue("SMS"));
+			} else if (name.equals("script")) {
+				bo.GetField("AlarmType").SetValue(new SiteviewValue("script"));
+			} else if (name.equals("sound")) {
+				bo.GetField("AlarmType").SetValue(new SiteviewValue("sound"));
 			}
+			bo.GetField("AlarmEvent").SetValue(
+					new SiteviewValue(combo.getText()));
+			if (button.getSelection()) {
+				bo.GetField("AlarmRule")
+						.SetValue(new SiteviewValue("continue"));
+				bo.GetField("StartCount").SetValue(
+						new SiteviewValue(text.getText()));
+			} else if (button_1.getSelection()) {
+				bo.GetField("AlarmRule").SetValue(new SiteviewValue("once"));
+				bo.GetField("StartCount").SetValue(
+						new SiteviewValue(text_1.getText()));
+			} else if (btnRadioButton.getSelection()) {
+				bo.GetField("AlarmRule").SetValue(new SiteviewValue("select"));
+				bo.GetField("StartCount").SetValue(
+						new SiteviewValue(text_2.getText()));
+				bo.GetField("RepeatCount").SetValue(
+						new SiteviewValue(text_3.getText()));
+			}
+			bo.GetField("RuleStatus").SetValue(new SiteviewValue(true));
+			TreeItem[] item = tree.getItems();
+			for (TreeItem treeItem : item) {
+				if(treeItem.getChecked()){
+					if(treeItem.getData() instanceof MonitorModle){
+						((MonitorModle)treeItem.getData()).getBo().GetField("").get_NativeValue().toString();
+					}
+				}
+			}
+			bo.GetField("MonitorId").SetValue(
+					new SiteviewValue("567156dghfghfjh761671857"));
+			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+			AlarmRuleInfo ar = new AlarmRuleInfo(bo);
+			AlarmRule.list.add(ar);
+			AlarmRule.disposeTableItem();
+			AlarmRule.createTableItem();
+			this.close();
+		} else {
+			this.close();
 		}
 	}
 }
