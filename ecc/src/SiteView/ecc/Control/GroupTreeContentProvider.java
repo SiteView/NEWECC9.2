@@ -66,7 +66,7 @@ public class GroupTreeContentProvider implements ITreeContentProvider{
 			}
 		}else if(element instanceof GroupModle){
 			GroupModle group=(GroupModle) element;
-			if(group.getGroups().size()>0||group.getMachines().size()>0){
+			if(group.getGroups().size()>0||group.getMachines().size()>0||group.getMonitors().size()>0){
 				return true;
 			}
 		}else if(element instanceof MachineModle){

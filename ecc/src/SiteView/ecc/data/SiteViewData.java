@@ -177,15 +177,16 @@ public class SiteViewData {
 		SiteViewEcc siteview =(SiteViewEcc) s0.get(0);
 		List<GroupModle> list=siteview.getList();
 		siteview=new SiteViewEcc();
-		siteview.setList(getChile(list));
+		siteview.setList(getChild(list));
 		List ss=new ArrayList();
 		ss.add(siteview);
 		return ss;
 	}
 	
-	public static List<GroupModle> getChile(List<GroupModle> list){
-		List<MonitorModle> monitors=new ArrayList<MonitorModle>();
+	public static List<GroupModle> getChild(List<GroupModle> list){
+		List<MonitorModle> monitors;
 		for(int n=0;n<list.size();n++){
+			monitors=new ArrayList<MonitorModle>();
 			GroupModle group=list.get(n);
 			List<MonitorModle> map=new ArrayList<MonitorModle>();
 			String groupId=group.getBo().get_RecId();
@@ -219,7 +220,7 @@ public class SiteViewData {
 					machines.add(i, m);
 				}
 			}
-			group.setGroups(getChile(group.getGroups()));
+			group.setGroups(getChild(group.getGroups()));
 			group.setMachines(machines);
 			group.setMonitors(monitors);
 			list.remove(n);
