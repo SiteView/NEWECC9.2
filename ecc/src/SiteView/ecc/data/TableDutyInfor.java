@@ -5,13 +5,9 @@ import java.util.List;
 
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
-import system.Data.DataSet;
-import system.Data.DataTable;
 import SiteView.ecc.Modle.TableModle;
-import SiteView.ecc.editors.TableDuty;
 import SiteView.ecc.tools.FileTools;
 import Siteview.Api.BusinessObject;
-import Siteview.Windows.Forms.ConnectionBroker;
 
 public class TableDutyInfor {
 	public static List<TableModle> list=null;

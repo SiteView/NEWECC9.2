@@ -43,6 +43,7 @@ public DateTime endTime;
 public Calendar startcal;
 public String startTimeStr = "";	
 public String endTimeStr = "";
+public Date startDateTime;
 private Text text;
 private Text text_1;
 private Combo combo;
@@ -95,25 +96,28 @@ private Text text_4;
 			lblNewLabel_3.setText("\u5F00\u59CB\u65F6\u95F4:");
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-			Date startDateTime  = new Date();
-			Date endDateTime  = new Date();
 			startcal = Calendar.getInstance();
-			startcal.setTime(startDateTime);
 			startTime = new DateTime(g, SWT.TIME
 					| SWT.SHORT);
 			startTime.setLocation(197, 92);//开始时间文本输入框
 			startTime.setSize(79, 18);
-			FormData fd_startTime = new FormData();
+			
+			startcal.set(Calendar.HOUR_OF_DAY,9);
+			startcal.set(Calendar.MINUTE, 0);
+			startcal.set(Calendar.SECOND, 0);
+			
 			startTime.setHours(startcal.get(Calendar.HOUR_OF_DAY));
 			startTime.setMinutes(startcal.get(Calendar.MINUTE));
 			startTime.setSeconds(startcal.get(Calendar.SECOND));
+			
 			startTimeStr=startTime.getHours() + ":"
 					+ startTime.getMinutes() + ":" + startTime.getSeconds();
 			 try {
-					startDateTime = sdf.parse(startTimeStr);
+			 startDateTime = sdf.parse(startTimeStr);
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
+		    startcal.setTime(startDateTime);
 			startTimeStr = new SimpleDateFormat("HH:mm:ss")
 			.format(startcal.getTime());
 			
@@ -122,6 +126,7 @@ private Text text_4;
 			lblNewLabel_4.setBounds(30, 122, 164, 19);
 			lblNewLabel_4.setText("\u7ED3\u675F\u65F6\u95F4:");
 			
+			Date endDateTime  = new Date();
 			Calendar endcal = Calendar.getInstance();
 			endcal.setTime(endDateTime);
 		    endTime = new DateTime(g, SWT.TIME
@@ -169,7 +174,7 @@ private Text text_4;
 			lblNewLabel_3.setText("\u5F00\u59CB\u65F6\u95F4:");
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-			Date startDateTime  = new Date();
+			//Date startDateTime  = new Date();
 			Date endDateTime  = new Date();
 			startcal = Calendar.getInstance();
 			startcal.setTime(startDateTime);
@@ -177,7 +182,6 @@ private Text text_4;
 					| SWT.SHORT);
 			startTime.setLocation(197, 122);//开始时间文本输入框
 			startTime.setSize(79, 18);
-			FormData fd_startTime = new FormData();
 			startTime.setHours(startcal.get(Calendar.HOUR_OF_DAY));
 			startTime.setMinutes(startcal.get(Calendar.MINUTE));
 			startTime.setSeconds(startcal.get(Calendar.SECOND));
@@ -244,7 +248,6 @@ private Text text_4;
 						| SWT.SHORT);
 				startTime.setLocation(197, 122);//开始时间文本输入框
 				startTime.setSize(79, 18);
-				FormData fd_startTime = new FormData();
 				startTime.setHours(startcal.get(Calendar.HOUR_OF_DAY));
 				startTime.setMinutes(startcal.get(Calendar.MINUTE));
 				startTime.setSeconds(startcal.get(Calendar.SECOND));

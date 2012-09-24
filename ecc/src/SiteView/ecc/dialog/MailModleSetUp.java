@@ -13,22 +13,38 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+
+import SiteView.ecc.Modle.EmailModle;
+import SiteView.ecc.Modle.TableModle;
 import SiteView.ecc.tools.FileTools;
 import Siteview.Api.BusinessObject;
 
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
+import system.Web.UI.WebControls.ListItem;
+import system.Windows.Forms.ListView;
+
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ListViewer;
 
 public class MailModleSetUp extends Dialog{
 	private Text text;
 	private Text text_1;
 	private Text text_2;
 	public static java.util.List<BusinessObject> modles=null;
+	public static ArrayList<EmailModle> list1=null;
 	private BusinessObject bo;
-
+   
 	public MailModleSetUp(Shell parentShell) {
 		super(parentShell);
 	}
@@ -55,50 +71,71 @@ public class MailModleSetUp extends Dialog{
 		Group grpEmail = new Group(sashForm, SWT.NONE);
 		grpEmail.setText("Email\u6A21\u677F\u5217\u8868");
 		grpEmail.setLayout(new FillLayout());
-		List list=new List(grpEmail, SWT.NONE);
-		list.setFont(SWTResourceManager.getFont("宋体", 12, SWT.NORMAL));
+		
+		final ListViewer listViewer = new ListViewer(grpEmail, SWT.BORDER | SWT.V_SCROLL);
+		List list = listViewer.getList();
+		list.setFont(SWTResourceManager.getFont("宋体", 10, SWT.NORMAL));
+		list1=new ArrayList<EmailModle>();
+		
 		for(BusinessObject bo:modles){
 			if(this.bo==null){
 				this.bo=bo;
 			}
-			list.add(bo.GetField("MailModle").get_NativeValue().toString());
-			list.setData(bo);
+			String ModleType=bo.GetField("ModleType").get_NativeValue().toString();
+			if("email".equals(ModleType)){
+				listViewer.add(bo.GetField("MailModle").get_NativeValue().toString());
+			
+				String MailTitle=bo.GetField("MailTitle").get_NativeValue().toString();
+				String MailContent=bo.GetField("MailContent").get_NativeValue().toString();
+				String MailModle=bo.GetField("MailModle").get_NativeValue().toString();
+				
+				EmailModle em=new EmailModle(bo);
+				em.setMailTitle(MailTitle);
+				em.setMailContent(MailContent);
+				em.setMailModle(MailModle);
+				
+				list1.add(em);
+			    //listViewer.setInput(list1);
+			}
 		}
-//		list.addSelectionListener(new SelectionListener() {
-//			public void widgetSelected(SelectionEvent e) {
-//				bo=(BusinessObject) e.item.getData();
-//				text.setText(bo.GetField("MailTitle").get_NativeValue().toString());
-//				text_1.setText(bo.GetField("MailContent").get_NativeValue().toString());
-//				text_2.setText(bo.GetField("MailModle").get_NativeValue().toString());
-//			}
-//			public void widgetDefaultSelected(SelectionEvent e) {}
-//		});
+		
+		listViewer.addDoubleClickListener(new IDoubleClickListener() {
+			
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				 ISelection selection = listViewer.getSelection();
+			     Object bb = ((IStructuredSelection)selection).getFirstElement();
+               
+//			     text.setText(bo.GetField("MailTitle").get_NativeValue().toString());
+//			     text_1.setText(bo.GetField("MailContent").get_NativeValue().toString());
+			}
+		});
 		Group grpEmail_1 = new Group(sashForm, SWT.NONE);
 		grpEmail_1.setText("Email\u6A21\u677F\u8BBE\u7F6E");
 		
-		Label label = new Label(grpEmail_1, SWT.NONE);
+		Label label = new Label(grpEmail_1, SWT.NONE);//邮件标题
 		label.setBounds(10, 36, 54, 12);
 		label.setText("\u90AE\u4EF6\u6807\u9898\uFF1A");
 		
 		text = new Text(grpEmail_1, SWT.BORDER);
 		text.setBounds(70, 30, 344, 18);
-		text.setText(bo.GetField("MailTitle").get_NativeValue().toString());
 		
-		Label label_1 = new Label(grpEmail_1, SWT.NONE);
+		
+		Label label_1 = new Label(grpEmail_1, SWT.NONE);//邮件内容
 		label_1.setBounds(10, 80, 54, 12);
 		label_1.setText("\u90AE\u4EF6\u5185\u5BB9\uFF1A");
 		
 		text_1 = new Text(grpEmail_1, SWT.BORDER | SWT.WRAP);
 		text_1.setBounds(70, 74, 344, 128);
-		text_1.setText(bo.GetField("MailContent").get_NativeValue().toString());
 		
-		Label label_2 = new Label(grpEmail_1, SWT.NONE);
+		
+		Label label_2 = new Label(grpEmail_1, SWT.NONE);//邮件模板
 		label_2.setBounds(10, 231, 60, 12);
 		label_2.setText("\u90AE\u4EF6\u6A21\u677F\uFF1A");
 		
 		text_2 = new Text(grpEmail_1, SWT.BORDER);
 		text_2.setBounds(70, 225, 344, 18);
-		text_2.setText(bo.GetField("MailModle").get_NativeValue().toString());
+	
 		sashForm.setWeights(new int[] {100, 341});
 		return composite;
 	}
