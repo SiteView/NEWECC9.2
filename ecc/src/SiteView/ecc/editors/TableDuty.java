@@ -1,5 +1,6 @@
 package SiteView.ecc.editors;
 
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -153,7 +154,7 @@ public class TableDuty extends EditorPart{
 		btnNewButton.setText("\u5E2E\u52A9");
 		
 		Label lblNewLabel_1 = new Label(sashForm, SWT.NONE);
-		lblNewLabel_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		lblNewLabel_1.setText("\u503C\u73ED\u8868\u8BBE\u7F6E\u8BE6\u7EC6\u4FE1\u606F");
 		
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
@@ -162,6 +163,7 @@ public class TableDuty extends EditorPart{
 		
 		
         Composite composite_3 = new Composite(sashForm, SWT.NONE);
+        composite_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 	    btnNewButton_1 = new Button(composite_3, SWT.NONE);//控制第二个表单的添加按钮
 		btnNewButton_1.setBounds(27, 10, 47, 22);
@@ -266,7 +268,7 @@ public class TableDuty extends EditorPart{
 		tblclmnNewColumn_3.setText("\u7F16\u8F91");
 		
 		Label lblNewLabel_2 = new Label(sashForm, SWT.NONE);
-		lblNewLabel_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		lblNewLabel_2.setText("\u503C\u73ED\u4FE1\u606F:");
 		
 		Composite composite_2 = new Composite(sashForm, SWT.NONE);
@@ -333,7 +335,7 @@ public class TableDuty extends EditorPart{
 		TableColumn tblclmnNewColumn_9 = new TableColumn(table_1, SWT.CENTER);
 		tblclmnNewColumn_9.setText("\u7F16\u8F91");
 		tblclmnNewColumn_9.setWidth(100);
-		sashForm.setWeights(new int[] {25, 17, 180, 39, 19, 179});
+		sashForm.setWeights(new int[] {28, 14, 178, 47, 11, 181});
 		
 		TableViewer.setContentProvider(new TableDutyContentProvider());
 		TableViewer.setLabelProvider(new TableDutyLabelProvider());
