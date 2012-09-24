@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -68,6 +69,7 @@ public class AddEmailAlarmRule extends Dialog {
 	Button button_1;// 只发一次
 	Button btnRadioButton;// 选择发送
 	Tree tree;
+	List<String> monitorid = new ArrayList<String>();
 
 	public AddEmailAlarmRule(Shell parentShell, String name) {
 		super(parentShell);
@@ -678,54 +680,72 @@ public class AddEmailAlarmRule extends Dialog {
 	@Override
 	protected void buttonPressed(int buttonId) {
 		if (buttonId == IDialogConstants.OK_ID) {
-			BusinessObject bo = ConnectionBroker.get_SiteviewApi()
-					.get_BusObService().Create("EccAlarmRule");
-			if (name.equals("email")) {
-				bo.GetField("AlarmType").SetValue(new SiteviewValue("email"));
-			} else if (name.equals("SMS")) {
-				bo.GetField("AlarmType").SetValue(new SiteviewValue("SMS"));
-			} else if (name.equals("script")) {
-				bo.GetField("AlarmType").SetValue(new SiteviewValue("script"));
-			} else if (name.equals("sound")) {
-				bo.GetField("AlarmType").SetValue(new SiteviewValue("sound"));
-			}
-			bo.GetField("AlarmEvent").SetValue(
-					new SiteviewValue(combo.getText()));
-			if (button.getSelection()) {
-				bo.GetField("AlarmRule")
-						.SetValue(new SiteviewValue("continue"));
-				bo.GetField("StartCount").SetValue(
-						new SiteviewValue(text.getText()));
-			} else if (button_1.getSelection()) {
-				bo.GetField("AlarmRule").SetValue(new SiteviewValue("once"));
-				bo.GetField("StartCount").SetValue(
-						new SiteviewValue(text_1.getText()));
-			} else if (btnRadioButton.getSelection()) {
-				bo.GetField("AlarmRule").SetValue(new SiteviewValue("select"));
-				bo.GetField("StartCount").SetValue(
-						new SiteviewValue(text_2.getText()));
-				bo.GetField("RepeatCount").SetValue(
-						new SiteviewValue(text_3.getText()));
-			}
-			bo.GetField("RuleStatus").SetValue(new SiteviewValue(true));
 			TreeItem[] item = tree.getItems();
-			for (TreeItem treeItem : item) {
-				if(treeItem.getChecked()){
-					if(treeItem.getData() instanceof MonitorModle){
-						((MonitorModle)treeItem.getData()).getBo().GetField("").get_NativeValue().toString();
+			List<String> mid = getSelect(item);
+			if(mid.size()!=0){
+				BusinessObject bo=null;
+				for (String string : mid) {	
+					bo = ConnectionBroker.get_SiteviewApi()
+							.get_BusObService().Create("EccAlarmRule");
+					if (name.equals("email")) {
+						bo.GetField("AlarmType").SetValue(new SiteviewValue("email"));
+					} else if (name.equals("SMS")) {
+						bo.GetField("AlarmType").SetValue(new SiteviewValue("SMS"));
+					} else if (name.equals("script")) {
+						bo.GetField("AlarmType").SetValue(new SiteviewValue("script"));
+					} else if (name.equals("sound")) {
+						bo.GetField("AlarmType").SetValue(new SiteviewValue("sound"));
 					}
+					if(combo.getText().equals("危险")){				
+						bo.GetField("AlarmEvent").SetValue(new SiteviewValue("warning"));
+					}else if(combo.getText().equals("错误")){
+						bo.GetField("AlarmEvent").SetValue(new SiteviewValue("error"));
+					}
+					if (button.getSelection()) {
+						bo.GetField("AlarmRule")
+								.SetValue(new SiteviewValue("continue"));
+						bo.GetField("StartCount").SetValue(
+								new SiteviewValue(text.getText()));
+					} else if (button_1.getSelection()) {
+						bo.GetField("AlarmRule").SetValue(new SiteviewValue("once"));
+						bo.GetField("StartCount").SetValue(
+								new SiteviewValue(text_1.getText()));
+					} else if (btnRadioButton.getSelection()) {
+						bo.GetField("AlarmRule").SetValue(new SiteviewValue("select"));
+						bo.GetField("StartCount").SetValue(
+								new SiteviewValue(text_2.getText()));
+						bo.GetField("RepeatCount").SetValue(
+								new SiteviewValue(text_3.getText()));
+					}
+					bo.GetField("RuleStatus").SetValue(new SiteviewValue(true));
+					bo.GetField("MonitorId").SetValue(new SiteviewValue(string));
+					bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
 				}
+				AlarmRuleInfo ar = new AlarmRuleInfo(bo);
+				AlarmRule.list.add(ar);
+				AlarmRule.disposeTableItem();
+				AlarmRule.createTableItem();
+			}else{
+				MessageDialog.openInformation(new Shell(), "提示", "请选择监听器！");
 			}
-			bo.GetField("MonitorId").SetValue(
-					new SiteviewValue("567156dghfghfjh761671857"));
-			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
-			AlarmRuleInfo ar = new AlarmRuleInfo(bo);
-			AlarmRule.list.add(ar);
-			AlarmRule.disposeTableItem();
-			AlarmRule.createTableItem();
 			this.close();
 		} else {
 			this.close();
 		}
+	}
+	
+	public List<String> getSelect(TreeItem[] item){
+		for (TreeItem treeItem : item) {
+			if(treeItem.getChecked()){
+				if(treeItem.getData() instanceof MonitorModle){
+					String id = ((MonitorModle)treeItem.getData()).getBo().get_RecId().toString();
+					monitorid.add(id);
+				}else if(treeItem.getItemCount()>0){
+					TreeItem[] item1 = treeItem.getItems();
+					getSelect(item1);
+				}
+			}
+		}
+		return monitorid;
 	}
 }

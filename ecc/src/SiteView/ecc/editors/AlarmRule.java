@@ -2,7 +2,10 @@ package SiteView.ecc.editors;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
@@ -20,6 +23,7 @@ import org.eclipse.ui.part.EditorPart;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.TableCursor;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Menu;
@@ -27,6 +31,8 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -50,6 +56,7 @@ public class AlarmRule extends EditorPart {
 	private Action scriptAction;//脚本报警
 	private Action soundAction;//声音报警
 	public Menu popmenu;
+	TableItem tableItem;
 	public static List<AlarmRuleInfo> list;
 	public AlarmRule() {
 		createAction();
@@ -156,6 +163,20 @@ public class AlarmRule extends EditorPart {
 		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
+		table.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				TableItem[] item = table.getItems(); 
+				for (TableItem tableItem : item) {
+					tableItem.setChecked(false);
+				}
+				tableItem = (TableItem) e.item;
+				tableItem.setChecked(true);
+			}
+			
+			public void widgetDefaultSelected(SelectionEvent e) {
+				
+			}
+		});
 		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn.setWidth(100);
@@ -176,8 +197,38 @@ public class AlarmRule extends EditorPart {
 		TableColumn tableColumn_3 = new TableColumn(table, SWT.NONE);
 		tableColumn_3.setWidth(100);
 		tableColumn_3.setText("\u7F16\u8F91");
-		
 		createTableItem();
+//		final TableCursor cursor = new TableCursor(table, SWT.NONE);
+//		cursor.addSelectionListener(new SelectionListener() {
+//			public void widgetSelected(SelectionEvent e) {
+////				System.out.println("fadsf");
+//			}
+//			
+//			@Override
+//			public void widgetDefaultSelected(SelectionEvent e) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//		});
+//		
+//		cursor.addMouseListener(new MouseListener() {
+//			public void mouseUp(MouseEvent e) {
+//				System.out.println("asda");
+//				
+//			}
+//			
+//			@Override
+//			public void mouseDown(MouseEvent e) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			
+//			@Override
+//			public void mouseDoubleClick(MouseEvent e) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//		});
 		
 		Label lblNewLabel_1 = new Label(sashForm, SWT.NONE);
 		lblNewLabel_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
@@ -225,30 +276,50 @@ public class AlarmRule extends EditorPart {
 	
 	//创建表单数据
 	public static void createTableItem(){
-		for(int i=0;i<list.size();i++){
-			TableItem item = new TableItem(table, SWT.NONE);
-			item.setText(0, "dandan");
-			if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("email")){				
-				item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/email.jpg"));
-			}else if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("SMS")){
-				item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/message.jpg"));
-			}else if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("script")){
-				item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/script.jpg"));
-			}else if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("sound")){
-				item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/sound.jpg"));
+//		Set<String> set=new HashSet<String>();
+		 for(int i=0;i<list.size();i++){
+////			set = new HashSet<String>();
+//			String monitorid = list.get(i).getBo().GetField("MonitorId").get_NativeValue().toString();
+//			Iterator<String> ite = set.iterator();
+//			int j=0;
+//			for (j=0; j < set.size(); j++) {
+//				String id = ite.next();
+//				if(monitorid.equals(id)){
+//					break;
+//				}
+//			}
+//			set.add(monitorid);
+//			if(j==set.size()-1||set.size()==0){				
+				TableItem item = new TableItem(table, SWT.NONE);
+				item.setText(0, "dandan");
+				if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("email")){				
+					item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/email.jpg"));
+				}else if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("SMS")){
+					item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/message.jpg"));
+				}else if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("script")){
+					item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/script.jpg"));
+				}else if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("sound")){
+					item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/sound.jpg"));
+				}
+				item.setText(1, list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString());
+				if(list.get(i).getBo().GetField("AlarmEvent").get_NativeValue().toString().equals("warning")){
+					item.setImage(2, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/warning.png"));
+				}else if(list.get(i).getBo().GetField("AlarmEvent").get_NativeValue().toString().equals("error")){
+					item.setImage(2, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/alarmerror.png"));
+				}
+				item.setText(2, list.get(i).getBo().GetField("AlarmEvent").get_NativeValue().toString());
+				if((Boolean)list.get(i).getBo().GetField("RuleStatus").get_NativeValue()){
+					item.setImage(3,ImageHelper.LoadImage(Activator.PLUGIN_ID,"Image/promiss.bmp"));
+					item.setText(3, "启动中");
+				}else{
+					item.setImage(3,ImageHelper.LoadImage(Activator.PLUGIN_ID,"Image/stop.bmp"));
+					item.setText(3, "禁止");
+				}
+				item.setImage(4, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/edit.jpg"));
+//			System.out.println(item.getImage(4).getBounds());
+				item.setData(list.get(i).getBo());
 			}
-			item.setText(1, list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString());
-			item.setText(2, list.get(i).getBo().GetField("AlarmEvent").get_NativeValue().toString());
-			if((Boolean)list.get(i).getBo().GetField("RuleStatus").get_NativeValue()){
-				item.setImage(3,ImageHelper.LoadImage(Activator.PLUGIN_ID,"Image/promiss.bmp"));
-				item.setText(3, "启动中");
-			}else{
-				item.setImage(3,ImageHelper.LoadImage(Activator.PLUGIN_ID,"Image/stop.bmp"));
-				item.setText(3, "禁止");
-			}
-			item.setImage(4, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/edit.jpg"));
-			item.setData(list.get(i).getBo());
-		}
+//		}
 	}
 	
 	//销毁表单数据
