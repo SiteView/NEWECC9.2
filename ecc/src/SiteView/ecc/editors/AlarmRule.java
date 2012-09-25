@@ -14,33 +14,32 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.internal.util.BundleUtility;
-import org.eclipse.ui.part.EditorPart;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.custom.TableCursor;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.wb.swt.SWTResourceManager;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.internal.util.BundleUtility;
+import org.eclipse.ui.part.EditorPart;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 import siteview.windows.forms.ImageHelper;
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
-
 import SiteView.ecc.Activator;
 import SiteView.ecc.Modle.AlarmRuleInfo;
 import SiteView.ecc.dialog.AddEmailAlarmRule;
@@ -178,6 +177,21 @@ public class AlarmRule extends EditorPart {
 			}
 		});
 		
+		table.addMouseListener(new MouseListener() {
+			public void mouseUp(MouseEvent e) {
+				if(e.x>400 && e.x<500){
+					BusinessObject bo = (BusinessObject) tableItem.getData();
+					String name=bo.GetField("AlarmType").get_NativeValue().toString();
+					AddEmailAlarmRule aear = new AddEmailAlarmRule(null,name,bo);
+					aear.open();
+				}
+			}
+			public void mouseDown(MouseEvent e) {
+			}
+			public void mouseDoubleClick(MouseEvent e) {
+			}
+		});
+		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn.setWidth(100);
 		tblclmnNewColumn.setText("\u540D\u79F0");
@@ -198,37 +212,6 @@ public class AlarmRule extends EditorPart {
 		tableColumn_3.setWidth(100);
 		tableColumn_3.setText("\u7F16\u8F91");
 		createTableItem();
-//		final TableCursor cursor = new TableCursor(table, SWT.NONE);
-//		cursor.addSelectionListener(new SelectionListener() {
-//			public void widgetSelected(SelectionEvent e) {
-////				System.out.println("fadsf");
-//			}
-//			
-//			@Override
-//			public void widgetDefaultSelected(SelectionEvent e) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//		});
-//		
-//		cursor.addMouseListener(new MouseListener() {
-//			public void mouseUp(MouseEvent e) {
-//				System.out.println("asda");
-//				
-//			}
-//			
-//			@Override
-//			public void mouseDown(MouseEvent e) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public void mouseDoubleClick(MouseEvent e) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//		});
 		
 		Label lblNewLabel_1 = new Label(sashForm, SWT.NONE);
 		lblNewLabel_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
@@ -276,22 +259,21 @@ public class AlarmRule extends EditorPart {
 	
 	//创建表单数据
 	public static void createTableItem(){
-//		Set<String> set=new HashSet<String>();
+		Set<String> set=new HashSet<String>();
 		 for(int i=0;i<list.size();i++){
-////			set = new HashSet<String>();
-//			String monitorid = list.get(i).getBo().GetField("MonitorId").get_NativeValue().toString();
-//			Iterator<String> ite = set.iterator();
-//			int j=0;
-//			for (j=0; j < set.size(); j++) {
-//				String id = ite.next();
-//				if(monitorid.equals(id)){
-//					break;
-//				}
-//			}
-//			set.add(monitorid);
-//			if(j==set.size()-1||set.size()==0){				
+			String alarmName = list.get(i).getBo().GetField("AlarmName").get_NativeValue().toString();
+			Iterator<String> ite = set.iterator();
+			int j=0;
+			for (j=0; j < set.size(); j++) {
+				String name = ite.next();
+				if(alarmName.equals(name)){
+					break;
+				}
+			}
+			set.add(alarmName);
+			if(j==set.size()-1||set.size()==0){				
 				TableItem item = new TableItem(table, SWT.NONE);
-				item.setText(0, "dandan");
+				item.setText(0, list.get(i).getBo().GetField("AlarmName").get_NativeValue().toString());
 				if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("email")){				
 					item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/email.jpg"));
 				}else if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("SMS")){
@@ -316,10 +298,9 @@ public class AlarmRule extends EditorPart {
 					item.setText(3, "禁止");
 				}
 				item.setImage(4, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/edit.jpg"));
-//			System.out.println(item.getImage(4).getBounds());
 				item.setData(list.get(i).getBo());
 			}
-//		}
+		}
 	}
 	
 	//销毁表单数据

@@ -2,8 +2,11 @@ package SiteView.ecc.dialog;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
@@ -13,6 +16,8 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -24,7 +29,9 @@ import org.eclipse.swt.widgets.Text;
 import SiteView.ecc.Modle.EmailModle;
 import SiteView.ecc.Modle.TableModle;
 import SiteView.ecc.tools.FileTools;
+import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
+import Siteview.Windows.Forms.ConnectionBroker;
 
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
@@ -34,22 +41,33 @@ import system.Windows.Forms.ListView;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ListViewer;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 
 public class MailModleSetUp extends Dialog{
 	private Text text;
 	private Text text_1;
 	private Text text_2;
+	private Button subButton;
+	private Button cancelButton;
+	private Button cancelButton_1;
+	private Button cancelButton_2;
+	private Button cancelButton_3;
 	public static java.util.List<BusinessObject> modles=null;
 	public static ArrayList<EmailModle> list1=null;
-	private BusinessObject bo;
-   
+	public static ListViewer listViewer;
+    public Object bb;
+    public Shell parentShell;
+    private Group group;
+    private Text text_3;
 	public MailModleSetUp(Shell parentShell) {
 		super(parentShell);
+		this.parentShell=parentShell;
 	}
 	protected void configureShell(Shell newShell) {
-		newShell.setSize(600, 350);
+		newShell.setSize(620, 480);
 		newShell.setLocation(200, 175);
 		newShell.setText("Email模版设置");
 		super.configureShell(newShell);
@@ -72,15 +90,10 @@ public class MailModleSetUp extends Dialog{
 		grpEmail.setText("Email\u6A21\u677F\u5217\u8868");
 		grpEmail.setLayout(new FillLayout());
 		
-		final ListViewer listViewer = new ListViewer(grpEmail, SWT.BORDER | SWT.V_SCROLL);
-		List list = listViewer.getList();
-		list.setFont(SWTResourceManager.getFont("宋体", 10, SWT.NORMAL));
+	    listViewer = new ListViewer(grpEmail, SWT.BORDER | SWT.V_SCROLL);
 		list1=new ArrayList<EmailModle>();
 		
 		for(BusinessObject bo:modles){
-			if(this.bo==null){
-				this.bo=bo;
-			}
 			String ModleType=bo.GetField("ModleType").get_NativeValue().toString();
 			if("email".equals(ModleType)){
 				listViewer.add(bo.GetField("MailModle").get_NativeValue().toString());
@@ -95,19 +108,27 @@ public class MailModleSetUp extends Dialog{
 				em.setMailModle(MailModle);
 				
 				list1.add(em);
-			    //listViewer.setInput(list1);
 			}
 		}
 		
-		listViewer.addDoubleClickListener(new IDoubleClickListener() {
-			
-			@Override
+		listViewer.addDoubleClickListener(new IDoubleClickListener() {//双击事件:选中左边列表中的元素右边显示相应的信息
 			public void doubleClick(DoubleClickEvent event) {
 				 ISelection selection = listViewer.getSelection();
-			     Object bb = ((IStructuredSelection)selection).getFirstElement();
-               
-//			     text.setText(bo.GetField("MailTitle").get_NativeValue().toString());
-//			     text_1.setText(bo.GetField("MailContent").get_NativeValue().toString());
+			     bb = ((IStructuredSelection)selection).getFirstElement();//得到列表框中当前选中的元素
+			     ICollection ico=FileTools.getBussCollection("EccMailModle");
+			     IEnumerator ienum=ico.GetEnumerator();
+			     while(ienum.MoveNext()){
+			    	 BusinessObject bj=(BusinessObject)ienum.get_Current();
+			    	 if(bj!=null){
+			    		 String MailModle=bj.GetField("MailModle").get_NativeValue().toString();
+			    		 String ModleType=bj.GetField("ModleType").get_NativeValue().toString();
+			    		 if(bb.equals(MailModle)&&"email".equals(ModleType)){
+						     text.setText(bj.GetField("MailTitle").get_NativeValue().toString());
+						     text_1.setText(bj.GetField("MailContent").get_NativeValue().toString());
+			    		 }
+			    	 }
+			     }
+
 			}
 		});
 		Group grpEmail_1 = new Group(sashForm, SWT.NONE);
@@ -126,7 +147,8 @@ public class MailModleSetUp extends Dialog{
 		label_1.setText("\u90AE\u4EF6\u5185\u5BB9\uFF1A");
 		
 		text_1 = new Text(grpEmail_1, SWT.BORDER | SWT.WRAP);
-		text_1.setBounds(70, 74, 344, 128);
+		text_1.setLocation(70, 77);
+		text_1.setSize(344, 128);
 		
 		
 		Label label_2 = new Label(grpEmail_1, SWT.NONE);//邮件模板
@@ -135,20 +157,109 @@ public class MailModleSetUp extends Dialog{
 		
 		text_2 = new Text(grpEmail_1, SWT.BORDER);
 		text_2.setBounds(70, 225, 344, 18);
-	
-		sashForm.setWeights(new int[] {100, 341});
+		
+		group = new Group(grpEmail_1, SWT.NONE);
+		group.setBounds(10, 264, 404, 122);
+		group.setText("\u8BF4\u660E\u5217\u8868");
+		
+		text_3 = new Text(group, SWT.BORDER|SWT.WRAP);
+		text_3.setBounds(0, 10, 404, 109);
+		text_3.setText("注意：系统模板不可以删除和修改你可以拷贝参数，请不要随意输入“@”和两个“@”间的参数变量,可以参考系统模板进行添加。参数变量如下： @FullPathGroup@ :监测点所在设备所在组的全部路径名称@Status@监测器点的状态 @AllGroup@ :监测点所在设备所在组名称@Group@监测点所在组下 @Device@ :监测点所在设备的名称@Monitor@ :监测点名称@MonitorDstr@ :监测器描述@MonitorAlertDes@ :监测点报警描述，在监测点高级设置中设置 @Time@ : 报警时间");
+		sashForm.setWeights(new int[] {147, 403});
 		return composite;
 	}
 	protected void createButtonsForButtonBar(Composite parent) {
-		Button subButton = createButton(parent, IDialogConstants.OK_ID, "添加",
+		 subButton = createButton(parent, IDialogConstants.OK_ID, "添加",
 				true);
-		Button cancelButton = createButton(parent, IDialogConstants.ABORT_ID,
+		 cancelButton = createButton(parent, IDialogConstants.ABORT_ID,
 				"删除", true);
-		Button cancelButton_1 = createButton(parent, IDialogConstants.BACK_ID,
+		 cancelButton_1 = createButton(parent, IDialogConstants.BACK_ID,
 				"更新", true);
-		Button cancelButton_2 = createButton(parent, IDialogConstants.CANCEL_ID,
+		 cancelButton_2 = createButton(parent, IDialogConstants.CANCEL_ID,
 				"关闭", true);
-		Button cancelButton_3 = createButton(parent, IDialogConstants.CLOSE_ID,
+		 cancelButton_3 = createButton(parent, IDialogConstants.CLOSE_ID,
 				"系统变量", true);
+	}
+	protected void buttonPressed(int buttonId){
+		L1:if(buttonId==IDialogConstants.OK_ID){//添加
+			ICollection ico=FileTools.getBussCollection("EccMailModle");
+			IEnumerator ienum=ico.GetEnumerator();
+			while(ienum.MoveNext()){
+				BusinessObject businessObject=(BusinessObject)ienum.get_Current();
+				String ModleType=businessObject.GetField("ModleType").get_NativeValue().toString();
+				String MailModle=businessObject.GetField("MailModle").get_NativeValue().toString();
+				if("email".equals(ModleType)&&text_2.getText().equals(MailModle)){//判断添加的元素是否已经存在
+	            	MessageDialog.openInformation(parentShell, "提示", "此模板名已存在,请换一个模板名!");
+	            	break L1;
+				}
+				if("email".equals(ModleType)&&text_2.getText().equals("")){//判断添加的元素是否已经存在
+	            	MessageDialog.openInformation(parentShell, "提示", "模板名称不能为空,请重新输入!");
+	            	break L1;
+				}
+			}
+			BusinessObject obj=ConnectionBroker.get_SiteviewApi()//得到对应的数据库表
+					.get_BusObService().Create("EccMailModle");
+			obj.GetField("MailTitle").SetValue(new SiteviewValue(text.getText()));//邮件标题
+			obj.GetField("MailContent").SetValue(new SiteviewValue(text_1.getText()));//邮件内容
+			obj.GetField("MailModle").SetValue(new SiteviewValue(text_2.getText()));//邮件模板
+			obj.GetField("ModleType").SetValue(new SiteviewValue("email"));
+			obj.SaveObject(ConnectionBroker.get_SiteviewApi(), true,
+					true);//将添加的元素的数据存储到数据库中
+			listViewer.add(obj.GetField("MailModle").get_NativeValue().toString());//在列表框中添加元素
+		}
+	
+		L2:if(buttonId==IDialogConstants.ABORT_ID){//删除
+			if("Default".equals(bb)||"SelfDefine".equals(bb)||"LogTemplate".equals(bb)){//判断是不是自定义模板
+				MessageDialog.openInformation(parentShell, "提示", "系统自定义模板不能被删除!");
+				break L2;
+			 }
+				     ICollection ico=FileTools.getBussCollection("EccMailModle");
+				     IEnumerator ienum=ico.GetEnumerator();
+				     while(ienum.MoveNext()){
+				    	 BusinessObject bv=(BusinessObject)ienum.get_Current();
+				    	 if(bv!=null){
+				    		 String MailModle=bv.GetField("MailModle").get_NativeValue().toString();
+				    		 String ModleType=bv.GetField("ModleType").get_NativeValue().toString();
+				    		 if(bb.equals(MailModle)&&"email".equals(ModleType)){
+				    			 listViewer.remove(bb);//移除列表框中当前选中的元素
+				    			 bv.DeleteObject(ConnectionBroker.get_SiteviewApi());//在数据库中把当前选中的元素的数据删除
+				    		 }
+				    	 }
+				     }
+		}
+		
+		L3:if(buttonId==IDialogConstants.BACK_ID){//更新即修改功能键
+			if("Default".equals(bb)||"SelfDefine".equals(bb)||"LogTemplate".equals(bb)){//判断是不是自定义模板
+				MessageDialog.openInformation(parentShell, "提示", "系统自定义模板,不能够被更新!");
+				break L3;
+			 }
+			if(listViewer.getSelection().isEmpty()){
+				MessageDialog.openInformation(parentShell, "提示", "请选择要更新的邮件模板!");
+				break L3;
+			}
+			ICollection ico=FileTools.getBussCollection("EccMailModle");
+		     IEnumerator ienum=ico.GetEnumerator();
+		     while(ienum.MoveNext()){
+		    	 BusinessObject bv=(BusinessObject)ienum.get_Current();
+		    	 if(bv!=null){
+		    		 String MailModle=bv.GetField("MailModle").get_NativeValue().toString();
+		    		 String ModleType=bv.GetField("ModleType").get_NativeValue().toString();
+		    		 if(bb.equals(MailModle)&&"email".equals(ModleType)){
+		    			 bv.GetField("MailTitle").SetValue(new SiteviewValue(text.getText()));//得到更新后的邮件标题
+		    			 bv.GetField("MailContent").SetValue(new SiteviewValue(text_1.getText()));//得到更新后的邮件内容
+		    			 bv.SaveObject(ConnectionBroker.get_SiteviewApi(), true,//将修改后的数据存储到数据库
+									true);
+		    			 MessageDialog.openInformation(parentShell, "提示", "更新成功!");
+		    		 }
+		    	 }
+		}
+		}
+		
+		if(buttonId==IDialogConstants.CANCEL_ID){//关闭
+			this.close();
+		}
+//		if(buttonId==IDialogConstants.CLOSE_ID){//系统变量说明
+//			
+//		}
 	}
 }
