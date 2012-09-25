@@ -60,6 +60,7 @@ public class MailModleSetUp extends Dialog{
 	public static ListViewer listViewer;
     public Object bb;
     public Shell parentShell;
+    public Group grpEmail_1;
     private Group group;
     private Text text_3;
 	public MailModleSetUp(Shell parentShell) {
@@ -131,7 +132,7 @@ public class MailModleSetUp extends Dialog{
 
 			}
 		});
-		Group grpEmail_1 = new Group(sashForm, SWT.NONE);
+		grpEmail_1 = new Group(sashForm, SWT.NONE);
 		grpEmail_1.setText("Email\u6A21\u677F\u8BBE\u7F6E");
 		
 		Label label = new Label(grpEmail_1, SWT.NONE);//邮件标题
@@ -143,28 +144,21 @@ public class MailModleSetUp extends Dialog{
 		
 		
 		Label label_1 = new Label(grpEmail_1, SWT.NONE);//邮件内容
-		label_1.setBounds(10, 80, 54, 12);
+		label_1.setBounds(10, 67, 54, 12);
 		label_1.setText("\u90AE\u4EF6\u5185\u5BB9\uFF1A");
 		
 		text_1 = new Text(grpEmail_1, SWT.BORDER | SWT.WRAP);
-		text_1.setLocation(70, 77);
+		text_1.setLocation(70, 64);
 		text_1.setSize(344, 128);
 		
 		
 		Label label_2 = new Label(grpEmail_1, SWT.NONE);//邮件模板
-		label_2.setBounds(10, 231, 60, 12);
+		label_2.setBounds(10, 218, 60, 12);
 		label_2.setText("\u90AE\u4EF6\u6A21\u677F\uFF1A");
 		
 		text_2 = new Text(grpEmail_1, SWT.BORDER);
-		text_2.setBounds(70, 225, 344, 18);
+		text_2.setBounds(70, 215, 344, 18);
 		
-		group = new Group(grpEmail_1, SWT.NONE);
-		group.setBounds(10, 264, 404, 122);
-		group.setText("\u8BF4\u660E\u5217\u8868");
-		
-		text_3 = new Text(group, SWT.BORDER|SWT.WRAP);
-		text_3.setBounds(0, 10, 404, 109);
-		text_3.setText("注意：系统模板不可以删除和修改你可以拷贝参数，请不要随意输入“@”和两个“@”间的参数变量,可以参考系统模板进行添加。参数变量如下： @FullPathGroup@ :监测点所在设备所在组的全部路径名称@Status@监测器点的状态 @AllGroup@ :监测点所在设备所在组名称@Group@监测点所在组下 @Device@ :监测点所在设备的名称@Monitor@ :监测点名称@MonitorDstr@ :监测器描述@MonitorAlertDes@ :监测点报警描述，在监测点高级设置中设置 @Time@ : 报警时间");
 		sashForm.setWeights(new int[] {147, 403});
 		return composite;
 	}
@@ -178,7 +172,7 @@ public class MailModleSetUp extends Dialog{
 		 cancelButton_2 = createButton(parent, IDialogConstants.CANCEL_ID,
 				"关闭", true);
 		 cancelButton_3 = createButton(parent, IDialogConstants.CLOSE_ID,
-				"系统变量", true);
+				"系统变量说明", true);
 	}
 	protected void buttonPressed(int buttonId){
 		L1:if(buttonId==IDialogConstants.OK_ID){//添加
@@ -258,8 +252,25 @@ public class MailModleSetUp extends Dialog{
 		if(buttonId==IDialogConstants.CANCEL_ID){//关闭
 			this.close();
 		}
-//		if(buttonId==IDialogConstants.CLOSE_ID){//系统变量说明
-//			
-//		}
+		L4:if(cancelButton_3.getText().equals("系统变量说明")&&buttonId==IDialogConstants.CLOSE_ID){//系统变量说明
+			group = new Group(grpEmail_1, SWT.NONE);
+			group.setBounds(10, 254, 404, 141);
+			group.setText("\u8BF4\u660E\u5217\u8868");
+			
+			text_3 = new Text(group, SWT.BORDER|SWT.WRAP);
+			text_3.setBounds(0, 10, 404, 130);
+			text_3.setFont(SWTResourceManager.getFont("宋体", 10, SWT.NORMAL));
+			text_3.setText("注意：系统模板不可以删除和修改你可以拷贝参数，请不要随意输入“@”和两个“@”间的参数变量,可以参考系统模板进行添加。参数变量如下： @FullPathGroup@ :监测点所在设备所在组的全部路径名称@Status@监测器点的状态 @AllGroup@ :监测点所在设备所在组名称@Group@监测点所在组下 @Device@ :监测点所在设备的名称@Monitor@ :监测点名称@MonitorDstr@ :监测器描述@MonitorAlertDes@ :监测点报警描述，在监测点高级设置中设置 @Time@ : 报警时间");
+			text_3.setEnabled(false);
+			
+			cancelButton_3.setText("隐藏");
+			break L4;
+		}
+		if(cancelButton_3.getText().equals("隐藏")&&buttonId==IDialogConstants.CLOSE_ID){//隐藏
+			System.out.println("chenggong");
+			group.dispose();
+			text_3.dispose();
+			cancelButton_3.setText("系统变量说明");
+		}
 	}
 }
