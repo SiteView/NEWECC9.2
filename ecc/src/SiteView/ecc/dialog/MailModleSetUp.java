@@ -2,8 +2,11 @@ package SiteView.ecc.dialog;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
@@ -24,7 +27,9 @@ import org.eclipse.swt.widgets.Text;
 import SiteView.ecc.Modle.EmailModle;
 import SiteView.ecc.Modle.TableModle;
 import SiteView.ecc.tools.FileTools;
+import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
+import Siteview.Windows.Forms.ConnectionBroker;
 
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
@@ -41,12 +46,19 @@ public class MailModleSetUp extends Dialog{
 	private Text text;
 	private Text text_1;
 	private Text text_2;
+	private Button subButton;
+	private Button cancelButton;
+	private Button cancelButton_1;
+	private Button cancelButton_2;
+	private Button cancelButton_3;
 	public static java.util.List<BusinessObject> modles=null;
 	public static ArrayList<EmailModle> list1=null;
-	private BusinessObject bo;
-   
+	public static ListViewer listViewer;
+    public Object bb;
+    public Shell parentShell;
 	public MailModleSetUp(Shell parentShell) {
 		super(parentShell);
+		this.parentShell=parentShell;
 	}
 	protected void configureShell(Shell newShell) {
 		newShell.setSize(600, 350);
@@ -72,15 +84,10 @@ public class MailModleSetUp extends Dialog{
 		grpEmail.setText("Email\u6A21\u677F\u5217\u8868");
 		grpEmail.setLayout(new FillLayout());
 		
-		final ListViewer listViewer = new ListViewer(grpEmail, SWT.BORDER | SWT.V_SCROLL);
-		List list = listViewer.getList();
-		list.setFont(SWTResourceManager.getFont("宋体", 10, SWT.NORMAL));
+	    listViewer = new ListViewer(grpEmail, SWT.BORDER | SWT.V_SCROLL);
 		list1=new ArrayList<EmailModle>();
 		
 		for(BusinessObject bo:modles){
-			if(this.bo==null){
-				this.bo=bo;
-			}
 			String ModleType=bo.GetField("ModleType").get_NativeValue().toString();
 			if("email".equals(ModleType)){
 				listViewer.add(bo.GetField("MailModle").get_NativeValue().toString());
@@ -100,14 +107,23 @@ public class MailModleSetUp extends Dialog{
 		}
 		
 		listViewer.addDoubleClickListener(new IDoubleClickListener() {
-			
-			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				 ISelection selection = listViewer.getSelection();
-			     Object bb = ((IStructuredSelection)selection).getFirstElement();
-               
-//			     text.setText(bo.GetField("MailTitle").get_NativeValue().toString());
-//			     text_1.setText(bo.GetField("MailContent").get_NativeValue().toString());
+			     bb = ((IStructuredSelection)selection).getFirstElement();//得到列表框中当前选中的元素
+			     ICollection ico=FileTools.getBussCollection("EccMailModle");
+			     IEnumerator ienum=ico.GetEnumerator();
+			     while(ienum.MoveNext()){
+			    	 BusinessObject bj=(BusinessObject)ienum.get_Current();
+			    	 if(bj!=null){
+			    		 String MailModle=bj.GetField("MailModle").get_NativeValue().toString();
+			    		 String ModleType=bj.GetField("ModleType").get_NativeValue().toString();
+			    		 if(bb.equals(MailModle)&&"email".equals(ModleType)){
+						     text.setText(bj.GetField("MailTitle").get_NativeValue().toString());
+						     text_1.setText(bj.GetField("MailContent").get_NativeValue().toString());
+			    		 }
+			    	 }
+			     }
+
 			}
 		});
 		Group grpEmail_1 = new Group(sashForm, SWT.NONE);
@@ -140,15 +156,56 @@ public class MailModleSetUp extends Dialog{
 		return composite;
 	}
 	protected void createButtonsForButtonBar(Composite parent) {
-		Button subButton = createButton(parent, IDialogConstants.OK_ID, "添加",
+		 subButton = createButton(parent, IDialogConstants.OK_ID, "添加",
 				true);
-		Button cancelButton = createButton(parent, IDialogConstants.ABORT_ID,
+		 cancelButton = createButton(parent, IDialogConstants.ABORT_ID,
 				"删除", true);
-		Button cancelButton_1 = createButton(parent, IDialogConstants.BACK_ID,
+		 cancelButton_1 = createButton(parent, IDialogConstants.BACK_ID,
 				"更新", true);
-		Button cancelButton_2 = createButton(parent, IDialogConstants.CANCEL_ID,
+		 cancelButton_2 = createButton(parent, IDialogConstants.CANCEL_ID,
 				"关闭", true);
-		Button cancelButton_3 = createButton(parent, IDialogConstants.CLOSE_ID,
+		 cancelButton_3 = createButton(parent, IDialogConstants.CLOSE_ID,
 				"系统变量", true);
+	}
+	protected void buttonPressed(int buttonId){
+		if(buttonId==IDialogConstants.OK_ID){//添加
+			ICollection ico=FileTools.getBussCollection("EccMailModle");
+			IEnumerator ienum=ico.GetEnumerator();
+			while(ienum.MoveNext()){
+				BusinessObject businessObject=(BusinessObject)ienum.get_Current();
+				String MailModle=businessObject.GetField("MailModle").get_NativeValue().toString();
+				if(text_2.getText().equals(MailModle)){//判断添加的元素是否已经存在
+	            	MessageDialog.openInformation(parentShell, "提示", "此模板名已存在,请换一个模板名!");
+				}else{
+					BusinessObject obj=ConnectionBroker.get_SiteviewApi()//得到对应的数据库表
+							.get_BusObService().Create("EccMailModle");
+					obj.GetField("MailTitle").SetValue(new SiteviewValue(text.getText()));//邮件标题
+					obj.GetField("MailContent").SetValue(new SiteviewValue(text_1.getText()));//邮件内容
+					obj.GetField("MailModle").SetValue(new SiteviewValue(text_2.getText()));//邮件模板
+					obj.GetField("ModleType").SetValue(new SiteviewValue("email"));
+					obj.SaveObject(ConnectionBroker.get_SiteviewApi(), true,
+							true);//将添加的元素的数据存储到数据库中
+					
+					listViewer.add(obj.GetField("MailModle").get_NativeValue().toString());//在列表框中添加元素
+				}
+			}
+            
+		}
+		if(buttonId==IDialogConstants.ABORT_ID){//删除
+				     listViewer.remove(bb);//移除列表框中当前选中的元素
+				     
+				     ICollection ico=FileTools.getBussCollection("EccMailModle");
+				     IEnumerator ienum=ico.GetEnumerator();
+				     while(ienum.MoveNext()){
+				    	 BusinessObject bv=(BusinessObject)ienum.get_Current();
+				    	 if(bv!=null){
+				    		 String MailModle=bv.GetField("MailModle").get_NativeValue().toString();
+				    		 String ModleType=bv.GetField("ModleType").get_NativeValue().toString();
+				    		 if(bb.equals(MailModle)&&"email".equals(ModleType)){
+				    			 bv.DeleteObject(ConnectionBroker.get_SiteviewApi());//在数据库中把当前选中的元素的数据删除
+				    		 }
+				    	 }
+				     }
+		}
 	}
 }
