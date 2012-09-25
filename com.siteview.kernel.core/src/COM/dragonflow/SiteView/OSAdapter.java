@@ -67,6 +67,9 @@ public class OSAdapter {
     }
 
     public static OSAdapter getOSAdapter(String s) {
+    	if(s.equalsIgnoreCase("Red")){
+    		s="RHESLinux";
+    	}
         return (OSAdapter) adapters.get(s);
     }
 
@@ -290,7 +293,7 @@ public class OSAdapter {
         
         try {
             if (hashmap == null || TextUtils.getValue(hashmap, "CPUMonitor").length() > 0) {
-                testCPU(printwriter, string, siteviewgroup, flag);
+               // testCPU(printwriter, string, siteviewgroup, flag);
             }
             if (hashmap == null || (TextUtils.getValue(hashmap, "DiskSpaceMonitor").length() > 0)) {
                 testDiskFull(printwriter, string, siteviewgroup, flag);

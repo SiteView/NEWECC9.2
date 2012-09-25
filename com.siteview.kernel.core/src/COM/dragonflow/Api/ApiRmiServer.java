@@ -526,19 +526,11 @@ public class ApiRmiServer extends java.rmi.server.UnicastRemoteObject implements
 			ntmachinePage ms=new ntmachinePage();
 			Machine machine = Machine.createMachine(hashMap);
 			s0[0]=ms.doTest1(machine,hashMap);
-//			if("connection successful".equals(s0[0])){
-//				MachineUtil.saveMachine(machine);
-//			}
 		}
 		Vector vector = null;
 		Array array_1 = null;
 		String method = (String)hashMap.get("_method");
 		if("wmi".equals(method)){
-//			WmiService ws = new WmiService(((String)hashMap.get("_host")).substring(2));
-//			ws.connect("", (String)hashMap.get("_login"), (String)hashMap.get("_password"));
-//			vector = ws.getDisks();
-//			array_1 = ws.getService();
-//			ws.disconnect();
 			vector=Platform.getDisks(hostname);//磁盘
 			array_1 = Platform.getProcesses(hostname, true);//服务
 		}else{
@@ -575,22 +567,33 @@ public class ApiRmiServer extends java.rmi.server.UnicastRemoteObject implements
 	    	 System.out.println(array.size());
 	    }
 	//获取磁盘信息
-		public String[] getDiskSpace(String hostname) throws SiteViewException,RemoteException {
-			Vector vector = Platform.getDisks(hostname);// 磁盘
-			String s1[] = new String[vector.size() / 2];
+		public String[] getDiskSpace(String hostname,String s) throws SiteViewException,RemoteException {
+			Vector vector;
+			if(s==null ||s.equals("")){
+				vector = Platform.getDisks(hostname);// 磁盘
+			}else{
+				vector=Platform.getDisks(s);
+			}
+			String s1[]= new String[vector.size() / 2];
 			Enumeration disk = vector.elements();
 			int i = 0;
 			while (disk.hasMoreElements()) {
 				String s5 = (String) disk.nextElement();
 				String s4=(String) disk.nextElement();
-				s1[i++]=s4;
+				s1[i++]=s5;
 			 }
 			return s1;
 		}
 
 		//获取服务信息
-		public String[] getServer(String hostname) throws RemoteException {
-			Array array_1 = Platform.getProcesses(hostname, true);// 服务
+		public String[] getServer(String hostname,String s) throws RemoteException {
+			Array array_1;
+			if(s.equals("")){
+				array_1= Platform.getProcesses(hostname, true);// 服务
+			}else{
+				array_1 = Platform.getProcesses(s, true);// 服务=
+			}
+			
 			String s2[] = new String[array_1.size()];
 			Enumeration<String> d = array_1.elements();
 			int n = 0;

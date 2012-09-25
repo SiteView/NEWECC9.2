@@ -5,11 +5,14 @@ import java.util.Map;
 import org.eclipse.swt.widgets.Composite;
 
 import SiteView.ecc.dialog.ChooseService;
+import SiteView.ecc.tools.FileTools;
 import Siteview.Api.BusinessObject;
+import Siteview.Windows.Forms.ConnectionBroker;
 
 import COM.dragonflow.Api.APIInterfaces;
 
 import siteview.IAutoTaskExtension;
+import system.Windows.Forms.VisualStyles.FillType;
 
 public class ReturnServer implements IAutoTaskExtension {
 	APIInterfaces rmiServer;
@@ -23,7 +26,12 @@ public class ReturnServer implements IAutoTaskExtension {
 		BusinessObject bo = (BusinessObject) params.get("_CUROBJ_");
 		String address=bo.GetField("Service").get_NativeValue().toString();
 		rmiServer=EditGroupBundle.createAmiServer();
-		String[] service = rmiServer.getServer(address);
+		String s="";
+		BusinessObject machine=FileTools.CreateBo("RecId", bo.GetField("Machine").get_NativeValue().toString(), "RemoteMachine");
+		if(machine.GetField("RemoteMachineType").get_NativeValue().toString().equals("RemoteUnix")){
+			s="remote:"+bo.GetField("Machine").get_NativeValue().toString();
+		}
+		String[] service = rmiServer.getServer(address,s);
 		for (int i = 0; i < service.length; i++) {
 			System.out.println(service[i]);
 		}

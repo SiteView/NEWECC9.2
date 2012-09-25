@@ -22,6 +22,7 @@ import Siteview.Api.ISiteviewApi;
 import Siteview.Windows.Forms.ConnectionBroker;
 
 import system.Collections.ICollection;
+import system.Collections.IEnumerator;
 import system.Data.DataException;
 import system.Xml.XmlElement;
 
@@ -125,5 +126,22 @@ public class FileTools {
 		ICollection iCollenction = siteviewApi.get_BusObService()
 				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);
 		return iCollenction;
+	}
+	public static  BusinessObject CreateBo(String key,String s,String s1) {
+		SiteviewQuery query = new SiteviewQuery();
+		query.AddBusObQuery(s1, QueryInfoToGet.All);
+		XmlElement xml ;
+		xml=query.get_CriteriaBuilder().FieldAndValueExpression(key,
+				Operators.Equals, s);
+		query.set_BusObSearchCriteria(xml);
+		ICollection iCollenction = ConnectionBroker.get_SiteviewApi().get_BusObService()
+				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);
+		BusinessObject bo=null;
+		IEnumerator interfaceTableIEnum = iCollenction.GetEnumerator();
+		if(interfaceTableIEnum.MoveNext()){
+			bo = (BusinessObject) interfaceTableIEnum
+					.get_Current();
+		}
+		return bo;
 	}
 }

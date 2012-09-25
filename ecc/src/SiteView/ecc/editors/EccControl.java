@@ -323,6 +323,8 @@ public class EccControl extends EditorPart {
 		m4.setEnabled(((GroupModle) EccTreeControl.item).isDeleteMonitor());
 		m1.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
+				BusinessObject bo=(BusinessObject) item.getData();
+//				bo.GetField("Groups").get_Definition().set_ReadOnlyRule(new );
 				BusObMaintView.open(ConnectionBroker.get_SiteviewApi(),
 						(BusinessObject) item.getData());
 			}

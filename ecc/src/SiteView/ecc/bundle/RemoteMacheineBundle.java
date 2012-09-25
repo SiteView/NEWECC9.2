@@ -123,11 +123,11 @@ public class RemoteMacheineBundle implements IAutoTaskExtension {
 		String s=c.get(0)[0].replaceAll(" ", ".");
 		bo.GetField("Status").SetValue(new SiteviewValue(s));
 		MessageDialog.openInformation(new Shell(), "link test", c.get(0)[0]);
-		BatchAddMachine b=new BatchAddMachine(null);
-		b.s=c;
-		b.hostname=hostname;
-		b.group=bo.GetField("Groups").get_NativeValue().toString();
-		b.open();
+//		BatchAddMachine b=new BatchAddMachine(null);
+//		b.s=c;
+//		b.hostname=hostname;
+//		b.group=bo.GetField("Groups").get_NativeValue().toString();
+//		b.open();
 		return null;
 	}
 	public void addMachine(BusinessObject bo){

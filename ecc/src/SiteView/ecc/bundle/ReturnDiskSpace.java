@@ -7,6 +7,7 @@ import org.eclipse.swt.widgets.Composite;
 import siteview.IAutoTaskExtension;
 import COM.dragonflow.Api.APIInterfaces;
 import SiteView.ecc.dialog.ChooseDiskSpace;
+import SiteView.ecc.tools.FileTools;
 import Siteview.Api.BusinessObject;
 
 public class ReturnDiskSpace implements IAutoTaskExtension {
@@ -20,7 +21,12 @@ public class ReturnDiskSpace implements IAutoTaskExtension {
 		BusinessObject bo = (BusinessObject) params.get("_CUROBJ_");
 		String address=bo.GetField("HostNameDiskSpace").get_NativeValue().toString();
 		rmiServer=EditGroupBundle.createAmiServer();
-		String[] disk=rmiServer.getDiskSpace(address);
+		String s="";
+		BusinessObject machine=FileTools.CreateBo("RecId", bo.GetField("Machine").get_NativeValue().toString(), "RemoteMachine");
+		if(machine.GetField("RemoteMachineType").get_NativeValue().toString().equals("RemoteUnix")){
+			s="remote:"+bo.GetField("Machine").get_NativeValue().toString();
+		}
+		String[] disk=rmiServer.getDiskSpace(address,s);
 		if(disk.length>0){
 			ChooseDiskSpace space=new ChooseDiskSpace(null,disk,bo);
 			space.open();	

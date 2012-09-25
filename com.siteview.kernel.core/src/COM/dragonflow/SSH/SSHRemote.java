@@ -153,11 +153,20 @@ public class SSHRemote implements COM.dragonflow.SSH.ISSHCloseable {
         } else {
             s = machine.getProperty(COM.dragonflow.SiteView.Machine.pSSHClient);
         }
+        if( machine.getProperty("_os")!=null &&machine.getProperty("_os").equals("Red")){
+        	 machine.setProperty("_os", "RHESLinux");
+        }
+        if(machine.getProperty("_method").equalsIgnoreCase("SSH")){
+        	 machine.setProperty("_sshPort", machine.getProperty("_port"));
+        }
         java.lang.Object obj = null;
         if (s == null || s.length() == 0 || s.equals("plink")) {
             obj = new SSHPlinkClient(machine);
         } else if (s.equals("java")) {
             obj = new SSHJavaClient(machine);
+        }else if(s.equals("Internal")){
+        	 machine.setProperty(COM.dragonflow.SiteView.Machine.pSSHClient, "java");
+        	obj=new SSHJavaClient(machine);
         }
         if (obj != null) {
             if (COM.dragonflow.SSH.SSHManager.debug) {

@@ -33,6 +33,9 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.UUID;
 
+import my.util.email.MailSenderInfo;
+import my.util.email.SimpleMailSender;
+
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
 import system.Xml.XmlElement;
@@ -596,14 +599,13 @@ public class FrameFile {
 				.sql_ConnectExecute_Select("select * from EccDyn where monitorid='"
 						+ monitorid + "'");
 		try {
+			int count=1;
 			if (rs.next()) {
 				RecId = rs.getString("RecId");
 				long time = System.currentTimeMillis();
-				int count=rs.getInt("StatusConut");
+				count=rs.getInt("StatusConut");
 				if(rs.getString("category").equals(category)){
 					count++;
-				}else{
-					count=1;
 				}
 				SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Timestamp LastModDateTime = new Timestamp(time);
@@ -635,7 +637,53 @@ public class FrameFile {
 						+department+"','"+type+"','1')";
 				JDBCForSQL.execute_Insert(sql);
 			}
+			//是否报警
+			ResultSet rule=JDBCForSQL.sql_ConnectExecute_Select("select * from EccAlarmRule where MonitorId='"+ monitorid + "'");
+			while(rule.next()){
+				String alarmstatus=rule.getString("AlarmEvent");
+				if(!rule.getBoolean("RuleStatus")||!alarmstatus.equals(category)){
+					continue;
+				}
+				String alarmrule=rule.getString("AlarmRule");
+				int starttime=rule.getInt("StartCount");
+				if(alarmrule.equals("select")){
+					int repeatime=rule.getInt("RepeatCount");
+					if(count<starttime||(count-starttime)%(repeatime+1)!=0){
+						continue;
+					}
+				}else if(alarmrule.equals("once")){
+					if(starttime!=count){
+						continue;
+					}
+				}else if(alarmrule.equals("continue")){
+					if(starttime<count){
+						continue;
+					}
+					Alarm(rule.getString("AlarmType"));
+				}
+				System.out.println("报警条件已经符合，开始报警了");
+			}
 		} catch (Exception e) {
+		}
+	}
+
+
+	private static void Alarm(String string) {
+		if(string.equals("email")){
+			 MailSenderInfo mailInfo = new MailSenderInfo();    
+		     mailInfo.setMailServerHost("mail.dragonflow.com");    
+		     mailInfo.setMailServerPort("25");    
+		     mailInfo.setValidate(true);    
+		     mailInfo.setUserName("lihua.zhong");    
+		     mailInfo.setPassword("123456");//您的邮箱密码    
+		     mailInfo.setFromAddress("lihua.zhong@dragonflow.com");    
+		     mailInfo.setToAddress("370982743@qq.com");    
+		     mailInfo.setSubject("设置邮箱标题 如http://www.guihua.org 中国桂花网");    
+		     mailInfo.setContent("设置邮箱内容 如http://www.guihua.org 中国桂花网 是中国最大桂花网站==");    
+		        //这个类主要来发送邮件   
+		     SimpleMailSender sms = new SimpleMailSender();   
+		         //sms.sendTextMail(mailInfo);//发送文体格式    
+		         sms.sendHtmlMail(mailInfo);//发送html格式   
 		}
 	}
 

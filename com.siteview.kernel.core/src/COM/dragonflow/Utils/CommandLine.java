@@ -176,10 +176,10 @@ public class CommandLine
         {
             machine = COM.dragonflow.SiteView.Machine.getMachine(s1);
         }
-        if(machine == null)
-//        {
-//            machine = MachineUtil.getMachine("");
-//        }
+//        if(machine == null)
+////        {
+////            machine = MachineUtil.getMachine("");
+////        }
         if(machine != null)
         {
             COM.dragonflow.Utils.RemoteCommandLine remotecommandline = COM.dragonflow.SiteView.Machine.getRemoteCommandLine(machine);
