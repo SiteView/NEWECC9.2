@@ -6,6 +6,9 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.internal.util.BundleUtility;
 import SiteView.ecc.Activator;
+import SiteView.ecc.Modle.GroupModle;
+import SiteView.ecc.view.EccTreeControl;
+import Siteview.Api.BusinessObject;
 
 public class ProhibitAction extends Action{
 	public ProhibitAction(){

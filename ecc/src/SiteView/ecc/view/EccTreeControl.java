@@ -91,9 +91,9 @@ public class EccTreeControl extends ViewPart {
 	EccControlInput eee=new EccControlInput();
 	public static Object item;
 	public static TreeViewer treeViewer;
-	public static List<String> list;
-	public static List<String> list_1;
-	public static List<String> list_2;
+	public static List<String> list;//组下面的监测器
+	public static List<String> list_1;//windows设备下的监测器
+	public static List<String> list_2;//Unix设备下的监测器 
 	static{
 		list=new ArrayList<String>();
 		list_1=new ArrayList<String>();
