@@ -1,6 +1,8 @@
 package SiteView.ecc.view;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.IMenuListener;
@@ -85,6 +87,38 @@ public class EccTreeControl extends ViewPart {
 	EccControlInput eee=new EccControlInput();
 	public static Object item;
 	public static TreeViewer treeViewer;
+	public static List<String> list;
+	public static List<String> list_1;
+	public static List<String> list_2;
+	static{
+		list=new ArrayList<String>();
+		list_1=new ArrayList<String>();
+		list_2=new ArrayList<String>();
+		list.add("Ecc.ping");
+		list.add("Ecc.DNS");
+		list.add("Ecc.LinkCheck");
+		list.add("Ecc.URL");
+		list.add("Ecc.URLContent");
+		list.add("Ecc.Mail");
+		list.add("Ecc.NetWorkMonitor");
+		list_1.add("Ecc.DiskSpace");
+		list_1.add("Ecc.Port");
+		list_1.add("Ecc.Memory");
+		list_1.add("Ecc.Service");
+		list_1.add("Ecc.IISServer");
+		list_1.add("Ecc.RealMediaPlayer");
+		list_1.add("Ecc.WinPerformanceCounter");
+		list_1.add("Ecc.WinResources");
+		list_1.add("Ecc.WinMediaServer");
+		list_1.add("Ecc.WindowsDialup");
+		list_1.add("Ecc.WindowsEventLog");
+		list_2.add("Ecc.DiskSpace");
+		list_2.add("Ecc.Memory");
+		list_2.add("Ecc.Port");
+		list_2.add("Ecc.Memory");
+		list_2.add("Ecc.Service");
+	}
+	 
 
 	public static TreeViewer getTreeViewer() {
 		return treeViewer;
@@ -255,12 +289,9 @@ public class EccTreeControl extends ViewPart {
 		ImageDescriptor temp2 = ImageDescriptor.createFromURL(url2);
 		MenuManager monitorMenu = new MenuManager("增加监测器", temp2, "2");
 		manager.add(monitorMenu);
-		monitorMenu.add(new pingAction("Ecc.ping"));
-		monitorMenu.add(new pingAction("Ecc.DNS"));
-		monitorMenu.add(new pingAction("Ecc.LinkCheck"));
-		monitorMenu.add(new pingAction("Ecc.URL"));
-		monitorMenu.add(new pingAction("Ecc.URLContent"));
-		monitorMenu.add(new pingAction("Ecc.Mail"));
+		for(int i=0;i<list.size();i++){
+			monitorMenu.add(new pingAction(list.get(i)));
+		}
 		EditorGroupAction editorGroupAction=new EditorGroupAction();
 		AddGroupAction addGroupAction=new AddGroupAction();
 		DeleteGroupAction deleteGroupAction=new DeleteGroupAction();
@@ -293,22 +324,19 @@ public class EccTreeControl extends ViewPart {
 		ImageDescriptor temp = ImageDescriptor.createFromURL(url);
 		MenuManager monitorMenu = new MenuManager("增加监测器", temp, "1");
 		manager.add(monitorMenu);
-		monitorMenu.add(new DNSAction("Ecc.ping"));
-		monitorMenu.add(new DNSAction("Ecc.DNS"));
-		monitorMenu.add(new DNSAction("Ecc.LinkCheck"));
-		monitorMenu.add(new DNSAction("Ecc.URL"));
-		monitorMenu.add(new DNSAction("Ecc.URLContent"));
-		monitorMenu.add(new DNSAction("Ecc.Mail"));
-		monitorMenu.add(new DNSAction("Ecc.DiskSpace"));
-		monitorMenu.add(new DNSAction("Ecc.WinPerformanceCounter"));
-		monitorMenu.add(new DNSAction("Ecc.WinResources"));
-		monitorMenu.add(new DNSAction("Ecc.WinMediaServer"));
-		monitorMenu.add(new DNSAction("Ecc.NetWorkMonitor"));
-		monitorMenu.add(new DNSAction("Ecc.WindowsDialup"));
-		monitorMenu.add(new DNSAction("Ecc.WindowsEventLog"));
-		monitorMenu.add(new DNSAction("Ecc.Port"));
-		monitorMenu.add(new DNSAction("Ecc.Memory"));
-		monitorMenu.add(new DNSAction("Ecc.Service"));
+		for(int i=0;i<list.size();i++){
+			monitorMenu.add(new DNSAction(list.get(i)));
+		}
+		if(machine.getBo().GetField("RemoteMachineType").get_NativeValue().toString().equals("RemoteNT")){
+			for(int i=0;i<list_1.size();i++){
+				monitorMenu.add(new DNSAction(list_1.get(i)));
+			}
+		}else if(machine.getBo().GetField("RemoteMachineType").get_NativeValue().toString().equals("RemoteUnix")){
+			for(int i=0;i<list_2.size();i++){
+				monitorMenu.add(new DNSAction(list_2.get(i)));
+			}
+		}
+		
 		EditorMachineAction editorMachineAction=new EditorMachineAction();
 		DeleteMachineAction deleteMachineAction=new DeleteMachineAction();
 		DeleteGroupAction deleteMonitorAction=new DeleteGroupAction();

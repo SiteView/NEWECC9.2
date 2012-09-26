@@ -28,6 +28,7 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
 import SiteView.ecc.Modle.GroupModle;
+import SiteView.ecc.Modle.MachineModle;
 import SiteView.ecc.bundle.EditGroupBundle;
 import SiteView.ecc.dialog.ParticularInfo;
 import SiteView.ecc.editors.EccControl;
@@ -110,10 +111,18 @@ public class EccReportView extends ViewPart {
 			@Override
 			public void handleEvent(Event event) {
 				// TODO Auto-generated method stub
-				if(((GroupModle)SiteView.ecc.view.EccTreeControl.item).isEditmonitor()){
-					BusObMaintView.open(ConnectionBroker.get_SiteviewApi(),(BusinessObject)EccControl.item.getData());
-				}else{
-					MessageDialog.openQuestion(new Shell(), "警告", "您没有编辑权限");
+				if(SiteView.ecc.view.EccTreeControl.item instanceof GroupModle){
+					if(((GroupModle)SiteView.ecc.view.EccTreeControl.item).isEditmonitor()){
+						BusObMaintView.open(ConnectionBroker.get_SiteviewApi(),(BusinessObject)EccControl.item.getData());
+					}else{
+						MessageDialog.openQuestion(new Shell(), "警告", "您没有编辑权限");
+					}
+				}else if(SiteView.ecc.view.EccTreeControl.item instanceof MachineModle){
+					if(((MachineModle)SiteView.ecc.view.EccTreeControl.item).isEditMonitor()){
+						BusObMaintView.open(ConnectionBroker.get_SiteviewApi(),(BusinessObject)EccControl.item.getData());
+					}else{
+						MessageDialog.openQuestion(new Shell(), "警告", "您没有编辑权限");
+					}
 				}
 			}
 		});

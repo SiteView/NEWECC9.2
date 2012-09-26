@@ -133,7 +133,7 @@ public class RemoteMacheineBundle implements IAutoTaskExtension {
 	public void addMachine(BusinessObject bo){
 		String groupid=bo.GetField("Groups").get_NativeValue().toString();
 		GroupModle groupModle=SiteViewData.subgroups.get(groupid);
-		MachineModle machine=new MachineModle(bo, true, true, true, true);
+		MachineModle machine=new MachineModle(bo, true, true, true, true,true);
 		groupModle.getMachines().add(machine);
 		SiteViewData.subgroups.put(groupid, groupModle);
 		EccTreeControl.treeViewer.update(groupModle, new String[]{"machine"});

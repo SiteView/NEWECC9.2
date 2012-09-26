@@ -12,6 +12,13 @@ public class MachineModle {
 	private boolean addMonitor;//Ôö¼Ó¼à²âÆ÷
 	private boolean deleteMchine;//É¾³ýÉè±¸
 	private boolean deleteMonitor;//É¾³ý¼à²âÆ÷
+	private boolean editMonitor;//±à¼­¼à²âÆ÷
+	public boolean isEditMonitor() {
+		return editMonitor;
+	}
+	public void setEditMonitor(boolean editMonitor) {
+		this.editMonitor = editMonitor;
+	}
 	public List<MonitorModle> getMonitors() {
 		return monitors;
 	}
@@ -52,13 +59,14 @@ public class MachineModle {
 		this.deleteMonitor = deleteMonitor;
 	}
 	public MachineModle(BusinessObject bo, boolean editMachine,
-			boolean addMonitor, boolean deleteMchine, boolean deleteMonitor) {
+			boolean addMonitor, boolean deleteMchine, boolean deleteMonitor,boolean editMonitor) {
 		super();
 		this.bo = bo;
 		this.editMachine = editMachine;
 		this.addMonitor = addMonitor;
 		this.deleteMchine = deleteMchine;
 		this.deleteMonitor = deleteMonitor;
+		this.editMonitor=editMachine;
 	}
 	
 }

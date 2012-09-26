@@ -100,16 +100,13 @@ public class I18N
 
     public static boolean isI18N(String s)
     {
+    	if(s==null){
+    		return false;
+    	}
         for(int i = 0; i < s.length(); i++)
         {
 			if(Character.getNumericValue(s.charAt(i))==-1)
 				return true;
-			
-/*			if(s.charAt(i) > '\177')
-            {
-                return true;
-            }
- */           
         }
 
         return false;

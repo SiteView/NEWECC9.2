@@ -109,7 +109,7 @@ public class SiteViewData {
 												// true；如果超过集合结尾，则返回false
 			BusinessObject bo = (BusinessObject) interfaceTableIEnum.get_Current();// 获取集合中的当前元素
 			if(hasSuperUser){
-				MachineModle machines = new MachineModle(bo,true,true,true,true);
+				MachineModle machines = new MachineModle(bo,true,true,true,true,true);
 				list.add(machines);
 			}else if(permissions.get(bo.get_RecId())!=null ){
 				BusinessObject bo1=permissions.get(bo.get_RecId());
@@ -119,6 +119,7 @@ public class SiteViewData {
 					machines.setAddMonitor((Boolean)bo1.GetField("AddMonitor").get_NativeValue());
 					machines.setDeleteMchine((Boolean)bo1.GetField("DeleteMachine").get_NativeValue());
 					machines.setDeleteMonitor((Boolean)bo1.GetField("DeleteMonitor").get_NativeValue());
+					machines.setDeleteMonitor((Boolean)bo1.GetField("EditMonitor").get_NativeValue());
 					list.add(machines);
 				}
 			}

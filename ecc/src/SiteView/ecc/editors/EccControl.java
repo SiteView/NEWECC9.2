@@ -313,14 +313,19 @@ public class EccControl extends EditorPart {
 		Menu menu = new Menu(tableItem);
 		MenuItem m1 = new MenuItem(menu, SWT.NONE);
 		m1.setText("±à¼­¼à²âÆ÷");
-		m1.setEnabled(((GroupModle) EccTreeControl.item).isEditmonitor());
 		MenuItem m2 = new MenuItem(menu, SWT.NONE);
 		m2.setText("ÏêÏ¸ÐÅÏ¢");
 		MenuItem m3 = new MenuItem(menu, SWT.NONE);
 		m3.setText("Ë¢ÐÂ¼à²âÆ÷");
 		MenuItem m4 = new MenuItem(menu, SWT.NONE);
 		m4.setText("É¾³ý¼à²âÆ÷");
-		m4.setEnabled(((GroupModle) EccTreeControl.item).isDeleteMonitor());
+		if(EccTreeControl.item instanceof GroupModle){
+			m1.setEnabled(((GroupModle) EccTreeControl.item).isEditmonitor());
+			m4.setEnabled(((GroupModle) EccTreeControl.item).isDeleteMonitor());
+		}else if(EccTreeControl.item instanceof MachineModle){
+			m1.setEnabled(((MachineModle) EccTreeControl.item).isEditMonitor());
+			m4.setEnabled(((MachineModle) EccTreeControl.item).isDeleteMonitor());
+		}
 		m1.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				BusinessObject bo=(BusinessObject) item.getData();
