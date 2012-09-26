@@ -30,11 +30,15 @@ import system.Collections.IEnumerator;
 import system.Xml.XmlElement;
 import SiteView.ecc.Activator;
 import SiteView.ecc.Action.AddGroupAction;
+import SiteView.ecc.Action.AllDelete;
+import SiteView.ecc.Action.AllProhibitAction;
+import SiteView.ecc.Action.AllStart;
 import SiteView.ecc.Action.DNSAction;
 import SiteView.ecc.Action.DeleteGroupAction;
 import SiteView.ecc.Action.DeleteMachineAction;
 import SiteView.ecc.Action.EditorGroupAction;
 import SiteView.ecc.Action.EditorMachineAction;
+import SiteView.ecc.Action.ProhibitAction;
 import SiteView.ecc.Action.SNMPAction;
 import SiteView.ecc.Action.UnixAction;
 import SiteView.ecc.Action.WindowsAction;
@@ -292,12 +296,20 @@ public class EccTreeControl extends ViewPart {
 		for(int i=0;i<list.size();i++){
 			monitorMenu.add(new pingAction(list.get(i)));
 		}
-		EditorGroupAction editorGroupAction=new EditorGroupAction();
-		AddGroupAction addGroupAction=new AddGroupAction();
-		DeleteGroupAction deleteGroupAction=new DeleteGroupAction();
+		EditorGroupAction editorGroupAction=new EditorGroupAction();//编辑组
+		AddGroupAction addGroupAction=new AddGroupAction();//增加子组
+		DeleteGroupAction deleteGroupAction=new DeleteGroupAction();//删除组
+		ProhibitAction prohibitAction=new ProhibitAction();//禁止
+		AllProhibitAction allProhibitAction=new AllProhibitAction();//批量禁止
+		AllStart allStart=new AllStart();//批量启动
+		AllDelete allDelete=new AllDelete();//批量删除
 		manager.add(editorGroupAction);
 		manager.add(addGroupAction);
 		manager.add(deleteGroupAction);
+		manager.add(prohibitAction);
+		manager.add(allProhibitAction);
+		manager.add(allStart);
+		manager.add(allDelete);
 		
 		if(!gm.isAddMachine()){
 			machineMenu.setVisible(false);
@@ -337,11 +349,19 @@ public class EccTreeControl extends ViewPart {
 			}
 		}
 		
-		EditorMachineAction editorMachineAction=new EditorMachineAction();
-		DeleteMachineAction deleteMachineAction=new DeleteMachineAction();
-		DeleteGroupAction deleteMonitorAction=new DeleteGroupAction();
-		manager.add(editorMachineAction);//编辑设备
-		manager.add(deleteMachineAction);//删除设备
+		EditorMachineAction editorMachineAction=new EditorMachineAction();//编辑设备
+		DeleteMachineAction deleteMachineAction=new DeleteMachineAction();//删除设备
+		DeleteGroupAction deleteMonitorAction=new DeleteGroupAction();//删除监测器
+		ProhibitAction prohibitAction=new ProhibitAction();//禁止
+		AllProhibitAction allProhibitAction=new AllProhibitAction();//批量禁止
+		AllStart allStart=new AllStart();//批量启动
+		AllDelete allDelete=new AllDelete();//批量删除
+		manager.add(editorMachineAction);
+		manager.add(deleteMachineAction);
+		manager.add(prohibitAction);
+		manager.add(allProhibitAction);
+		manager.add(allStart);
+		manager.add(allDelete);
 		if(!machine.isDeleteMchine()){
 			
 			deleteMachineAction.setEnabled(false);
