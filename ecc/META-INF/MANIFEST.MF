@@ -10,7 +10,7 @@ Require-Bundle: org.eclipse.ui,
  Siteview.lib;bundle-version="1.0.0",
  Siteview.Forms.Common;bundle-version="1.0.0",
  core.busobmaint;bundle-version="1.0.0",
- com.siteview.kernel.core;bundle-version="1.0.0",
+ com.siteview.kernel.core;bundle-version="1.0.0";resolution:=optional,
  AdminLoader;bundle-version="1.0.0",
  Core.AutoTasks;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
