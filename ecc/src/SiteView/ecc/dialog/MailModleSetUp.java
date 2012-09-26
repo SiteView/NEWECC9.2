@@ -54,15 +54,13 @@ public class MailModleSetUp extends Dialog{
 	private Button cancelButton;
 	private Button cancelButton_1;
 	private Button cancelButton_2;
-	private Button cancelButton_3;
+	private Group group;
+    private Text text_3;
 	public static java.util.List<BusinessObject> modles=null;
-	public static ArrayList<EmailModle> list1=null;
 	public static ListViewer listViewer;
     public Object bb;
     public Shell parentShell;
     public Group grpEmail_1;
-    private Group group;
-    private Text text_3;
 	public MailModleSetUp(Shell parentShell) {
 		super(parentShell);
 		this.parentShell=parentShell;
@@ -92,46 +90,39 @@ public class MailModleSetUp extends Dialog{
 		grpEmail.setLayout(new FillLayout());
 		
 	    listViewer = new ListViewer(grpEmail, SWT.BORDER | SWT.V_SCROLL);
-		list1=new ArrayList<EmailModle>();
 		
 		for(BusinessObject bo:modles){
 			String ModleType=bo.GetField("ModleType").get_NativeValue().toString();
 			if("email".equals(ModleType)){
 				listViewer.add(bo.GetField("MailModle").get_NativeValue().toString());
-			
-				String MailTitle=bo.GetField("MailTitle").get_NativeValue().toString();
-				String MailContent=bo.GetField("MailContent").get_NativeValue().toString();
-				String MailModle=bo.GetField("MailModle").get_NativeValue().toString();
-				
-				EmailModle em=new EmailModle(bo);
-				em.setMailTitle(MailTitle);
-				em.setMailContent(MailContent);
-				em.setMailModle(MailModle);
-				
-				list1.add(em);
 			}
 		}
-		
-		listViewer.addDoubleClickListener(new IDoubleClickListener() {//双击事件:选中左边列表中的元素右边显示相应的信息
-			public void doubleClick(DoubleClickEvent event) {
+		listViewer.addSelectionChangedListener(new ISelectionChangedListener() {//单击事件:选中左边列表中的元素右边显示相应的信息
+			public void selectionChanged(SelectionChangedEvent event) {
 				 ISelection selection = listViewer.getSelection();
 			     bb = ((IStructuredSelection)selection).getFirstElement();//得到列表框中当前选中的元素
-			     ICollection ico=FileTools.getBussCollection("EccMailModle");
-			     IEnumerator ienum=ico.GetEnumerator();
-			     while(ienum.MoveNext()){
-			    	 BusinessObject bj=(BusinessObject)ienum.get_Current();
-			    	 if(bj!=null){
-			    		 String MailModle=bj.GetField("MailModle").get_NativeValue().toString();
-			    		 String ModleType=bj.GetField("ModleType").get_NativeValue().toString();
-			    		 if(bb.equals(MailModle)&&"email".equals(ModleType)){
-						     text.setText(bj.GetField("MailTitle").get_NativeValue().toString());
-						     text_1.setText(bj.GetField("MailContent").get_NativeValue().toString());
-			    		 }
-			    	 }
-			     }
-
+			     //System.out.println(bb);
+			     if(bb!=null){//防止删除的时候bb为null出现异常
+			    	 ICollection ico=FileTools.getBussCollection("EccMailModle");
+				     IEnumerator ienum=ico.GetEnumerator();
+				     while(ienum.MoveNext()){
+				    	 BusinessObject bj=(BusinessObject)ienum.get_Current();
+				    	 if(bj!=null){
+				    		 String MailModle=bj.GetField("MailModle").get_NativeValue().toString();
+				    		 String ModleType=bj.GetField("ModleType").get_NativeValue().toString();
+				    		 if(bb.equals(MailModle)&&"email".equals(ModleType)){
+							     text.setText(bj.GetField("MailTitle").get_NativeValue().toString());
+							     text_1.setText(bj.GetField("MailContent").get_NativeValue().toString());
+							     if(!(text_2.getText().isEmpty())){
+							    	 text_2.setText("");
+							     }
+				    		 }
+				    	 }
+				     }
+	    		 }
 			}
 		});
+
 		grpEmail_1 = new Group(sashForm, SWT.NONE);
 		grpEmail_1.setText("Email\u6A21\u677F\u8BBE\u7F6E");
 		
@@ -159,6 +150,16 @@ public class MailModleSetUp extends Dialog{
 		text_2 = new Text(grpEmail_1, SWT.BORDER);
 		text_2.setBounds(70, 215, 344, 18);
 		
+		group = new Group(grpEmail_1, SWT.NONE);
+		group.setBounds(10, 252, 404, 143);
+		group.setText("\u8BF4\u660E\u5217\u8868");
+		
+		text_3 = new Text(group, SWT.BORDER|SWT.WRAP);
+		text_3.setBounds(0, 10, 404, 130);
+		text_3.setFont(SWTResourceManager.getFont("宋体", 10, SWT.NORMAL));
+		text_3.setText("注意：系统模板不可以删除和修改你可以拷贝参数，请不要随意输入“@”和两个“@”间的参数变量,可以参考系统模板进行添加。参数变量如下： @FullPathGroup@ :监测点所在设备所在组的全部路径名称@Status@监测器点的状态 @AllGroup@ :监测点所在设备所在组名称@Group@监测点所在组下 @Device@ :监测点所在设备的名称@Monitor@ :监测点名称@MonitorDstr@ :监测器描述@MonitorAlertDes@ :监测点报警描述，在监测点高级设置中设置 @Time@ : 报警时间");
+		text_3.setEnabled(false);
+		
 		sashForm.setWeights(new int[] {147, 403});
 		return composite;
 	}
@@ -171,8 +172,6 @@ public class MailModleSetUp extends Dialog{
 				"更新", true);
 		 cancelButton_2 = createButton(parent, IDialogConstants.CANCEL_ID,
 				"关闭", true);
-		 cancelButton_3 = createButton(parent, IDialogConstants.CLOSE_ID,
-				"系统变量说明", true);
 	}
 	protected void buttonPressed(int buttonId){
 		L1:if(buttonId==IDialogConstants.OK_ID){//添加
@@ -200,37 +199,17 @@ public class MailModleSetUp extends Dialog{
 			obj.SaveObject(ConnectionBroker.get_SiteviewApi(), true,
 					true);//将添加的元素的数据存储到数据库中
 			listViewer.add(obj.GetField("MailModle").get_NativeValue().toString());//在列表框中添加元素
-		}
-	
-		L2:if(buttonId==IDialogConstants.ABORT_ID){//删除
-			if("Default".equals(bb)||"SelfDefine".equals(bb)||"LogTemplate".equals(bb)){//判断是不是自定义模板
-				MessageDialog.openInformation(parentShell, "提示", "系统自定义模板不能被删除!");
-				break L2;
-			 }
-				     ICollection ico=FileTools.getBussCollection("EccMailModle");
-				     IEnumerator ienum=ico.GetEnumerator();
-				     while(ienum.MoveNext()){
-				    	 BusinessObject bv=(BusinessObject)ienum.get_Current();
-				    	 if(bv!=null){
-				    		 String MailModle=bv.GetField("MailModle").get_NativeValue().toString();
-				    		 String ModleType=bv.GetField("ModleType").get_NativeValue().toString();
-				    		 if(bb.equals(MailModle)&&"email".equals(ModleType)){
-				    			 listViewer.remove(bb);//移除列表框中当前选中的元素
-				    			 bv.DeleteObject(ConnectionBroker.get_SiteviewApi());//在数据库中把当前选中的元素的数据删除
-				    		 }
-				    	 }
-				     }
-		}
-		
-		L3:if(buttonId==IDialogConstants.BACK_ID){//更新即修改功能键
-			if("Default".equals(bb)||"SelfDefine".equals(bb)||"LogTemplate".equals(bb)){//判断是不是自定义模板
-				MessageDialog.openInformation(parentShell, "提示", "系统自定义模板,不能够被更新!");
-				break L3;
-			 }
-			if(listViewer.getSelection().isEmpty()){
-				MessageDialog.openInformation(parentShell, "提示", "请选择要更新的邮件模板!");
-				break L3;
+			
+			if(!(text_2.getText().isEmpty())){
+				text_2.setText("");
 			}
+		}
+	L2:if(buttonId==IDialogConstants.ABORT_ID){//删除
+		if("Default".equals(bb)||"SelfDefine".equals(bb)||"LogTemplate".equals(bb)){//判断是不是自定义模板
+			MessageDialog.openInformation(parentShell, "提示", "系统自定义模板不能被删除!");
+			break L2;
+		 }
+		
 			ICollection ico=FileTools.getBussCollection("EccMailModle");
 		     IEnumerator ienum=ico.GetEnumerator();
 		     while(ienum.MoveNext()){
@@ -238,39 +217,46 @@ public class MailModleSetUp extends Dialog{
 		    	 if(bv!=null){
 		    		 String MailModle=bv.GetField("MailModle").get_NativeValue().toString();
 		    		 String ModleType=bv.GetField("ModleType").get_NativeValue().toString();
+		    		 if(bb!=null){//防止删除的时候bb为null出现异常
 		    		 if(bb.equals(MailModle)&&"email".equals(ModleType)){
-		    			 bv.GetField("MailTitle").SetValue(new SiteviewValue(text.getText()));//得到更新后的邮件标题
-		    			 bv.GetField("MailContent").SetValue(new SiteviewValue(text_1.getText()));//得到更新后的邮件内容
-		    			 bv.SaveObject(ConnectionBroker.get_SiteviewApi(), true,//将修改后的数据存储到数据库
-									true);
-		    			 MessageDialog.openInformation(parentShell, "提示", "更新成功!");
+		    			 listViewer.remove(bb);//移除列表框中当前选中的元素
+		    			 bv.DeleteObject(ConnectionBroker.get_SiteviewApi());//在数据库中把当前选中的元素的数据删除
+		    		 }
 		    		 }
 		    	 }
-		}
-		}
+		     }
 		
+			     
+	}
+	
+	L3:if(buttonId==IDialogConstants.BACK_ID){//更新即修改功能键
+		if("Default".equals(bb)||"SelfDefine".equals(bb)||"LogTemplate".equals(bb)){//判断是不是自定义模板
+			MessageDialog.openInformation(parentShell, "提示", "系统自定义模板,不能够被更新!");
+			break L3;
+		 }
+		if(listViewer.getSelection().isEmpty()){
+			MessageDialog.openInformation(parentShell, "提示", "请选择要更新的邮件模板!");
+			break L3;
+		}
+		ICollection ico=FileTools.getBussCollection("EccMailModle");
+	     IEnumerator ienum=ico.GetEnumerator();
+	     while(ienum.MoveNext()){
+	    	 BusinessObject bv=(BusinessObject)ienum.get_Current();
+	    	 if(bv!=null){
+	    		 String MailModle=bv.GetField("MailModle").get_NativeValue().toString();
+	    		 String ModleType=bv.GetField("ModleType").get_NativeValue().toString();
+	    		 if(bb.equals(MailModle)&&"email".equals(ModleType)){
+	    			 bv.GetField("MailTitle").SetValue(new SiteviewValue(text.getText()));//得到更新后的邮件标题
+	    			 bv.GetField("MailContent").SetValue(new SiteviewValue(text_1.getText()));//得到更新后的邮件内容
+	    			 bv.SaveObject(ConnectionBroker.get_SiteviewApi(), true,//将修改后的数据存储到数据库
+								true);
+	    			 MessageDialog.openInformation(parentShell, "提示", "更新成功!");
+	    		 }
+	    	 }
+	}
+	}
 		if(buttonId==IDialogConstants.CANCEL_ID){//关闭
 			this.close();
-		}
-		L4:if(cancelButton_3.getText().equals("系统变量说明")&&buttonId==IDialogConstants.CLOSE_ID){//系统变量说明
-			group = new Group(grpEmail_1, SWT.NONE);
-			group.setBounds(10, 254, 404, 141);
-			group.setText("\u8BF4\u660E\u5217\u8868");
-			
-			text_3 = new Text(group, SWT.BORDER|SWT.WRAP);
-			text_3.setBounds(0, 10, 404, 130);
-			text_3.setFont(SWTResourceManager.getFont("宋体", 10, SWT.NORMAL));
-			text_3.setText("注意：系统模板不可以删除和修改你可以拷贝参数，请不要随意输入“@”和两个“@”间的参数变量,可以参考系统模板进行添加。参数变量如下： @FullPathGroup@ :监测点所在设备所在组的全部路径名称@Status@监测器点的状态 @AllGroup@ :监测点所在设备所在组名称@Group@监测点所在组下 @Device@ :监测点所在设备的名称@Monitor@ :监测点名称@MonitorDstr@ :监测器描述@MonitorAlertDes@ :监测点报警描述，在监测点高级设置中设置 @Time@ : 报警时间");
-			text_3.setEnabled(false);
-			
-			cancelButton_3.setText("隐藏");
-			break L4;
-		}
-		if(cancelButton_3.getText().equals("隐藏")&&buttonId==IDialogConstants.CLOSE_ID){//隐藏
-			System.out.println("chenggong");
-			group.dispose();
-			text_3.dispose();
-			cancelButton_3.setText("系统变量说明");
 		}
 	}
 }

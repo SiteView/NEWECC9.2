@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -29,8 +30,10 @@ public class AddTableDuty extends Dialog{
 	public static Combo combo;
 	private Button applyButton;
 	private Button closeButton;
+	public Shell parent;
 	public AddTableDuty(Shell parent) {
 		super(parent);
+		this.parent=parent;
 	}
 	@Override
 	protected void configureShell(Shell newShell) {
@@ -55,24 +58,24 @@ public class AddTableDuty extends Dialog{
          lblNewLabel.setText("\u503C\u73ED\u8868\u540D\u79F0* :");
          lblNewLabel.setBounds(29, 42, 99, 22);
          
-         text = new Text(g, SWT.BORDER);//第一个文本输入框
+         text = new Text(g, SWT.BORDER);//值班表名称
          text.setBounds(145, 42, 156, 18);
-   
-         
+        
          Label lblNewLabel_1 = new Label(g, SWT.NONE);
          lblNewLabel_1.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
          lblNewLabel_1.setBounds(26, 82, 98, 22);
          lblNewLabel_1.setText("\u503C\u73ED\u8868\u63CF\u8FF0* :");
          
-         text_1 = new Text(g, SWT.BORDER);//第二个文本输入框
+         text_1 = new Text(g, SWT.BORDER);//值班表描述
          text_1.setBounds(145, 80, 156, 18);
+         
    
          Label lblNewLabel_2 = new Label(g, SWT.NONE);
          lblNewLabel_2.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
          lblNewLabel_2.setBounds(29, 122, 98, 22);
          lblNewLabel_2.setText("\u503C\u73ED\u7C7B\u578B :");
          
-         combo = new Combo(g, SWT.NONE);//第三个文本输入框
+         combo = new Combo(g, SWT.NONE);//值班表类型
          combo.setBounds(145, 120, 156, 18);
          combo.add("day"); //循环添加选项
          combo.add("day of week");

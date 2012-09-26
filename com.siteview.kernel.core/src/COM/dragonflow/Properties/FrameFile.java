@@ -35,11 +35,9 @@ import java.util.UUID;
 
 import my.util.email.MailSenderInfo;
 import my.util.email.SimpleMailSender;
-
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
 import system.Xml.XmlElement;
-
 import Siteview.Operators;
 import Siteview.QueryInfoToGet;
 import Siteview.SiteviewQuery;
@@ -666,7 +664,6 @@ public class FrameFile {
 		} catch (Exception e) {
 		}
 	}
-
 
 	private static void Alarm(String string) {
 		if(string.equals("email")){

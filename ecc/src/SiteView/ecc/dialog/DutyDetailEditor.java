@@ -133,6 +133,11 @@ private Text text_4;
 					| SWT.SHORT);
 		    endTime.setLocation(197, 123);//结束时间文本输入框
 			endTime.setSize(79, 18);
+			
+			endcal.set(Calendar.HOUR_OF_DAY, 18);
+			endcal.set(Calendar.MINUTE, 0);
+			endcal.set(Calendar.SECOND, 0);
+			
 			endTime.setHours(endcal.get(Calendar.HOUR_OF_DAY));
 			endTime.setMinutes(endcal.get(Calendar.MINUTE));
 			endTime.setSeconds(endcal.get(Calendar.SECOND));
@@ -174,7 +179,7 @@ private Text text_4;
 			lblNewLabel_3.setText("\u5F00\u59CB\u65F6\u95F4:");
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-			//Date startDateTime  = new Date();
+			Date startDateTime  = new Date();
 			Date endDateTime  = new Date();
 			startcal = Calendar.getInstance();
 			startcal.setTime(startDateTime);
@@ -182,6 +187,11 @@ private Text text_4;
 					| SWT.SHORT);
 			startTime.setLocation(197, 122);//开始时间文本输入框
 			startTime.setSize(79, 18);
+			
+			startcal.set(Calendar.HOUR_OF_DAY,9);
+			startcal.set(Calendar.MINUTE, 0);
+			startcal.set(Calendar.SECOND, 0);
+			
 			startTime.setHours(startcal.get(Calendar.HOUR_OF_DAY));
 			startTime.setMinutes(startcal.get(Calendar.MINUTE));
 			startTime.setSeconds(startcal.get(Calendar.SECOND));
@@ -206,6 +216,11 @@ private Text text_4;
 					| SWT.SHORT);
 		    endTime.setLocation(197, 154);//结束时间文本输入框
 			endTime.setSize(79, 18);
+			
+			endcal.set(Calendar.HOUR_OF_DAY, 18);
+			endcal.set(Calendar.MINUTE, 0);
+			endcal.set(Calendar.SECOND, 0);
+			
 			endTime.setHours(endcal.get(Calendar.HOUR_OF_DAY));
 			endTime.setMinutes(endcal.get(Calendar.MINUTE));
 			endTime.setSeconds(endcal.get(Calendar.SECOND));
@@ -248,6 +263,11 @@ private Text text_4;
 						| SWT.SHORT);
 				startTime.setLocation(197, 122);//开始时间文本输入框
 				startTime.setSize(79, 18);
+				
+				startcal.set(Calendar.HOUR_OF_DAY,9);
+				startcal.set(Calendar.MINUTE, 0);
+				startcal.set(Calendar.SECOND, 0);
+				
 				startTime.setHours(startcal.get(Calendar.HOUR_OF_DAY));
 				startTime.setMinutes(startcal.get(Calendar.MINUTE));
 				startTime.setSeconds(startcal.get(Calendar.SECOND));
@@ -272,6 +292,11 @@ private Text text_4;
 						| SWT.SHORT);
 			    endTime.setLocation(197, 154);//结束时间文本输入框
 				endTime.setSize(79, 18);
+				
+				endcal.set(Calendar.HOUR_OF_DAY, 18);
+				endcal.set(Calendar.MINUTE, 0);
+				endcal.set(Calendar.SECOND, 0);
+				
 				endTime.setHours(endcal.get(Calendar.HOUR_OF_DAY));
 				endTime.setMinutes(endcal.get(Calendar.MINUTE));
 				endTime.setSeconds(endcal.get(Calendar.SECOND));

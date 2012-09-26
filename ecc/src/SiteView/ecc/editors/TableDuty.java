@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -48,6 +47,7 @@ import SiteView.ecc.dialog.DutyEditor;
 import Siteview.Api.BusinessObject;
 import Siteview.Api.BusinessObjectCollection;
 import Siteview.Windows.Forms.ConnectionBroker;
+import Siteview.Windows.Forms.MessageBox;
 
 
 
@@ -62,8 +62,8 @@ public class TableDuty extends EditorPart{
 	public Button btnNewButton_1;
 	public Button btnNewButton_2;
 	public String type;
-	public BusinessObject bo1;
-	
+	public BusinessObject bo1; 
+	public TableModle tm;
 	public TableDuty() {
 		super();
 	}
@@ -118,12 +118,18 @@ public class TableDuty extends EditorPart{
 		button_1.setText("\u5220\u9664");
 		button_1.addSelectionListener(new SelectionAdapter(){//控制第一个表单的删除按钮
 			public void widgetSelected(SelectionEvent e){//删除按钮监听事件
-				TableModle tm=(TableModle) tableItem.getData();
-				BusinessObject bo=tm.getBo();
-				bo.DeleteObject(ConnectionBroker.get_SiteviewApi());//将数据库的数据删除
-				TableDutyInfor.list.remove(tm);//将表单里的数据删除
-				TableViewer.setInput(TableDutyInfor.list);
-				TableViewer.refresh();
+				if(tm==null){
+					MessageBox messageBox=new MessageBox();
+					messageBox.Show("你还没有选定想删除的项!", "提示", SWT.OK);
+				}else{
+					tm=(TableModle) tableItem.getData();
+					BusinessObject bo=tm.getBo();
+					bo.DeleteObject(ConnectionBroker.get_SiteviewApi());//将数据库的数据删除
+					TableDutyInfor.list.remove(tm);//将表单里的数据删除
+					TableViewer.setInput(TableDutyInfor.list);
+					TableViewer.refresh();
+				}
+			    
 				
 //				DutyDetailInfor.list.clear();//将表单里的数据删除
 //				TableViewer1.setInput(DutyDetailInfor.list);
