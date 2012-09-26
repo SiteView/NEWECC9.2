@@ -1,7 +1,10 @@
 package SiteView.ecc.dialog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -14,6 +17,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -28,8 +32,10 @@ import SiteView.ecc.Control.GroupTreeContentProvider;
 import SiteView.ecc.Control.GroupTreeLabelProvider;
 import SiteView.ecc.Modle.AlarmRuleInfo;
 import SiteView.ecc.Modle.EmailModle;
+import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MachineModle;
 import SiteView.ecc.Modle.MonitorModle;
+import SiteView.ecc.Modle.SiteViewEcc;
 import SiteView.ecc.Modle.TableModle;
 import SiteView.ecc.data.SiteViewData;
 import SiteView.ecc.data.TableDutyInfor;
@@ -77,8 +83,9 @@ public class AddEmailAlarmRule extends Dialog {
 	Button btnRadioButton;// 选择发送
 	Tree tree;
 	List<String> monitorid = new ArrayList<String>();
+	Map<String, TreeItem> allmonitorid = new HashMap<String, TreeItem>();
 	List<String> alarmname;
-	BusinessObject bo;
+	static BusinessObject bo;
 
 	public AddEmailAlarmRule(Shell parentShell, String name) {
 		super(parentShell);
@@ -87,23 +94,27 @@ public class AddEmailAlarmRule extends Dialog {
 	}
 	
 	
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public AddEmailAlarmRule(Shell parentShell, String name,BusinessObject bo) {
 		super(parentShell);
 		this.name = name;
 		this.bo=bo;
 		alarmname = getAlarmName();
+//		getAll(tree.getItems());
 	}
 
 	protected void configureShell(Shell newShell) {
 		newShell.setSize(650, 600);
 		newShell.setLocation(280, 100);
-		if (name == "email") {
+		if (name.equals("email")) {
 			newShell.setText("添加Email报警");
-		} else if (name == "SMS") {
+		} else if (name.equals("SMS")) {
 			newShell.setText("添加短信报警");
-		} else if (name == "script") {
+		} else if (name.equals("script")) {
 			newShell.setText("添加脚本报警");
-		} else if (name == "sound") {
+		} else if (name.equals("sound")) {
 			newShell.setText("添加声音报警");
 		}
 		super.configureShell(newShell);
@@ -127,8 +138,7 @@ public class AddEmailAlarmRule extends Dialog {
 		group.setLayout(new FillLayout());
 		TreeViewer treeViewer = new TreeViewer(group, SWT.CHECK);
 		tree = treeViewer.getTree();
-		tree.setBackground(SWTResourceManager
-				.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		tree.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		tree.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				TreeItem item=(TreeItem) e.item;
@@ -138,32 +148,25 @@ public class AddEmailAlarmRule extends Dialog {
 				}else{
 					DeletChild(item);
 				}
-				
 			}
-			
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
 		});
 
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
-		composite_1.setBackground(SWTResourceManager
-				.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		composite_1.setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		SashForm sashForm_1 = new SashForm(composite_1, SWT.VERTICAL);
-		sashForm_1.setBackground(SWTResourceManager
-				.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		sashForm_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 
-		if (name == "email") {
+		if (name.equals("email")) {
 			createEmailGroup(sashForm_1);
-		} else if (name == "SMS") {
+		} else if (name.equals("SMS")) {
 			createMessageGroup(sashForm_1);
-		} else if (name == "script") {
+		} else if (name.equals("script")) {
 			createScriptGroup(sashForm_1);
-		} else if (name == "sound") {
+		} else if (name.equals("sound")) {
 			createSoundGroup(sashForm_1);
 		}
 
@@ -183,6 +186,13 @@ public class AddEmailAlarmRule extends Dialog {
 		combo.add("危险");
 		combo.add("错误");
 		combo.select(0);
+		if(bo!=null){
+			if(bo.GetField("AlarmEvent").get_NativeValue().toString().equals("error")){
+				combo.setText("错误");				
+			}else{
+				combo.setText("危险");
+			}
+		}
 
 		button = new Button(group_1, SWT.RADIO);
 		button.setBounds(10, 52, 160, 16);
@@ -205,6 +215,9 @@ public class AddEmailAlarmRule extends Dialog {
 				e.doit = b;
 			}
 		});
+		if(bo!=null&&bo.GetField("AlarmRule").get_NativeValue().toString().equals("continue")){
+			text.setText(bo.GetField("StartCount").get_NativeValue().toString());
+		}
 
 		Label lblNewLabel = new Label(group_1, SWT.NONE);
 		lblNewLabel.setBackground(SWTResourceManager
@@ -234,6 +247,9 @@ public class AddEmailAlarmRule extends Dialog {
 				e.doit = b;
 			}
 		});
+		if(bo!=null&&bo.GetField("AlarmRule").get_NativeValue().toString().equals("once")){
+			text_1.setText(bo.GetField("StartCount").get_NativeValue().toString());
+		}
 
 		Label label_3 = new Label(group_1, SWT.NONE);
 		label_3.setBackground(SWTResourceManager
@@ -263,6 +279,10 @@ public class AddEmailAlarmRule extends Dialog {
 				e.doit = b;
 			}
 		});
+		if(bo!=null&&bo.GetField("AlarmRule").get_NativeValue().toString().equals("select")){
+			text_2.setText(bo.GetField("StartCount").get_NativeValue().toString());
+			text_3.setText(bo.GetField("RepeatCount").get_NativeValue().toString());
+		}
 
 		Label label_4 = new Label(group_1, SWT.NONE);
 		label_4.setBackground(SWTResourceManager
@@ -290,6 +310,30 @@ public class AddEmailAlarmRule extends Dialog {
 		treeViewer.setContentProvider(new GroupTreeContentProvider());
 		treeViewer.setLabelProvider(new GroupTreeLabelProvider());
 		treeViewer.setInput(SiteViewData.CreatTreeData());
+//		System.out.println(treeViewer);
+//		treeViewer.get
+//		TreeItem[] item = tree.getItems();
+//		getAll(item);
+//		List s=(List) treeViewer.getInput();
+//		SiteViewEcc site=(SiteViewEcc) s.get(0);
+//		List<GroupModle> s1=site.getList();
+//		getAll(s1);
+//		for (TreeItem treeItem : item) {
+//			treeItem.setExpanded(true);
+//		}
+//		if(bo!=null){
+//			TreeItem[] item = tree.getItems();
+//			Map<String, TreeItem> all = getAll(item);
+//			String name = bo.GetField("AlarmName").get_NativeValue().toString();
+//			ICollection ico = FileTools.getBussCollection("AlarmName",name,"EccAlarmRule");
+//			IEnumerator ie = ico.GetEnumerator();
+//			while (ie.MoveNext()) {
+//				String id = ((BusinessObject)ie.get_Current()).GetField("ModleId").get_NativeValue().toString();
+//				if(all.get(id)!=null){
+//					all.get(id).setChecked(true);
+//				}
+//			}
+//		}
 		return composite;
 	}
 	
@@ -344,6 +388,9 @@ public class AddEmailAlarmRule extends Dialog {
 
 		text_4 = new Text(group, SWT.BORDER);
 		text_4.setBounds(135, 20, 200, 18);
+		if(bo!=null){
+			text_4.setText(bo.GetField("AlarmName").get_NativeValue().toString());
+		}
 
 		Label receiveAddress = new Label(group, SWT.NONE);
 		receiveAddress.setBackground(SWTResourceManager
@@ -370,6 +417,9 @@ public class AddEmailAlarmRule extends Dialog {
 			combo_4.add(bo.GetField("SetName").get_NativeValue().toString());
 		}
 		combo_4.select(0);
+		if(bo!=null){
+			combo_4.setText(bo.GetField("Address").get_NativeValue().toString());
+		}
 
 		Label label = new Label(group, SWT.NONE);
 		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -378,6 +428,9 @@ public class AddEmailAlarmRule extends Dialog {
 
 		text_6 = new Text(group, SWT.BORDER);
 		text_6.setBounds(135, 76, 200, 18);
+		if(bo!=null){
+			text_6.setText(bo.GetField("Other").get_NativeValue().toString());
+		}
 
 		Label lblEmail = new Label(group, SWT.NONE);
 		lblEmail.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -400,6 +453,10 @@ public class AddEmailAlarmRule extends Dialog {
 					.get_NativeValue().toString());
 		}
 		combo_1.select(0);
+		if(bo!=null){
+			String ModleId = bo.GetField("ModleId").get_NativeValue().toString();
+			combo_1.setText(EccTreeControl.CreateBo("RecId", ModleId, "EccMailModle").GetField("MailModle").get_NativeValue().toString());
+		}
 
 		Label label_1 = new Label(group, SWT.NONE);
 		label_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -408,6 +465,9 @@ public class AddEmailAlarmRule extends Dialog {
 
 		text_8 = new Text(group, SWT.BORDER);
 		text_8.setBounds(135, 132, 200, 18);
+		if(bo!=null){			
+			text_8.setText(bo.GetField("PromotionCount").get_NativeValue().toString());
+		}
 
 		Label label_2 = new Label(group, SWT.NONE);
 		label_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -416,6 +476,9 @@ public class AddEmailAlarmRule extends Dialog {
 
 		text_9 = new Text(group, SWT.BORDER);
 		text_9.setBounds(135, 160, 200, 18);
+		if(bo!=null){
+			text_9.setText(bo.GetField("PromotionAddress").get_NativeValue().toString());
+		}
 
 		Label label_3 = new Label(group, SWT.NONE);
 		label_3.setEnabled(true);
@@ -425,6 +488,9 @@ public class AddEmailAlarmRule extends Dialog {
 
 		text_10 = new Text(group, SWT.BORDER);
 		text_10.setBounds(135, 188, 200, 18);
+		if(bo!=null){
+			text_10.setText(bo.GetField("StopCount").get_NativeValue().toString());
+		}
 
 		Label lblNewLabel_2 = new Label(group, SWT.NONE);
 		lblNewLabel_2.setBackground(SWTResourceManager
@@ -450,6 +516,10 @@ public class AddEmailAlarmRule extends Dialog {
 					.get_NativeValue().toString());
 		}
 		combo_2.select(0);
+		if(bo!=null){
+			String dutyid = bo.GetField("DutyId").get_NativeValue().toString();
+			combo_2.setText(EccTreeControl.CreateBo("RecId", dutyid, "EccDutyTable").GetField("DutyTableName").get_NativeValue().toString());
+		}
 
 		Label label_4 = new Label(group, SWT.NONE);
 		label_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -460,6 +530,9 @@ public class AddEmailAlarmRule extends Dialog {
 		combo_3.setBounds(135, 244, 200, 18);
 		combo_3.add("空");
 		combo_3.select(0);
+		if(bo!=null){
+			combo_3.setText(bo.GetField("AlarmTactful").get_NativeValue().toString());
+		}
 	}
 
 	// 设置短信报警
@@ -741,7 +814,7 @@ public class AddEmailAlarmRule extends Dialog {
 				MessageDialog.openInformation(new Shell(), "提示", "请选择监听器！");
 				return;
 			}else{
-				BusinessObject bo=null;
+//				BusinessObject bo=null;
 				for (String string : mid) {	
 					bo = ConnectionBroker.get_SiteviewApi()
 							.get_BusObService().Create("EccAlarmRule");
@@ -858,6 +931,7 @@ public class AddEmailAlarmRule extends Dialog {
 		}
 	}
 	
+	//得到选中的監視器id
 	public List<String> getSelect(TreeItem[] item){
 		for (TreeItem treeItem : item) {
 			if(treeItem.getChecked()){
@@ -872,6 +946,20 @@ public class AddEmailAlarmRule extends Dialog {
 		}
 		return monitorid;
 	}
+	
+//	//得到所有的监视器id
+//	public Map<String, MonitorModle> getAll(List<GroupModle> s1){
+//		for(GroupModle group:s1){
+//			List<MonitorModle> monitor=group.getMonitors();
+//			for(MonitorModle mm:monitor){
+//				mm.getBo()
+//			}
+//			List<MachineModle> machine=group.getMachines();
+//			
+//		}
+//	
+//		return allmonitorid;
+//	}
 	
 	//获取报警表中所有已存在的报警名称
 	public List<String> getAlarmName(){

@@ -16,6 +16,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.TableCursor;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -162,35 +163,22 @@ public class AlarmRule extends EditorPart {
 		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-		table.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
-				TableItem[] item = table.getItems(); 
-				for (TableItem tableItem : item) {
-					tableItem.setChecked(false);
-				}
-				tableItem = (TableItem) e.item;
-				tableItem.setChecked(true);
-			}
-			
-			public void widgetDefaultSelected(SelectionEvent e) {
-				
-			}
-		});
-		
-		table.addMouseListener(new MouseListener() {
-			public void mouseUp(MouseEvent e) {
-				if(e.x>400 && e.x<500){
-					BusinessObject bo = (BusinessObject) tableItem.getData();
-					String name=bo.GetField("AlarmType").get_NativeValue().toString();
-					AddEmailAlarmRule aear = new AddEmailAlarmRule(null,name,bo);
-					aear.open();
-				}
-			}
-			public void mouseDown(MouseEvent e) {
-			}
-			public void mouseDoubleClick(MouseEvent e) {
-			}
-		});
+//		table.addSelectionListener(new SelectionListener() {
+//			public void widgetSelected(SelectionEvent e) {
+//				TableItem[] item = table.getItems(); 
+//				for (TableItem tableItem : item) {
+//					tableItem.setChecked(false);
+////					tableItem.setBackground(null);
+//				}
+//				tableItem = (TableItem) e.item;
+//				tableItem.setChecked(true);
+////				tableItem.setBackground(table.getDisplay().getSystemColor(SWT.COLOR_BLUE));
+//			}
+//			
+//			public void widgetDefaultSelected(SelectionEvent e) {
+//				
+//			}
+//		});
 		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn.setWidth(100);
@@ -212,6 +200,28 @@ public class AlarmRule extends EditorPart {
 		tableColumn_3.setWidth(100);
 		tableColumn_3.setText("\u7F16\u8F91");
 		createTableItem();
+		final TableCursor cursor = new TableCursor(table, SWT.NONE);
+		cursor.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				int column = cursor.getColumn();
+				TableItem[] item = table.getItems(); 
+				for (TableItem tableItem : item) {
+					tableItem.setChecked(false);
+				}
+				if(column==4){
+					TableItem tableItem = cursor.getRow();
+					tableItem.setChecked(true);
+					BusinessObject bo1 = (BusinessObject)tableItem.getData();
+					String name = bo1.GetField("AlarmType").get_NativeValue().toString();
+					AddEmailAlarmRule aear = new AddEmailAlarmRule(null, name, bo1);
+					aear.open();
+				}
+			}
+			
+			public void widgetDefaultSelected(SelectionEvent e) {
+				
+			}
+		});
 		
 		Label lblNewLabel_1 = new Label(sashForm, SWT.NONE);
 		lblNewLabel_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
