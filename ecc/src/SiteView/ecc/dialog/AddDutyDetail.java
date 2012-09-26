@@ -99,14 +99,17 @@ public class AddDutyDetail extends Dialog{
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 			Date startDateTime  = new Date();
-			Date endDateTime  = new Date();
 			startcal = Calendar.getInstance();
 			startcal.setTime(startDateTime);
 			startTime = new DateTime(g, SWT.TIME
 					| SWT.SHORT);
 			startTime.setLocation(176, 88);//开始时间文本输入框
 			startTime.setSize(79, 21);
-			FormData fd_startTime = new FormData();
+			
+			startcal.set(Calendar.HOUR_OF_DAY, 9);
+			startcal.set(Calendar.MINUTE, 0);
+			startcal.set(Calendar.SECOND, 0);
+			
 			startTime.setHours(startcal.get(Calendar.HOUR_OF_DAY));
 			startTime.setMinutes(startcal.get(Calendar.MINUTE));
 			startTime.setSeconds(startcal.get(Calendar.SECOND));
@@ -125,12 +128,18 @@ public class AddDutyDetail extends Dialog{
 			lblNewLabel_4.setBounds(20, 123, 122, 18);
 			lblNewLabel_4.setText("\u7ED3\u675F\u65F6\u95F4");
 			
+			Date endDateTime  = new Date();
 			Calendar endcal = Calendar.getInstance();
 			endcal.setTime(endDateTime);
 		    endTime = new DateTime(g, SWT.TIME
 					| SWT.SHORT);
 			endTime.setLocation(176, 123);//结束时间文本输入框
 			endTime.setSize(79, 21);
+			
+			endcal.set(Calendar.HOUR_OF_DAY, 18);
+			endcal.set(Calendar.MINUTE, 0);
+			endcal.set(Calendar.SECOND, 0);
+			
 			endTime.setHours(endcal.get(Calendar.HOUR_OF_DAY));
 			endTime.setMinutes(endcal.get(Calendar.MINUTE));
 			endTime.setSeconds(endcal.get(Calendar.SECOND));
@@ -176,7 +185,11 @@ public class AddDutyDetail extends Dialog{
 						| SWT.SHORT);
 				startTime.setLocation(176, 112);//开始时间文本输入框
 				startTime.setSize(79, 21);
-				FormData fd_startTime = new FormData();
+				
+				startcal.set(Calendar.HOUR_OF_DAY, 9);
+				startcal.set(Calendar.MINUTE, 0);
+				startcal.set(Calendar.SECOND,0);
+				
 				startTime.setHours(startcal.get(Calendar.HOUR_OF_DAY));
 				startTime.setMinutes(startcal.get(Calendar.MINUTE));
 				startTime.setSeconds(startcal.get(Calendar.SECOND));
@@ -201,6 +214,11 @@ public class AddDutyDetail extends Dialog{
 						| SWT.SHORT);
 			    endTime.setLocation(176, 149);//结束时间文本输入框
 				endTime.setSize(79, 21);
+				
+				endcal.set(Calendar.HOUR_OF_DAY, 18);
+				endcal.set(Calendar.MINUTE, 0);
+				endcal.set(Calendar.SECOND, 0);
+				
 				endTime.setHours(endcal.get(Calendar.HOUR_OF_DAY));
 				endTime.setMinutes(endcal.get(Calendar.MINUTE));
 				endTime.setSeconds(endcal.get(Calendar.SECOND));
@@ -242,7 +260,11 @@ public class AddDutyDetail extends Dialog{
 					| SWT.SHORT);
 			startTime.setLocation(176, 112);//开始时间文本输入框
 			startTime.setSize(79, 21);
-			FormData fd_startTime = new FormData();
+			
+			startcal.set(Calendar.HOUR_OF_DAY, 9);
+			startcal.set(Calendar.MINUTE, 0);
+			startcal.set(Calendar.SECOND,0);
+			
 			startTime.setHours(startcal.get(Calendar.HOUR_OF_DAY));
 			startTime.setMinutes(startcal.get(Calendar.MINUTE));
 			startTime.setSeconds(startcal.get(Calendar.SECOND));
@@ -267,6 +289,11 @@ public class AddDutyDetail extends Dialog{
 					| SWT.SHORT);
 		    endTime.setLocation(176, 149);//结束时间文本输入框
 			endTime.setSize(79, 21);
+			
+			endcal.set(Calendar.HOUR_OF_DAY, 18);
+			endcal.set(Calendar.MINUTE, 0);
+			endcal.set(Calendar.SECOND, 0);
+			
 			endTime.setHours(endcal.get(Calendar.HOUR_OF_DAY));
 			endTime.setMinutes(endcal.get(Calendar.MINUTE));
 			endTime.setSeconds(endcal.get(Calendar.SECOND));
