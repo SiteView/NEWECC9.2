@@ -97,16 +97,9 @@ public class AlarmRule extends EditorPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		if(list==null){
-			list=new ArrayList();
-			ICollection ic=FileTools.getBussCollection("EccAlarmRule");
-			IEnumerator ien=ic.GetEnumerator();
-			while(ien.MoveNext()){
-				BusinessObject bo=(BusinessObject) ien.get_Current();
-				AlarmRuleInfo ar=new AlarmRuleInfo(bo);
-				list.add(ar);
-			}
-		}
+//		if(list==null){
+			getData();
+//		}
 		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
@@ -168,11 +161,9 @@ public class AlarmRule extends EditorPart {
 				TableItem[] item = table.getItems(); 
 				for (TableItem tableItem : item) {
 					tableItem.setChecked(false);
-//					tableItem.setBackground(null);
 				}
 				tableItem = (TableItem) e.item;
 				tableItem.setChecked(true);
-//				tableItem.setBackground(table.getDisplay().getSystemColor(SWT.COLOR_BLUE));
 			}
 			
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -263,41 +254,66 @@ public class AlarmRule extends EditorPart {
 
 	}
 	
+	//获取数据
+	public static void getData(){
+		list=new ArrayList();
+		ICollection ic=FileTools.getBussCollection("EccAlarmRule");
+		IEnumerator ien=ic.GetEnumerator();
+		while(ien.MoveNext()){
+			BusinessObject bo=(BusinessObject) ien.get_Current();
+			AlarmRuleInfo ar=new AlarmRuleInfo(bo);
+			list.add(ar);
+		}
+	}
+	
 	//创建表单数据
 	public static void createTableItem(){
 		Set<String> set=new HashSet<String>();
+		get(0);
 		 for(int i=0;i<list.size();i++){
 			String alarmName = list.get(i).getBo().GetField("AlarmName").get_NativeValue().toString();
-			set.add(alarmName);}
-		 for(int i=0;i<set.size();i++){
-			TableItem item = new TableItem(table, SWT.NONE);
-			item.setText(0, list.get(i).getBo().GetField("AlarmName").get_NativeValue().toString());
-			if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("email")){				
-				item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/email.jpg"));
-			}else if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("SMS")){
-				item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/message.jpg"));
-			}else if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("script")){
-				item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/script.jpg"));
-			}else if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("sound")){
-				item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/sound.jpg"));
+			Iterator<String> ite = set.iterator();
+			for (int j=0;j<set.size();j++) {
+				if(alarmName.equals(ite.next())){
+					break;
+				}
+				if(!ite.hasNext()){
+					get(i);
+				}
 			}
-			item.setText(1, list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString());
-			if(list.get(i).getBo().GetField("AlarmEvent").get_NativeValue().toString().equals("warning")){
-				item.setImage(2, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/warning.png"));
-			}else if(list.get(i).getBo().GetField("AlarmEvent").get_NativeValue().toString().equals("error")){
-				item.setImage(2, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/alarmerror.png"));
-			}
-			item.setText(2, list.get(i).getBo().GetField("AlarmEvent").get_NativeValue().toString());
-			if((Boolean)list.get(i).getBo().GetField("RuleStatus").get_NativeValue()){
-				item.setImage(3,ImageHelper.LoadImage(Activator.PLUGIN_ID,"Image/promiss.bmp"));
-				item.setText(3, "启动中");
-			}else{
-				item.setImage(3,ImageHelper.LoadImage(Activator.PLUGIN_ID,"Image/stop.bmp"));
-				item.setText(3, "禁止");
-			}
-			item.setImage(4, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/edit.jpg"));
-			item.setData(list.get(i).getBo());
+			set.add(alarmName);
 		}
+	}
+	
+	
+	public static void get(int i){
+		TableItem item = new TableItem(table, SWT.NONE);
+		item.setText(0, list.get(i).getBo().GetField("AlarmName").get_NativeValue().toString());
+		if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("email")){				
+			item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/email.jpg"));
+		}else if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("SMS")){
+			item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/message.jpg"));
+		}else if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("script")){
+			item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/script.jpg"));
+		}else if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("sound")){
+			item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/sound.jpg"));
+		}
+		item.setText(1, list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString());
+		if(list.get(i).getBo().GetField("AlarmEvent").get_NativeValue().toString().equals("warning")){
+			item.setImage(2, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/warning.png"));
+		}else if(list.get(i).getBo().GetField("AlarmEvent").get_NativeValue().toString().equals("error")){
+			item.setImage(2, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/alarmerror.png"));
+		}
+		item.setText(2, list.get(i).getBo().GetField("AlarmEvent").get_NativeValue().toString());
+		if((Boolean)list.get(i).getBo().GetField("RuleStatus").get_NativeValue()){
+			item.setImage(3,ImageHelper.LoadImage(Activator.PLUGIN_ID,"Image/promiss.bmp"));
+			item.setText(3, "启动中");
+		}else{
+			item.setImage(3,ImageHelper.LoadImage(Activator.PLUGIN_ID,"Image/stop.bmp"));
+			item.setText(3, "禁止");
+		}
+		item.setImage(4, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/edit.jpg"));
+		item.setData(list.get(i).getBo());
 	}
 	
 	//销毁表单数据

@@ -839,12 +839,6 @@ public class AddEmailAlarmRule extends Dialog {
 	protected void buttonPressed(int buttonId) {
 		if (buttonId == IDialogConstants.OK_ID) {
 			if(bo!=null){
-				for (String string : alarmname) {
-					if(string.equals(text_4.getText())){
-						MessageDialog.openInformation(new Shell(), "提示", "该报警名称已存在！");
-						return;
-					}
-				}
 				TreeItem[] item = tree.getItems();
 				List<String> mid = getSelect(item);
 				if(text_4.getText().equals("")){
@@ -854,6 +848,11 @@ public class AddEmailAlarmRule extends Dialog {
 					MessageDialog.openInformation(new Shell(), "提示", "请选择监听器！");
 					return;
 				}else{
+//					ICollection ico1 = FileTools.getBussCollection("AlarmName",bo.GetField("AlarmName").get_NativeValue().toString(),"EccAlarmRule");
+//					IEnumerator ie1 = ico1.GetEnumerator();
+//					while (ie1.MoveNext()) {
+//						((BusinessObject)ie1.get_Current()).DeleteObject(ConnectionBroker.get_SiteviewApi());
+//					}
 					for (String string : mid) {
 						BusinessObject bo = EccTreeControl.CreateBo("MonitorId", string, "EccAlarmRule");
 						if (name.equals("email")) {
@@ -872,7 +871,7 @@ public class AddEmailAlarmRule extends Dialog {
 									MessageDialog.openInformation(new Shell(), "提示", "值班报警不能为空！");
 									 return;
 								}
-							bo.GetField("AlarmType").SetValue(new SiteviewValue("email"));
+						    bo.GetField("AlarmType").SetValue(new SiteviewValue("email"));
 							bo.GetField("AlarmName").SetValue(new SiteviewValue(text_4.getText()));
 							if(!combo_4.getText().equals("其他")){								
 								bo.GetField("Address").SetValue(new SiteviewValue(EccTreeControl.CreateBo("SetName", combo_4.getText(), "EccMail").get_RecId()));
@@ -962,6 +961,9 @@ public class AddEmailAlarmRule extends Dialog {
 						bo.GetField("MonitorId").SetValue(new SiteviewValue(string));
 						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
 					}
+					AlarmRule.getData();
+					AlarmRule.disposeTableItem();
+					AlarmRule.createTableItem();
 				}
 			}else{
 				for (String string : alarmname) {
