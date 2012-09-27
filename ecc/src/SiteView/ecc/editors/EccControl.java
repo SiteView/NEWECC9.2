@@ -1,5 +1,6 @@
 package SiteView.ecc.editors;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,11 +68,13 @@ public class EccControl extends EditorPart {
 	public BusinessObject bo1 = null;
 	public Table toptable;
 	static TabFolder tabFolder;
+	public List<BusinessObject> list;
 	public Composite c_1;
 	public static Composite c1;
 	Color[] color;
 
 	public void createPartControl(Composite parent) {
+		list=new  ArrayList<BusinessObject>();
 		if (parent.getChildren().length > 0) {
 			for (Control control : parent.getChildren()) {
 				control.dispose();
@@ -106,8 +109,13 @@ public class EccControl extends EditorPart {
 				if (item != e.item) {
 					item = (TableItem) e.item;
 					BusinessObject bo = (BusinessObject) item.getData();
+					System.out.println(bo);
+					item.setChecked(true);
+					list.add(bo);
+					EccTreeControl.list_3 = list;
 					if (bo != null) {
 						tab(bo);
+						System.out.println("aaa");
 					}
 				}
 			}
@@ -124,26 +132,30 @@ public class EccControl extends EditorPart {
 		if (toptable != null && !toptable.isDisposed()) {
 			toptable.dispose();
 		}
-		toptable = new Table(c, SWT.FULL_SELECTION);
+		toptable = new Table(c, SWT.FULL_SELECTION|SWT.CHECK);
 		toptable.setLinesVisible(true);
 		toptable.setHeaderVisible(true);
 		toptable.setBackground(new Color(null, 255, 255, 255));
+        
+		TableColumn tblclmnNewColumn = new TableColumn(toptable, SWT.NONE);
+		tblclmnNewColumn.setWidth(69);
+		tblclmnNewColumn.setText("ÊÇ·ñ½ûÖ¹");
 
 		TableColumn newColumnTableColumn_top = new TableColumn(toptable,
 				SWT.NONE);
-		newColumnTableColumn_top.setWidth(80);
+		newColumnTableColumn_top.setWidth(59);
 		newColumnTableColumn_top.setText("×´Ì¬");
 		TableColumn newColumnTableColumn_top2 = new TableColumn(toptable,
 				SWT.NONE);
-		newColumnTableColumn_top2.setWidth(100);
+		newColumnTableColumn_top2.setWidth(58);
 		newColumnTableColumn_top2.setText("Ãû³Æ");
-		TableColumn newColumnTableColumn_top3 = new TableColumn(toptable,
+		TableColumn newColumnTableColumn_top3 =new TableColumn(toptable,
 				SWT.NONE);
-		newColumnTableColumn_top3.setWidth(400);
+		newColumnTableColumn_top3.setWidth(144);
 		newColumnTableColumn_top3.setText("ÃèÊö");
 		TableColumn newColumnTableColumn_top4 = new TableColumn(toptable,
 				SWT.NONE);
-		newColumnTableColumn_top4.setWidth(200);
+		newColumnTableColumn_top4.setWidth(106);
 		newColumnTableColumn_top4.setText("×îºó¸üÐÂ");
 		createTableItem();
 	}
@@ -187,25 +199,40 @@ public class EccControl extends EditorPart {
 				}
 				BusinessObject bodyn = EccTreeControl.CreateBo("monitorid",
 						bo.get_RecId(), "EccDyn");
-				String[] data = new String[4];
+				String[] data = new String[5];
 				if (bo1 == null) {
 					bo1 = bo;
 				}
 				if (bodyn == null) {
-					data[0] = "no data";
-					data[1] = bo.GetField("title").get_NativeValue().toString();
-					data[2] = "has no logs";
-					data[3] = bo.GetField("LastModDateTime").get_NativeValue()
+					String disable=bo.GetField("disable").get_NativeValue()
+							.toString();
+							if("true".equals(disable)){
+								data[0]="½ûÖ¹";
+							}else{
+								data[0]="ÔÊÐí";
+							}
+					data[1] = "no data";
+					data[2] = bo.GetField("title").get_NativeValue().toString();
+					data[3] = "has no logs";
+					data[4] = bo.GetField("LastModDateTime").get_NativeValue()
 							.toString();
 				} else {
-					data[0] = bodyn.GetField("category").get_NativeValue()
+					String disable=bo.GetField("disable").get_NativeValue()
 							.toString();
-					data[1] = bo.GetField("title").get_NativeValue().toString();
+							//System.out.println(disable);
+							if("true".equals(disable)){
+								data[0]="½ûÖ¹";
+							}else{
+								data[0]="ÔÊÐí";
+							}
+					data[1] = bodyn.GetField("category").get_NativeValue()
+							.toString();
+					data[2] = bo.GetField("title").get_NativeValue().toString();
 					String desc = bodyn.GetField("monitorDesc")
 							.get_NativeValue().toString();
-					data[2] = format(desc, bo.GetField("EccType")
+					data[3] = format(desc, bo.GetField("EccType")
 							.get_NativeValue().toString());
-					data[3] = bodyn.GetField("LastModDateTime")
+					data[4] = bodyn.GetField("LastModDateTime")
 							.get_NativeValue().toString();
 				}
 				TableItem tableItem = new TableItem(toptable, SWT.NONE);
@@ -215,13 +242,13 @@ public class EccControl extends EditorPart {
 					item = tableItem;
 				}
 				i++;
-				if (data[0].equals("good")) {
+				if (data[1].equals("good")) {
 					tableItem.setBackground(color[3]);
-				} else if (data[0].equals("error")) {
+				} else if (data[1].equals("error")) {
 					tableItem.setBackground(color[1]);
-				} else if (data[0].equals("warning")) {
+				} else if (data[1].equals("warning")) {
 					tableItem.setBackground(color[2]);
-				} else if (data[0].equals("disable")) {
+				} else if (data[1].equals("disable")) {
 					tableItem.setBackground(color[4]);
 				} else {
 					tableItem.setBackground(color[0]);
