@@ -163,22 +163,22 @@ public class AlarmRule extends EditorPart {
 		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-//		table.addSelectionListener(new SelectionListener() {
-//			public void widgetSelected(SelectionEvent e) {
-//				TableItem[] item = table.getItems(); 
-//				for (TableItem tableItem : item) {
-//					tableItem.setChecked(false);
-////					tableItem.setBackground(null);
-//				}
-//				tableItem = (TableItem) e.item;
-//				tableItem.setChecked(true);
-////				tableItem.setBackground(table.getDisplay().getSystemColor(SWT.COLOR_BLUE));
-//			}
-//			
-//			public void widgetDefaultSelected(SelectionEvent e) {
-//				
-//			}
-//		});
+		table.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				TableItem[] item = table.getItems(); 
+				for (TableItem tableItem : item) {
+					tableItem.setChecked(false);
+//					tableItem.setBackground(null);
+				}
+				tableItem = (TableItem) e.item;
+				tableItem.setChecked(true);
+//				tableItem.setBackground(table.getDisplay().getSystemColor(SWT.COLOR_BLUE));
+			}
+			
+			public void widgetDefaultSelected(SelectionEvent e) {
+				
+			}
+		});
 		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn.setWidth(100);
@@ -201,25 +201,21 @@ public class AlarmRule extends EditorPart {
 		tableColumn_3.setText("\u7F16\u8F91");
 		createTableItem();
 		final TableCursor cursor = new TableCursor(table, SWT.NONE);
-		cursor.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
+		cursor.addMouseListener(new MouseListener() {
+			public void mouseUp(MouseEvent e) {
 				int column = cursor.getColumn();
-				TableItem[] item = table.getItems(); 
-				for (TableItem tableItem : item) {
-					tableItem.setChecked(false);
-				}
 				if(column==4){
 					TableItem tableItem = cursor.getRow();
-					tableItem.setChecked(true);
 					BusinessObject bo1 = (BusinessObject)tableItem.getData();
 					String name = bo1.GetField("AlarmType").get_NativeValue().toString();
 					AddEmailAlarmRule aear = new AddEmailAlarmRule(null, name, bo1);
 					aear.open();
 				}
 			}
+			public void mouseDown(MouseEvent e) {
+			}
 			
-			public void widgetDefaultSelected(SelectionEvent e) {
-				
+			public void mouseDoubleClick(MouseEvent e) {
 			}
 		});
 		
@@ -272,44 +268,35 @@ public class AlarmRule extends EditorPart {
 		Set<String> set=new HashSet<String>();
 		 for(int i=0;i<list.size();i++){
 			String alarmName = list.get(i).getBo().GetField("AlarmName").get_NativeValue().toString();
-			Iterator<String> ite = set.iterator();
-			int j=0;
-			for (j=0; j < set.size(); j++) {
-				String name = ite.next();
-				if(alarmName.equals(name)){
-					break;
-				}
+			set.add(alarmName);}
+		 for(int i=0;i<set.size();i++){
+			TableItem item = new TableItem(table, SWT.NONE);
+			item.setText(0, list.get(i).getBo().GetField("AlarmName").get_NativeValue().toString());
+			if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("email")){				
+				item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/email.jpg"));
+			}else if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("SMS")){
+				item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/message.jpg"));
+			}else if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("script")){
+				item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/script.jpg"));
+			}else if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("sound")){
+				item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/sound.jpg"));
 			}
-			set.add(alarmName);
-			if(j==set.size()-1||set.size()==0){				
-				TableItem item = new TableItem(table, SWT.NONE);
-				item.setText(0, list.get(i).getBo().GetField("AlarmName").get_NativeValue().toString());
-				if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("email")){				
-					item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/email.jpg"));
-				}else if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("SMS")){
-					item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/message.jpg"));
-				}else if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("script")){
-					item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/script.jpg"));
-				}else if(list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString().equals("sound")){
-					item.setImage(1, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/sound.jpg"));
-				}
-				item.setText(1, list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString());
-				if(list.get(i).getBo().GetField("AlarmEvent").get_NativeValue().toString().equals("warning")){
-					item.setImage(2, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/warning.png"));
-				}else if(list.get(i).getBo().GetField("AlarmEvent").get_NativeValue().toString().equals("error")){
-					item.setImage(2, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/alarmerror.png"));
-				}
-				item.setText(2, list.get(i).getBo().GetField("AlarmEvent").get_NativeValue().toString());
-				if((Boolean)list.get(i).getBo().GetField("RuleStatus").get_NativeValue()){
-					item.setImage(3,ImageHelper.LoadImage(Activator.PLUGIN_ID,"Image/promiss.bmp"));
-					item.setText(3, "启动中");
-				}else{
-					item.setImage(3,ImageHelper.LoadImage(Activator.PLUGIN_ID,"Image/stop.bmp"));
-					item.setText(3, "禁止");
-				}
-				item.setImage(4, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/edit.jpg"));
-				item.setData(list.get(i).getBo());
+			item.setText(1, list.get(i).getBo().GetField("AlarmType").get_NativeValue().toString());
+			if(list.get(i).getBo().GetField("AlarmEvent").get_NativeValue().toString().equals("warning")){
+				item.setImage(2, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/warning.png"));
+			}else if(list.get(i).getBo().GetField("AlarmEvent").get_NativeValue().toString().equals("error")){
+				item.setImage(2, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/alarmerror.png"));
 			}
+			item.setText(2, list.get(i).getBo().GetField("AlarmEvent").get_NativeValue().toString());
+			if((Boolean)list.get(i).getBo().GetField("RuleStatus").get_NativeValue()){
+				item.setImage(3,ImageHelper.LoadImage(Activator.PLUGIN_ID,"Image/promiss.bmp"));
+				item.setText(3, "启动中");
+			}else{
+				item.setImage(3,ImageHelper.LoadImage(Activator.PLUGIN_ID,"Image/stop.bmp"));
+				item.setText(3, "禁止");
+			}
+			item.setImage(4, ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/edit.jpg"));
+			item.setData(list.get(i).getBo());
 		}
 	}
 	
@@ -326,7 +313,7 @@ public class AlarmRule extends EditorPart {
 	private void createAction(){
 		emailAction = new Action("邮件报警") {
 			public void run(){
-				AddEmailAlarmRule add=new AddEmailAlarmRule(null,"email");
+				AddEmailAlarmRule add=new AddEmailAlarmRule(null,"email",null);
 				add.open();
 			}
 		};
@@ -336,7 +323,7 @@ public class AlarmRule extends EditorPart {
 		
 		messageAction = new Action("短信报警") {
 			public void run(){
-				AddEmailAlarmRule add=new AddEmailAlarmRule(null,"SMS");
+				AddEmailAlarmRule add=new AddEmailAlarmRule(null,"SMS",null);
 				add.open();
 			}
 		};
@@ -346,7 +333,7 @@ public class AlarmRule extends EditorPart {
 		
 		scriptAction = new Action("脚本报警") {
 			public void run(){
-				AddEmailAlarmRule add=new AddEmailAlarmRule(null,"script");
+				AddEmailAlarmRule add=new AddEmailAlarmRule(null,"script",null);
 				add.open();
 			}
 		};
@@ -356,7 +343,7 @@ public class AlarmRule extends EditorPart {
 		
 		soundAction = new Action("声音报警") {
 			public void run(){
-				AddEmailAlarmRule add=new AddEmailAlarmRule(null,"sound");
+				AddEmailAlarmRule add=new AddEmailAlarmRule(null,"sound",null);
 				add.open();
 			}
 		};
