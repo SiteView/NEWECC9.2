@@ -269,8 +269,8 @@ public class AlarmRule extends EditorPart {
 	//创建表单数据
 	public static void createTableItem(){
 		Set<String> set=new HashSet<String>();
-		get(0);
 		 for(int i=0;i<list.size();i++){
+			 get(0);
 			String alarmName = list.get(i).getBo().GetField("AlarmName").get_NativeValue().toString();
 			Iterator<String> ite = set.iterator();
 			for (int j=0;j<set.size();j++) {
