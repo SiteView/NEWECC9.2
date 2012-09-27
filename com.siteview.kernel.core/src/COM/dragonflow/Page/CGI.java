@@ -1567,33 +1567,6 @@ public abstract class CGI {
 		try {
 			while (unixRs.next()) {
 				hashmapordered = new HashMapOrdered(true);
-				// hashmapordered.add("_remoteMachine","");
-				// hashmapordered.add("_secondaryResponse","ciyaoxiangying");
-				// hashmapordered.add("_disableCache","");
-				// hashmapordered.add("_initShellEnvironment","chushihua");
-				// hashmapordered.add("_status", "connection_successful");
-				// hashmapordered.add("_sshPort", "8888");
-				// hashmapordered.add("_prompt", "#");
-				// hashmapordered.add("_os", "RHESLinux");
-				// hashmapordered.add("_id", "35");
-				// hashmapordered.add("_version2", "");
-				// hashmapordered.add("_passwordPrompt","mimatishi");
-				// hashmapordered.add("_trace", "on");
-				// hashmapordered.add("_sshClient", "plink");
-				// hashmapordered.add("_method","ssh");
-				// hashmapordered.add("_sshCommand","");
-				// hashmapordered.add("_keyFile","D:\\code\\mygit\\_itsm\\siteview9.2\\com.siteview.kernel.core\\groups\\identity_");
-				// String password = "ROOT123#@!admin&*(987";
-				// password = COM.dragonflow.Utils.TextUtils.obscure(password);
-				// hashmapordered.add("_password", password);
-				// hashmapordered.add("_sshConnectionsLimit","3");
-				// hashmapordered.add("_login", "root");
-				// hashmapordered.add("_host", "192.168.0.255");
-				// hashmapordered.add("_sshAuthMethod","password");
-				// hashmapordered.add("_loginPrompt","login");
-				// hashmapordered.add("_secondaryPrompt","ciyaotishi");
-				// hashmapordered.add("_name", "255LinuxMachine");
-
 				hashmapordered.add("_host", unixRs.getString("ServerAddress"));
 				hashmapordered.add("_os", unixRs.getString("OS"));
 				hashmapordered.add("_secondaryResponse",

@@ -354,14 +354,22 @@ public class EccControl extends EditorPart {
 				BusinessObject bo = EccTreeControl.CreateBo("monitorid",
 						monitorid, "EccDyn");
 				String[] s = new String[4];
-				s[0] = bo.GetField("category").get_NativeValue().toString();
-				s[1] = monitor.GetField("Title").get_NativeValue().toString();
-				String desc = bo.GetField("monitorDesc").get_NativeValue()
-						.toString();
-				s[2] = format(desc, monitor.GetField("EccType")
-						.get_NativeValue().toString());
-				s[3] = bo.GetField("LastModDateTime").get_NativeValue()
-						.toString();
+				if(bo!=null){
+					s[0] = bo.GetField("category").get_NativeValue().toString();
+					s[1] = monitor.GetField("Title").get_NativeValue().toString();
+					String desc = bo.GetField("monitorDesc").get_NativeValue()
+							.toString();
+					s[2] = format(desc, monitor.GetField("EccType")
+							.get_NativeValue().toString());
+					s[3] = bo.GetField("LastModDateTime").get_NativeValue()
+							.toString();
+				}else{
+					s[0] = "no data";
+					s[1] = bo.GetField("title").get_NativeValue().toString();
+					s[2] = "has no logs";
+					s[3] = bo.GetField("LastModDateTime").get_NativeValue()
+							.toString();
+				}
 				itable.setText(s);
 				tab((BusinessObject) item.getData());
 			}

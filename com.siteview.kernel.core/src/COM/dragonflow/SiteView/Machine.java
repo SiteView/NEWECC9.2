@@ -768,4 +768,7 @@ public class Machine extends SiteViewObject implements Serializable{
         OS_NAME[6] = "Linux";
         OS_NAME[8] = "Unix";
     }
+    public static void getmachineObjectTable(Machine m){
+    	machineObjectTable.put(m.getProperties("_id"), m);
+    }
 }

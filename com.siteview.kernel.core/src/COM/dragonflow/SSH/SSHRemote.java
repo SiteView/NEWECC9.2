@@ -153,10 +153,11 @@ public class SSHRemote implements COM.dragonflow.SSH.ISSHCloseable {
         } else {
             s = machine.getProperty(COM.dragonflow.SiteView.Machine.pSSHClient);
         }
+        String sss=machine.getProperty("_port");
         if( machine.getProperty("_os")!=null &&machine.getProperty("_os").equals("Red")){
         	 machine.setProperty("_os", "RHESLinux");
         }
-        if(machine.getProperty("_method").equalsIgnoreCase("SSH")){
+        if(machine.getProperty("_method").equalsIgnoreCase("SSH")&&sss.length()>0){
         	 machine.setProperty("_sshPort", machine.getProperty("_port"));
         }
         java.lang.Object obj = null;

@@ -125,11 +125,11 @@
        point="Siteview.Forms.Common.SiteviewAutoTask">
     <AutoTaskExtension
           Class="SiteView.ecc.bundle.RemoteMacheineBundle"
-          Name="RemoteMacheineBundle">
+          Name="添加远程设备">
     </AutoTaskExtension>
     <AutoTaskExtension
           Class="SiteView.ecc.bundle.EditorRemoteMacheineBundle"
-          Name="EditorRemoteMacheineBundle">
+          Name="修改远程设备信息">
     </AutoTaskExtension>
     <AutoTaskExtension
           Class="SiteView.ecc.bundle.addGroupBundle"

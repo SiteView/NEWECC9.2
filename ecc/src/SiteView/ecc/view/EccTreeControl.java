@@ -88,7 +88,7 @@ import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
 
 public class EccTreeControl extends ViewPart {
-	EccControlInput eee=new EccControlInput();
+	public static EccControlInput eee=new EccControlInput();
 	public static Object item;
 	public static TreeViewer treeViewer;
 	public static List<String> list;//组下面的监测器

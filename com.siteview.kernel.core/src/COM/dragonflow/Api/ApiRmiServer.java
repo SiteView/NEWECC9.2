@@ -511,7 +511,7 @@ public class ApiRmiServer extends java.rmi.server.UnicastRemoteObject implements
 			e.printStackTrace();
 		}
 	}
-	public List<String[]> doTestMachine(String s,String hostname)
+	public List<String[]> doTestMachine(String s,String hostname,String id)
 			throws Exception {
 		List<String[]> array_0=new ArrayList<String[]>();
 		String s0[]=new String[1];
@@ -533,6 +533,9 @@ public class ApiRmiServer extends java.rmi.server.UnicastRemoteObject implements
 		if("wmi".equals(method)){
 			vector=Platform.getDisks(hostname);//磁盘
 			array_1 = Platform.getProcesses(hostname, true);//服务
+		}else if(s.contains("_remoteMachine")){
+			vector=Platform.getDisks("remote:"+id);//磁盘
+			array_1 = Platform.getProcesses("remote:"+id, true);//服务
 		}else{
 			vector=Platform.getDisks(hostname);//磁盘
 			array_1 = Platform.getProcesses(hostname, true);//服务

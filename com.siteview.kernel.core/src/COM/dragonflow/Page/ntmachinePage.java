@@ -12,6 +12,7 @@ package COM.dragonflow.Page;
 import java.util.Enumeration;
 
 import jgl.Array;
+import COM.dragonflow.SiteView.Machine;
 import COM.dragonflow.Utils.CounterLock;
 import COM.dragonflow.Utils.SSHCommandLine;
 
@@ -386,6 +387,7 @@ public class ntmachinePage extends COM.dragonflow.Page.remoteBase
         if(flag)
         {
             s = "connection successful";
+           // Machine.getmachineObjectTable(machine);
         }
         jgl.Array array = getFrames();
         jgl.HashMap hashmap = findMachine(array, machine.getProperty(COM.dragonflow.SiteView.Machine.pID));

@@ -5,10 +5,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
 
+import SiteView.ecc.Activator;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.SiteViewEcc;
 import SiteView.ecc.data.SiteViewData;
+import SiteView.ecc.editors.EccControl;
+import SiteView.ecc.tools.FileTools;
 import SiteView.ecc.view.EccTreeControl;
 import Siteview.Operators;
 import Siteview.QueryInfoToGet;
@@ -49,17 +55,26 @@ public class DeleteGroupBundle implements IAutoTaskExtension {
 		String groupId=bo.GetField("RecId").get_NativeValue().toString();
 		String parentId=bo.GetField("ParentGroupId").get_NativeValue().toString();
 		
-		ICollection monitors=getBusinessObject("Groups_Valid",groupId,"Ecc");
+		ICollection monitors=FileTools.getBussCollection("Groups_Valid",groupId,"Ecc");
 		IEnumerator interfaceTableIEnum = monitors.GetEnumerator();
 		while(interfaceTableIEnum.MoveNext()){
 			BusinessObject monitor=(BusinessObject) interfaceTableIEnum.get_Current();
+			String monitorId=monitor.get_RecId();
 			monitor.DeleteObject(ConnectionBroker.get_SiteviewApi());
+			BusinessObject bo_1=FileTools.CreateBo("monitorid", monitorId, "EccDyn");
+			if(bo_1!=null){
+				bo_1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+			}
 		}
 		GroupModle group=(GroupModle) EccTreeControl.item;
 		if(parentId==null||parentId.equals("")){
 			SiteViewEcc site=(SiteViewEcc) ((List)EccTreeControl.treeViewer.getInput()).get(0);
 			site.getList().remove(group);
 			EccTreeControl.treeViewer.update(site, new String[] {"list"});
+			if(EccTreeControl.item instanceof GroupModle&&((GroupModle)EccTreeControl.item).getBo().get_RecId().equals(groupId)){
+				EccTreeControl.item=site;
+				updateEdit();
+			}
 		}else{
 			if(group.getGroups().size()<=0){
 				BusinessObject parentbo=group.getBo();
@@ -72,6 +87,10 @@ public class DeleteGroupBundle implements IAutoTaskExtension {
 			parent.getGroups().remove(group);
 			EccTreeControl.treeViewer.update(parent, new String[]{"groups"});
 			EditGroupBundle edit=new EditGroupBundle();
+			if(EccTreeControl.item instanceof GroupModle&&((GroupModle)EccTreeControl.item).getBo().get_RecId().equals(groupId)){
+				EccTreeControl.item=parent;
+				updateEdit();
+			}
 			edit.updateGroup("GroupId="+parentId);
 		}
 		EccTreeControl.treeViewer.remove(group);
@@ -79,17 +98,26 @@ public class DeleteGroupBundle implements IAutoTaskExtension {
 		//deleteGroup("GroupId="+groupId);
 		EccTreeControl.treeViewer.refresh();
 	}
-	
-	public ICollection getBusinessObject(String key,String value,String table){
-		SiteviewQuery query = new SiteviewQuery();
-		query.AddBusObQuery(table, QueryInfoToGet.All);
-		XmlElement xml ;
-		xml=query.get_CriteriaBuilder().FieldAndValueExpression(key,
-				Operators.Equals, value);
-		query.set_BusObSearchCriteria(xml);
-		ICollection iCollenction =  ConnectionBroker.get_SiteviewApi().get_BusObService()
-				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);
-		return iCollenction;
+	//ÐÞ¸ÄMonitorEdit
+	private void updateEdit() {
+		// TODO Auto-generated method stub
+		IWorkbenchPage page = Activator.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();  
+		 IEditorPart editor = page.findEditor(EccTreeControl.eee); 
+		 if(editor==null){
+			 try {
+				page.openEditor(EccTreeControl.eee, EccControl.ID);
+			} catch (PartInitException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}  
+		 }else{
+			((EccControl)editor).createTableItem();
+			if(EccControl.item==null){
+				((EccControl)editor).tab(null);
+			}else{
+				((EccControl)editor).tab((BusinessObject)EccControl.item.getData());
+			}
+		 }
 	}
 	@Override
 	public boolean hasCustomUI() {

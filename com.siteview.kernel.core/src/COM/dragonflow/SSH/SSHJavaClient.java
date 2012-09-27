@@ -160,6 +160,9 @@ public class SSHJavaClient extends COM.dragonflow.SSH.SSHClientBase implements C
         COM.dragonflow.SiteView.Machine _tmp3 = machine;
         passwordPrompt = machine.getProperty(COM.dragonflow.SiteView.Machine.pPasswordPrompt);
         isWindowsSSH = machine.getProperty(COM.dragonflow.SiteView.Machine.pOS).equals("NT");
+        if(machine.getProperty("_method").equalsIgnoreCase("SSH")&&machine.getProperty("_sshPort")==null){
+       	 machine.setProperty("_sshPort", machine.getProperty("_port"));
+       }
         connectionProperties = new SSHConnectionProperties(machine);
         boolean flag1 = false;
         if (flag) {

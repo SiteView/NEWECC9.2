@@ -27,7 +27,7 @@ public interface APIInterfaces extends Remote
 	String getSysOid(Map<String,String> map)throws Exception;
 	void adjustGroups(String s,String s1,String s2)throws Exception;
 	void writeRemoteMachineToFile(String remoteMachineInfo)throws Exception;
-	List<String[]> doTestMachine(String s,String hostname)throws Exception;
+	List<String[]> doTestMachine(String s,String hostname,String id)throws Exception;
 	 String[] getDiskSpace(String hostname,String s) throws SiteViewException,RemoteException ;
 	String[] getServer(String hostname,String s) throws RemoteException;
 }

@@ -1,151 +1,67 @@
 package SiteView.ecc.bundle;
 
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
+import java.util.List;
 import java.util.Map;
-
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 
-import SiteView.ecc.tools.TextUtils;
+import SiteView.ecc.Modle.GroupModle;
+import SiteView.ecc.Modle.MachineModle;
+import SiteView.ecc.data.SiteViewData;
+import SiteView.ecc.editors.EccControl;
+import SiteView.ecc.view.EccTreeControl;
+import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
-import Siteview.Api.Relationship;
-
+import Siteview.Windows.Forms.ConnectionBroker;
 import COM.dragonflow.Api.APIInterfaces;
-
 import siteview.IAutoTaskExtension;
-import system.Collections.IEnumerator;
 
 public class EditorRemoteMacheineBundle implements IAutoTaskExtension {
 	APIInterfaces rmiServer;
 	public EditorRemoteMacheineBundle() {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public String run(Map<String, Object> params) {
-		// TODO Auto-generated method stub
+	public String run(Map<String, Object> params) throws Exception {
 		BusinessObject bo = (BusinessObject) params.get("_CUROBJ_");
+		rmiServer=EditGroupBundle.createAmiServer();
+		String hostname=bo.GetField("ServerAddress").get_NativeValue().toString();
+		String remoteMachineInfo = RemoteMacheineBundle.getMachineMassage(bo);
+		List<String[]> c=rmiServer.doTestMachine(remoteMachineInfo,hostname,bo.get_RecId());
+		String s=c.get(0)[0].replaceAll(" ", ".");
+		bo.GetField("Status").SetValue(new SiteviewValue(s));
+		bo.SaveObject(ConnectionBroker.get_SiteviewApi(), false, true);
+		editMachine(bo);
+		MessageDialog.openInformation(new Shell(), "link test", c.get(0)[0]);
 		return null;
 	}
-	
-	public static APIInterfaces rmiLinks(){
-		Registry registry;
-		String serverAddress = "localhost";
-		String serverPort = "3232";
-		String remoteMachineInfo = "";
-		APIInterfaces rmiServer=null;
-		try {
-			registry = LocateRegistry.getRegistry(serverAddress, (new Integer(
-					serverPort)).intValue());
-			rmiServer = (APIInterfaces) (registry.lookup("kernelApiRmiServer"));
-		}catch (Exception e) {
-			// TODO: handle exception
-		}
-		return rmiServer;
-	}   
-	
-	public static String RemoteMacheine(BusinessObject bo){
-		Relationship relationship = bo
-				.GetRelationship("ComputerAssociatedRemoteUNIX");
-		String remoteMachineInfo = "";
-		if (relationship != null) {
-			IEnumerator it3 = relationship.GetObjects().GetEnumerator();
-			while (it3.MoveNext()) {
-				Siteview.Api.BusinessObject remoteMachineBo = (Siteview.Api.BusinessObject) it3
-						.get_Current();
-				String password = TextUtils.obscure(remoteMachineBo
-						.GetField("PasswordUNIX").get_NativeValue()
-						.toString());
-				remoteMachineInfo = "_remoteMachine= _secondaryResponse="
-						+ remoteMachineBo.GetField("SecondaryResponse")
-								.get_NativeValue().toString()
-						+ " _disableCache="
-						+ remoteMachineBo
-								.GetField("DisableConnectionCaching")
-								.get_NativeValue().toString()
-						+ " _initShellEnvironment="
-						+ remoteMachineBo.GetField("InitializeEnvironment")
-								.get_NativeValue().toString()
-						+ " _status="
-						+ remoteMachineBo.GetField("Status")
-								.get_NativeValue().toString()
-						+ " _sshPort="
-						+ remoteMachineBo.GetField("PortNumber")
-								.get_NativeValue().toString()
-						+ " _prompt="
-						+ remoteMachineBo.GetField("Prompt")
-								.get_NativeValue().toString()
-						+ " _os="
-						+ remoteMachineBo.GetField("OS").get_NativeValue()
-								.toString()
-						+ " _id"
-						+ remoteMachineBo.GetField("RecId")
-								.get_NativeValue().toString()
-						+ " _version2="
-						+ remoteMachineBo.GetField("SSHVersion2Only")
-								.get_NativeValue().toString()
-						+ " _passwordPrompt="
-						+ remoteMachineBo.GetField("PasswordPrompt")
-								.get_NativeValue().toString()
-						+ " _trace="
-						+ remoteMachineBo.GetField("Trace")
-								.get_NativeValue().toString()
-						+ " _sshClient="
-						+ remoteMachineBo.GetField("SSHClient")
-								.get_NativeValue().toString()
-						+ " _method="
-						+ remoteMachineBo.GetField("ConnectionMethod")
-								.get_NativeValue().toString()
-						+ " _sshCommand="
-						+ remoteMachineBo.GetField("CustomCommandline")
-								.get_NativeValue().toString()
-						+ " _keyFile="
-						+ remoteMachineBo
-								.GetField("KeyFileforSSHconnections")
-								.get_NativeValue().toString()
-						+ " _password="
-						+ password
-						+ " _sshConnectionsLimit="
-						+ remoteMachineBo.GetField("ConnectionLimit")
-								.get_NativeValue().toString()
-						+ " _login="
-						+ remoteMachineBo.GetField("UserName")
-								.get_NativeValue().toString()
-						+ " _host="
-						+ remoteMachineBo.GetField("ServerAddress")
-								.get_NativeValue().toString()
-						+ " _sshAuthMethod="
-						+ remoteMachineBo.GetField("SSHAuthentication")
-								.get_NativeValue().toString()
-						+ " _loginPrompt="
-						+ remoteMachineBo.GetField("LoginPrompt")
-								.get_NativeValue().toString()
-						+ " _secondaryPrompt="
-						+ remoteMachineBo.GetField("SecondaryPrompt")
-								.get_NativeValue().toString()
-						+ " _name="
-						+ remoteMachineBo.GetField("Title")
-								.get_NativeValue().toString()+"\n";
+
+	private void editMachine(BusinessObject bo) {
+		String groupid=bo.GetField("Groups").get_NativeValue().toString();
+		GroupModle groupModle=SiteViewData.subgroups.get(groupid);
+		MachineModle machine=null;
+		for(MachineModle ma:groupModle.getMachines()){
+			if(ma.getBo().get_RecId().equals(bo.get_RecId())){
+				machine=ma;
 			}
 		}
-		return remoteMachineInfo;
+		machine.setBo(bo);
+		groupModle.getMachines().add(machine);
+		SiteViewData.subgroups.put(groupid, groupModle);
+		EccTreeControl.treeViewer.update(groupModle, new String[]{"machine"});
+		EccTreeControl.treeViewer.update(machine, new String[]{"bo"});
+		addGroupBundle.setAuther(machine, bo.get_RecId());
 	}
 
-	@Override
 	public boolean hasCustomUI() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
 	public void creatConfigUI(Composite parent, Map<String, String> params) {
-		// TODO Auto-generated method stub
-		
 	}
 
-	@Override
 	public Map<String, String> getConfig() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

@@ -33,7 +33,6 @@ public class DeleteGroupAction extends Action {
 		removeGroup(group);
 		BusinessObject bo=group.getBo();
 		bo.DeleteObject(ConnectionBroker.get_SiteviewApi());
-	
 	}	
 	
 	public void removeGroup(GroupModle group){
