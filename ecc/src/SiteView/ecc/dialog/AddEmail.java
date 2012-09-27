@@ -66,7 +66,7 @@ public class AddEmail extends Dialog{
 	protected Control createDialogArea(Composite parent) {
 		if(MailModleSetUp.modles==null){
 			MailModleSetUp.modles=new ArrayList<BusinessObject>();
-			ICollection ico=FileTools.getBussCollection("EccMailModle");
+			ICollection ico=FileTools.getBussCollection("ModleType","email","EccMailModle");
 			IEnumerator ie=ico.GetEnumerator();
 			while(ie.MoveNext()){
 				MailModleSetUp.modles.add((BusinessObject)ie.get_Current());

@@ -11,6 +11,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.TableCursor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Button;
@@ -166,20 +167,21 @@ public class UserManager extends EditorPart {
 				tableItem.setChecked(false);
 			}
 		});
-		
-		table.addMouseListener(new MouseListener() {
+		final TableCursor cursor = new TableCursor(table, SWT.NONE);
+		cursor.addMouseListener(new MouseListener() {
 			public void mouseUp(MouseEvent e) {
+				int column = cursor.getColumn();
 				for(TableItem ta:table.getItems()){
 					if(!ta.equals(tableItem)){
 						ta.setChecked(false);
 					}
 				}
-				if(e.x>509&&e.x<610){
+				if(column==4){
 					AddUserDig edit=new AddUserDig(null);
 					int i= table.getSelectionIndex();
 					edit.setUser(((UserModle)tableItem.getData()).getUsers());
 					edit.open();
-				}else if(e.x>610 && e.x<710){
+				}else if(column==5){
 					if(((UserModle)tableItem.getData()).getUserType().equals("管理员用户")){
 						return;
 					}

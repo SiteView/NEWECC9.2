@@ -1,37 +1,31 @@
 package SiteView.ecc.editors;
 
-import java.awt.Color;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.part.EditorPart;
-import org.eclipse.wb.swt.SWTResourceManager;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.custom.TableCursor;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.TableLayout;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormAttachment;
-import system.Collections.ICollection;
-import system.Collections.IEnumerator;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.part.EditorPart;
+import org.eclipse.wb.swt.SWTResourceManager;
+
 import SiteView.ecc.Control.DutyDetailContentProvider;
 import SiteView.ecc.Control.DutyDetailLabelProvider;
 import SiteView.ecc.Control.TableDutyContentProvider;
@@ -45,7 +39,6 @@ import SiteView.ecc.dialog.AddTableDuty;
 import SiteView.ecc.dialog.DutyDetailEditor;
 import SiteView.ecc.dialog.DutyEditor;
 import Siteview.Api.BusinessObject;
-import Siteview.Api.BusinessObjectCollection;
 import Siteview.Windows.Forms.ConnectionBroker;
 import Siteview.Windows.Forms.MessageBox;
 
@@ -234,7 +227,8 @@ public class TableDuty extends EditorPart{
 				tableItem.setChecked(false);
 			}
 		});
-		table.addMouseListener(new MouseListener() {
+		final TableCursor cursor = new TableCursor(table, SWT.NONE);
+		cursor.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 			}
@@ -243,12 +237,13 @@ public class TableDuty extends EditorPart{
 			}
 			@Override
 			public void mouseUp(MouseEvent e) {
+				int column = cursor.getColumn();
 				for(TableItem ta:table.getItems()){
 					if(!ta.equals(tableItem)){
 						ta.setChecked(false);
 					}
 				}
-				if(e.x>300&&e.x<390){
+				if(column==3){
 					TableModle tm=(TableModle) tableItem.getData();
 					BusinessObject bb=tm.getBo();
 					DutyEditor editor=new DutyEditor(null,bb,tm);
@@ -296,7 +291,8 @@ public class TableDuty extends EditorPart{
 	
 			}
 		});
-		table_1.addMouseListener(new MouseListener(){
+		final TableCursor cursor1 = new TableCursor(table_1, SWT.NONE);
+		cursor1.addMouseListener(new MouseListener(){
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				
@@ -307,7 +303,8 @@ public class TableDuty extends EditorPart{
 			}
 			@Override
 			public void mouseUp(MouseEvent e) {
-				if(e.x>510&&e.x<600){
+				int column1 = cursor1.getColumn();
+				if(column1==5){
 					DetailModel dm=(DetailModel)tableItem1.getData();
 					BusinessObject bv=dm.getBo();
 					DutyDetailEditor detailEditor=new DutyDetailEditor(null,bv,dm);

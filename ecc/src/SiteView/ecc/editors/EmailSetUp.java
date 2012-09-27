@@ -14,6 +14,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.TableCursor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -177,14 +178,16 @@ public class EmailSetUp extends EditorPart {
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
-		table.addMouseListener(new MouseListener() {
+		final TableCursor cursor = new TableCursor(table, SWT.NONE);
+		cursor.addMouseListener(new MouseListener() {
 			public void mouseUp(MouseEvent e) {
+				int column = cursor.getColumn();
 				for(TableItem ta:table.getItems()){
 					if(!ta.equals(tableItem)){
 						ta.setChecked(false);
 					}
 				}
-				if(e.x>385&&e.x<610){
+				if(column==3){
 					AddEmail edit=new AddEmail(null,(EmailModle)tableItem.getData());
 					edit.open();
 				}
