@@ -42,7 +42,6 @@ public class ProhibitAction extends Action{
 								bo.GetField("disable").SetValue(new SiteviewValue("true"));//true±íÊ¾½ûÖ¹
 								bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,
 										true);
-								String a=bo.GetField("disable").get_NativeValue().toString();
 							}
 						}
 					}
