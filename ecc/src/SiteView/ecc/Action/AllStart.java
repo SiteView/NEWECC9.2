@@ -29,15 +29,15 @@ public AllStart(List<BusinessObject> list){
 public void run(){
 	if(EccTreeControl.item instanceof GroupModle){//启动组中监测器
 		for(BusinessObject bb:list){
-			System.out.println("bb:"+bb);
+			//System.out.println("bb:"+bb);
 			String disable=bb.GetField("disable").get_NativeValue().toString();
-			System.out.println("disable:"+disable);
+			//System.out.println("disable:"+disable);
 			if("true".equals(disable)){
 				bb.GetField("disable").SetValue(new SiteviewValue("false"));//false表示启动
 				bb.SaveObject(ConnectionBroker.get_SiteviewApi(), true,
 						true);
 				String a=bb.GetField("disable").get_NativeValue().toString();
-				System.out.println("a:"+a);
+				//System.out.println("a:"+a);
 			}
 		}
 	}else if(EccTreeControl.item instanceof MachineModle){//启动设备下监测器

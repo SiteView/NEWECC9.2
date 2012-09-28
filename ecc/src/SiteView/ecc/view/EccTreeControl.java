@@ -17,6 +17,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
@@ -97,6 +98,7 @@ public class EccTreeControl extends ViewPart {
 	public static List<String> list_2;//Unix设备下的监测器 
 	public static List<BusinessObject> list_3;
 	public static Table toptable;
+    
 	static{
 		list=new ArrayList<String>();
 		list_1=new ArrayList<String>();

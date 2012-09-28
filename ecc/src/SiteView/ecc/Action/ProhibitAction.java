@@ -4,8 +4,6 @@ import org.eclipse.jface.action.Action;
 import java.net.URL;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.ui.internal.util.BundleUtility;
 
 import system.Collections.ICollection;
@@ -32,7 +30,7 @@ public class ProhibitAction extends Action{
 		IEnumerator ie=null;
 				if(EccTreeControl.item instanceof GroupModle){//禁止组中监测器
 					String GroupId=((GroupModle) EccTreeControl.item).getBo().get_RecId();//得到选中组的id
-					ico=FileTools.getBussCollection("Groups", GroupId, "Ecc");//通过得到选中组的id找到组中所有的监测器
+					ico=SiteView.ecc.tools.FileTools.getBussCollection("Groups", GroupId, "Ecc");//通过得到选中组的id找到组中所有的监测器
 					ie=ico.GetEnumerator();
 					while(ie.MoveNext()){
 						BusinessObject bo=(BusinessObject)ie.get_Current();
@@ -42,25 +40,30 @@ public class ProhibitAction extends Action{
 								bo.GetField("disable").SetValue(new SiteviewValue("true"));//true表示禁止
 								bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,
 										true);
+			
 							}
 						}
 					}
 				}else if(EccTreeControl.item instanceof MachineModle){//禁止设备下监测器
 					String RecId=((MachineModle) EccTreeControl.item).getBo().get_RecId();//得到选中设备的id
-					ico=FileTools.getBussCollection("Machine", RecId, "Ecc");//得到设备下的监测器
+					//System.out.println("RecId"+RecId);
+					ico=SiteView.ecc.tools.FileTools.getBussCollection("Machine", RecId, "Ecc");//得到设备下的监测器
 					ie=ico.GetEnumerator();
 					while(ie.MoveNext()){
 						BusinessObject bo=(BusinessObject)ie.get_Current();
 						if(bo!=null){
 							String disable=bo.GetField("disable").get_NativeValue().toString();
+							//System.out.println("disable:"+disable);
 							if("false".equals(disable)){
 								bo.GetField("disable").SetValue(new SiteviewValue("true"));
 								bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,
 										true);
+								String a=bo.GetField("disable").get_NativeValue().toString();
+								//System.out.println("a:"+a);
 							}
 						}
 					}
 				}
-			
+
 	}
 }
