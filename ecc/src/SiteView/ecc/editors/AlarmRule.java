@@ -270,7 +270,9 @@ public class AlarmRule extends EditorPart {
 	public static void createTableItem(){
 		Set<String> set=new HashSet<String>();
 		 for(int i=0;i<list.size();i++){
-			 get(0);
+			 if(i==0){				 
+				 get(0);
+			 }
 			String alarmName = list.get(i).getBo().GetField("AlarmName").get_NativeValue().toString();
 			Iterator<String> ite = set.iterator();
 			for (int j=0;j<set.size();j++) {
