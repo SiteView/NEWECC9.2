@@ -114,8 +114,8 @@ public class EccControl extends EditorPart {
 					list.add(bo);
 					EccTreeControl.list_3 = list;
 					if (bo != null) {
+						System.out.println("已选中对象");
 						tab(bo);
-						System.out.println("aaa");
 					}
 				}
 			}

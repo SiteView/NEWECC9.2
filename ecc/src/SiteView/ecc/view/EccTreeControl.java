@@ -302,7 +302,7 @@ public class EccTreeControl extends ViewPart {
 		DeleteGroupAction deleteGroupAction=new DeleteGroupAction();//删除组
 		ProhibitAction prohibitAction=new ProhibitAction();//禁止
 		AllProhibitAction allProhibitAction=new AllProhibitAction(list_3);//批量禁止
-		AllStart allStart=new AllStart();//批量启动
+		AllStart allStart=new AllStart(list_3);//批量启动
 		AllDelete allDelete=new AllDelete();//批量删除
 		manager.add(editorGroupAction);
 		manager.add(addGroupAction);
@@ -355,7 +355,7 @@ public class EccTreeControl extends ViewPart {
 		DeleteGroupAction deleteMonitorAction=new DeleteGroupAction();//删除监测器
 		ProhibitAction prohibitAction=new ProhibitAction();//禁止
 		AllProhibitAction allProhibitAction=new AllProhibitAction(list_3);//批量禁止
-		AllStart allStart=new AllStart();//批量启动
+		AllStart allStart=new AllStart(list_3);//批量启动
 		AllDelete allDelete=new AllDelete();//批量删除
 		manager.add(editorMachineAction);
 		manager.add(deleteMachineAction);
