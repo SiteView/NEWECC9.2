@@ -16,6 +16,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
@@ -95,6 +96,7 @@ public class EccTreeControl extends ViewPart {
 	public static List<String> list_1;//windows设备下的监测器
 	public static List<String> list_2;//Unix设备下的监测器 
 	public static List<BusinessObject> list_3;
+	public static Table toptable;
 	static{
 		list=new ArrayList<String>();
 		list_1=new ArrayList<String>();
@@ -303,7 +305,7 @@ public class EccTreeControl extends ViewPart {
 		ProhibitAction prohibitAction=new ProhibitAction();//禁止
 		AllProhibitAction allProhibitAction=new AllProhibitAction(list_3);//批量禁止
 		AllStart allStart=new AllStart(list_3);//批量启动
-		AllDelete allDelete=new AllDelete();//批量删除
+		AllDelete allDelete=new AllDelete(toptable);//批量删除
 		manager.add(editorGroupAction);
 		manager.add(addGroupAction);
 		manager.add(deleteGroupAction);
@@ -356,7 +358,7 @@ public class EccTreeControl extends ViewPart {
 		ProhibitAction prohibitAction=new ProhibitAction();//禁止
 		AllProhibitAction allProhibitAction=new AllProhibitAction(list_3);//批量禁止
 		AllStart allStart=new AllStart(list_3);//批量启动
-		AllDelete allDelete=new AllDelete();//批量删除
+		AllDelete allDelete=new AllDelete(toptable);//批量删除
 		manager.add(editorMachineAction);
 		manager.add(deleteMachineAction);
 		manager.add(prohibitAction);

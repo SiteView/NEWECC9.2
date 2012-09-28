@@ -48,30 +48,30 @@ public void run(){
 
 	if(EccTreeControl.item instanceof GroupModle){//禁止组中监测器
 		for(BusinessObject bb:list){
-			//System.out.println(bb);
+			System.out.println(bb);
 			String disable=bb.GetField("disable").get_NativeValue().toString();
-			//System.out.println("disable:"+disable);
+			System.out.println("disable:"+disable);
 			if("false".equals(disable)){
 				bb.GetField("disable").SetValue(new SiteviewValue("true"));//true表示禁止
 				bb.SaveObject(ConnectionBroker.get_SiteviewApi(), true,
 						true);
 				String a=bb.GetField("disable").get_NativeValue().toString();
-				//System.out.println("a:"+a);
+				System.out.println("a:"+a);
 			}
 		}
 		
 		
 	}else if(EccTreeControl.item instanceof MachineModle){//禁止设备下监测器
 		for(BusinessObject bb:list){
-			//System.out.println(bb);
+			System.out.println(bb);
 			String disable=bb.GetField("disable").get_NativeValue().toString();
-			//System.out.println("disable:"+disable);
+			System.out.println("disable:"+disable);
 			if("false".equals(disable)){
 				bb.GetField("disable").SetValue(new SiteviewValue("true"));//true表示禁止
 				bb.SaveObject(ConnectionBroker.get_SiteviewApi(), true,
 						true);
 				String a=bb.GetField("disable").get_NativeValue().toString();
-				//System.out.println("a:"+a);
+				System.out.println("a:"+a);
 			}
 		}
 	}

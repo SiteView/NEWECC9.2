@@ -136,6 +136,8 @@ public class EccControl extends EditorPart {
 		toptable.setLinesVisible(true);
 		toptable.setHeaderVisible(true);
 		toptable.setBackground(new Color(null, 255, 255, 255));
+		EccTreeControl.toptable=toptable;
+
         
 		TableColumn tblclmnNewColumn = new TableColumn(toptable, SWT.NONE);
 		tblclmnNewColumn.setWidth(69);
