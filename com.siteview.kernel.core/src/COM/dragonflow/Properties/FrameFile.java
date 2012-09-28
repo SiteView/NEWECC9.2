@@ -18,11 +18,14 @@ package COM.dragonflow.Properties;
  * 
  */
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -33,8 +36,11 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.commons.httpclient.HttpException;
+import org.eclipse.core.runtime.FileLocator;
 import my.util.email.MailSenderInfo;
 import my.util.email.SimpleMailSender;
+import my.util.sound.TestMusic;
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
 import system.Xml.XmlElement;
@@ -47,6 +53,7 @@ import Siteview.Api.ISiteviewApi;
 import Siteview.Windows.Forms.ConnectionBroker;
 
 import com.sun.corba.se.impl.orbutil.GetPropertyAction;
+
 
 import jgl.Array;
 import jgl.HashMap;
@@ -65,6 +72,7 @@ import COM.dragonflow.Utils.TempFileManager;
 import COM.dragonflow.Utils.TextUtils;
 import COM.dragonflow.itsm.data.Config;
 import COM.dragonflow.itsm.data.JDBCForSQL;
+
 
 // Referenced classes of package COM.dragonflow.Properties:
 // LessEqualPropertyName, StringProperty, HashMapOrdered
@@ -525,12 +533,45 @@ public class FrameFile {
 		return s0+"*"+s1;
 	}
 
+	private static String getParentGroupNameById(String groupId){
+		String parentId = "";
+		String sql = "select ParentGroupId from EccGroup where RecId = '"+groupId+"'";
+		ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
+		try {
+			if(rs.next()){parentId = rs.getString("ParentGroupId");}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return parentId;
+	}
+	
+	private static String getGroupNameById(String groupId){
+		String groupName = "";
+		String sql = "select GroupName from EccGroup where RecId = '"+groupId+"'";
+		ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
+		try {
+			if(rs.next()){groupName = rs.getString("GroupName");}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return groupName;
+	}
+	
+	private static String getAllParentGroupName(String groupId){
+		String s = getParentGroupNameById(groupId);
+		if("".equals(s)){
+			return getGroupNameById(groupId);
+		}else{
+			return getGroupNameById(groupId)+"-"+getAllParentGroupName(s);
+		}
+	} 
+	
 	private static void savadyn(String s) {
 		String s1;
-		String category = null;
-		String monitorid = null;
-		String groupName=null;
-		String name=null;
+		String category = null;//状态  时间   父组
+		String monitorid = null;//
+		String groupId=null;//
+		String monitorName=null;//monitor name
 		String type=null;
 		if(s.contains("category=")){
 			s1=format("category=",s,category);
@@ -553,19 +594,21 @@ public class FrameFile {
 			s=s1.substring(s1.indexOf("*")+1);
 		}
 		if(s.contains("group=")){
-			s1=format("group=",s,groupName);
-			groupName=s1.substring(0,s1.indexOf("*"));
+			s1=format("group=",s,groupId);
+			groupId=s1.substring(0,s1.indexOf("*"));
 			s=s1.substring(s1.indexOf("*")+1);
 		}
 		if(s.contains("_name=")){
-			s1=format("_name=",s,name);
-			name=s1.substring(0,s1.indexOf("*"));
+			s1=format("_name=",s,monitorName);
+			monitorName=s1.substring(0,s1.indexOf("*"));
 			s=s1.substring(s1.indexOf("*")+1);
 		}
-		name=groupName+" ："+name;
+		String groupName = getGroupNameById(groupId);
+		String  parentGroupName = getAllParentGroupName(groupId);
+		monitorName=groupId+" ："+monitorName;
 		s=s.trim();
-		s = s.replaceAll("\n", "*");
-		String department=MonitorGroup.groupnameip.get(groupName)+" "+monitorid;
+		s = s.replaceAll("\n", "*");//日志
+		String department=MonitorGroup.groupnameip.get(groupId)+" "+monitorid;
 //		ICollection ico=getBussCollection("monitorid", monitorid, "EccDyn");
 //		IEnumerator ien=ico.GetEnumerator();
 		BusinessObject bo=null;
@@ -610,8 +653,8 @@ public class FrameFile {
 
 				String sql = "update EccDyn set category='" + category
 						+ "',monitorDesc='" + s + "',LastModDateTime='"
-						+ LastModDateTime  +"',StatusConut='"+count+"',groupid='" + groupName
-						+ "',monitorName='"+name+"',Department='"+department+"',MonitorType='"+type+"' where RecId='" + RecId + "'";
+						+ LastModDateTime  +"',StatusConut='"+count+"',groupid='" + groupId
+						+ "',monitorName='"+monitorName+"',Department='"+department+"',MonitorType='"+type+"' where RecId='" + RecId + "'";
 				JDBCForSQL.execute_Insert(sql);
 			} 
 		else {
@@ -631,13 +674,16 @@ public class FrameFile {
 //				bo.GetField("StatusCount").SetValue(new SiteviewValue(0));
 				RecId = UUID.randomUUID().toString().replace("-", "");
 				String sql = "insert into EccDyn (RecId,category,monitorDesc,monitorid,LastModDateTime,CreatedDateTime,groupid,monitorName,Department,MonitorType,StatusConut)"
-						+ " values ('"+ RecId+ "','"+ category+ "','"+s+ "','"+ monitorid+ "','"+ CreatedDateTime+ "','"+ CreatedDateTime + "','" + groupName + "','"+name+"','"
+						+ " values ('"+ RecId+ "','"+ category+ "','"+s+ "','"+ monitorid+ "','"+ CreatedDateTime+ "','"+ CreatedDateTime + "','" + groupId + "','"+monitorName+"','"
 						+department+"','"+type+"','1')";
 				JDBCForSQL.execute_Insert(sql);
 			}
 			//是否报警
 			ResultSet rule=JDBCForSQL.sql_ConnectExecute_Select("select * from EccAlarmRule where MonitorId='"+ monitorid + "'");
 			while(rule.next()){
+				SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Timestamp LastModDateTime = new Timestamp(System.currentTimeMillis());
+				Alarm(rule, parentGroupName, groupName, monitorName, category, LastModDateTime,s);
 				String alarmstatus=rule.getString("AlarmEvent");
 				if(!rule.getBoolean("RuleStatus")||!alarmstatus.equals(category)){
 					continue;
@@ -657,7 +703,8 @@ public class FrameFile {
 					if(starttime<count){
 						continue;
 					}
-					Alarm(rule.getString("AlarmType"));
+//					Alarm(rule.getString("AlarmType"));
+//					Alarm(rule);
 				}
 				System.out.println("报警条件已经符合，开始报警了");
 			}
@@ -665,25 +712,82 @@ public class FrameFile {
 		}
 	}
 
-	private static void Alarm(String string) {
-		if(string.equals("email")){
+	private static void Alarm(ResultSet rule,String allGroup,String group,String monitor,String status,Timestamp LastModDateTime,String logFile) {
+		String alarmType="",address="",toAddress="",fromAddress="",mailServerHost="",userName="",password="",modleId="",content="";
+		try {
+			modleId = rule.getString("ModleId");
+			alarmType = rule.getString("AlarmType");
+			address = rule.getString("Address");
+			if(address.length()==32&&address.matches("\\w{32}")){
+				String sql = "select MailAddress from EccMail where RecId = '"+address+"'";
+				ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
+				if(rs.next()){toAddress=rs.getString("MailAddress");}
+				String sql2 = "select MailAddress,SendServer,MailUserName,MailPwd from EccMail where MailType = 'send'";
+				ResultSet rs2 = JDBCForSQL.sql_ConnectExecute_Select(sql2);
+				if(rs2.next()){
+					fromAddress = rs2.getString("MailAddress");
+					mailServerHost = rs2.getString("SendServer");
+					userName = rs2.getString("MailUserName");
+					password = rs2.getString("MailPwd");
+				}
+				String sql3 = "select MailContent from EccMailModle where RecId = '"+modleId+"'";
+				ResultSet rs3 = JDBCForSQL.sql_ConnectExecute_Select(sql3);
+				if(rs3.next()){
+					content = rs3.getString("MailContent").replaceAll("@AllGroup@", allGroup).replaceAll("@Group@", group).replaceAll("@monitor@", monitor).replaceAll("@Status@", status).replaceAll("@Time@", LastModDateTime.toString()).replaceAll("@LogFile@",logFile );
+				}
+			}else if(address==null||address.matches("\\s*")){
+				toAddress = rule.getString("Other");
+			}else{toAddress = "";}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return;
+		}
+		if(alarmType.equals("email")){
 			 MailSenderInfo mailInfo = new MailSenderInfo();    
-		     mailInfo.setMailServerHost("mail.dragonflow.com");    
+		     mailInfo.setMailServerHost(mailServerHost);    
 		     mailInfo.setMailServerPort("25");    
 		     mailInfo.setValidate(true);    
-		     mailInfo.setUserName("lihua.zhong");    
-		     mailInfo.setPassword("123456");//您的邮箱密码    
-		     mailInfo.setFromAddress("lihua.zhong@dragonflow.com");    
-		     mailInfo.setToAddress("370982743@qq.com");    
-		     mailInfo.setSubject("设置邮箱标题 如http://www.guihua.org 中国桂花网");    
-		     mailInfo.setContent("设置邮箱内容 如http://www.guihua.org 中国桂花网 是中国最大桂花网站==");    
+		     mailInfo.setUserName(userName);    
+		     mailInfo.setPassword(password);//您的邮箱密码    
+		     mailInfo.setFromAddress(fromAddress); 
+		     mailInfo.setToAddress(toAddress);    
+		     mailInfo.setSubject("Ecc报警");    
+		     mailInfo.setContent(content);    
 		        //这个类主要来发送邮件   
 		     SimpleMailSender sms = new SimpleMailSender();   
-		         //sms.sendTextMail(mailInfo);//发送文体格式    
-		         sms.sendHtmlMail(mailInfo);//发送html格式   
+		         //SimpleMailSender.sendTextMail(mailInfo);//发送文体格式    
+		     sms.sendHtmlMail(mailInfo);//发送html格式   
+		}else if(alarmType.equals("SMS")){
+			String PHONE = "15197170516";
+			String PWD = "xp198711";
+			String TO = "15197170516";
+			String MSG = "熊鹏，你是王八蛋不？";
+			try {
+				Fetion.sendMsg(PHONE, PWD, TO, MSG);
+			} catch (HttpException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else if(alarmType.equals("script")){
+
+		}else if(alarmType.equals("sound")){
+//			URL url = Activator.getDefault().getBundle().getResource("sounds/1262.wav");
+			URL url = Class.class.getResource("sounds/1262.wav");
+			String path = "";
+			try {
+				path = FileLocator.toFileURL(url).toString();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			path=path.substring(path.indexOf("/")+1,path.length());
+			TestMusic sound=new TestMusic(path);
+			InputStream stream =new ByteArrayInputStream(sound.getSamples());
+			sound.play(stream);
+			System.out.println("声音播放了");
 		}
 	}
-
 	public static boolean forceMangleOnReading() throws IOException {
 		if (!forceMangleInited) {
 			String s = Platform.getRoot() + File.separator + "classes"
@@ -1378,207 +1482,206 @@ public class FrameFile {
 	 * @param args
 	 * @throws Exception
 	 */
-	public static void main(String args[]) throws Exception {
-		if (args[0].indexOf("mangle") != -1) {
-			boolean flag = true;
-			int i = 0;
-			if (args[0].equals("-demangle")) {
-				flag = false;
-			}
-			StringBuffer stringbuffer = new StringBuffer();
-			if (args.length == 2) {
-				String s2 = args[1];
-				Array array = readFromFile(s2, false);
-				boolean flag6 = s2.endsWith(".config");
-				printFrames(stringbuffer, array, null, false, flag6);
-				if (flag) {
-					stringbuffer = mangle(stringbuffer);
-				}
-			} else {
-				try {
-					setMangle(flag, stringbuffer);
-				} catch (Exception exception) {
-					System.out.println("error: " + exception);
-					i = -1;
-				}
-			}
-			System.out.print(stringbuffer);
-			System.out.flush();
-			System.exit(i);
-		}
-		if (args.length < 2) {
-			System.out.println("unknown command");
-			System.exit(-1);
-		}
-		if (args[0].startsWith("-test")) {
-			File file = new File(args[1]);
-			String args1[] = file.list();
-			int j = 0;
-			int k = 0;
-			String s4 = args[1];
-			String s6 = args[2];
-			for (int i1 = 0; i1 < args1.length; i1++) {
-				if (!args1[i1].endsWith(".mg")
-						&& !args1[i1].endsWith(".config")) {
-					continue;
-				}
-				Array array2 = readFromFile(s4 + "/" + args1[i1]);
-				Array array3 = new Array();
-				Enumeration enumeration = array2.elements();
-				while (enumeration.hasMoreElements()) {
-					HashMap hashmap = (HashMap) enumeration.nextElement();
-					String s9 = TextUtils.getValue(hashmap, "_class");
-					if (!s9.equals("SiteSeer2Monitor")) {
-						hashmap.remove("_alertCondition");
-						hashmap.remove("email");
-						hashmap.remove("_mailServer");
-						hashmap.remove("_mailServerBackup");
-						hashmap.remove("_pagerPort");
-						hashmap.remove("_pagerPortBackup");
-						hashmap.remove("_errorFrequency");
-						array3.add(hashmap);
-					}
-				}
-				if (array3.size() > 0) {
-					k++;
-					System.out.println("writing " + s6 + "/" + args1[i1]);
-					writeToFile(s6 + "/" + args1[i1], array3);
-				}
-			}
-
-			System.exit(0);
-		}
-		if (args[0].startsWith("-monitors")) {
-			File file1 = new File(args[1]);
-			boolean flag2 = args[0].equals("-monitorsGlobal");
-			boolean flag3 = args[0].equals("-monitorsAndReports");
-			boolean flag4 = args[0].equals("-monitorsTrans");
-			boolean flag5 = args[0].equals("-monitorsAndFrame0");
-			String args2[] = file1.list();
-			int j1 = 0;
-			int k1 = 0;
-			String s7 = args[1];
-			String s8 = args[2];
-			for (int l1 = 0; l1 < args2.length; l1++) {
-				if (!args2[l1].endsWith(".mg")) {
-					continue;
-				}
-				Array array4 = readFromFile(s7 + "/" + args2[l1]);
-				Array array5 = new Array();
-				Enumeration enumeration1 = array4.elements();
-				HashMap hashmap1 = new HashMap();
-				if (enumeration1.hasMoreElements()) {
-					hashmap1 = (HashMap) enumeration1.nextElement();
-				}
-				String s10 = TextUtils.getValue(hashmap1, "_disabled");
-				if (s10.equals("true")) {
-					continue;
-				}
-				while (enumeration1.hasMoreElements()) {
-					HashMap hashmap2 = (HashMap) enumeration1.nextElement();
-					if (Monitor.isReportFrame(hashmap2) && flag3) {
-						hashmap2.remove("tabfile");
-						hashmap2.remove("emailData");
-						hashmap2.remove("xmlfile");
-						hashmap2.remove("xmlEmailData");
-						hashmap2.remove("email");
-						hashmap2.remove("attachReport");
-						array5.add(hashmap2);
-					} else if (Monitor.isMonitorFrame(hashmap2)) {
-						String s11 = TextUtils.getValue(hashmap2, "_class");
-						if (!s11.equals("SiteSeer2Monitor")
-								&& (!flag2 || s11.startsWith("URLRemote"))
-								&& (!flag4 || s11.startsWith("URLSequence") || s11
-										.startsWith("URLRemoteSequence"))) {
-							if (s11.equals("FTPMonitor")) {
-								hashmap2.put("_disabled", "checked");
-							}
-							if (TextUtils.getValue(hashmap2, "_disabled")
-									.length() <= 0) {
-								hashmap2.put("_frequency", "6000000");
-								hashmap2.remove("_errorFrequency");
-								hashmap2.remove("_alertCondition");
-								hashmap2.remove("email");
-								hashmap2.remove("_mailServer");
-								hashmap2.remove("_mailServerBackup");
-								hashmap2.remove("_pagerPort");
-								hashmap2.remove("_pagerPortBackup");
-								array5.add(hashmap2);
-							}
-						}
-					}
-				}
-				if (array5.size() <= 0) {
-					continue;
-				}
-				if (flag5) {
-					hashmap1.remove("_alertCondition");
-					array5.pushFront(hashmap1);
-				} else {
-					HashMap hashmap3 = new HashMap();
-					hashmap3.put("_nextID", "10000");
-					hashmap3.put("_disabled",
-							TextUtils.getValue(hashmap1, "_disabled"));
-					hashmap3.put("_name", TextUtils.getValue(hashmap1, "_name"));
-					array5.pushFront(hashmap3);
-				}
-				k1++;
-				System.out.println("writing " + s8 + "/" + args2[l1]);
-				writeToFile(s8 + "/" + args2[l1], array5);
-			}
-
-			System.out.println("------------------");
-			System.out.println("groups: " + k1);
-			System.out.println("monitors: " + j1);
-			System.exit(0);
-		}
-		boolean flag1 = false;
-		String s = "";
-		String s1 = "";
-		String s3 = "";
-		String s5 = "";
-		for (int l = 0; l < args.length; l++) {
-			if (args[l].equals("-s")) {
-				flag1 = true;
-				continue;
-			}
-			if (s.length() == 0) {
-				s = args[l];
-				continue;
-			}
-			if (s1.length() == 0) {
-				s1 = args[l];
-				continue;
-			}
-			if (s3.length() == 0) {
-				s3 = args[l];
-				continue;
-			}
-			if (s5.length() == 0) {
-				s5 = args[l];
-			}
-		}
-
-		if (s1.length() == 0) {
-			s1 = s;
-		}
-		try {
-			System.out.print("Reading " + s + "...");
-			Array array1 = readFromFile(s);
-			if (s3.length() > 0 && s5.length() > 0) {
-				String args3[] = { s3, s5 };
-				TextUtils.replaceInHashMapList(array1, args3, null);
-			}
-			System.out.println("done");
-			System.out.println("Writing " + s1 + "...");
-			writeToFile(s1, array1, flag1);
-			System.out.println("done");
-		} catch (Exception exception1) {
-			System.out.println("Exception: " + exception1);
-		}
-		System.exit(0);
-	}
-
+//	public static void main(String args[]) throws Exception {
+//		if (args[0].indexOf("mangle") != -1) {
+//			boolean flag = true;
+//			int i = 0;
+//			if (args[0].equals("-demangle")) {
+//				flag = false;
+//			}
+//			StringBuffer stringbuffer = new StringBuffer();
+//			if (args.length == 2) {
+//				String s2 = args[1];
+//				Array array = readFromFile(s2, false);
+//				boolean flag6 = s2.endsWith(".config");
+//				printFrames(stringbuffer, array, null, false, flag6);
+//				if (flag) {
+//					stringbuffer = mangle(stringbuffer);
+//				}
+//			} else {
+//				try {
+//					setMangle(flag, stringbuffer);
+//				} catch (Exception exception) {
+//					System.out.println("error: " + exception);
+//					i = -1;
+//				}
+//			}
+//			System.out.print(stringbuffer);
+//			System.out.flush();
+//			System.exit(i);
+//		}
+//		if (args.length < 2) {
+//			System.out.println("unknown command");
+//			System.exit(-1);
+//		}
+//		if (args[0].startsWith("-test")) {
+//			File file = new File(args[1]);
+//			String args1[] = file.list();
+//			int j = 0;
+//			int k = 0;
+//			String s4 = args[1];
+//			String s6 = args[2];
+//			for (int i1 = 0; i1 < args1.length; i1++) {
+//				if (!args1[i1].endsWith(".mg")
+//						&& !args1[i1].endsWith(".config")) {
+//					continue;
+//				}
+//				Array array2 = readFromFile(s4 + "/" + args1[i1]);
+//				Array array3 = new Array();
+//				Enumeration enumeration = array2.elements();
+//				while (enumeration.hasMoreElements()) {
+//					HashMap hashmap = (HashMap) enumeration.nextElement();
+//					String s9 = TextUtils.getValue(hashmap, "_class");
+//					if (!s9.equals("SiteSeer2Monitor")) {
+//						hashmap.remove("_alertCondition");
+//						hashmap.remove("email");
+//						hashmap.remove("_mailServer");
+//						hashmap.remove("_mailServerBackup");
+//						hashmap.remove("_pagerPort");
+//						hashmap.remove("_pagerPortBackup");
+//						hashmap.remove("_errorFrequency");
+//						array3.add(hashmap);
+//					}
+//				}
+//				if (array3.size() > 0) {
+//					k++;
+//					System.out.println("writing " + s6 + "/" + args1[i1]);
+//					writeToFile(s6 + "/" + args1[i1], array3);
+//				}
+//			}
+//
+//			System.exit(0);
+//		}
+//		if (args[0].startsWith("-monitors")) {
+//			File file1 = new File(args[1]);
+//			boolean flag2 = args[0].equals("-monitorsGlobal");
+//			boolean flag3 = args[0].equals("-monitorsAndReports");
+//			boolean flag4 = args[0].equals("-monitorsTrans");
+//			boolean flag5 = args[0].equals("-monitorsAndFrame0");
+//			String args2[] = file1.list();
+//			int j1 = 0;
+//			int k1 = 0;
+//			String s7 = args[1];
+//			String s8 = args[2];
+//			for (int l1 = 0; l1 < args2.length; l1++) {
+//				if (!args2[l1].endsWith(".mg")) {
+//					continue;
+//				}
+//				Array array4 = readFromFile(s7 + "/" + args2[l1]);
+//				Array array5 = new Array();
+//				Enumeration enumeration1 = array4.elements();
+//				HashMap hashmap1 = new HashMap();
+//				if (enumeration1.hasMoreElements()) {
+//					hashmap1 = (HashMap) enumeration1.nextElement();
+//				}
+//				String s10 = TextUtils.getValue(hashmap1, "_disabled");
+//				if (s10.equals("true")) {
+//					continue;
+//				}
+//				while (enumeration1.hasMoreElements()) {
+//					HashMap hashmap2 = (HashMap) enumeration1.nextElement();
+//					if (Monitor.isReportFrame(hashmap2) && flag3) {
+//						hashmap2.remove("tabfile");
+//						hashmap2.remove("emailData");
+//						hashmap2.remove("xmlfile");
+//						hashmap2.remove("xmlEmailData");
+//						hashmap2.remove("email");
+//						hashmap2.remove("attachReport");
+//						array5.add(hashmap2);
+//					} else if (Monitor.isMonitorFrame(hashmap2)) {
+//						String s11 = TextUtils.getValue(hashmap2, "_class");
+//						if (!s11.equals("SiteSeer2Monitor")
+//								&& (!flag2 || s11.startsWith("URLRemote"))
+//								&& (!flag4 || s11.startsWith("URLSequence") || s11
+//										.startsWith("URLRemoteSequence"))) {
+//							if (s11.equals("FTPMonitor")) {
+//								hashmap2.put("_disabled", "checked");
+//							}
+//							if (TextUtils.getValue(hashmap2, "_disabled")
+//									.length() <= 0) {
+//								hashmap2.put("_frequency", "6000000");
+//								hashmap2.remove("_errorFrequency");
+//								hashmap2.remove("_alertCondition");
+//								hashmap2.remove("email");
+//								hashmap2.remove("_mailServer");
+//								hashmap2.remove("_mailServerBackup");
+//								hashmap2.remove("_pagerPort");
+//								hashmap2.remove("_pagerPortBackup");
+//								array5.add(hashmap2);
+//							}
+//						}
+//					}
+//				}
+//				if (array5.size() <= 0) {
+//					continue;
+//				}
+//				if (flag5) {
+//					hashmap1.remove("_alertCondition");
+//					array5.pushFront(hashmap1);
+//				} else {
+//					HashMap hashmap3 = new HashMap();
+//					hashmap3.put("_nextID", "10000");
+//					hashmap3.put("_disabled",
+//							TextUtils.getValue(hashmap1, "_disabled"));
+//					hashmap3.put("_name", TextUtils.getValue(hashmap1, "_name"));
+//					array5.pushFront(hashmap3);
+//				}
+//				k1++;
+//				System.out.println("writing " + s8 + "/" + args2[l1]);
+//				writeToFile(s8 + "/" + args2[l1], array5);
+//			}
+//
+//			System.out.println("------------------");
+//			System.out.println("groups: " + k1);
+//			System.out.println("monitors: " + j1);
+//			System.exit(0);
+//		}
+//		boolean flag1 = false;
+//		String s = "";
+//		String s1 = "";
+//		String s3 = "";
+//		String s5 = "";
+//		for (int l = 0; l < args.length; l++) {
+//			if (args[l].equals("-s")) {
+//				flag1 = true;
+//				continue;
+//			}
+//			if (s.length() == 0) {
+//				s = args[l];
+//				continue;
+//			}
+//			if (s1.length() == 0) {
+//				s1 = args[l];
+//				continue;
+//			}
+//			if (s3.length() == 0) {
+//				s3 = args[l];
+//				continue;
+//			}
+//			if (s5.length() == 0) {
+//				s5 = args[l];
+//			}
+//		}
+//
+//		if (s1.length() == 0) {
+//			s1 = s;
+//		}
+//		try {
+//			System.out.print("Reading " + s + "...");
+//			Array array1 = readFromFile(s);
+//			if (s3.length() > 0 && s5.length() > 0) {
+//				String args3[] = { s3, s5 };
+//				TextUtils.replaceInHashMapList(array1, args3, null);
+//			}
+//			System.out.println("done");
+//			System.out.println("Writing " + s1 + "...");
+//			writeToFile(s1, array1, flag1);
+//			System.out.println("done");
+//		} catch (Exception exception1) {
+//			System.out.println("Exception: " + exception1);
+//		}
+//		System.exit(0);
+//	}
 	public static boolean isHave(String[] strs, String s) {
 		for (int i = 0; i < strs.length; i++) {
 			if (strs[i].indexOf(s) != -1) {
