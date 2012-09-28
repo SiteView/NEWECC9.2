@@ -216,7 +216,6 @@ public class EccTreeControl extends ViewPart {
 						 try {
 							page.openEditor(eee, EccControl.ID);
 						} catch (PartInitException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}  
 					 }else{
@@ -307,7 +306,7 @@ public class EccTreeControl extends ViewPart {
 		ProhibitAction prohibitAction=new ProhibitAction();//禁止
 		AllProhibitAction allProhibitAction=new AllProhibitAction(list_3);//批量禁止
 		AllStart allStart=new AllStart(list_3);//批量启动
-		AllDelete allDelete=new AllDelete(toptable);//批量删除
+		AllDelete allDelete=new AllDelete(list_3,toptable);//批量删除
 		manager.add(editorGroupAction);
 		manager.add(addGroupAction);
 		manager.add(deleteGroupAction);
@@ -360,7 +359,7 @@ public class EccTreeControl extends ViewPart {
 		ProhibitAction prohibitAction=new ProhibitAction();//禁止
 		AllProhibitAction allProhibitAction=new AllProhibitAction(list_3);//批量禁止
 		AllStart allStart=new AllStart(list_3);//批量启动
-		AllDelete allDelete=new AllDelete(toptable);//批量删除
+		AllDelete allDelete=new AllDelete(list_3,toptable);//批量删除
 		manager.add(editorMachineAction);
 		manager.add(deleteMachineAction);
 		manager.add(prohibitAction);

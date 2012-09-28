@@ -114,7 +114,6 @@ public class EccControl extends EditorPart {
 					list.add(bo);
 					EccTreeControl.list_3 = list;
 					if (bo != null) {
-						System.out.println("已选中对象");
 						tab(bo);
 					}
 				}
@@ -140,24 +139,24 @@ public class EccControl extends EditorPart {
 
         
 		TableColumn tblclmnNewColumn = new TableColumn(toptable, SWT.NONE);
-		tblclmnNewColumn.setWidth(69);
+		tblclmnNewColumn.setWidth(100);
 		tblclmnNewColumn.setText("是否禁止");
 
 		TableColumn newColumnTableColumn_top = new TableColumn(toptable,
 				SWT.NONE);
-		newColumnTableColumn_top.setWidth(59);
+		newColumnTableColumn_top.setWidth(100);
 		newColumnTableColumn_top.setText("状态");
 		TableColumn newColumnTableColumn_top2 = new TableColumn(toptable,
 				SWT.NONE);
-		newColumnTableColumn_top2.setWidth(58);
+		newColumnTableColumn_top2.setWidth(100);
 		newColumnTableColumn_top2.setText("名称");
 		TableColumn newColumnTableColumn_top3 =new TableColumn(toptable,
 				SWT.NONE);
-		newColumnTableColumn_top3.setWidth(144);
+		newColumnTableColumn_top3.setWidth(100);
 		newColumnTableColumn_top3.setText("描述");
 		TableColumn newColumnTableColumn_top4 = new TableColumn(toptable,
 				SWT.NONE);
-		newColumnTableColumn_top4.setWidth(106);
+		newColumnTableColumn_top4.setWidth(100);
 		newColumnTableColumn_top4.setText("最后更新");
 		createTableItem();
 	}
@@ -221,7 +220,6 @@ public class EccControl extends EditorPart {
 				} else {
 					String disable=bo.GetField("disable").get_NativeValue()
 							.toString();
-							//System.out.println(disable);
 							if("true".equals(disable)){
 								data[0]="禁止";
 							}else{

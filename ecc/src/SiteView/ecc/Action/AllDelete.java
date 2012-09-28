@@ -1,6 +1,7 @@
 package SiteView.ecc.Action;
 
 import java.net.URL;
+import java.util.List;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
@@ -58,9 +59,11 @@ import Siteview.Api.ValueResolverService;
 import Siteview.Windows.Forms.ConnectionBroker;
 
 public class AllDelete extends Action{
+	public List<BusinessObject> list;
 	public Table toptable;
-public AllDelete(Table toptable){
-	this.toptable=toptable;
+public AllDelete(List<BusinessObject> list,Table toptable){
+	this.list=list;
+	this.toptable =toptable;
 	URL url = BundleUtility.find(Platform.getBundle(Activator.PLUGIN_ID),
 	"Image/AllDelete.bmp");
     ImageDescriptor temp = ImageDescriptor.createFromURL(url);
@@ -68,33 +71,20 @@ public AllDelete(Table toptable){
 	setText("批量删除");
 }
 public void run(){
-	ICollection ico = null;
-	IEnumerator ie=null;
-	if(EccTreeControl.item instanceof GroupModle){//删除组下的所有监测器
-		String GroupId=((GroupModle)EccTreeControl.item).getBo().get_RecId();//得到选中组的id
-		ico=FileTools.getBussCollection("Groups", GroupId, "Ecc");//通过得到选中组的id找到组中所有的监测器
-		ie=ico.GetEnumerator();
-		while(ie.MoveNext()){
-			BusinessObject bo=(BusinessObject)ie.get_Current();
-			bo.DeleteObject(ConnectionBroker.get_SiteviewApi());
-			//System.out.println("删除数据库数据完成");
-			toptable.removeAll();
-			toptable.update();
-			//System.out.println("删除表中的所有数据");
+	
+	if(EccTreeControl.item instanceof GroupModle){//删除组下的监测器
+		for(BusinessObject bb:list){
+			System.out.println(bb);
+			bb.DeleteObject(ConnectionBroker.get_SiteviewApi());
+			System.out.println("删除数据库");
 		}
-		
-	}else if(EccTreeControl.item instanceof MachineModle){//删除设备下所有的监测器
-		String RecId=((MachineModle) EccTreeControl.item).getBo().get_RecId();//得到选中设备的id
-		ico=FileTools.getBussCollection("Machine", RecId, "Ecc");//得到设备下的监测器
-		ie=ico.GetEnumerator();
-		while(ie.MoveNext()){
-			BusinessObject bo=(BusinessObject)ie.get_Current();
-			bo.DeleteObject(ConnectionBroker.get_SiteviewApi());
-			//System.out.println("删除数据库数据完成");
-			toptable.removeAll();
-			toptable.update();
-			//System.out.println("删除表中的所有数据");
+	}else if(EccTreeControl.item instanceof MachineModle){//删除设备下的监测器
+		for(BusinessObject bb:list){
+			System.out.println(bb);
+			bb.DeleteObject(ConnectionBroker.get_SiteviewApi());
+			System.out.println("删除数据库");
+
 		}
-	}
+}
 }
 }
