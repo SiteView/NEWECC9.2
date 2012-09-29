@@ -96,8 +96,6 @@ public class EccTreeControl extends ViewPart {
 	public static List<String> list;//组下面的监测器
 	public static List<String> list_1;//windows设备下的监测器
 	public static List<String> list_2;//Unix设备下的监测器 
-	public static List<BusinessObject> list_3;
-	public static Table toptable;
     
 	static{
 		list=new ArrayList<String>();
@@ -304,9 +302,9 @@ public class EccTreeControl extends ViewPart {
 		AddGroupAction addGroupAction=new AddGroupAction();//增加子组
 		DeleteGroupAction deleteGroupAction=new DeleteGroupAction();//删除组
 		ProhibitAction prohibitAction=new ProhibitAction();//禁止
-		AllProhibitAction allProhibitAction=new AllProhibitAction(list_3);//批量禁止
-		AllStart allStart=new AllStart(list_3);//批量启动
-		AllDelete allDelete=new AllDelete(list_3,toptable);//批量删除
+		AllProhibitAction allProhibitAction=new AllProhibitAction();//批量禁止
+		AllStart allStart=new AllStart();//批量启动
+		AllDelete allDelete=new AllDelete();//批量删除
 		manager.add(editorGroupAction);
 		manager.add(addGroupAction);
 		manager.add(deleteGroupAction);
@@ -357,9 +355,9 @@ public class EccTreeControl extends ViewPart {
 		DeleteMachineAction deleteMachineAction=new DeleteMachineAction();//删除设备
 		DeleteGroupAction deleteMonitorAction=new DeleteGroupAction();//删除监测器
 		ProhibitAction prohibitAction=new ProhibitAction();//禁止
-		AllProhibitAction allProhibitAction=new AllProhibitAction(list_3);//批量禁止
-		AllStart allStart=new AllStart(list_3);//批量启动
-		AllDelete allDelete=new AllDelete(list_3,toptable);//批量删除
+		AllProhibitAction allProhibitAction=new AllProhibitAction();//批量禁止
+		AllStart allStart=new AllStart();//批量启动
+		AllDelete allDelete=new AllDelete();//批量删除
 		manager.add(editorMachineAction);
 		manager.add(deleteMachineAction);
 		manager.add(prohibitAction);

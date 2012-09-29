@@ -16,6 +16,7 @@ import system.Net.ICredentials;
 import SiteView.ecc.Activator;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MachineModle;
+import SiteView.ecc.editors.EccControl;
 import SiteView.ecc.tools.FileTools;
 import SiteView.ecc.view.EccTreeControl;
 import Siteview.EncryptionResult;
@@ -58,33 +59,16 @@ import Siteview.Api.SystemExtensions;
 import Siteview.Api.ValueResolverService;
 import Siteview.Windows.Forms.ConnectionBroker;
 
-public class AllDelete extends Action{
-	public List<BusinessObject> list;
-	public Table toptable;
-public AllDelete(List<BusinessObject> list,Table toptable){
-	this.list=list;
-	this.toptable =toptable;
-	URL url = BundleUtility.find(Platform.getBundle(Activator.PLUGIN_ID),
-	"Image/AllDelete.bmp");
-    ImageDescriptor temp = ImageDescriptor.createFromURL(url);
-    setImageDescriptor(temp);
-	setText("批量删除");
-}
-public void run(){
-	
-	if(EccTreeControl.item instanceof GroupModle){//删除组下的监测器
-		for(BusinessObject bb:list){
-			System.out.println(bb);
-			//bb.DeleteObject(ConnectionBroker.get_SiteviewApi());
-			System.out.println("删除数据库");
-		}
-	}else if(EccTreeControl.item instanceof MachineModle){//删除设备下的监测器
-		for(BusinessObject bb:list){
-			System.out.println(bb);
-			//bb.DeleteObject(ConnectionBroker.get_SiteviewApi());
-			System.out.println("删除数据库");
+public class AllDelete extends Action {
+	public AllDelete( ) {
+		URL url = BundleUtility.find(Platform.getBundle(Activator.PLUGIN_ID),
+				"Image/AllDelete.bmp");
+		ImageDescriptor temp = ImageDescriptor.createFromURL(url);
+		setImageDescriptor(temp);
+		setText("批量删除");
+	}
 
-		}
-}
-}
+	public void run() {
+		EccControl.getSelete(false, "删除");
+	}
 }

@@ -41,6 +41,7 @@ import SiteView.ecc.tools.Config;
 import SiteView.ecc.tools.FileTools;
 import SiteView.ecc.views.EccReportView;
 import SiteView.ecc.view.EccTreeControl;
+import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
 
@@ -66,7 +67,7 @@ public class EccControl extends EditorPart {
 	public static final String ID = "SiteView.ecc.editors.EccControl";
 	public static TableItem item = null;
 	public BusinessObject bo1 = null;
-	public Table toptable;
+	public static Table toptable;
 	static TabFolder tabFolder;
 	public List<BusinessObject> list;
 	public Composite c_1;
@@ -109,10 +110,7 @@ public class EccControl extends EditorPart {
 				if (item != e.item) {
 					item = (TableItem) e.item;
 					BusinessObject bo = (BusinessObject) item.getData();
-					System.out.println(bo);
-					item.setChecked(true);
-					list.add(bo);
-					EccTreeControl.list_3 = list;
+					item.setChecked(!item.getChecked());
 					if (bo != null) {
 						tab(bo);
 					}
@@ -135,7 +133,6 @@ public class EccControl extends EditorPart {
 		toptable.setLinesVisible(true);
 		toptable.setHeaderVisible(true);
 		toptable.setBackground(new Color(null, 255, 255, 255));
-		EccTreeControl.toptable=toptable;
 
         
 		TableColumn tblclmnNewColumn = new TableColumn(toptable, SWT.NONE);
@@ -439,5 +436,36 @@ public class EccControl extends EditorPart {
 	}
 
 	public void setFocus() {
+	}
+	public static void getSelete(boolean flg,String s){
+		for(TableItem tab:toptable.getItems()){
+			BusinessObject bo;
+			if(s.equals("½ûÖ¹")){
+				bo=(BusinessObject) tab.getData();
+				bo.GetField("disable").SetValue(new SiteviewValue(true));
+				bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+				tab.setText(0, s);
+				tab.setData(bo);
+			}else if(s.equals("É¾³ý")){
+				if(tab.getChecked()){
+					bo=(BusinessObject) tab.getData();
+					bo.DeleteObject(ConnectionBroker.get_SiteviewApi());
+					tab.dispose();
+					tab(null);
+				}
+			}else if(s.equals("")){
+				if(tab.getChecked()){
+					bo=(BusinessObject) tab.getData();
+					bo.GetField("disable").SetValue(new SiteviewValue(flg));
+					bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					if(flg){
+						tab.setText(0, "½ûÖ¹");
+					}else{
+						tab.setText(0, "ÔÊÐí");
+					}
+					tab.setData(bo);
+				}
+			}
+		}
 	}
 }
