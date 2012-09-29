@@ -1,5 +1,8 @@
 package SiteView.ecc.editors;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
@@ -7,6 +10,9 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.TableCursor;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.VerifyEvent;
@@ -22,11 +28,18 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
 
+import SiteView.ecc.Control.TableComparer;
+import SiteView.ecc.Control.TableDutyContentProvider;
+import SiteView.ecc.Control.TableDutyLabelProvider;
+import SiteView.ecc.Modle.EmailModle;
+import SiteView.ecc.Modle.SMSModel;
+import SiteView.ecc.dialog.AddEmail;
 import SiteView.ecc.dialog.AddSMS;
 import SiteView.ecc.tools.FileTools;
 import Siteview.SiteviewValue;
@@ -40,6 +53,9 @@ public class MessageSetUp extends EditorPart {
 	private Text text_1;
 	private Text text_2;
 	BusinessObject SMSsend;
+	public static List<SMSModel> list;
+	public static TableViewer tableViewer;
+	TableItem tableItem;
 
 	public MessageSetUp() {
 		// TODO Auto-generated constructor stub
@@ -84,6 +100,16 @@ public class MessageSetUp extends EditorPart {
 		IEnumerator ien=ico.GetEnumerator();
 		while(ien.MoveNext()){
 			SMSsend=(BusinessObject) ien.get_Current();
+		}
+		if(list==null){
+			list = new ArrayList<SMSModel>();
+			ICollection ic=FileTools.getBussCollection("SMSType", "receive", "EccSMS");
+			ien=ic.GetEnumerator();
+			while(ien.MoveNext()){
+				BusinessObject bo=(BusinessObject) ien.get_Current();
+				SMSModel sms=new SMSModel(bo);
+				list.add(sms);
+			}
 		}
 		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
@@ -147,11 +173,36 @@ public class MessageSetUp extends EditorPart {
 		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		label.setText("\u77ED\u4FE1\u8BBE\u7F6E\u8BE6\u7EC6\u4FE1\u606F");
 		
-		TableViewer tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.H_SCROLL);
+		tableViewer = new TableViewer(sashForm, SWT.CHECK | SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.H_SCROLL);
 		table = tableViewer.getTable();
 		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
+		table.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				tableItem=(TableItem) e.item;
+				tableItem.setChecked(true);
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+		final TableCursor cursor = new TableCursor(table, SWT.NONE);
+		cursor.addMouseListener(new MouseListener() {
+			public void mouseUp(MouseEvent e) {
+				int column = cursor.getColumn();
+				for(TableItem ta:table.getItems()){
+					if(!ta.equals(tableItem)){
+						ta.setChecked(false);
+					}
+				}
+				if(column==3){
+					AddSMS edit=new AddSMS(null,(SMSModel)tableItem.getData());
+					edit.open();
+				}
+			}
+			public void mouseDown(MouseEvent e) {}
+			public void mouseDoubleClick(MouseEvent e) {}
+		});
 		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn.setWidth(150);
@@ -277,6 +328,10 @@ public class MessageSetUp extends EditorPart {
 		Composite composite_6 = new Composite(tabFolder, SWT.NONE);
 		composite_6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		tabItem_3.setControl(composite_6);
+		tableViewer.setContentProvider(new TableDutyContentProvider());
+		tableViewer.setLabelProvider(new TableDutyLabelProvider());
+		tableViewer.setInput(list);
+		tableViewer.setComparer(new TableComparer());
 		sashForm.setWeights(new int[] {1, 2, 1, 15, 15});
 		// TODO Auto-generated method stub
 

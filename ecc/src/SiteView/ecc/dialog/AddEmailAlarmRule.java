@@ -1,5 +1,6 @@
 package SiteView.ecc.dialog;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,12 +38,14 @@ import SiteView.ecc.Modle.EmailModle;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MachineModle;
 import SiteView.ecc.Modle.MonitorModle;
+import SiteView.ecc.Modle.SMSModel;
 import SiteView.ecc.Modle.SiteViewEcc;
 import SiteView.ecc.Modle.TableModle;
 import SiteView.ecc.data.SiteViewData;
 import SiteView.ecc.data.TableDutyInfor;
 import SiteView.ecc.editors.AlarmRule;
 import SiteView.ecc.editors.EmailSetUp;
+import SiteView.ecc.editors.MessageSetUp;
 import SiteView.ecc.tools.FileTools;
 import SiteView.ecc.view.EccTreeControl;
 import Siteview.SiteviewValue;
@@ -90,6 +93,7 @@ public class AddEmailAlarmRule extends Dialog {
 	Map<String, TreeItem> allid = new HashMap<String, TreeItem>();
 	List<String> alarmname;
 	static BusinessObject bo=null;
+	public static List<SMSModel> list1 = MessageSetUp.list;
 	/**
 	 * @wbp.parser.constructor
 	 */
@@ -547,6 +551,21 @@ public class AddEmailAlarmRule extends Dialog {
 		if(bo!=null){
 			combo_4.setText(bo.GetField("Address").get_NativeValue().toString());
 		}
+		if(list1==null){
+			list1 = new ArrayList<SMSModel>();
+			ICollection ic=FileTools.getBussCollection("SMSType", "receive", "EccSMS");
+			IEnumerator ien=ic.GetEnumerator();
+			while(ien.MoveNext()){
+				BusinessObject bo=(BusinessObject) ien.get_Current();
+				SMSModel sms=new SMSModel(bo);
+				list1.add(sms);
+			}
+		}
+		for (SMSModel sms : list1) {
+			BigDecimal big = new BigDecimal(sms.getBo().GetField("MobliePhone").get_NativeValue().toString());
+			combo_4.add(big.toPlainString());
+		}
+		
 
 		Label label = new Label(group, SWT.NONE);
 		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
