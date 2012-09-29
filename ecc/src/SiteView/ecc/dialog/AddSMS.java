@@ -185,18 +185,13 @@ public class AddSMS extends Dialog {
 			if (sms != null) {
 				bo = sms.getBo();
 			} else {
-				bo = ConnectionBroker.get_SiteviewApi().get_BusObService()
-						.Create("EccSMS");
+				bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("EccSMS");
 			}
 			bo.GetField("SetName").SetValue(new SiteviewValue(text.getText()));
-			bo.GetField("IsStop").SetValue(
-					new SiteviewValue(!button.getSelection()));
-			bo.GetField("MobliePhone").SetValue(
-					new SiteviewValue(text_1.getText()));
-			bo.GetField("MouldType").SetValue(
-					new SiteviewValue(combo.getText()));
-			ICollection ico = FileTools.getBussCollection("MailModle",
-					combo_1.getText(), "EccMailModle");
+			bo.GetField("IsStop").SetValue(new SiteviewValue(!button.getSelection()));
+			bo.GetField("MobliePhone").SetValue(new SiteviewValue(text_1.getText()));
+			bo.GetField("MouldType").SetValue(new SiteviewValue(combo.getText()));
+			ICollection ico = FileTools.getBussCollection("MailModle",combo_1.getText(), "EccMailModle");
 			IEnumerator ie = ico.GetEnumerator();
 			while (ie.MoveNext()) {
 				if (((BusinessObject) ie.get_Current()).GetField("ModleType").get_NativeValue().toString().equals("SMS")) {

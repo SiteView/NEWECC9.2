@@ -257,12 +257,6 @@ public class MessageSetUp extends EditorPart {
 		text_2 = new Text(composite_3, SWT.BORDER);
 		text_2.setBounds(140, 90, 170, 18);
 		text_2.setText(SMSsend.GetField("SMSLength").get_NativeValue().toString());
-		text_2.addVerifyListener(new VerifyListener() {
-			public void verifyText(VerifyEvent e) {
-				boolean b = ("0123456789".indexOf(e.text) >= 0);
-				e.doit = b;
-			}
-		});
 		
 		Button btnNewButton = new Button(composite_3, SWT.NONE);
 		btnNewButton.setBounds(42, 120, 72, 22);
