@@ -256,7 +256,8 @@ public class MessageSetUp extends EditorPart {
 		
 		text_2 = new Text(composite_3, SWT.BORDER);
 		text_2.setBounds(140, 90, 170, 18);
-		text_2.setText(SMSsend.GetField("SMSLength").get_NativeValue().toString());
+		String s=SMSsend.GetField("SMSLength").get_NativeValue().toString();
+		text_2.setText(s.substring(0,s.indexOf(".")));
 		
 		Button btnNewButton = new Button(composite_3, SWT.NONE);
 		btnNewButton.setBounds(42, 120, 72, 22);
@@ -276,7 +277,6 @@ public class MessageSetUp extends EditorPart {
 					MessageDialog.openInformation(null, "提示", "短信最大长度为70");
 					return;
 				}
-				SMSsend = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("EccSMS");
 				SMSsend.GetField("SMSType").SetValue(new SiteviewValue("send"));
 				SMSsend.GetField("SMSUserName").SetValue(new SiteviewValue(text.getText()));
 				SMSsend.GetField("SMSPwd").SetValue(new SiteviewValue(text_1.getText()));
