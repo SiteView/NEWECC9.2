@@ -51,7 +51,7 @@ import SiteView.ecc.Control.TableDutyLabelProvider;
 import SiteView.ecc.Modle.EmailModle;
 import SiteView.ecc.Modle.SMSModel;
 import SiteView.ecc.dialog.AddEmail;
-import SiteView.ecc.dialog.AddEmailModleSet;
+import SiteView.ecc.dialog.AddSMSModleSet;
 import SiteView.ecc.dialog.AddSMS;
 import SiteView.ecc.tools.FileTools;
 import Siteview.SiteviewValue;
@@ -367,7 +367,7 @@ public class MessageSetUp extends EditorPart {
 	private void createAction(){
 		messageAction = new Action("短息模板设置") {
 			public void run(){
-				AddEmailModleSet add=new AddEmailModleSet(null,"短息模板设置",null);
+				AddSMSModleSet add=new AddSMSModleSet(null,"短息模板设置",null);
 				add.open();
 			}
 		};
@@ -377,7 +377,7 @@ public class MessageSetUp extends EditorPart {
 		
 		webMessageAction = new Action("Web短息模板设置") {
 			public void run(){
-				AddEmailModleSet add=new AddEmailModleSet(null,"Web短息模板设置",null);
+				AddSMSModleSet add=new AddSMSModleSet(null,"Web短息模板设置",null);
 				add.open();
 			}
 		};
