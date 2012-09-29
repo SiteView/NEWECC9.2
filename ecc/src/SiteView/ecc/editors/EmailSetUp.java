@@ -278,7 +278,7 @@ public class EmailSetUp extends EditorPart {
 				 }else if(text_1.getText()==null ||text_1.getText().equals("")){
 					 MessageDialog.openInformation(new Shell(), "提示", "请填写Email地址");
 					 return;
-				 }else if(!regex.matcher(text_2.getText()).matches()){
+				 }else if(!regex.matcher(text_1.getText()).matches()){
 					 MessageDialog.openInformation(new Shell(), "提示", "Email格式不对");
 					 return;
 				 }else if(text_2.getText()==null ||text_2.getText().equals("")){
