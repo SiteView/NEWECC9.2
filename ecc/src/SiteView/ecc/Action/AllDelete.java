@@ -75,13 +75,13 @@ public void run(){
 	if(EccTreeControl.item instanceof GroupModle){//删除组下的监测器
 		for(BusinessObject bb:list){
 			System.out.println(bb);
-			bb.DeleteObject(ConnectionBroker.get_SiteviewApi());
+			//bb.DeleteObject(ConnectionBroker.get_SiteviewApi());
 			System.out.println("删除数据库");
 		}
 	}else if(EccTreeControl.item instanceof MachineModle){//删除设备下的监测器
 		for(BusinessObject bb:list){
 			System.out.println(bb);
-			bb.DeleteObject(ConnectionBroker.get_SiteviewApi());
+			//bb.DeleteObject(ConnectionBroker.get_SiteviewApi());
 			System.out.println("删除数据库");
 
 		}
