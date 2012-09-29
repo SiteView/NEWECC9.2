@@ -55,6 +55,7 @@ import SiteViewMain.SiteViewSupport;
 // ConfigurationChanger
 
 public class MonitorGroup extends Monitor {
+	public static Map<String,Monitor> monitors=new java.util.HashMap<String, Monitor>();
 	public static java.util.Map<String,String> groupnameip=new java.util.HashMap<String, String>();
     public static StringProperty pLastSaved;
     public static Map<String,MonitorGroup> monitorgroups=new java.util.HashMap<String, MonitorGroup>();
@@ -1884,6 +1885,7 @@ public class MonitorGroup extends Monitor {
 	                if (isMonitorFrame(hashmap1)) {
 	                    Monitor monitor = null;
 	                    monitor = createMonitor(hashmap1, s2);
+	                    monitors.put(hashmap1.get("_id").toString(), monitor);
 	                    monitor.group = this;
 	                    addElement(monitor);
 	                } else if (isReportFrame(hashmap1)) {

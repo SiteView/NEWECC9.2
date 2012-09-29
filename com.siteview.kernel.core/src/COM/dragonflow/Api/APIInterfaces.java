@@ -30,4 +30,5 @@ public interface APIInterfaces extends Remote
 	List<String[]> doTestMachine(String s,String hostname,String id)throws Exception;
 	 String[] getDiskSpace(String hostname,String s) throws SiteViewException,RemoteException ;
 	String[] getServer(String hostname,String s) throws RemoteException;
+	void Refresh(String s)throws RemoteException;
 }

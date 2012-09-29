@@ -38,6 +38,7 @@ import COM.dragonflow.Properties.FrameFile;
 import COM.dragonflow.SiteView.AtomicMonitor;
 import COM.dragonflow.SiteView.IServerPropMonitor;
 import COM.dragonflow.SiteView.Machine;
+import COM.dragonflow.SiteView.Monitor;
 import COM.dragonflow.SiteView.MonitorGroup;
 import COM.dragonflow.SiteView.NTCounterBase;
 import COM.dragonflow.SiteView.Platform;
@@ -82,10 +83,6 @@ public class ApiRmiServer extends java.rmi.server.UnicastRemoteObject implements
 	public ApiRmiServer() throws RemoteException {
 		try {
 			InetAddress addr = InetAddress.getLocalHost();
-			// Get IP Address
-			// byte[] ipAddr = addr.getAddress();
-
-			// Get hostname
 			hostname = addr.getHostName();
 		} catch (Exception e) {
 			System.out.println("can't get inet address.");
@@ -609,5 +606,10 @@ public class ApiRmiServer extends java.rmi.server.UnicastRemoteObject implements
 				s2[n++] = test;
 			}
 			return s2;
+		}
+
+		public void Refresh(String s)throws RemoteException{
+			AtomicMonitor monitor=(AtomicMonitor) MonitorGroup.monitors.get(s);
+			monitor.run();
 		}
 }

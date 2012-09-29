@@ -1,5 +1,8 @@
 package SiteView.ecc.editors;
 
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +32,8 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 
+import COM.dragonflow.Api.APIInterfaces;
+import COM.dragonflow.Api.ApiRmiServer;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MachineModle;
 import SiteView.ecc.bundle.EditGroupBundle;
@@ -136,24 +141,24 @@ public class EccControl extends EditorPart {
 
         
 		TableColumn tblclmnNewColumn = new TableColumn(toptable, SWT.NONE);
-		tblclmnNewColumn.setWidth(100);
+		tblclmnNewColumn.setWidth(120);
 		tblclmnNewColumn.setText("是否禁止");
 
 		TableColumn newColumnTableColumn_top = new TableColumn(toptable,
 				SWT.NONE);
-		newColumnTableColumn_top.setWidth(100);
+		newColumnTableColumn_top.setWidth(120);
 		newColumnTableColumn_top.setText("状态");
 		TableColumn newColumnTableColumn_top2 = new TableColumn(toptable,
 				SWT.NONE);
-		newColumnTableColumn_top2.setWidth(100);
+		newColumnTableColumn_top2.setWidth(120);
 		newColumnTableColumn_top2.setText("名称");
 		TableColumn newColumnTableColumn_top3 =new TableColumn(toptable,
 				SWT.NONE);
-		newColumnTableColumn_top3.setWidth(100);
+		newColumnTableColumn_top3.setWidth(200);
 		newColumnTableColumn_top3.setText("描述");
 		TableColumn newColumnTableColumn_top4 = new TableColumn(toptable,
 				SWT.NONE);
-		newColumnTableColumn_top4.setWidth(100);
+		newColumnTableColumn_top4.setWidth(120);
 		newColumnTableColumn_top4.setText("最后更新");
 		createTableItem();
 	}
@@ -375,6 +380,12 @@ public class EccControl extends EditorPart {
 				TableItem itable = item;
 				BusinessObject monitor = (BusinessObject) item.getData();
 				String monitorid = monitor.get_RecId();
+				APIInterfaces rmiServer=EditGroupBundle.createAmiServer();
+				try {
+					rmiServer.Refresh(monitorid);
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
 				BusinessObject bo = EccTreeControl.CreateBo("monitorid",
 						monitorid, "EccDyn");
 				String[] s = new String[4];
