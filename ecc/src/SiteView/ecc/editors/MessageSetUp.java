@@ -1,19 +1,34 @@
 package SiteView.ecc.editors;
 
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.internal.util.BundleUtility;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.TableCursor;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
@@ -21,12 +36,22 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
 
+import SiteView.ecc.Activator;
+import SiteView.ecc.Control.TableComparer;
+import SiteView.ecc.Control.TableDutyContentProvider;
+import SiteView.ecc.Control.TableDutyLabelProvider;
+import SiteView.ecc.Modle.EmailModle;
+import SiteView.ecc.Modle.SMSModel;
+import SiteView.ecc.dialog.AddEmail;
+import SiteView.ecc.dialog.AddEmailModleSet;
 import SiteView.ecc.dialog.AddSMS;
 import SiteView.ecc.tools.FileTools;
 import Siteview.SiteviewValue;
@@ -40,9 +65,14 @@ public class MessageSetUp extends EditorPart {
 	private Text text_1;
 	private Text text_2;
 	BusinessObject SMSsend;
-
+	public static List<SMSModel> list;
+	public static TableViewer tableViewer;
+	TableItem tableItem;
+	private Action messageAction;//短息模板设置
+	private Action webMessageAction;//web短息模板设置
+	public Menu popmenu;
 	public MessageSetUp() {
-		// TODO Auto-generated constructor stub
+		createAction();
 	}
 
 	@Override
@@ -84,6 +114,16 @@ public class MessageSetUp extends EditorPart {
 		IEnumerator ien=ico.GetEnumerator();
 		while(ien.MoveNext()){
 			SMSsend=(BusinessObject) ien.get_Current();
+		}
+		if(list==null){
+			list = new ArrayList<SMSModel>();
+			ICollection ic=FileTools.getBussCollection("SMSType", "receive", "EccSMS");
+			ien=ic.GetEnumerator();
+			while(ien.MoveNext()){
+				BusinessObject bo=(BusinessObject) ien.get_Current();
+				SMSModel sms=new SMSModel(bo);
+				list.add(sms);
+			}
 		}
 		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
@@ -134,6 +174,20 @@ public class MessageSetUp extends EditorPart {
 		Button mouldButton = new Button(composite_1, SWT.NONE);
 		mouldButton.setBounds(220, 0, 60, 22);
 		mouldButton.setText("模板设置");
+		final MenuManager pm = new MenuManager();
+		pm.setRemoveAllWhenShown(true);
+		popmenu = pm.createContextMenu(mouldButton);
+		pm.addMenuListener(new IMenuListener() {
+			public void menuAboutToShow(IMenuManager manager) {				
+				manager.add(messageAction);				
+				manager.add(webMessageAction);					
+			}
+		});
+		mouldButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				popmenu.setVisible(true);
+			}
+		});
 		
 		Button helpButton = new Button(composite_1, SWT.NONE);
 		helpButton.setBounds(286, 0, 36, 22);
@@ -147,11 +201,36 @@ public class MessageSetUp extends EditorPart {
 		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		label.setText("\u77ED\u4FE1\u8BBE\u7F6E\u8BE6\u7EC6\u4FE1\u606F");
 		
-		TableViewer tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.H_SCROLL);
+		tableViewer = new TableViewer(sashForm, SWT.CHECK | SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.H_SCROLL);
 		table = tableViewer.getTable();
 		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
+		table.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				tableItem=(TableItem) e.item;
+				tableItem.setChecked(true);
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+		final TableCursor cursor = new TableCursor(table, SWT.NONE);
+		cursor.addMouseListener(new MouseListener() {
+			public void mouseUp(MouseEvent e) {
+				int column = cursor.getColumn();
+				for(TableItem ta:table.getItems()){
+					if(!ta.equals(tableItem)){
+						ta.setChecked(false);
+					}
+				}
+				if(column==3){
+					AddSMS edit=new AddSMS(null,(SMSModel)tableItem.getData());
+					edit.open();
+				}
+			}
+			public void mouseDown(MouseEvent e) {}
+			public void mouseDoubleClick(MouseEvent e) {}
+		});
 		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn.setWidth(150);
@@ -205,13 +284,8 @@ public class MessageSetUp extends EditorPart {
 		
 		text_2 = new Text(composite_3, SWT.BORDER);
 		text_2.setBounds(140, 90, 170, 18);
-		text_2.setText(SMSsend.GetField("SMSLength").get_NativeValue().toString());
-		text_2.addVerifyListener(new VerifyListener() {
-			public void verifyText(VerifyEvent e) {
-				boolean b = ("0123456789".indexOf(e.text) >= 0);
-				e.doit = b;
-			}
-		});
+		String s=SMSsend.GetField("SMSLength").get_NativeValue().toString();
+		text_2.setText(s.substring(0,s.indexOf(".")));
 		
 		Button btnNewButton = new Button(composite_3, SWT.NONE);
 		btnNewButton.setBounds(42, 120, 72, 22);
@@ -231,7 +305,6 @@ public class MessageSetUp extends EditorPart {
 					MessageDialog.openInformation(null, "提示", "短信最大长度为70");
 					return;
 				}
-				SMSsend = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("EccSMS");
 				SMSsend.GetField("SMSType").SetValue(new SiteviewValue("send"));
 				SMSsend.GetField("SMSUserName").SetValue(new SiteviewValue(text.getText()));
 				SMSsend.GetField("SMSPwd").SetValue(new SiteviewValue(text_1.getText()));
@@ -277,6 +350,10 @@ public class MessageSetUp extends EditorPart {
 		Composite composite_6 = new Composite(tabFolder, SWT.NONE);
 		composite_6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		tabItem_3.setControl(composite_6);
+		tableViewer.setContentProvider(new TableDutyContentProvider());
+		tableViewer.setLabelProvider(new TableDutyLabelProvider());
+		tableViewer.setInput(list);
+		tableViewer.setComparer(new TableComparer());
 		sashForm.setWeights(new int[] {1, 2, 1, 15, 15});
 		// TODO Auto-generated method stub
 
@@ -286,5 +363,26 @@ public class MessageSetUp extends EditorPart {
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
+	}
+	private void createAction(){
+		messageAction = new Action("短息模板设置") {
+			public void run(){
+				AddEmailModleSet add=new AddEmailModleSet(null,"短息模板设置",null);
+				add.open();
+			}
+		};
+		URL url = BundleUtility.find(Platform.getBundle(Activator.PLUGIN_ID),"icons/message.jpg");
+		ImageDescriptor temp = ImageDescriptor.createFromURL(url);
+		messageAction.setImageDescriptor(temp);
+		
+		webMessageAction = new Action("Web短息模板设置") {
+			public void run(){
+				AddEmailModleSet add=new AddEmailModleSet(null,"Web短息模板设置",null);
+				add.open();
+			}
+		};
+		URL url1 = BundleUtility.find(Platform.getBundle(Activator.PLUGIN_ID),"Image/mail.bmp");
+		ImageDescriptor temp1 = ImageDescriptor.createFromURL(url1);
+		webMessageAction.setImageDescriptor(temp1);
 	}
 }
