@@ -25,43 +25,35 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.UUID;
 
-import org.apache.commons.httpclient.HttpException;
-import org.eclipse.core.runtime.FileLocator;
+import jgl.Array;
+import jgl.HashMap;
+import jgl.Sorting;
 import my.util.email.MailSenderInfo;
 import my.util.email.SimpleMailSender;
 import my.util.sound.TestMusic;
+
+import org.apache.commons.httpclient.HttpException;
+import org.eclipse.core.runtime.FileLocator;
+
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
+import system.Windows.Forms.GetChildAtPointSkip;
 import system.Xml.XmlElement;
-import Siteview.Operators;
-import Siteview.QueryInfoToGet;
-import Siteview.SiteviewQuery;
-import Siteview.SiteviewValue;
-import Siteview.Api.BusinessObject;
-import Siteview.Api.ISiteviewApi;
-import Siteview.Windows.Forms.ConnectionBroker;
-
-import com.sun.corba.se.impl.orbutil.GetPropertyAction;
-
-
-import jgl.Array;
-import jgl.HashMap;
-import jgl.HashMapIterator;
-import jgl.Sorting;
 import COM.dragonflow.Log.LogManager;
 import COM.dragonflow.SiteView.DetectConfigurationChange;
-import COM.dragonflow.SiteView.Monitor;
 import COM.dragonflow.SiteView.MonitorGroup;
 import COM.dragonflow.SiteView.Platform;
 import COM.dragonflow.SiteView.PlatformNew;
@@ -72,6 +64,11 @@ import COM.dragonflow.Utils.TempFileManager;
 import COM.dragonflow.Utils.TextUtils;
 import COM.dragonflow.itsm.data.Config;
 import COM.dragonflow.itsm.data.JDBCForSQL;
+import Siteview.Operators;
+import Siteview.QueryInfoToGet;
+import Siteview.SiteviewQuery;
+import Siteview.Api.BusinessObject;
+import Siteview.Windows.Forms.ConnectionBroker;
 
 
 // Referenced classes of package COM.dragonflow.Properties:
@@ -681,7 +678,6 @@ public class FrameFile {
 			//是否报警
 			ResultSet rule=JDBCForSQL.sql_ConnectExecute_Select("select * from EccAlarmRule where MonitorId='"+ monitorid + "'");
 			while(rule.next()){
-				SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Timestamp LastModDateTime = new Timestamp(System.currentTimeMillis());
 				Alarm(rule, parentGroupName, groupName, monitorName, category, LastModDateTime,s);
 				String alarmstatus=rule.getString("AlarmEvent");
@@ -703,8 +699,6 @@ public class FrameFile {
 					if(starttime<count){
 						continue;
 					}
-//					Alarm(rule.getString("AlarmType"));
-//					Alarm(rule);
 				}
 				System.out.println("报警条件已经符合，开始报警了");
 			}
@@ -733,7 +727,7 @@ public class FrameFile {
 				String sql3 = "select MailContent from EccMailModle where RecId = '"+modleId+"'";
 				ResultSet rs3 = JDBCForSQL.sql_ConnectExecute_Select(sql3);
 				if(rs3.next()){
-					content = rs3.getString("MailContent").replaceAll("@AllGroup@", allGroup).replaceAll("@Group@", group).replaceAll("@monitor@", monitor).replaceAll("@Status@", status).replaceAll("@Time@", LastModDateTime.toString()).replaceAll("@LogFile@",logFile );
+					content = rs3.getString("MailContent").replaceAll("@AllGroup@", allGroup).replaceAll("@Group@", group).replaceAll("@monitor@", monitor.substring(monitor.lastIndexOf(":")+1)).replaceAll("@Status@", status).replaceAll("@Time@", LastModDateTime.toString().split("\\.")[0]).replaceAll("@LogFile@",logFile );
 				}
 			}else if(address==null||address.matches("\\s*")){
 				toAddress = rule.getString("Other");
@@ -759,10 +753,14 @@ public class FrameFile {
 		         //SimpleMailSender.sendTextMail(mailInfo);//发送文体格式    
 		     sms.sendHtmlMail(mailInfo);//发送html格式   
 		}else if(alarmType.equals("SMS")){
-			String PHONE = "15197170516";
-			String PWD = "xp198711";
-			String TO = "15197170516";
-			String MSG = "熊鹏，你是王八蛋不？";
+			ArrayList<String> list = getSendPhoneAndPWD();
+//			String PHONE = "15197170516";
+//			String PWD = "xp198711";
+//			String TO = "15197170516";
+			String PHONE = list.get(0);
+			String PWD = list.get(1);
+			String TO = toAddress;
+			String MSG = "今天回家了！";
 			try {
 				Fetion.sendMsg(PHONE, PWD, TO, MSG);
 			} catch (HttpException e) {
@@ -773,20 +771,25 @@ public class FrameFile {
 		}else if(alarmType.equals("script")){
 
 		}else if(alarmType.equals("sound")){
-//			URL url = Activator.getDefault().getBundle().getResource("sounds/1262.wav");
-			URL url = Class.class.getResource("sounds/1262.wav");
-			String path = "";
-			try {
-				path = FileLocator.toFileURL(url).toString();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			path=path.substring(path.indexOf("/")+1,path.length());
-			TestMusic sound=new TestMusic(path);
+			TestMusic sound=new TestMusic("sounds/1262.wav");
 			InputStream stream =new ByteArrayInputStream(sound.getSamples());
 			sound.play(stream);
 			System.out.println("声音播放了");
 		}
+	}
+	private static ArrayList<String> getSendPhoneAndPWD(){
+		ArrayList<String> list = new ArrayList<String>();
+		String sql = "select MobliePhone,SMSPwd from EccSMS where SMSType = 'send'";
+		ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
+		try {
+			if(rs.next()){
+				list.add(rs.getString("MobliePhone"));
+				list.add(rs.getString("SMSPwd"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 	public static boolean forceMangleOnReading() throws IOException {
 		if (!forceMangleInited) {
@@ -1706,5 +1709,29 @@ public class FrameFile {
 					.get_Current();
 		}
 		return bo;
+	}
+	public static void main(String[] args){
+		String path = "";
+		try {
+			path = Thread.currentThread().getContextClassLoader().getResource("1262.wav").toURI().toString();
+			String s = path.substring(path.indexOf("com."), path.indexOf(".core")+5);
+			System.out.println(s);
+			s = s.replaceAll("\\.", "/");
+			System.out.println(s);
+			path = path.replaceAll("com\\.siteview\\.kernel\\.core", s);
+//			path = path.substring(path.indexOf(":/")+2);
+			path = path.substring(10,path.indexOf("/lib")+1)+"sounds/1262.wav";
+//			path = path.replaceAll("\\.", "/");
+			System.out.println(path);
+//			path = FrameFile.class.getResource("../../../../sounds/1262.wav").toURI().toString();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+//		path=path.substring(path.indexOf("/")+1,path.length());
+		System.out.println(path);
+		TestMusic sound=new TestMusic("sounds/1262.wav");
+		InputStream stream =new ByteArrayInputStream(sound.getSamples());
+		sound.play(stream);
+		System.out.println("声音播放了");
 	}
 }
