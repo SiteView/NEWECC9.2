@@ -1,25 +1,34 @@
 package SiteView.ecc.editors;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.internal.util.BundleUtility;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.TableCursor;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
@@ -27,6 +36,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
@@ -34,12 +44,14 @@ import org.eclipse.swt.widgets.Text;
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
 
+import SiteView.ecc.Activator;
 import SiteView.ecc.Control.TableComparer;
 import SiteView.ecc.Control.TableDutyContentProvider;
 import SiteView.ecc.Control.TableDutyLabelProvider;
 import SiteView.ecc.Modle.EmailModle;
 import SiteView.ecc.Modle.SMSModel;
 import SiteView.ecc.dialog.AddEmail;
+import SiteView.ecc.dialog.AddEmailModleSet;
 import SiteView.ecc.dialog.AddSMS;
 import SiteView.ecc.tools.FileTools;
 import Siteview.SiteviewValue;
@@ -56,9 +68,11 @@ public class MessageSetUp extends EditorPart {
 	public static List<SMSModel> list;
 	public static TableViewer tableViewer;
 	TableItem tableItem;
-
+	private Action messageAction;//短息模板设置
+	private Action webMessageAction;//web短息模板设置
+	public Menu popmenu;
 	public MessageSetUp() {
-		// TODO Auto-generated constructor stub
+		createAction();
 	}
 
 	@Override
@@ -160,6 +174,20 @@ public class MessageSetUp extends EditorPart {
 		Button mouldButton = new Button(composite_1, SWT.NONE);
 		mouldButton.setBounds(220, 0, 60, 22);
 		mouldButton.setText("模板设置");
+		final MenuManager pm = new MenuManager();
+		pm.setRemoveAllWhenShown(true);
+		popmenu = pm.createContextMenu(mouldButton);
+		pm.addMenuListener(new IMenuListener() {
+			public void menuAboutToShow(IMenuManager manager) {				
+				manager.add(messageAction);				
+				manager.add(webMessageAction);					
+			}
+		});
+		mouldButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				popmenu.setVisible(true);
+			}
+		});
 		
 		Button helpButton = new Button(composite_1, SWT.NONE);
 		helpButton.setBounds(286, 0, 36, 22);
@@ -335,5 +363,26 @@ public class MessageSetUp extends EditorPart {
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
+	}
+	private void createAction(){
+		messageAction = new Action("短息模板设置") {
+			public void run(){
+				AddEmailModleSet add=new AddEmailModleSet(null,"短息模板设置",null);
+				add.open();
+			}
+		};
+		URL url = BundleUtility.find(Platform.getBundle(Activator.PLUGIN_ID),"icons/message.jpg");
+		ImageDescriptor temp = ImageDescriptor.createFromURL(url);
+		messageAction.setImageDescriptor(temp);
+		
+		webMessageAction = new Action("Web短息模板设置") {
+			public void run(){
+				AddEmailModleSet add=new AddEmailModleSet(null,"Web短息模板设置",null);
+				add.open();
+			}
+		};
+		URL url1 = BundleUtility.find(Platform.getBundle(Activator.PLUGIN_ID),"Image/mail.bmp");
+		ImageDescriptor temp1 = ImageDescriptor.createFromURL(url1);
+		webMessageAction.setImageDescriptor(temp1);
 	}
 }
