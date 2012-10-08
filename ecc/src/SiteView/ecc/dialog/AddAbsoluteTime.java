@@ -84,7 +84,7 @@ public class AddAbsoluteTime extends Dialog{
 		
 		Button btnCheckButton = new Button(composite1, SWT.CHECK);
 		btnCheckButton.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
-		btnCheckButton.setBounds(112, 33, 93, 16);
+		btnCheckButton.setBounds(112, 31, 93, 16);
 		btnCheckButton.setText("\u5141\u8BB8");
 		
 		Date startDateTime  = new Date();

@@ -17,6 +17,9 @@ import org.eclipse.ui.part.EditorPart;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+
+import SiteView.ecc.dialog.AddTimeQuantum;
 
 public class TimeQuantum extends EditorPart {
 	public static final String ID="SiteView.ecc.editors.TimeQuantum";
@@ -81,6 +84,21 @@ public class TimeQuantum extends EditorPart {
 		Button btnNewButton = new Button(composite_1, SWT.NONE);
 		btnNewButton.setBounds(10, 0, 36, 22);
 		btnNewButton.setText("\u6DFB\u52A0");
+		btnNewButton.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				AddTimeQuantum add=new AddTimeQuantum(null);
+				add.open();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 		Button button = new Button(composite_1, SWT.NONE);
 		button.setBounds(52, 0, 36, 22);
