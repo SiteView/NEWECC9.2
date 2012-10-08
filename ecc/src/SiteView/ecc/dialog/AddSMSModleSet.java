@@ -52,10 +52,10 @@ public static List<BusinessObject> messagemodels = AddEmailAlarmRule.messagemode
 	protected void configureShell(Shell newShell){
 		newShell.setSize(500, 350);
 		newShell.setLocation(200, 175);
-		if("短息模板设置".equals(name)){
-			newShell.setText("短息模板设置");
-		}else if("Web短息模板设置".equals(name)){
-			newShell.setText("Web短息模板设置");
+		if("短信模板设置".equals(name)){
+			newShell.setText("短信模板设置");
+		}else if("Web短信模板设置".equals(name)){
+			newShell.setText("Web短信模板设置");
 		}
 		super.configureShell(newShell);
 	}
@@ -70,7 +70,7 @@ public static List<BusinessObject> messagemodels = AddEmailAlarmRule.messagemode
 		
 		Group grpEmail = new Group(sashForm, SWT.NONE);
 		grpEmail.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		if("短息模板设置".equals(name)){
+		if("短信模板设置".equals(name)){
 			grpEmail.setText("短信模板系列:");
 			grpEmail.setLayout(new FillLayout());
 			listViewer = new ListViewer(grpEmail, SWT.BORDER | SWT.V_SCROLL);
@@ -97,15 +97,15 @@ public static List<BusinessObject> messagemodels = AddEmailAlarmRule.messagemode
 					text_1.setText(((BusinessObject) listViewer.getData(type)).GetField("MailContent").get_NativeValue().toString());
 				}
 			});
-		}else if("Web短息模板设置".equals(name)){
-			grpEmail.setText("Web短息模板系列:");
+		}else if("Web短信模板设置".equals(name)){
+			grpEmail.setText("Web短信模板系列:");
 			grpEmail.setLayout(new FillLayout());
 			listViewer = new ListViewer(grpEmail, SWT.BORDER | SWT.V_SCROLL);
 		}
 			
 			Group grpEmail_1 = new Group(sashForm, SWT.NONE);
 			grpEmail_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-			if("短息模板设置".equals(name)){
+			if("短信模板设置".equals(name)){
 				grpEmail_1.setText("短信模板设置");
 				
 				Label lblNewLabel = new Label(grpEmail_1, SWT.NONE);
@@ -135,8 +135,8 @@ public static List<BusinessObject> messagemodels = AddEmailAlarmRule.messagemode
 				text_2 = new Text(grpEmail_1, SWT.BORDER);
 				text_2.setBounds(42, 220, 233, 18);
 				
-			}else if("Web短息模板设置".equals(name)){
-				grpEmail_1.setText("Web短息模板设置");
+			}else if("Web短信模板设置".equals(name)){
+				grpEmail_1.setText("Web短信模板设置");
 				
 				Label lblNewLabel = new Label(grpEmail_1, SWT.NONE);
 				lblNewLabel.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));

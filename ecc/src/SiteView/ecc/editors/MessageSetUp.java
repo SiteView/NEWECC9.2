@@ -68,8 +68,8 @@ public class MessageSetUp extends EditorPart {
 	public static List<SMSModel> list;
 	public static TableViewer tableViewer;
 	TableItem tableItem;
-	private Action messageAction;//短息模板设置
-	private Action webMessageAction;//web短息模板设置
+	private Action messageAction;//短信模板设置
+	private Action webMessageAction;//web短信模板设置
 	public Menu popmenu;
 	public MessageSetUp() {
 		createAction();
@@ -365,9 +365,9 @@ public class MessageSetUp extends EditorPart {
 
 	}
 	private void createAction(){
-		messageAction = new Action("短息模板设置") {
+		messageAction = new Action("短信模板设置") {
 			public void run(){
-				AddSMSModleSet add=new AddSMSModleSet(null,"短息模板设置",null);
+				AddSMSModleSet add=new AddSMSModleSet(null,"短信模板设置",null);
 				add.open();
 			}
 		};
@@ -375,9 +375,9 @@ public class MessageSetUp extends EditorPart {
 		ImageDescriptor temp = ImageDescriptor.createFromURL(url);
 		messageAction.setImageDescriptor(temp);
 		
-		webMessageAction = new Action("Web短息模板设置") {
+		webMessageAction = new Action("Web短信模板设置") {
 			public void run(){
-				AddSMSModleSet add=new AddSMSModleSet(null,"Web短息模板设置",null);
+				AddSMSModleSet add=new AddSMSModleSet(null,"Web短信模板设置",null);
 				add.open();
 			}
 		};
