@@ -44,14 +44,15 @@ private Label lblNewLabel_2;
 private Text text_2;
 String type;
 public static List<BusinessObject> messagemodels = AddEmailAlarmRule.messagemodels;
+private Text text_3;
 	public AddSMSModleSet(Shell parentShell, String name,BusinessObject bo) {
 		super(parentShell);
 		this.name = name;
 		this.bo=bo;
 	}
 	protected void configureShell(Shell newShell){
-		newShell.setSize(500, 350);
-		newShell.setLocation(200, 175);
+		newShell.setSize(500, 550);
+		newShell.setLocation(400, 125);
 		if("短信模板设置".equals(name)){
 			newShell.setText("短信模板设置");
 		}else if("Web短信模板设置".equals(name)){
@@ -103,8 +104,17 @@ public static List<BusinessObject> messagemodels = AddEmailAlarmRule.messagemode
 			listViewer = new ListViewer(grpEmail, SWT.BORDER | SWT.V_SCROLL);
 		}
 			
-			Group grpEmail_1 = new Group(sashForm, SWT.NONE);
+			SashForm sashForm_1 = new SashForm(sashForm, SWT.VERTICAL);
+			sashForm_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+			
+			Group grpEmail_1 = new Group(sashForm_1, SWT.NONE);
 			grpEmail_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+			
+			Group group = new Group(sashForm_1, SWT.NONE);
+			group.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+			group.setLayout(new FillLayout(SWT.HORIZONTAL));
+			
+			sashForm_1.setWeights(new int[] {3, 2});
 			if("短信模板设置".equals(name)){
 				grpEmail_1.setText("短信模板设置");
 				
@@ -135,6 +145,18 @@ public static List<BusinessObject> messagemodels = AddEmailAlarmRule.messagemode
 				text_2 = new Text(grpEmail_1, SWT.BORDER);
 				text_2.setBounds(42, 220, 233, 18);
 				
+				group.setText("说明列表");
+				text_3 = new Text(group, SWT.BORDER |SWT.WRAP);
+				text_3.setText("注意：系统模板不可以删除和修改你可以拷贝参数，" +
+						"请不要随意输入“@”和两个“@”间的参数变量,可以参考系统模板进行添加。" +
+						"参数变量如下：@FullPathGroup@ :监测点所在设备所在组的全部路径名称" +
+						"@Status@监测器点的状态@AllGroup@ :监测点所在设备所在组名称" +
+						"@Group@监测点所在组下@Device@ :监测点所在设备的名称@Monitor@ :" +
+						"监测点名称@MonitorDstr@ :监测点报警描述，在监测点高级设置中设置@Time@ : 报警时间");
+				text_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+				text_3.setFont(SWTResourceManager.getFont("宋体", 10, SWT.NORMAL));
+				text_3.setEditable(false);
+				
 			}else if("Web短信模板设置".equals(name)){
 				grpEmail_1.setText("Web短信模板设置");
 				
@@ -164,9 +186,24 @@ public static List<BusinessObject> messagemodels = AddEmailAlarmRule.messagemode
 				
 				text_2 = new Text(grpEmail_1, SWT.BORDER);
 				text_2.setBounds(42, 220, 233, 18);
+				
+				group.setText("说明列表");
+				text_3 = new Text(group, SWT.BORDER |SWT.WRAP);
+				text_3.setText("注意：系统模板不可以删除和修改你可以拷贝参数，" +
+						"请不要随意输入“@”和两个“@”间的参数变量,可以参考系统模板进行添加。" +
+						"Web模板参数变量如下：@UserName@ : 表示用户名 @Pwd@ : 表示密码 " +
+						"@Phone@ : 表示电话号码 @Content@ ： 短信表示内容短信内容参数如下：" +
+						"@FullPathGroup@ :监测点所在设备所在组的全部路径名称@Status" +
+						"@监测器点的状态@AllGroup@ :监测点所在设备所在组名称@Group" +
+						"@监测点所在组下@Device@ :监测点所在设备的名称@monitor@ :" +
+						"监测点名称@MonitorDes@ :监测点报警描述，在监测点高级设置中设置@Time@ : " +
+						"报警时间@Status@ :监测点状态 : 危险、正常、错误@Log@ :日志内容");
+				text_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+				text_3.setFont(SWTResourceManager.getFont("宋体", 10, SWT.NORMAL));
+				text_3.setEditable(false);
 			}
 			
-			sashForm.setWeights(new int[] {97, 344});
+			sashForm.setWeights(new int[] {97, 220});
 		return composite;
 	}
 	protected void createButtonsForButtonBar(Composite parent) {

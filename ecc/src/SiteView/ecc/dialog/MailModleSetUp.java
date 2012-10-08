@@ -168,7 +168,7 @@ public class MailModleSetUp extends Dialog{
 		text_3.setBounds(0, 10, 404, 130);
 		text_3.setFont(SWTResourceManager.getFont("宋体", 10, SWT.NORMAL));
 		text_3.setText("注意：系统模板不可以删除和修改你可以拷贝参数，请不要随意输入“@”和两个“@”间的参数变量,可以参考系统模板进行添加。参数变量如下： @FullPathGroup@ :监测点所在设备所在组的全部路径名称@Status@监测器点的状态 @AllGroup@ :监测点所在设备所在组名称@Group@监测点所在组下 @Device@ :监测点所在设备的名称@Monitor@ :监测点名称@MonitorDstr@ :监测器描述@MonitorAlertDes@ :监测点报警描述，在监测点高级设置中设置 @Time@ : 报警时间");
-		text_3.setEnabled(false);
+		text_3.setEditable(false);
 		
 		sashForm.setWeights(new int[] {147, 403});
 		return composite;

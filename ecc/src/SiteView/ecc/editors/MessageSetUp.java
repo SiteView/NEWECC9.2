@@ -41,6 +41,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
+import siteview.windows.forms.ImageHelper;
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
 
@@ -108,7 +109,6 @@ public class MessageSetUp extends EditorPart {
 		return false;
 	}
 
-	@Override
 	public void createPartControl(Composite parent) {
 		ICollection ico=FileTools.getBussCollection("SMSType", "send", "EccSMS");
 		IEnumerator ien=ico.GetEnumerator();
@@ -158,14 +158,45 @@ public class MessageSetUp extends EditorPart {
 		Button delButton = new Button(composite_1, SWT.NONE);
 		delButton.setBounds(52, 0, 36, 22);
 		delButton.setText("É¾³ý");
+		delButton.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				SMSModel sms = (SMSModel) tableItem.getData();
+				sms.getBo().DeleteObject(ConnectionBroker.get_SiteviewApi());
+				tableItem.dispose();
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
 		
 		Button allowButton = new Button(composite_1, SWT.NONE);
 		allowButton.setBounds(94, 0, 36, 22);
 		allowButton.setText("ÔÊÐí");
+		allowButton.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				SMSModel sms = (SMSModel) tableItem.getData();
+				sms.getBo().GetField("IsStop").SetValue(new SiteviewValue(true));
+				sms.getBo().SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+				tableItem.setImage(1,ImageHelper.LoadImage(Activator.PLUGIN_ID,"Image/promiss.bmp"));
+				tableItem.setText(1, "ÔÊÐí");
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
 		
 		Button forbidButton = new Button(composite_1, SWT.NONE);
 		forbidButton.setBounds(136, 0, 36, 22);
 		forbidButton.setText("½ûÖ¹");
+		forbidButton.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				SMSModel sms = (SMSModel) tableItem.getData();
+				sms.getBo().GetField("IsStop").SetValue(new SiteviewValue(false));
+				sms.getBo().SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+				tableItem.setImage(1,ImageHelper.LoadImage(Activator.PLUGIN_ID,"Image/stop.bmp"));
+				tableItem.setText(1, "½ûÖ¹");
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
 		
 		Button refreshButton = new Button(composite_1, SWT.NONE);
 		refreshButton.setBounds(178, 0, 36, 22);

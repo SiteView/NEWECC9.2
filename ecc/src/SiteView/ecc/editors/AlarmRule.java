@@ -43,9 +43,12 @@ import system.Collections.ICollection;
 import system.Collections.IEnumerator;
 import SiteView.ecc.Activator;
 import SiteView.ecc.Modle.AlarmRuleInfo;
+import SiteView.ecc.Modle.SMSModel;
 import SiteView.ecc.dialog.AddEmailAlarmRule;
 import SiteView.ecc.tools.FileTools;
+import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
+import Siteview.Windows.Forms.ConnectionBroker;
 
 public class AlarmRule extends EditorPart {
 	public static Table table;
@@ -97,9 +100,7 @@ public class AlarmRule extends EditorPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-//		if(list==null){
 			getData();
-//		}
 		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
@@ -131,14 +132,63 @@ public class AlarmRule extends EditorPart {
 		Button button_1 = new Button(composite, SWT.NONE);
 		button_1.setBounds(75, 10, 59, 22);
 		button_1.setText("\u5220\u9664");
+		button_1.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				BusinessObject bo1 = (BusinessObject) tableItem.getData();
+				ICollection ic=FileTools.getBussCollection("AlarmName", bo1.GetField("AlarmName").get_NativeValue().toString(), "EccAlarmRule");
+				IEnumerator ien=ic.GetEnumerator();
+				while(ien.MoveNext()){
+					BusinessObject bo=(BusinessObject) ien.get_Current();
+					bo.DeleteObject(ConnectionBroker.get_SiteviewApi());
+				}
+				tableItem.dispose();
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+				
+			}
+		});
 		
 		Button button_2 = new Button(composite, SWT.NONE);
 		button_2.setBounds(152, 10, 72, 22);
 		button_2.setText("\u5141\u8BB8");
+		button_2.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				BusinessObject bo1 = (BusinessObject) tableItem.getData();
+				ICollection ic=FileTools.getBussCollection("AlarmName", bo1.GetField("AlarmName").get_NativeValue().toString(), "EccAlarmRule");
+				IEnumerator ien=ic.GetEnumerator();
+				while(ien.MoveNext()){
+					BusinessObject bo=(BusinessObject) ien.get_Current();
+					bo.GetField("RuleStatus").SetValue(new SiteviewValue(true));
+					bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+				}
+				tableItem.setImage(3,ImageHelper.LoadImage(Activator.PLUGIN_ID,"Image/promiss.bmp"));
+				tableItem.setText(3, "Æô¶¯ÖÐ");
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+				
+			}
+		});
 		
 		Button button_3 = new Button(composite, SWT.NONE);
 		button_3.setBounds(242, 10, 72, 22);
 		button_3.setText("\u7981\u6B62");
+		button_3.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				BusinessObject bo1 = (BusinessObject) tableItem.getData();
+				ICollection ic=FileTools.getBussCollection("AlarmName", bo1.GetField("AlarmName").get_NativeValue().toString(), "EccAlarmRule");
+				IEnumerator ien=ic.GetEnumerator();
+				while(ien.MoveNext()){
+					BusinessObject bo=(BusinessObject) ien.get_Current();
+					bo.GetField("RuleStatus").SetValue(new SiteviewValue(false));
+					bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+				}
+				tableItem.setImage(3,ImageHelper.LoadImage(Activator.PLUGIN_ID,"Image/stop.bmp"));
+				tableItem.setText(3, "½ûÖ¹");
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+				
+			}
+		});
 		
 		Button button_4 = new Button(composite, SWT.NONE);
 		button_4.setBounds(330, 10, 72, 22);

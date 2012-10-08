@@ -24,6 +24,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Text;
+
+import siteview.windows.forms.ImageHelper;
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
 
@@ -33,10 +35,12 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 
+import SiteView.ecc.Activator;
 import SiteView.ecc.Control.TableComparer;
 import SiteView.ecc.Control.TableDutyContentProvider;
 import SiteView.ecc.Control.TableDutyLabelProvider;
 import SiteView.ecc.Modle.EmailModle;
+import SiteView.ecc.Modle.SMSModel;
 import SiteView.ecc.dialog.AddEmail;
 import SiteView.ecc.dialog.ConnectMail;
 import SiteView.ecc.dialog.MailModleSetUp;
@@ -130,14 +134,45 @@ public class EmailSetUp extends EditorPart {
 		Button delButton = new Button(composite_1, SWT.NONE);
 		delButton.setBounds(52, 0, 36, 22);
 		delButton.setText("É¾³ý");
+		delButton.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				EmailModle email = (EmailModle) tableItem.getData();
+				email.getBo().DeleteObject(ConnectionBroker.get_SiteviewApi());
+				tableItem.dispose();
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
 		
 		Button allowButton = new Button(composite_1, SWT.NONE);
 		allowButton.setBounds(94, 0, 36, 22);
 		allowButton.setText("ÔÊÐí");
+		allowButton.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				EmailModle email = (EmailModle) tableItem.getData();
+				email.getBo().GetField("IsStop").SetValue(new SiteviewValue(true));
+				email.getBo().SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+				tableItem.setImage(1,ImageHelper.LoadImage(Activator.PLUGIN_ID,"Image/promiss.bmp"));
+				tableItem.setText(1, "ÔÊÐí");
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
 		
 		Button forbidButton = new Button(composite_1, SWT.NONE);
 		forbidButton.setBounds(136, 0, 36, 22);
 		forbidButton.setText("½ûÖ¹");
+		forbidButton.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				EmailModle email = (EmailModle) tableItem.getData();
+				email.getBo().GetField("IsStop").SetValue(new SiteviewValue(false));
+				email.getBo().SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+				tableItem.setImage(1,ImageHelper.LoadImage(Activator.PLUGIN_ID,"Image/stop.bmp"));
+				tableItem.setText(1, "½ûÖ¹");
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
 		
 		Button refreshButton = new Button(composite_1, SWT.NONE);
 		refreshButton.setBounds(178, 0, 36, 22);
