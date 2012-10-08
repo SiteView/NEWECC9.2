@@ -18,12 +18,16 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Button;
 
+import SiteView.ecc.Control.AbsoluteTimeContentProvider;
+import SiteView.ecc.Control.AbsoluteTimelabelProvider;
+import SiteView.ecc.data.AbsoluteTimeInfor;
 import SiteView.ecc.dialog.AddAbsoluteTime;
 import Siteview.Api.DefinitionLibrary;
 import Siteview.Windows.Forms.ConnectionBroker;
 
 public class AbsoluteTime extends EditorPart {
 	public static final String ID="SiteView.ecc.editors.AbsoluteTime";
+	public static TableViewer tableViewer;
 	private Table table;
 
 	public AbsoluteTime() {
@@ -109,7 +113,7 @@ public class AbsoluteTime extends EditorPart {
 		button_2.setBounds(136, 0, 36, 22);
 		button_2.setText("\u5E2E\u52A9");
 		
-		TableViewer tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION | SWT.CHECK);
+		tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION | SWT.CHECK);
 		table = tableViewer.getTable();
 		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		table.setHeaderVisible(true);
@@ -128,6 +132,9 @@ public class AbsoluteTime extends EditorPart {
 		tableColumn_1.setText("\u7F16\u8F91");
 		sashForm.setWeights(new int[] {1, 2, 34});
 
+//		tableViewer.setContentProvider(new AbsoluteTimeContentProvider());
+//		tableViewer.setLabelProvider(new AbsoluteTimelabelProvider());
+//		tableViewer.setInput(AbsoluteTimeInfor.getTableDutyInfor());
 	}
 
 	@Override
