@@ -47,7 +47,7 @@ public class AddAbsoluteTime extends Dialog{
 	}
 	
 	protected void configureShell(Shell newShell) {
-		newShell.setSize(350, 350);
+		newShell.setSize(350, 310);
 		newShell.setLocation(450, 175);
 		newShell.setText(title);
 		super.configureShell(newShell);
@@ -84,7 +84,7 @@ public class AddAbsoluteTime extends Dialog{
 		
 		Button btnCheckButton = new Button(composite1, SWT.CHECK);
 		btnCheckButton.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
-		btnCheckButton.setBounds(112, 31, 93, 16);
+		btnCheckButton.setBounds(130, 31, 45, 16);
 		btnCheckButton.setText("\u5141\u8BB8");
 		
 		Date startDateTime  = new Date();
@@ -92,7 +92,7 @@ public class AddAbsoluteTime extends Dialog{
 		startcal.setTime(startDateTime);
 		startTime = new DateTime(composite1, SWT.TIME
 				| SWT.SHORT);
-		startTime.setLocation(211, 34);
+		startTime.setLocation(181, 30);
 		startTime.setSize(79, 15);
 		startTime.setHours(startcal.get(Calendar.HOUR_OF_DAY));
 		startTime.setMinutes(startcal.get(Calendar.MINUTE));
@@ -115,7 +115,7 @@ public class AddAbsoluteTime extends Dialog{
 		
 		Button btnCheckButton_1 = new Button(composite1, SWT.CHECK);
 		btnCheckButton_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
-		btnCheckButton_1.setBounds(112, 53, 93, 16);
+		btnCheckButton_1.setBounds(130, 53, 54, 16);
 		btnCheckButton_1.setText("\u5141\u8BB8");
 		
 		Date startDateTime_1  = new Date();
@@ -123,7 +123,7 @@ public class AddAbsoluteTime extends Dialog{
 		startcal.setTime(startDateTime_1);
 		startTime_1 = new DateTime(composite1, SWT.TIME
 				| SWT.SHORT);
-		startTime_1.setLocation(211, 55);
+		startTime_1.setLocation(181, 52);
 		startTime_1.setSize(79, 15);
 		startTime_1.setHours(startcal.get(Calendar.HOUR_OF_DAY));
 		startTime_1.setMinutes(startcal.get(Calendar.MINUTE));
@@ -146,7 +146,7 @@ public class AddAbsoluteTime extends Dialog{
 		
 		Button btnCheckButton_2 = new Button(composite1, SWT.CHECK);
 		btnCheckButton_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
-		btnCheckButton_2.setBounds(112, 73, 93, 16);
+		btnCheckButton_2.setBounds(130, 73, 45, 16);
 		btnCheckButton_2.setText("\u5141\u8BB8");
 		
 		Date startDateTime_2  = new Date();
@@ -154,7 +154,7 @@ public class AddAbsoluteTime extends Dialog{
 		startcal.setTime(startDateTime_2);
 		startTime_2 = new DateTime(composite1, SWT.TIME
 				| SWT.SHORT);
-		startTime_2.setLocation(211, 74);
+		startTime_2.setLocation(181, 72);
 		startTime_2.setSize(79, 15);
 		startTime_2.setHours(startcal.get(Calendar.HOUR_OF_DAY));
 		startTime_2.setMinutes(startcal.get(Calendar.MINUTE));
@@ -177,7 +177,7 @@ public class AddAbsoluteTime extends Dialog{
 		
 		Button btnCheckButton_3 = new Button(composite1, SWT.CHECK);
 		btnCheckButton_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
-		btnCheckButton_3.setBounds(112, 95, 93, 16);
+		btnCheckButton_3.setBounds(130, 95, 45, 16);
 		btnCheckButton_3.setText("\u5141\u8BB8");
 		
 		Date startDateTime_3  = new Date();
@@ -185,7 +185,7 @@ public class AddAbsoluteTime extends Dialog{
 		startcal.setTime(startDateTime_3);
 		startTime_3 = new DateTime(composite1, SWT.TIME
 				| SWT.SHORT);
-		startTime_3.setLocation(211, 93);
+		startTime_3.setLocation(181, 93);
 		startTime_3.setSize(79, 15);
 		startTime_3.setHours(startcal.get(Calendar.HOUR_OF_DAY));
 		startTime_3.setMinutes(startcal.get(Calendar.MINUTE));
@@ -209,14 +209,14 @@ public class AddAbsoluteTime extends Dialog{
 		Button button = new Button(composite1, SWT.CHECK);
 		button.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		button.setText("\u5141\u8BB8");
-		button.setBounds(112, 116, 93, 16);
+		button.setBounds(130, 116, 45, 16);
 		
 		Date startDateTime_4  = new Date();
 		startcal = Calendar.getInstance();
 		startcal.setTime(startDateTime_4);
 		startTime_4 = new DateTime(composite1, SWT.TIME
 				| SWT.SHORT);
-		startTime_4.setLocation(211, 114);
+		startTime_4.setLocation(181, 115);
 		startTime_4.setSize(79, 15);
 		startTime_4.setHours(startcal.get(Calendar.HOUR_OF_DAY));
 		startTime_4.setMinutes(startcal.get(Calendar.MINUTE));
@@ -239,7 +239,7 @@ public class AddAbsoluteTime extends Dialog{
 		
 		Button btnCheckButton_4 = new Button(composite1, SWT.CHECK);
 		btnCheckButton_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
-		btnCheckButton_4.setBounds(112, 137, 93, 16);
+		btnCheckButton_4.setBounds(130, 138, 45, 16);
 		btnCheckButton_4.setText("\u5141\u8BB8");
 		
 		Date startDateTime_5  = new Date();
@@ -247,7 +247,7 @@ public class AddAbsoluteTime extends Dialog{
 		startcal.setTime(startDateTime_5);
 		startTime_5 = new DateTime(composite1, SWT.TIME
 				| SWT.SHORT);
-		startTime_5.setLocation(211, 135);
+		startTime_5.setLocation(181, 136);
 		startTime_5.setSize(79, 15);
 		startTime_5.setHours(startcal.get(Calendar.HOUR_OF_DAY));
 		startTime_5.setMinutes(startcal.get(Calendar.MINUTE));
@@ -270,7 +270,7 @@ public class AddAbsoluteTime extends Dialog{
 		
 		Button btnCheckButton_5 = new Button(composite1, SWT.CHECK);
 		btnCheckButton_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
-		btnCheckButton_5.setBounds(112, 159, 93, 16);
+		btnCheckButton_5.setBounds(130, 160, 45, 16);
 		btnCheckButton_5.setText("\u5141\u8BB8");
 		
 		Date startDateTime_6  = new Date();
@@ -278,7 +278,7 @@ public class AddAbsoluteTime extends Dialog{
 		startcal.setTime(startDateTime_6);
 		startTime_6 = new DateTime(composite1, SWT.TIME
 				| SWT.SHORT);
-		startTime_6.setLocation(211, 158);
+		startTime_6.setLocation(181, 158);
 		startTime_6.setSize(79, 15);
 		startTime_6.setHours(startcal.get(Calendar.HOUR_OF_DAY));
 		startTime_6.setMinutes(startcal.get(Calendar.MINUTE));
