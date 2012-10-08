@@ -301,8 +301,10 @@ public class AddAbsoluteTime extends Dialog{
 		describeItem.setControl(composite2);
 		composite2.setLayout(new BorderLayout(0, 0));
 		
-		Label label = new Label(composite2, SWT.NONE);
+		Label label = new Label(composite2, SWT.HORIZONTAL);
+		label.setAlignment(SWT.CENTER);
 		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		label.setBounds(0, 0, 54, 199);
 		label.setLayoutData(BorderLayout.WEST);
 		label.setText("\u63CF\u8FF0\uFF1A");
 		

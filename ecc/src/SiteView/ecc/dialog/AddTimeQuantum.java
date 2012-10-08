@@ -53,6 +53,7 @@ public class AddTimeQuantum extends Dialog{
 	public SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 	private String title="添加时间段任务计划";
 	private Text text;
+	private Text text_1;
 	public AddTimeQuantum(Shell parentShell) {
 		super(parentShell);
 		
@@ -580,7 +581,18 @@ public class AddTimeQuantum extends Dialog{
 		describeItem.setText("描述");
 		
 		Composite composite_2 = new Composite(tabFolder, SWT.NONE);
+		composite_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		describeItem.setControl(composite_2);
+		
+		Label lblNewLabel_22 = new Label(composite_2, SWT.HORIZONTAL);
+		lblNewLabel_22.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_22.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
+		lblNewLabel_22.setAlignment(SWT.CENTER);
+		lblNewLabel_22.setBounds(0, 0, 54, 199);
+		lblNewLabel_22.setText("\u63CF\u8FF0:");
+		
+		text_1 = new Text(composite_2, SWT.BORDER);
+		text_1.setBounds(56, 0, 370, 199);
 		return composite;
 	}
 	protected void createButtonsForButtonBar(Composite parent) {
