@@ -727,11 +727,17 @@ public class FrameFile {
 				String sql3 = "select MailContent from EccMailModle where RecId = '"+modleId+"'";
 				ResultSet rs3 = JDBCForSQL.sql_ConnectExecute_Select(sql3);
 				if(rs3.next()){
-					content = rs3.getString("MailContent").replaceAll("@AllGroup@", allGroup).replaceAll("@Group@", group).replaceAll("@monitor@", monitor.substring(monitor.lastIndexOf(":")+1)).replaceAll("@Status@", status).replaceAll("@Time@", LastModDateTime.toString().split("\\.")[0]).replaceAll("@LogFile@",logFile );
+					content = rs3.getString("MailContent").replaceAll("@AllGroup@", allGroup).replaceAll("@Group@", group).replaceAll("@monitor@", monitor.substring(monitor.lastIndexOf("：")+1)).replaceAll("@Status@", status).replaceAll("@Time@", LastModDateTime.toString().split("\\.")[0]).replaceAll("@LogFile@",logFile );
 				}
-			}else if(address==null||address.matches("\\s*")){
+			}else{
 				toAddress = rule.getString("Other");
-			}else{toAddress = "";}
+				modleId = rule.getString("ModleId");
+				String sql = "select MailContent from EccMailModle where RecId = '"+modleId+"'";
+				ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
+				if(rs.next()){
+					content = rs.getString("MailContent").replaceAll("@AllGroup@", allGroup).replaceAll("@Group@", group).replaceAll("@monitor@", monitor.substring(monitor.lastIndexOf("：")+1)).replaceAll("@Status@", status).replaceAll("@Time@", LastModDateTime.toString().split("\\.")[0]).replaceAll("@LogFile@",logFile );
+				}
+			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -760,7 +766,7 @@ public class FrameFile {
 			String PHONE = list.get(0);
 			String PWD = list.get(1);
 			String TO = toAddress;
-			String MSG = "今天回家了！";
+			String MSG = content;
 			try {
 				Fetion.sendMsg(PHONE, PWD, TO, MSG);
 			} catch (HttpException e) {
@@ -779,11 +785,11 @@ public class FrameFile {
 	}
 	private static ArrayList<String> getSendPhoneAndPWD(){
 		ArrayList<String> list = new ArrayList<String>();
-		String sql = "select MobliePhone,SMSPwd from EccSMS where SMSType = 'send'";
+		String sql = "select SMSUserName,SMSPwd from EccSMS where SMSType = 'send'";
 		ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
 		try {
 			if(rs.next()){
-				list.add(rs.getString("MobliePhone"));
+				list.add(rs.getString("SMSUserName"));
 				list.add(rs.getString("SMSPwd"));
 			}
 		} catch (SQLException e) {
