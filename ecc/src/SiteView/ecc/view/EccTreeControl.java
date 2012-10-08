@@ -73,14 +73,10 @@ import SiteView.ecc.editors.EmailSetUp;
 import SiteView.ecc.editors.EmailSetUpInput;
 import SiteView.ecc.editors.MessageSetUp;
 import SiteView.ecc.editors.MessageSetUpInput;
-import SiteView.ecc.editors.RelativeTime;
-import SiteView.ecc.editors.RelativeTimeInput;
 import SiteView.ecc.editors.TableDuty;
 import SiteView.ecc.editors.TableDutyInput;
 import SiteView.ecc.editors.TaskPlan;
 import SiteView.ecc.editors.TaskPlanInput;
-import SiteView.ecc.editors.TimeQuantum;
-import SiteView.ecc.editors.TimeQuantumInput;
 import SiteView.ecc.editors.UserManager;
 import SiteView.ecc.editors.UserManagerInput;
 import Siteview.Operators;
@@ -188,19 +184,19 @@ public class EccTreeControl extends ViewPart {
 					}
 				}else if(item instanceof AbsoluteTimeModel){
 					try {
-						   PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new AbsoluteTimeInput(), AbsoluteTime.ID);
+						   PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new AbsoluteTimeInput("absolute"), AbsoluteTime.absoluteID);
 					} catch (PartInitException e1) {
 						e1.printStackTrace();
 					}
 				}else if(item instanceof TimeQuantumModel){
 					try {
-						   PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new TimeQuantumInput(), TimeQuantum.ID);
+						   PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new AbsoluteTimeInput("quantum"),  AbsoluteTime.absoluteID);
 					} catch (PartInitException e1) {
 						e1.printStackTrace();
 					}
 				}else if(item instanceof RelativeTimeModel){
 					try {
-						   PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new RelativeTimeInput(), RelativeTime.ID);
+						   PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new AbsoluteTimeInput("ralative"),  AbsoluteTime.absoluteID);
 					} catch (PartInitException e1) {
 						e1.printStackTrace();
 					}

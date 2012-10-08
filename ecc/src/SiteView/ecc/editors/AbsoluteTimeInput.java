@@ -6,40 +6,45 @@ import org.eclipse.ui.IPersistableElement;
 
 public class AbsoluteTimeInput implements IEditorInput {
 	private String name="";
+	String type;
 
+	public AbsoluteTimeInput(String type) {
+		this.type = type;
+	}
 	@Override
 	public Object getAdapter(Class adapter) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean exists() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public ImageDescriptor getImageDescriptor() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return "绝对时间任务计划";
+		if("absolute".equals(type)){
+			return "绝对时间任务计划";			
+		}else if("quantum".equals(type)){
+			return "时间段任务计划";	
+		}else if("ralative".equals(type)){
+			return "相对时间任务计划";	
+		}
+		return null;
 	}
 
 	@Override
 	public IPersistableElement getPersistable() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getToolTipText() {
-		// TODO Auto-generated method stub
 		return "";
 	}
 	

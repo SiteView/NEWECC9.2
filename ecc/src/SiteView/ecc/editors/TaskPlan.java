@@ -93,19 +93,19 @@ public class TaskPlan extends EditorPart {
 				tableItem = (TableItem) e.item;
 				if(tableItem.getText(0).equals("绝对时间任务计划")){
 					try {
-						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new AbsoluteTimeInput(), AbsoluteTime.ID);
+						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new AbsoluteTimeInput("absolute"), AbsoluteTime.absoluteID);
 					} catch (PartInitException e1) {
 						e1.printStackTrace();
 					}
 				}else if(tableItem.getText(0).equals("时间段任务计划")){
 					try {
-						   PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new TimeQuantumInput(), TimeQuantum.ID);
+						   PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new AbsoluteTimeInput("quantum"), AbsoluteTime.absoluteID);
 					} catch (PartInitException e1) {
 						e1.printStackTrace();
 					}
 				}else if(tableItem.getText(0).equals("相对时间任务计划")){
 					try {
-						   PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new RelativeTimeInput(), RelativeTime.ID);
+						   PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new AbsoluteTimeInput("ralative"), AbsoluteTime.absoluteID);
 					} catch (PartInitException e1) {
 						e1.printStackTrace();
 					}
