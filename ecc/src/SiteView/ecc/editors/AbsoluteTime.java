@@ -2,11 +2,15 @@ package SiteView.ecc.editors;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.TableCursor;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.SWT;
@@ -29,6 +33,7 @@ public class AbsoluteTime extends EditorPart {
 	public static final String ID="SiteView.ecc.editors.AbsoluteTime";
 	public static TableViewer tableViewer;
 	private Table table;
+	private TableItem tableItem;
 
 	public AbsoluteTime() {
 		// TODO Auto-generated constructor stub
@@ -118,6 +123,43 @@ public class AbsoluteTime extends EditorPart {
 		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
+		table.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				 tableItem=(TableItem)e.item;
+				 tableItem.setChecked(true);
+				
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				tableItem.setChecked(false);
+			}
+		});
+		
+		final TableCursor cursor=new TableCursor(table, SWT.NONE);
+		cursor.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseUp(MouseEvent e) {
+			for(TableItem ta:table.getItems()){
+				if(!ta.equals(tableItem)){
+					ta.setChecked(false);
+				}
+			}
+			}
+			
+			@Override
+			public void mouseDown(MouseEvent e) {
+			
+			}
+			
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+			
+			}
+		});
 		
 		TableColumn tblclmnNewColumn_1 = new TableColumn(table, SWT.LEFT);
 		tblclmnNewColumn_1.setWidth(150);
