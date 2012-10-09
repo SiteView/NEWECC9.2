@@ -382,27 +382,29 @@ public class EccControl extends EditorPart {
 				String monitorid = monitor.get_RecId();
 				APIInterfaces rmiServer=EditGroupBundle.createAmiServer();
 				try {
-					rmiServer.Refresh(monitorid);
+					rmiServer.Refresh(monitorid,monitor.GetField("Groups").get_NativeValue().toString());
 				} catch (RemoteException e1) {
 					e1.printStackTrace();
 				}
 				BusinessObject bo = EccTreeControl.CreateBo("monitorid",
 						monitorid, "EccDyn");
-				String[] s = new String[4];
+				String[] s = new String[5];
 				if(bo!=null){
-					s[0] = bo.GetField("category").get_NativeValue().toString();
-					s[1] = monitor.GetField("Title").get_NativeValue().toString();
+					s[0] = "ÔÊÐí";
+					s[1] = bo.GetField("category").get_NativeValue().toString();
+					s[2] = monitor.GetField("Title").get_NativeValue().toString();
 					String desc = bo.GetField("monitorDesc").get_NativeValue()
 							.toString();
-					s[2] = format(desc, monitor.GetField("EccType")
+					s[3] = format(desc, monitor.GetField("EccType")
 							.get_NativeValue().toString());
-					s[3] = bo.GetField("LastModDateTime").get_NativeValue()
+					s[4] = bo.GetField("LastModDateTime").get_NativeValue()
 							.toString();
 				}else{
-					s[0] = "no data";
-					s[1] = bo.GetField("title").get_NativeValue().toString();
-					s[2] = "has no logs";
-					s[3] = bo.GetField("LastModDateTime").get_NativeValue()
+					s[0] = "ÔÊÐí";
+					s[1] = "no data";
+					s[2] = bo.GetField("title").get_NativeValue().toString();
+					s[3] = "has no logs";
+					s[4] = bo.GetField("LastModDateTime").get_NativeValue()
 							.toString();
 				}
 				itable.setText(s);
