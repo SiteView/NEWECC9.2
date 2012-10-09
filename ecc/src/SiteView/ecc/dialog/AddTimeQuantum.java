@@ -451,7 +451,74 @@ public class AddTimeQuantum extends Dialog{
 		btnCheckButton_4.setText("\u5141\u8BB8 ");
 		editor_20.minimumWidth = btnCheckButton_4.getSize ().x;
 		editor_20.setEditor(btnCheckButton_4, tableItem_4, 1); 
-
+		TableEditor editor_21 = new TableEditor(table);
+		Label lblNewLabel_15 = new Label(table, SWT.NONE);
+		lblNewLabel_15.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_15.setBounds(172, 107, 18, 12);
+		lblNewLabel_15.setText("\u4ECE");
+		editor_21.minimumWidth = lblNewLabel_15.getSize ().x;
+		editor_21.setEditor(lblNewLabel_15, tableItem_4, 2); 
+		TableEditor editor_22 = new TableEditor(table);
+		Date startDateTime_8  = new Date();
+		startcal = Calendar.getInstance();
+		startcal.setTime(startDateTime_8);
+		startTime_8 = new DateTime(table, SWT.TIME
+				| SWT.SHORT);
+		startTime_8.setLocation(191, 104);
+		startTime_8.setSize(79, 15);
+		
+		startcal.set(Calendar.HOUR_OF_DAY, 00);
+		startcal.set(Calendar.MINUTE, 0);
+		startcal.set(Calendar.SECOND, 0);
+		
+		startTime_8.setHours(startcal.get(Calendar.HOUR_OF_DAY));
+		startTime_8.setMinutes(startcal.get(Calendar.MINUTE));
+		startTime_8.setSeconds(startcal.get(Calendar.SECOND));
+		startTimeStr_8=startTime_8.getHours() + ":"
+				+ startTime_8.getMinutes() + ":" + startTime_8.getSeconds();
+		 try {
+			 startDateTime_8 = sdf.parse(startTimeStr_8);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		 startTimeStr_8 = new SimpleDateFormat("HH:mm:ss")
+		.format(startcal.getTime());
+		editor_22.minimumWidth = startTime_8.getSize ().x;
+		editor_22.setEditor(startTime_8, tableItem_4, 3); 
+		TableEditor editor_23 = new TableEditor(table);
+		Label lblNewLabel_19 = new Label(table, SWT.NONE);
+		lblNewLabel_19.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_19.setBounds(276, 107, 18, 12);
+		lblNewLabel_19.setText("\u5230");
+		editor_23.minimumWidth = lblNewLabel_19.getSize ().x;
+		editor_23.setEditor(lblNewLabel_19, tableItem_4, 4); 
+		TableEditor editor_24 = new TableEditor(table);
+		Date startDateTime_9  = new Date();
+		startcal = Calendar.getInstance();
+		startcal.setTime(startDateTime_9);
+		startTime_9 = new DateTime(table, SWT.TIME
+				| SWT.SHORT);
+		startTime_9.setLocation(295, 104);
+		startTime_9.setSize(79, 15);
+		
+		startcal.set(Calendar.HOUR_OF_DAY, 23);
+		startcal.set(Calendar.MINUTE, 59);
+		startcal.set(Calendar.SECOND, 0);
+		
+		startTime_9.setHours(startcal.get(Calendar.HOUR_OF_DAY));
+		startTime_9.setMinutes(startcal.get(Calendar.MINUTE));
+		startTime_9.setSeconds(startcal.get(Calendar.SECOND));
+		startTimeStr_9=startTime_9.getHours() + ":"
+				+ startTime_9.getMinutes() + ":" + startTime_9.getSeconds();
+		 try {
+			 startDateTime_9 = sdf.parse(startTimeStr_9);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		 startTimeStr_9 = new SimpleDateFormat("HH:mm:ss")
+		.format(startcal.getTime());
+		editor_24.minimumWidth = startTime_9.getSize ().x;
+		editor_24.setEditor(startTime_9, tableItem_4, 5); 
 		
 		
 		
@@ -466,71 +533,11 @@ public class AddTimeQuantum extends Dialog{
 
 	
 	
-//		Label lblNewLabel_15 = new Label(composite_1, SWT.NONE);
-//		lblNewLabel_15.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
-//		lblNewLabel_15.setBounds(172, 107, 18, 12);
-//		lblNewLabel_15.setText("\u4ECE");
-//		
-//		Date startDateTime_8  = new Date();
-//		startcal = Calendar.getInstance();
-//		startcal.setTime(startDateTime_8);
-//		startTime_8 = new DateTime(composite_1, SWT.TIME
-//				| SWT.SHORT);
-//		startTime_8.setLocation(191, 104);
-//		startTime_8.setSize(79, 15);
-//		
-//		startcal.set(Calendar.HOUR_OF_DAY, 00);
-//		startcal.set(Calendar.MINUTE, 0);
-//		startcal.set(Calendar.SECOND, 0);
-//		
-//		startTime_8.setHours(startcal.get(Calendar.HOUR_OF_DAY));
-//		startTime_8.setMinutes(startcal.get(Calendar.MINUTE));
-//		startTime_8.setSeconds(startcal.get(Calendar.SECOND));
-//		startTimeStr_8=startTime_8.getHours() + ":"
-//				+ startTime_8.getMinutes() + ":" + startTime_8.getSeconds();
-//		 try {
-//			 startDateTime_8 = sdf.parse(startTimeStr_8);
-//			} catch (ParseException e) {
-//				e.printStackTrace();
-//			}
-//		 startTimeStr_8 = new SimpleDateFormat("HH:mm:ss")
-//		.format(startcal.getTime());
-//		
-//		Label lblNewLabel_19 = new Label(composite_1, SWT.NONE);
-//		lblNewLabel_19.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
-//		lblNewLabel_19.setBounds(276, 107, 18, 12);
-//		lblNewLabel_19.setText("\u5230");
-//		
-//		Date startDateTime_9  = new Date();
-//		startcal = Calendar.getInstance();
-//		startcal.setTime(startDateTime_9);
-//		startTime_9 = new DateTime(composite_1, SWT.TIME
-//				| SWT.SHORT);
-//		startTime_9.setLocation(295, 104);
-//		startTime_9.setSize(79, 15);
-//		
-//		startcal.set(Calendar.HOUR_OF_DAY, 23);
-//		startcal.set(Calendar.MINUTE, 59);
-//		startcal.set(Calendar.SECOND, 0);
-//		
-//		startTime_9.setHours(startcal.get(Calendar.HOUR_OF_DAY));
-//		startTime_9.setMinutes(startcal.get(Calendar.MINUTE));
-//		startTime_9.setSeconds(startcal.get(Calendar.SECOND));
-//		startTimeStr_9=startTime_9.getHours() + ":"
-//				+ startTime_9.getMinutes() + ":" + startTime_9.getSeconds();
-//		 try {
-//			 startDateTime_9 = sdf.parse(startTimeStr_9);
-//			} catch (ParseException e) {
-//				e.printStackTrace();
-//			}
-//		 startTimeStr_9 = new SimpleDateFormat("HH:mm:ss")
-//		.format(startcal.getTime());
-//		
-//		Label lblNewLabel_6 = new Label(composite_1, SWT.NONE);
-//		lblNewLabel_6.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
-//		lblNewLabel_6.setBounds(20, 125, 54, 12);
-//		lblNewLabel_6.setText("\u661F\u671F\u4E94");
-//		
+	
+
+	
+
+	
 //		Button btnCheckButton_5 = new Button(composite_1, SWT.CHECK);
 //		btnCheckButton_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 //		btnCheckButton_5.setBounds(113, 123, 45, 16);
