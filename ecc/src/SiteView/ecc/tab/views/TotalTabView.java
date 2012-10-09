@@ -251,7 +251,7 @@ public class TotalTabView extends LayoutViewBase {
 					String timeValue = str.substring(str.indexOf("$")+1,str.length());
 					timeLogValueMap.put(valuekey, timeValue);
 					if (!valuekey.equals("n/a")) {
-						if (!valuekey.equals("no data")&&!valuekey.equals("failed")) {
+						if (!valuekey.equals("no data")&&!valuekey.equals("failed")&&!valuekey.equals("unknown error (-1)")) {
 							arrayintarray[h++] = Double.parseDouble(valuekey);
 						}
 					}

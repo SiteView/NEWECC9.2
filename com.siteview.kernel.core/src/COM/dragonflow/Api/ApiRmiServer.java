@@ -612,10 +612,6 @@ public class ApiRmiServer extends java.rmi.server.UnicastRemoteObject implements
 		}
 
 		public void Refresh(String s,String groupid)throws RemoteException{
-			AtomicMonitor monitor=(AtomicMonitor) MonitorGroup.monitors.get(s);
-			
-			String monitorId = monitor.getGroupPathID();
-			monitorId = monitorId.substring(1, monitorId.length()-1);
 			Array array = new jgl.Array();
 			Array array1 = new jgl.Array();
 			Array array2 = new jgl.Array();
@@ -624,7 +620,5 @@ public class ApiRmiServer extends java.rmi.server.UnicastRemoteObject implements
 			array1.add(ss);
 			SiteViewGroup siteviewgroup = SiteViewGroup.currentSiteView();
 			siteviewgroup.adjustGroups(array, array1, array2, hashmap);
-			
-			monitor.run();
 		}
 }

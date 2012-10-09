@@ -286,11 +286,11 @@ public class EccControl extends EditorPart {
 		if (tabFolder != null && !tabFolder.isDisposed()) {
 			tabFolder.dispose();
 		}
-		tabFolder = new TabFolder(c1, SWT.FULL_SELECTION);
-		String time = MonitorLogTabView.getHoursAgoTime(2);
-		TotalTabView.startTime = time.substring(time.indexOf("*") + 1);
-		TotalTabView.endTime = time.substring(0, time.indexOf("*"));
 		if (bo != null) {
+			tabFolder = new TabFolder(c1, SWT.FULL_SELECTION);
+			String time = MonitorLogTabView.getHoursAgoTime(2);
+			TotalTabView.startTime = time.substring(time.indexOf("*") + 1);
+			TotalTabView.endTime = time.substring(0, time.indexOf("*"));
 			TotalTabView.setTotalData(bo);
 			TabItem comaTabItem = new TabItem(tabFolder, SWT.NONE);
 			comaTabItem.setText("ธลาช");
@@ -314,6 +314,8 @@ public class EccControl extends EditorPart {
 			MonitorLogTabView.SetData(bo);
 			molog.createView(c3);
 			comaTabItem_3.setControl(c3);
+		}else{
+			c1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		}
 		c1.layout();
 	}

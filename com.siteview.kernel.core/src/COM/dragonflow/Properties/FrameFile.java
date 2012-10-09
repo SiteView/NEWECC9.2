@@ -379,6 +379,9 @@ public class FrameFile {
 				StringBuffer  st=stringbuffer;
 				String ss=st.toString();
 		        String sss="";
+		        String s0=ss.substring(0,st.indexOf("_remoteMachine"));
+		        String s2=ss.substring(st.lastIndexOf("_remoteNTMachine"));
+		        s2=s2.substring(s2.indexOf("\n")+1);
 		         if(file.getName().contains("master.config")&&ss.contains("_remoteNTMachine")){
 		            ss=ss.substring(ss.indexOf("_remoteNTMachine"));
 		            while(ss.contains("_remoteNTMachine")){
@@ -396,7 +399,7 @@ public class FrameFile {
 		            }
 		             st=st.delete(st.indexOf("_remoteMachine"),st.indexOf("_remoteMachine")+sss.length());
 		           }
-				printwriter.print(st);
+				printwriter.print(s0+s2);
 				flag2 = printwriter.checkError();
 			}
 		} catch (IOException e) {

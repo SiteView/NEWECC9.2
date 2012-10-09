@@ -58,8 +58,8 @@ public class AddRelativeTime extends Dialog {
 		TableViewer tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION | SWT.CHECK);
 		table = tableViewer.getTable();
 		table.setHeaderVisible(true);
-		
-		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
+		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.CHECK);
 		tblclmnNewColumn.setWidth(80);
 		tblclmnNewColumn.setText("ÐÇÆÚ");
 		
@@ -69,7 +69,7 @@ public class AddRelativeTime extends Dialog {
 			column.setText(i+"");
 		}
 		
-		TableItem item1 = new TableItem(table, SWT.NONE);
+		TableItem item1 = new TableItem(table, SWT.CHECK);
 		item1.setText(0, "ÐÇÆÚÈÕ");
 		Image image = new Image(null, 15, 30);
 		item1.setImage(image);
