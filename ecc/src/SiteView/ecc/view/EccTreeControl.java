@@ -97,6 +97,7 @@ import Siteview.Windows.Forms.ConnectionBroker;
 
 public class EccTreeControl extends ViewPart {
 	public static EccControlInput eee=new EccControlInput();
+	public static AbsoluteTimeInput ati = new AbsoluteTimeInput();
 	TrendReportInput tren=new TrendReportInput();
 	public static Object item;
 	public static TreeViewer treeViewer;
@@ -194,24 +195,42 @@ public class EccTreeControl extends ViewPart {
 					} catch (PartInitException e1) {
 						e1.printStackTrace();
 					}
-				}else if(item instanceof AbsoluteTimeModel){
-					try {
-						   PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new AbsoluteTimeInput("absolute"), AbsoluteTime.absoluteID);
-					} catch (PartInitException e1) {
-						e1.printStackTrace();
-					}
-				}else if(item instanceof TimeQuantumModel){
-					try {
-						   PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new AbsoluteTimeInput("quantum"),  AbsoluteTime.absoluteID);
-					} catch (PartInitException e1) {
-						e1.printStackTrace();
-					}
-				}else if(item instanceof RelativeTimeModel){
-					try {
-						   PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new AbsoluteTimeInput("ralative"),  AbsoluteTime.absoluteID);
-					} catch (PartInitException e1) {
-						e1.printStackTrace();
-					}
+				}else if(item instanceof AbsoluteTimeModel||item instanceof TimeQuantumModel||item instanceof RelativeTimeModel){
+					IWorkbenchPage page = Activator.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();  
+					 IEditorPart editor = page.findEditor(ati); 
+					 if(editor==null){
+						 if(item instanceof AbsoluteTimeModel){
+							 try {
+								 	page.openEditor(new AbsoluteTimeInput("absolute"), AbsoluteTime.absoluteID);
+							} catch (PartInitException e1) {
+								e1.printStackTrace();
+							}
+						 }else if(item instanceof TimeQuantumModel){
+							try {
+									page.openEditor(new AbsoluteTimeInput("quantum"),  AbsoluteTime.absoluteID);
+							} catch (PartInitException e1) {
+									e1.printStackTrace();
+							}
+						}else if(item instanceof RelativeTimeModel){
+							try {
+									page.openEditor(new AbsoluteTimeInput("ralative"),  AbsoluteTime.absoluteID);
+							} catch (PartInitException e1) {
+									e1.printStackTrace();
+							}
+						}
+					 }else{
+						 if(item instanceof AbsoluteTimeModel){
+							 AbsoluteTime.name="absolute";
+							 ((AbsoluteTime)editor).createLabel();
+						 }else if(item instanceof TimeQuantumModel){
+							 AbsoluteTime.name="quantum";
+							 ((AbsoluteTime)editor).createLabel();
+						}else if(item instanceof RelativeTimeModel){
+							 AbsoluteTime.name="ralative";
+							 ((AbsoluteTime)editor).createLabel();
+						}
+					 }
+					
 				}else if(item instanceof MonitorSetUpModel){
 					 MonitorSetUp msu = new MonitorSetUp(null);
 					 msu.open();
