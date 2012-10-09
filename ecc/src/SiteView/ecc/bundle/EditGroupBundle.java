@@ -119,7 +119,7 @@ public class EditGroupBundle implements IAutoTaskExtension {
 	}
 	public static APIInterfaces createAmiServer(){
 		Registry registry;
-		String serverAddress = "localhost";
+		String serverAddress ="localhost";
 		String serverPort = "3232";
 		APIInterfaces rmiServer=null;
 		try {

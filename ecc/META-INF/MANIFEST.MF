@@ -34,4 +34,5 @@ Bundle-ClassPath: lib/jcommon-1.0.15.jar,
  lib/mail/mail.jar,
  lib/mail/my.mail.jar,
  lib/my.util.sound.jar
-Import-Package: SiteView.ecc.editors
+Import-Package: SiteView.ecc.dialog,
+ SiteView.ecc.editors

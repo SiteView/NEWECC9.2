@@ -306,7 +306,7 @@ public class AddEmailAlarmRule extends Dialog {
 		treeViewer.setContentProvider(new GroupTreeContentProvider());
 		treeViewer.setLabelProvider(new GroupTreeLabelProvider());
 		treeViewer.setInput(SiteViewData.CreatTreeData());
-		treeViewer.expandAll();
+		treeViewer.expandToLevel(2);
 		if(bo!=null){
 			for (TreeItem item : tree.getItems()) {
 				TreeItem[] treeItem = item.getItems();

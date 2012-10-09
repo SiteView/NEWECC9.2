@@ -48,8 +48,9 @@ public class ParticularInfo extends Dialog {
 		TabItem tabItem_1=new TabItem(tab, SWT.NONE);
 		tabItem_1.setText("时段对比报告");
 		Composite c1=new Composite(tab, SWT.FULL_SELECTION);
-        TimeContrastReport m1=new TimeContrastReport(c1);
-        m1.createView(c1);
+        TimeContrastReport m1=new TimeContrastReport();
+     //   m1.createView(c1);
+        m1.createPartControl(c1);
         tabItem_1.setControl(c1);  
        
         TabItem comaTabItem_4 = new TabItem(tab, SWT.NONE);  

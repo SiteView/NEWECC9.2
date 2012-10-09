@@ -1,5 +1,7 @@
 package SiteView.ecc.Control;
 
+import java.lang.Thread.State;
+
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.LabelProviderChangedEvent;
@@ -22,9 +24,11 @@ import SiteView.ecc.Modle.MonitorSetUpModel;
 import SiteView.ecc.Modle.RelativeTimeModel;
 import SiteView.ecc.Modle.SetUpModle;
 import SiteView.ecc.Modle.SiteViewEcc;
+import SiteView.ecc.Modle.StatementsModle;
 import SiteView.ecc.Modle.TableDutyModle;
 import SiteView.ecc.Modle.TaskPlanModel;
 import SiteView.ecc.Modle.TimeQuantumModel;
+import SiteView.ecc.Modle.TrendReportModle;
 import SiteView.ecc.Modle.UserManageModle;
 import siteview.windows.forms.ImageHelper;
 
@@ -67,6 +71,19 @@ public class EccTreeLabelProvider extends LabelProvider {
 			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/taskPlan.jpg");
 		}else if(element instanceof RelativeTimeModel){
 			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/taskPlan.jpg");
+		}else if(element instanceof StatementsModle){
+			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/Statements.bmp");
+		}else if(element instanceof TrendReportModle){
+			TrendReportModle tren=(TrendReportModle) element;
+			if(tren.getName().equals("趋势报告")){
+				return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/TrendReport.bmp");
+			}else if(tren.getName().equals("对比报告")){
+				return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/ContrastReport.bmp");
+			}else if(tren.getName().equals("时段对比报告")){
+				return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/ContrastReport.bmp");
+			}else if(tren.getName().equals("状态统计报告")){
+				return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/Statements.bmp");
+			}
 		}
 		return null;
 	}
@@ -118,6 +135,10 @@ public class EccTreeLabelProvider extends LabelProvider {
 			return ((TimeQuantumModel) element).getName();
 		}else if(element instanceof RelativeTimeModel){
 			return ((RelativeTimeModel) element).getName();
+		}else if(element instanceof StatementsModle){
+			return ((StatementsModle) element).getName();
+		}else if(element instanceof TrendReportModle){
+			return ((TrendReportModle) element).getName();
 		}
 		return null;
 	}

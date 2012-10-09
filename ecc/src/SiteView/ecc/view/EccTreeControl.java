@@ -15,6 +15,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
@@ -60,6 +61,7 @@ import SiteView.ecc.Modle.SiteViewEcc;
 import SiteView.ecc.Modle.TableDutyModle;
 import SiteView.ecc.Modle.TaskPlanModel;
 import SiteView.ecc.Modle.TimeQuantumModel;
+import SiteView.ecc.Modle.TrendReportModle;
 import SiteView.ecc.Modle.UserManageModle;
 import SiteView.ecc.data.SiteViewData;
 import SiteView.ecc.dialog.MonitorSetUp;
@@ -77,8 +79,12 @@ import SiteView.ecc.editors.TableDuty;
 import SiteView.ecc.editors.TableDutyInput;
 import SiteView.ecc.editors.TaskPlan;
 import SiteView.ecc.editors.TaskPlanInput;
+import SiteView.ecc.editors.TrendReport;
+import SiteView.ecc.editors.TrendReportInput;
 import SiteView.ecc.editors.UserManager;
 import SiteView.ecc.editors.UserManagerInput;
+import SiteView.ecc.reportchart.TimeContrastReport;
+import SiteView.ecc.views.TrendReportView;
 import Siteview.Operators;
 import Siteview.QueryInfoToGet;
 import Siteview.SiteviewQuery;
@@ -87,6 +93,7 @@ import Siteview.Windows.Forms.ConnectionBroker;
 
 public class EccTreeControl extends ViewPart {
 	public static EccControlInput eee=new EccControlInput();
+	TrendReportInput tren=new TrendReportInput();
 	public static Object item;
 	public static TreeViewer treeViewer;
 	public static List<String> list;//组下面的监测器
@@ -144,6 +151,7 @@ public class EccTreeControl extends ViewPart {
 		treeViewer.setLabelProvider(new EccTreeLabelProvider());
 		SiteViewData s = new SiteViewData();
 		treeViewer.setInput(s.getData());
+		treeViewer.expandToLevel(2);
 		treeViewer.setComparer(new EccTreeComparer());
 		treeViewer.getTree().addSelectionListener(new SelectionListener() {
 			@Override
@@ -226,9 +234,31 @@ public class EccTreeControl extends ViewPart {
 					} catch (PartInitException e1) {
 						e1.printStackTrace();
 					}
+				}else if(item instanceof TrendReportModle){
+					IWorkbenchPage page = Activator.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();  
+					IEditorPart editor = page.findEditor(tren);
+					TrendReport.type=((TrendReportModle) item).getName();
+					if(editor==null){
+						 try {
+								page.openEditor(tren, TrendReport.ID);
+							} catch (PartInitException e1) {
+								e1.printStackTrace();
+							} 
+					}else{
+						for(Control c:((TrendReport)editor).composite_1.getChildren()){
+							c.dispose();
+						}
+						if(((TrendReportModle) item).getName().equals("趋势报告")){
+							TrendReportView  trv = new TrendReportView();
+							trv.createPartControl(((TrendReport)editor).composite_1);
+						}else if(((TrendReportModle) item).getName().equals("时段对比报告")){
+							TimeContrastReport.bo=null;
+							TimeContrastReport time=new TimeContrastReport();
+							time.create(((TrendReport)editor).composite_1);
+						}
+					}
 				}
 			}
-			
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub

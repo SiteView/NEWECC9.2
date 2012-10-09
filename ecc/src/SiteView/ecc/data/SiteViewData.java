@@ -16,6 +16,7 @@ import SiteView.ecc.Modle.MonitorModle;
 import SiteView.ecc.Modle.MonitorSetUpModel;
 import SiteView.ecc.Modle.SetUpModle;
 import SiteView.ecc.Modle.SiteViewEcc;
+import SiteView.ecc.Modle.StatementsModle;
 import SiteView.ecc.tools.FileTools;
 import SiteView.ecc.view.EccTreeControl;
 import Siteview.Api.BusinessObject;
@@ -88,14 +89,18 @@ public class SiteViewData {
 		site.add(siteview);
 		if(hasSuperUser){
 			site.add(new MonitorSetUpModel());
-			site.add(new SetUpModle());
 			site.add(new AlarmModle());	
-		}
-		if(permissions.get("userManage")!=null){
+			site.add(new StatementsModle());
 			site.add(new SetUpModle());
 		}
 		if(permissions.get("¸æ¾¯")!=null){
 			site.add(new AlarmModle());	
+		}
+		if(permissions.get("")!=null){
+			site.add(new StatementsModle());
+		}
+		if(permissions.get("userManage")!=null){
+			site.add(new SetUpModle());
 		}
 		return site;
 	}

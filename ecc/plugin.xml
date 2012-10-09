@@ -82,6 +82,12 @@
           id="SiteView.ecc.editors.MessageSetUp"
           name="短信设置">
     </editor>
+    <editor
+          class="SiteView.ecc.editors.TrendReport"
+          default="false"
+          id="SiteView.ecc.editors.TrendReport"
+          name="报表">
+    </editor>
  </extension>
  <extension
        point="Siteview.Forms.Common.LayoutExtension">

@@ -16,28 +16,21 @@ import SiteView.ecc.tools.Config;
 import SiteView.ecc.tools.FileTools;
 import Siteview.Api.BusinessObject;
 
-import siteview.windows.forms.LayoutViewBase;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormAttachment;
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
-import system.Drawing.IconConverter;
 
-import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -45,6 +38,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
+import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -57,12 +51,10 @@ import org.jfree.data.time.Minute;
 import org.jfree.data.time.Second;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
-import org.jfree.data.time.Week;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.experimental.chart.swt.ChartComposite;
-import org.jfree.ui.RectangleInsets;
 
-public class TimeContrastReport extends LayoutViewBase{
+public class TimeContrastReport extends ViewPart{
 	private int sel;//比对方式，0为按天比对，1为按周比对，2为按月比对，
 	private BusinessObject bo1=null;
 	public static BusinessObject bo;
@@ -81,22 +73,6 @@ public class TimeContrastReport extends LayoutViewBase{
 	List<Map<String, List<String>>> des1=null;//第二时间段 报表返回值的（包括：最大值、平均值、最新值、最小值、最大值时间）集合
 	private String firstTime=null;
 	private String lastTime=null;
-	
-	
-	public TimeContrastReport(Composite parent) {
-		super(parent);
-	}
-	//创建tab
-	public void createView(final Composite parent) {
-		parent.addControlListener(new ControlListener() {
-			public void controlResized(ControlEvent e) {
-			}
-			public void controlMoved(ControlEvent e) {
-				create(parent);
-			}
-		});
-	}
-
 	public void SetDataFromBusOb(BusinessObject bo) {
 	}
 	
@@ -374,7 +350,9 @@ public class TimeContrastReport extends LayoutViewBase{
 				control.dispose();
 			}
 		}
-		setAllData();
+		if(bo!=null){
+			setAllData();
+		}
 		parent.setLayout(new FillLayout(SWT.VERTICAL));
 		
 		SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
@@ -416,11 +394,13 @@ public class TimeContrastReport extends LayoutViewBase{
 		label_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		
 		final DateTime dateTime = new DateTime(group, SWT.DROP_DOWN);
-		String s=firstTime.substring(0,firstTime.indexOf(" "));
-		int year=Integer.parseInt(s.substring(0,s.indexOf("-")));
-		int month=Integer.parseInt(s.substring(s.indexOf("-")+1,s.lastIndexOf("-")));
-		int day=Integer.parseInt(s.substring(s.lastIndexOf("-")+1));
-		dateTime.setDate(year, month-1, day);
+		if(bo!=null){
+			String s=firstTime.substring(0,firstTime.indexOf(" "));
+			int year=Integer.parseInt(s.substring(0,s.indexOf("-")));
+			int month=Integer.parseInt(s.substring(s.indexOf("-")+1,s.lastIndexOf("-")));
+			int day=Integer.parseInt(s.substring(s.lastIndexOf("-")+1));
+			dateTime.setDate(year, month-1, day);
+		}
 		FormData fd_dateTime = new FormData();
 		fd_dateTime.bottom = new FormAttachment(combo, 0, SWT.BOTTOM);
 		fd_dateTime.left = new FormAttachment(label_2, 1);
@@ -435,11 +415,14 @@ public class TimeContrastReport extends LayoutViewBase{
 		label_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		
 		final DateTime dateTime_1 = new DateTime(group, SWT.DROP_DOWN);
-		s=lastTime.substring(0,lastTime.indexOf(" "));
-		year=Integer.parseInt(s.substring(0,s.indexOf("-")));
-		month=Integer.parseInt(s.substring(s.indexOf("-")+1,s.lastIndexOf("-")));
-		day=Integer.parseInt(s.substring(s.lastIndexOf("-")+1));
-		dateTime_1.setDate(year, month-1, day);
+		if(bo!=null){
+			String s=lastTime.substring(0,lastTime.indexOf(" "));
+			int year=Integer.parseInt(s.substring(0,s.indexOf("-")));
+			int month=Integer.parseInt(s.substring(s.indexOf("-")+1,s.lastIndexOf("-")));
+			int day=Integer.parseInt(s.substring(s.lastIndexOf("-")+1));
+			dateTime_1.setDate(year, month-1, day);
+		}
+		
 		FormData fd_dateTime_1 = new FormData();
 		fd_dateTime_1.bottom = new FormAttachment(combo, 0, SWT.BOTTOM);
 		fd_dateTime_1.left = new FormAttachment(label_3, 2);
@@ -527,13 +510,18 @@ public class TimeContrastReport extends LayoutViewBase{
 		group_1.setExpandHorizontal(true);
 		group_1.setExpandVertical(true);
 		group_1.setMinWidth(400);
-		group_1.setMinHeight(190*(des.size()+1));
-		
+		if(bo!=null){
+			group_1.setMinHeight(190*(des.size()+1));	
+		}else{
+			group_1.setMinHeight(190);
+		}
 		Composite  chatComposite = new Composite(group_1, SWT.NONE);
+		chatComposite.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		group_1.setContent(chatComposite);// 设置chatComposite被scrolledComposite控制
 		chatComposite.setLayout(new FillLayout());
 		SashForm sashForm_1 = new SashForm(chatComposite, SWT.VERTICAL);
-		if(icCollection.get_Count()!=0&&icCollection1.get_Count()!=0){
+		sashForm_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		if(icCollection!=null&&icCollection.get_Count()!=0&&icCollection1.get_Count()!=0){
 			int[] s0={5,22,90};
 			int[] ss=new int[3*des.size()];
 			for(int i=0;i<des.size();i++){
@@ -580,7 +568,21 @@ public class TimeContrastReport extends LayoutViewBase{
 			}
 			sashForm_1.setWeights(ss);
 		}
-		sashForm.setWeights(new int[] {60, 387});
+		sashForm.setWeights(new int[] {50, 387});
 		parent.layout();
+	}
+	//创建tab
+	public void createPartControl(final Composite parent) {
+		parent.addControlListener(new ControlListener() {
+			public void controlResized(ControlEvent e) {
+				create(parent);
+			}
+			public void controlMoved(ControlEvent e) {
+				
+			}
+		});
+	}
+	@Override
+	public void setFocus() {
 	}
 }
