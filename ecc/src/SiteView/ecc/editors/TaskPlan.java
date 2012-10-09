@@ -88,35 +88,6 @@ public class TaskPlan extends EditorPart {
 		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		table.setHeaderVisible(true);
 		
-		table.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
-				tableItem = (TableItem) e.item;
-				if(tableItem.getText(0).equals("绝对时间任务计划")){
-					try {
-						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new AbsoluteTimeInput("absolute"), AbsoluteTime.absoluteID);
-					} catch (PartInitException e1) {
-						e1.printStackTrace();
-					}
-				}else if(tableItem.getText(0).equals("时间段任务计划")){
-					try {
-						   PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new AbsoluteTimeInput("quantum"), AbsoluteTime.absoluteID);
-					} catch (PartInitException e1) {
-						e1.printStackTrace();
-					}
-				}else if(tableItem.getText(0).equals("相对时间任务计划")){
-					try {
-						   PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new AbsoluteTimeInput("ralative"), AbsoluteTime.absoluteID);
-					} catch (PartInitException e1) {
-						e1.printStackTrace();
-					}
-				}
-			}
-			
-			public void widgetDefaultSelected(SelectionEvent e) {
-				
-			}
-		});
-		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.LEFT);
 		tblclmnNewColumn.setText("\u540D\u79F0");
 		tblclmnNewColumn.setWidth(150);
