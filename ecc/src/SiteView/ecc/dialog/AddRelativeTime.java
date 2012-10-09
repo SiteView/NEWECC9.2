@@ -12,6 +12,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.jface.viewers.TableViewer;
@@ -23,7 +26,6 @@ public class AddRelativeTime extends Dialog {
 	private Table table;
 	private Text text;
 	private Text text_1;
-
 	public AddRelativeTime(Shell parentShell) {
 		super(parentShell);
 	}
