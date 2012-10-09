@@ -23,8 +23,10 @@ import SiteView.ecc.Control.GroupTreeLabelProvider;
 import SiteView.ecc.Modle.MonitorModle;
 import SiteView.ecc.bundle.MassageAlarmBundle;
 import SiteView.ecc.data.SiteViewData;
+import SiteView.ecc.reportchart.StatusCTIReport;
 import SiteView.ecc.reportchart.TimeContrastReport;
 import SiteView.ecc.tab.views.TotalTabView;
+import SiteView.ecc.views.ContrastReportView;
 import SiteView.ecc.views.TrendReportView;
 
 public class TrendReport extends EditorPart {
@@ -87,22 +89,14 @@ public class TrendReport extends EditorPart {
 				if(e.item.getData() instanceof MonitorModle){
 					TotalTabView.businessObj=((MonitorModle)e.item.getData()).getBo();
 					TimeContrastReport.bo=((MonitorModle)e.item.getData()).getBo();
+					StatusCTIReport.setData(((MonitorModle)e.item.getData()).getBo());
 				}else{
 					MessageDialog.openInformation(new Shell(), "提示","请选择选择监测器！");
 					TotalTabView.businessObj=null;
 					TimeContrastReport.bo=null;
-					
+					StatusCTIReport.setData(null);
 				}
-				for(Control c:composite_1.getChildren() ){
-					c.dispose();
-				}
-				if(type.equals("趋势报告")){
-					TrendReportView  trv = new TrendReportView();
-					trv.createPartControl(composite_1);
-				}else if(type.equals("时段对比报告")){
-					TimeContrastReport time=new TimeContrastReport();
-					time.create(composite_1);
-				}
+				createComposite_1(composite_1);
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
@@ -110,14 +104,7 @@ public class TrendReport extends EditorPart {
 		
 		composite_1 = new Composite(sashForm, SWT.NONE);
 		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
-		TotalTabView.businessObj=null;
-		if(type.equals("趋势报告")){
-			TrendReportView  trv = new TrendReportView();
-			trv.createPartControl(composite_1);
-		}else if(type.equals("时段对比报告")){
-			TimeContrastReport time=new TimeContrastReport();
-			time.create(composite_1);
-		}
+		createComposite_1(composite_1);
 		sashForm.setWeights(new int[] {123, 468});
 		
 		treeViewer.setContentProvider(new GroupTreeContentProvider());
@@ -127,5 +114,23 @@ public class TrendReport extends EditorPart {
 		parent.layout();
 	}
 	public void setFocus() {
+	}
+	public static void createComposite_1(Composite composite_1){
+		for(Control c:composite_1.getChildren()){
+			c.dispose();
+		}
+		if(type.equals("趋势报告")){
+			TrendReportView  trv = new TrendReportView();
+			trv.createPartControl(composite_1);
+		}else if(type.equals("时段对比报告")){
+			TimeContrastReport time=new TimeContrastReport();
+			time.create(composite_1);
+		}else if(type.equals("对比报告")){
+			ContrastReportView crv = new ContrastReportView();
+			crv.createPartControl(composite_1);
+		}else if(type.equals("状态统计报告")){
+			StatusCTIReport status=new StatusCTIReport();
+			status.create(composite_1);
+		}
 	}
 }

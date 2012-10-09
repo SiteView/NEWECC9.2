@@ -5,8 +5,6 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -14,8 +12,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.TableEditor;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.jface.viewers.TableViewer;
@@ -24,6 +20,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 public class AddRelativeTime extends Dialog {
+	private Table table;
 	private Text text;
 	private Text text_1;
 
@@ -58,48 +55,41 @@ public class AddRelativeTime extends Dialog {
 		text_1 = new Text(composite_1, SWT.BORDER);
 		text_1.setBounds(115, 5, 150, 18);
 		
-		Table table = new Table(sashForm, SWT.BORDER | SWT.FULL_SELECTION | SWT.CHECK);
+		TableViewer tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION | SWT.CHECK);
+		table = tableViewer.getTable();
 		table.setHeaderVisible(true);
-//		table.addSelectionListener(new SelectionListener() {
-//			public void widgetSelected(SelectionEvent e) {
-//				TableItem item = (TableItem) e.item;
-//				item.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-//			}
-//			
-//			public void widgetDefaultSelected(SelectionEvent e) {
-//			}
-//		});
 		
-		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.CHECK);
+		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn.setWidth(80);
 		tblclmnNewColumn.setText("星期");
 		
 		for (int i = 0; i < 24; i++) {
-			TableColumn column = new TableColumn(table, SWT.CHECK);
+			TableColumn column = new TableColumn(table, SWT.NONE);
 			column.setWidth(30);
 			column.setText(i+"");
 		}
 		
-		TableItem item1 = new TableItem(table, SWT.CHECK);
+		TableItem item1 = new TableItem(table, SWT.NONE);
 		item1.setText(0, "星期日");
 		Image image = new Image(null, 15, 30);
 		item1.setImage(image);
 		for (int i = 0; i < 24; i++) {
 			TableEditor editor = new TableEditor(table);
-			Button check = new Button(table, SWT.CHECK);
+			final Button check = new Button(table, SWT.CHECK);
+			check.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 			check.pack();
-			editor.minimumHeight = 13;
 			editor.minimumWidth = check.getSize ().x;
+			editor.minimumHeight = check.getSize ().x;
 			editor.horizontalAlignment = SWT.CENTER;
 			editor.setEditor(check, item1, i+1);
 		}
 		
 		TableItem item2 = new TableItem(table, SWT.NONE);
 		item2.setText(0, "星期一");
-//		item2.setImage(image);
 		for (int i = 0; i < 24; i++) {
 			TableEditor editor = new TableEditor(table);
 			final Button check = new Button(table, SWT.CHECK);
+			check.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 			check.pack();
 			editor.minimumWidth = check.getSize ().x;
 			editor.minimumHeight = check.getSize ().x;
@@ -109,10 +99,10 @@ public class AddRelativeTime extends Dialog {
 		
 		TableItem item3 = new TableItem(table, SWT.NONE);
 		item3.setText(0, "星期二");
-//		item3.setImage(image);
 		for (int i = 0; i < 24; i++) {
 			TableEditor editor = new TableEditor(table);
 			final Button check = new Button(table, SWT.CHECK);
+			check.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 			check.pack();
 			editor.minimumWidth = check.getSize ().x;
 			editor.minimumHeight = check.getSize ().x;
@@ -122,10 +112,10 @@ public class AddRelativeTime extends Dialog {
 		
 		TableItem item4 = new TableItem(table, SWT.NONE);
 		item4.setText(0, "星期三");
-//		item4.setImage(image);
 		for (int i = 0; i < 24; i++) {
 			TableEditor editor = new TableEditor(table);
 			final Button check = new Button(table, SWT.CHECK);
+			check.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 			check.pack();
 			editor.minimumWidth = check.getSize ().x;
 			editor.minimumHeight = check.getSize ().x;
@@ -135,10 +125,10 @@ public class AddRelativeTime extends Dialog {
 		
 		TableItem item5 = new TableItem(table, SWT.NONE);
 		item5.setText(0, "星期四");
-//		item5.setImage(image);
 		for (int i = 0; i < 24; i++) {
 			TableEditor editor = new TableEditor(table);
 			final Button check = new Button(table, SWT.CHECK);
+			check.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 			check.pack();
 			editor.minimumWidth = check.getSize ().x;
 			editor.minimumHeight = check.getSize ().x;
@@ -148,10 +138,10 @@ public class AddRelativeTime extends Dialog {
 		
 		TableItem item6 = new TableItem(table, SWT.NONE);
 		item6.setText(0, "星期五");
-//		item6.setImage(image);
 		for (int i = 0; i < 24; i++) {
 			TableEditor editor = new TableEditor(table);
 			final Button check = new Button(table, SWT.CHECK);
+			check.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 			check.pack();
 			editor.minimumWidth = check.getSize ().x;
 			editor.minimumHeight = check.getSize ().x;
@@ -161,10 +151,10 @@ public class AddRelativeTime extends Dialog {
 		
 		TableItem item7 = new TableItem(table, SWT.NONE);
 		item7.setText(0, "星期六");
-//		item7.setImage(image);
 		for (int i = 0; i < 24; i++) {
 			TableEditor editor = new TableEditor(table);
 			final Button check = new Button(table, SWT.CHECK);
+			check.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 			check.pack();
 			editor.minimumWidth = check.getSize ().x;
 			editor.minimumHeight = check.getSize ().x;

@@ -37,6 +37,7 @@ import system.Collections.ICollection;
 import system.Collections.IEnumerator;
 
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.ui.part.ViewPart;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
@@ -60,7 +61,7 @@ import org.jfree.ui.RectangleInsets;
  * @author lihua.zhong
  *
  */
-public class StatusCTIReport extends LayoutViewBase {
+public class StatusCTIReport extends ViewPart {
 	//数据
 	private static BusinessObject bo;
 	private BusinessObject bo1;
@@ -74,22 +75,11 @@ public class StatusCTIReport extends LayoutViewBase {
 	private Table table;//状态列表
 	private Table table_1;//状态统计列表
 	private Composite comp;
-	public StatusCTIReport(Composite parent) {
-		super(parent);
-	}
-	//创建tab
-	public void createView(final Composite parent) {
-		parent.addControlListener(new ControlListener() {
-			public void controlResized(ControlEvent e) {
-			}
-			public void controlMoved(ControlEvent e) {
-				create(parent);
-			}
-		});
-	}
+	
 	//通过传人Composite 和字符串数组，创建表
 	protected Table createTable(SashForm sashForm,String[] column){
 		Table table = new Table(sashForm, SWT.BORDER | SWT.FULL_SELECTION);
+		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		for(int i=0;i<column.length;i++){
@@ -101,8 +91,10 @@ public class StatusCTIReport extends LayoutViewBase {
 	}
 	//数据处理，（处理日志，给table 和table_1放入数据）
 	protected void TableItem(Table table,Table table_1,Composite comp){
+		if(iCollenction==null){
+			return;
+		}
 		dataset=new ArrayList<String>();
-		
 		int s=iCollenction.get_Count();
 		int j=0;
 		int good_Count=0;
@@ -311,7 +303,9 @@ public class StatusCTIReport extends LayoutViewBase {
 				control.dispose();
 			}
 		}
-		setMap();
+		if(bo!=null){
+			setMap();
+		}
 		final String [] column={"时间","状态","持续次数","持续时间"};
 		final String [] column_1={"正常","危险","错误","禁用","无数据"};
 		parent.setLayout(new FillLayout(SWT.VERTICAL));
@@ -326,34 +320,37 @@ public class StatusCTIReport extends LayoutViewBase {
 		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		
 		final DateTime startdate = new DateTime(group, SWT.DROP_DOWN);
-		int year=Integer.parseInt(starTime.substring(0,starTime.indexOf("-")));
-		int month=Integer.parseInt(starTime.substring(starTime.indexOf("-")+1,starTime.lastIndexOf("-")));
-		int day=Integer.parseInt(starTime.substring(starTime.lastIndexOf("-")+1,starTime.indexOf(" ")));
-		int hours=Integer.parseInt(starTime.substring(starTime.indexOf(" ")+1,starTime.indexOf(":")));
-		int minutes=Integer.parseInt(starTime.substring(starTime.indexOf(":")+1,starTime.lastIndexOf(":")));
-		int seconds=Integer.parseInt(starTime.substring(starTime.lastIndexOf(":")+1));
-		startdate.setDate(year, month-1, day);
 		startdate.setBounds(0, 0, 84, 20);
 		final DateTime starttime = new DateTime(group, SWT.TIME);
-		starttime.setTime(hours, minutes, seconds);
 		starttime.setBounds(0, 0, 84, 20);
-		
+		if(bo!=null){
+			int year=Integer.parseInt(starTime.substring(0,starTime.indexOf("-")));
+			int month=Integer.parseInt(starTime.substring(starTime.indexOf("-")+1,starTime.lastIndexOf("-")));
+			int day=Integer.parseInt(starTime.substring(starTime.lastIndexOf("-")+1,starTime.indexOf(" ")));
+			int hours=Integer.parseInt(starTime.substring(starTime.indexOf(" ")+1,starTime.indexOf(":")));
+			int minutes=Integer.parseInt(starTime.substring(starTime.indexOf(":")+1,starTime.lastIndexOf(":")));
+			int seconds=Integer.parseInt(starTime.substring(starTime.lastIndexOf(":")+1));
+			startdate.setDate(year, month-1, day);
+			starttime.setTime(hours, minutes, seconds);
+		}
 		Label lblNewLabel = new Label(group, SWT.NONE);
 		lblNewLabel.setBounds(0, 0, 54, 12);
 		lblNewLabel.setText("\u7ED3\u675F\u65F6\u95F4\uFF1A");
 		lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		
-		year=Integer.parseInt(endTime.substring(0,endTime.indexOf("-")));
-		month=Integer.parseInt(endTime.substring(endTime.indexOf("-")+1,endTime.lastIndexOf("-")));
-		day=Integer.parseInt(endTime.substring(endTime.lastIndexOf("-")+1,endTime.indexOf(" ")));
-		hours=Integer.parseInt(endTime.substring(endTime.indexOf(" ")+1,endTime.indexOf(":")));
-		minutes=Integer.parseInt(endTime.substring(endTime.indexOf(":")+1,endTime.lastIndexOf(":")));
-		seconds=Integer.parseInt(endTime.substring(endTime.lastIndexOf(":")+1));
 		final DateTime enddate = new DateTime(group, SWT.DROP_DOWN);
-		enddate.setDate(year, month-1, day);
 		enddate.setBounds(0, 0, 84, 20);
 		final DateTime endtime = new DateTime(group, SWT.TIME);
-		endtime.setTime(hours, minutes, seconds);
+		if(bo!=null){
+			int year=Integer.parseInt(endTime.substring(0,endTime.indexOf("-")));
+			int month=Integer.parseInt(endTime.substring(endTime.indexOf("-")+1,endTime.lastIndexOf("-")));
+			int day=Integer.parseInt(endTime.substring(endTime.lastIndexOf("-")+1,endTime.indexOf(" ")));
+			int hours=Integer.parseInt(endTime.substring(endTime.indexOf(" ")+1,endTime.indexOf(":")));
+			int minutes=Integer.parseInt(endTime.substring(endTime.indexOf(":")+1,endTime.lastIndexOf(":")));
+			int seconds=Integer.parseInt(endTime.substring(endTime.lastIndexOf(":")+1));
+			enddate.setDate(year, month-1, day);
+			endtime.setTime(hours, minutes, seconds);
+		}
 		endtime.setBounds(0, 0, 84, 20);
 		
 		Button button = new Button(group, SWT.NONE);
@@ -401,7 +398,7 @@ public class StatusCTIReport extends LayoutViewBase {
 		
 		comp= new Composite(sashForm_1, SWT.BORDER);
 		comp.setLayout(new FillLayout(SWT.VERTICAL));
-        
+        comp.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		Label lblNewLabel_2 = new Label(sashForm_1, SWT.NONE);
 		lblNewLabel_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		lblNewLabel_2.setText("\u72B6\u6001\u7EDF\u8BA1\u5217\u8868");
@@ -416,16 +413,35 @@ public class StatusCTIReport extends LayoutViewBase {
 		
 		Composite c= new Composite(sashForm_1, SWT.BORDER);
 		c.setLayout(new FillLayout(SWT.VERTICAL));
-		DefaultPieDataset dataset = new DefaultPieDataset();
-		 dataset.setValue("error", datas[2]);
-		 dataset.setValue("warning", datas[1]);
-		 dataset.setValue("good", datas[0]);
-		 dataset.setValue("disable", datas[3]);
-		 dataset.setValue("nodata", datas[4]);
-		 JFreeChart chart=ChartFactory.createPieChart(bo1.get_Name(), dataset, true, true, false);
-		 ChartComposite frame = new ChartComposite(c, SWT.NONE, chart, true);
-		 sashForm_1.setWeights(new int[] {15,100,15, 150, 15, 100, 15, 300});
+		c.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		if(bo!=null){
+			DefaultPieDataset dataset = new DefaultPieDataset();
+			 dataset.setValue("error", datas[2]);
+			 dataset.setValue("warning", datas[1]);
+			 dataset.setValue("good", datas[0]);
+			 dataset.setValue("disable", datas[3]);
+			 dataset.setValue("nodata", datas[4]);
+			 JFreeChart chart=ChartFactory.createPieChart(bo1.get_Name(), dataset, true, true, false);
+			 ChartComposite frame = new ChartComposite(c, SWT.NONE, chart, true);
+		}
+		sashForm_1.setWeights(new int[] {15,100,15, 150, 15, 100, 15, 300});
 		sashForm.setWeights(new int[] {40,500});
 		parent.layout(); 
+	}
+	//创建tab
+	public void createPartControl(final Composite parent) {
+		// TODO Auto-generated method stub
+		parent.addControlListener(new ControlListener() {
+			public void controlResized(ControlEvent e) {
+			}
+			public void controlMoved(ControlEvent e) {
+				create(parent);
+			}
+		});
+	}
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+		
 	}
 }

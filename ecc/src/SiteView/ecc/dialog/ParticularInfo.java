@@ -64,8 +64,8 @@ public class ParticularInfo extends Dialog {
         TabItem comaTabItem_3 = new TabItem(tab, SWT.NONE);  
         comaTabItem_3.setText("×´Ì¬±¨±í");
         Composite c3=new Composite(tab, SWT.FULL_SELECTION);
-        StatusCTIReport m=new StatusCTIReport(c3);
-        m.createView(c3);
+        StatusCTIReport m=new StatusCTIReport();
+        m.createPartControl(c3);
         comaTabItem_3.setControl(c3);  
         
 		parent.layout();

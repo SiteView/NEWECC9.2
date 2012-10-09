@@ -68,8 +68,9 @@ public class ContrastReportView extends ViewPart {
 		
 		TotalTabView.startTime = startTimeStr;
 		TotalTabView.endTime = endTimeStr;
-		TotalTabView.setTotalData(TotalTabView.businessObj);
-		
+		if (TotalTabView.businessObj != null) {
+			TotalTabView.setTotalData(TotalTabView.businessObj);
+		}
 		Composite  queryComposite = new Composite(reportForm, SWT.NONE);
 		queryComposite.setBackground(new Color(null, 255, 255, 255));
 		queryComposite.setLayout(new FormLayout());
@@ -191,25 +192,25 @@ public class ContrastReportView extends ViewPart {
 		table.setHeaderVisible(true);
 		table.setBackground(new Color(null, 255, 255, 255));
 		TableColumn newColumnTableColumn = new TableColumn(table, SWT.NONE);
-		newColumnTableColumn.setWidth(250);
+		newColumnTableColumn.setWidth(93);
 		newColumnTableColumn.setText("名称");
 		TableColumn newColumnTableColumn_1 = new TableColumn(table, SWT.NONE);
-		newColumnTableColumn_1.setWidth(250);
+		newColumnTableColumn_1.setWidth(98);
 		newColumnTableColumn_1.setText("返回值名称");
 		TableColumn newColumnTableColumn_2 = new TableColumn(table, SWT.NONE);
-		newColumnTableColumn_2.setWidth(100);
+		newColumnTableColumn_2.setWidth(77);
 		newColumnTableColumn_2.setText("最大值");
 		TableColumn newColumnTableColumn_3 = new TableColumn(table, SWT.NONE);
-		newColumnTableColumn_3.setWidth(100);
+		newColumnTableColumn_3.setWidth(89);
 		newColumnTableColumn_3.setText("平均值");
 		TableColumn newColumnTableColumn_4 = new TableColumn(table, SWT.NONE);
-		newColumnTableColumn_4.setWidth(100);
+		newColumnTableColumn_4.setWidth(90);
 		newColumnTableColumn_4.setText("最小值");
 		TableColumn newColumnTableColumn_5 = new TableColumn(table, SWT.NONE);
 		newColumnTableColumn_5.setWidth(100);
 		newColumnTableColumn_5.setText("最近一次");
 		TableColumn newColumnTableColumn_6 = new TableColumn(table, SWT.NONE);
-		newColumnTableColumn_6.setWidth(300);
+		newColumnTableColumn_6.setWidth(349);
 		newColumnTableColumn_6.setText("最近一次时间");
 		Label chatlabel = new Label(queryComposite, SWT.BORDER);
 		FormData fd_chatlabel = new FormData();
@@ -231,83 +232,85 @@ public class ContrastReportView extends ViewPart {
 		chatComposite.setBackground(new Color(null, 255, 255, 255));
 		chatComposite.setLayout(new FillLayout(SWT.VERTICAL));
 		reportForm.setWeights(new int[] {104, 354});
+		if(TotalTabView.businessObj != null){
 		for (int i = 0;i<TotalTabView.reportDescList.size();i++) {
 			Map<String, List<String>> map  = TotalTabView.reportDescList.get(i);
 			Set<Map.Entry<String, List<String>>> set = map.entrySet();
-			for (Iterator<Map.Entry<String, List<String>>> it = set.iterator(); it
-					.hasNext();) {
-				TableItem item = new TableItem(table, SWT.NONE);
-				Map.Entry<String, List<String>> entry = (Map.Entry<String, List<String>>) it
-						.next();
-				List<String> arrlist = entry.getValue();
-				if (arrlist.size() > 0) {
-					String str = TotalTabView.monitorName + "&"
-							+ entry.getKey() + "&" + arrlist.get(0) + "&"
-							+ arrlist.get(1) + "&" + arrlist.get(3) + "&"
-							+ arrlist.get(2) + "&" + TotalTabView.lastTime;
-					String[] strdata = str.split("&");
-					item.setText(strdata);
-					Composite liComposite = new Composite(chatComposite, SWT.NONE);
-					liComposite.setBackground(new Color(null, 255, 255, 255));
-					liComposite.setLayout(new FormLayout());
-					Label childlabel = new Label(liComposite, SWT.BORDER);
-					FormData fd_childlabel = new FormData();
-					fd_childlabel.left = new FormAttachment(0);
-					fd_childlabel.right = new FormAttachment(100);
-					fd_childlabel.top = new FormAttachment(0);
-					childlabel.setLayoutData(fd_childlabel);
-					childlabel.setBackground(new Color(null, 191, 198, 216));
-					childlabel.setText(entry.getKey());
-					TableViewer childTableViewer = new TableViewer(liComposite, SWT.MULTI
-							| SWT.FULL_SELECTION | SWT.NONE | SWT.V_SCROLL | SWT.H_SCROLL);
-					Table childTable = childTableViewer.getTable();
-					FormData fd_childTable = new FormData();
-					fd_childTable.top = new FormAttachment(childlabel, 1);
-					childTable.setLayoutData(fd_childTable);
-					childTable.setLinesVisible(true);
-					childTable.setHeaderVisible(true);
-					childTable.setBackground(new Color(null, 255, 255, 255));
-					TableColumn nameTableColumn = new TableColumn(childTable, SWT.NONE);
-					nameTableColumn.setWidth(200);
-					nameTableColumn.setText("名称");
-					TableColumn maxTableColumn = new TableColumn(childTable, SWT.NONE);
-					maxTableColumn.setWidth(150);
-					maxTableColumn.setText("最大值");
-					TableColumn avgTableColumn = new TableColumn(childTable, SWT.NONE);
-					avgTableColumn.setWidth(150);
-					avgTableColumn.setText("平均值");
-					TableColumn minTableColumn = new TableColumn(childTable, SWT.NONE);
-					minTableColumn.setWidth(150);
-					minTableColumn.setText("最小值");
-					TableColumn whenMaxTableColumn = new TableColumn(childTable, SWT.NONE);
-					whenMaxTableColumn.setWidth(520);
-					whenMaxTableColumn.setText("最大值时间");
-					TableItem childTableitem = new TableItem(childTable, SWT.NONE);
-					String childStr = TotalTabView.monitorName + "&"
-							+ arrlist.get(0) + "&"
-							+ arrlist.get(1) + "&" + arrlist.get(3) + "&"
-							+ arrlist.get(4);
-					String[] childstrdata = childStr.split("&");
-					childTableitem.setText(childstrdata);
-					Map<String, List<String>> xyDataArrayMap = TotalTabView.reportEveryDescList.get(i);
-					Set<Map.Entry<String, List<String>>> xyset = xyDataArrayMap.entrySet();
-					for (Iterator<Map.Entry<String, List<String>>> xyit = xyset.iterator(); xyit
-							.hasNext();){
-						Map.Entry<String, List<String>> xyentry = (Map.Entry<String, List<String>>) xyit
-								.next();
-						XYDataset dataset = EccReportChart
-								.createDataset(xyentry.getValue(),xyentry.getKey());
-						JFreeChart chart = EccReportChart.createChart(dataset,
-								xyentry.getKey(), xyentry.getKey());
-						ChartComposite frame = new ChartComposite(liComposite, SWT.NONE , chart, true);
-						FormData fd_frame = new FormData();
-						fd_frame.top = new FormAttachment(childTable, 0);
-						fd_frame.left = new FormAttachment(0);
-						fd_frame.right = new FormAttachment(100);
-						fd_frame.bottom = new FormAttachment(100, -10);
-						frame.setLayoutData(fd_frame);
+				for (Iterator<Map.Entry<String, List<String>>> it = set.iterator(); it
+						.hasNext();) {
+					TableItem item = new TableItem(table, SWT.NONE);
+					Map.Entry<String, List<String>> entry = (Map.Entry<String, List<String>>) it
+							.next();
+					List<String> arrlist = entry.getValue();
+					if (arrlist.size() > 0) {
+						String str = TotalTabView.monitorName + "&"
+								+ entry.getKey() + "&" + arrlist.get(0) + "&"
+								+ arrlist.get(1) + "&" + arrlist.get(3) + "&"
+								+ arrlist.get(2) + "&" + TotalTabView.lastTime;
+						String[] strdata = str.split("&");
+						item.setText(strdata);
+						Composite liComposite = new Composite(chatComposite, SWT.NONE);
+						liComposite.setBackground(new Color(null, 255, 255, 255));
+						liComposite.setLayout(new FormLayout());
+						Label childlabel = new Label(liComposite, SWT.BORDER);
+						FormData fd_childlabel = new FormData();
+						fd_childlabel.left = new FormAttachment(0);
+						fd_childlabel.right = new FormAttachment(100);
+						fd_childlabel.top = new FormAttachment(0);
+						childlabel.setLayoutData(fd_childlabel);
+						childlabel.setBackground(new Color(null, 191, 198, 216));
+						childlabel.setText(entry.getKey());
+						TableViewer childTableViewer = new TableViewer(liComposite, SWT.MULTI
+								| SWT.FULL_SELECTION | SWT.NONE | SWT.V_SCROLL | SWT.H_SCROLL);
+						Table childTable = childTableViewer.getTable();
+						FormData fd_childTable = new FormData();
+						fd_childTable.top = new FormAttachment(childlabel, 1);
+						childTable.setLayoutData(fd_childTable);
+						childTable.setLinesVisible(true);
+						childTable.setHeaderVisible(true);
+						childTable.setBackground(new Color(null, 255, 255, 255));
+						TableColumn nameTableColumn = new TableColumn(childTable, SWT.NONE);
+						nameTableColumn.setWidth(200);
+						nameTableColumn.setText("名称");
+						TableColumn maxTableColumn = new TableColumn(childTable, SWT.NONE);
+						maxTableColumn.setWidth(150);
+						maxTableColumn.setText("最大值");
+						TableColumn avgTableColumn = new TableColumn(childTable, SWT.NONE);
+						avgTableColumn.setWidth(150);
+						avgTableColumn.setText("平均值");
+						TableColumn minTableColumn = new TableColumn(childTable, SWT.NONE);
+						minTableColumn.setWidth(150);
+						minTableColumn.setText("最小值");
+						TableColumn whenMaxTableColumn = new TableColumn(childTable, SWT.NONE);
+						whenMaxTableColumn.setWidth(520);
+						whenMaxTableColumn.setText("最大值时间");
+						TableItem childTableitem = new TableItem(childTable, SWT.NONE);
+						String childStr = TotalTabView.monitorName + "&"
+								+ arrlist.get(0) + "&"
+								+ arrlist.get(1) + "&" + arrlist.get(3) + "&"
+								+ arrlist.get(4);
+						String[] childstrdata = childStr.split("&");
+						childTableitem.setText(childstrdata);
+						Map<String, List<String>> xyDataArrayMap = TotalTabView.reportEveryDescList.get(i);
+						Set<Map.Entry<String, List<String>>> xyset = xyDataArrayMap.entrySet();
+						for (Iterator<Map.Entry<String, List<String>>> xyit = xyset.iterator(); xyit
+								.hasNext();){
+							Map.Entry<String, List<String>> xyentry = (Map.Entry<String, List<String>>) xyit
+									.next();
+							XYDataset dataset = EccReportChart
+									.createDataset(xyentry.getValue(),xyentry.getKey());
+							JFreeChart chart = EccReportChart.createChart(dataset,
+									xyentry.getKey(), xyentry.getKey());
+							ChartComposite frame = new ChartComposite(liComposite, SWT.NONE , chart, true);
+							FormData fd_frame = new FormData();
+							fd_frame.top = new FormAttachment(childTable, 0);
+							fd_frame.left = new FormAttachment(0);
+							fd_frame.right = new FormAttachment(100);
+							fd_frame.bottom = new FormAttachment(100, -10);
+							frame.setLayoutData(fd_frame);
+						}
+					
 					}
-				
 				}
 			}
 		}

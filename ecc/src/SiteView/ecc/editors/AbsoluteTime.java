@@ -36,8 +36,7 @@ public class AbsoluteTime extends EditorPart {
 	public static TableViewer tableViewer;
 	private Table table;
 	private TableItem tableItem;
-	public static String name;
-	Label lblNewLabel;
+	String name;
 
 	public AbsoluteTime() {
 		// TODO Auto-generated constructor stub
@@ -60,8 +59,7 @@ public class AbsoluteTime extends EditorPart {
 			throws PartInitException {
 		this.setSite(site);
 		this.setInput(input);
-		name = AbsoluteTimeInput.type;
-//		System.out.println(name);
+		name = input.getName();
 		this.setPartName(input.getName());
 
 	}
@@ -86,20 +84,12 @@ public class AbsoluteTime extends EditorPart {
 		SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
 		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
-		Composite composite = new Composite(sashForm, SWT.NONE);
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
-		
-		lblNewLabel = new Label(composite, SWT.NONE);
-		lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
-		createLabel();
-		
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
 		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		composite_1.setLayout(null);
 		
 		Button btnNewButton = new Button(composite_1, SWT.NONE);
-		btnNewButton.setBounds(10, 0, 36, 22);
+		btnNewButton.setBounds(10, 5, 36, 22);
 		btnNewButton.setText("\u6DFB\u52A0");
 		btnNewButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
@@ -121,15 +111,15 @@ public class AbsoluteTime extends EditorPart {
 		});
 		
 		Button button = new Button(composite_1, SWT.NONE);
-		button.setBounds(52, 0, 36, 22);
+		button.setBounds(52, 5, 36, 22);
 		button.setText("\u5220\u9664");
 		
 		Button button_1 = new Button(composite_1, SWT.NONE);
-		button_1.setBounds(94, 0, 36, 22);
+		button_1.setBounds(94, 5, 36, 22);
 		button_1.setText("\u5237\u65B0");
 		
 		Button button_2 = new Button(composite_1, SWT.NONE);
-		button_2.setBounds(136, 0, 36, 22);
+		button_2.setBounds(136, 5, 36, 22);
 		button_2.setText("\u5E2E\u52A9");
 		
 		tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION | SWT.CHECK);
@@ -186,7 +176,7 @@ public class AbsoluteTime extends EditorPart {
 		TableColumn tableColumn_1 = new TableColumn(table, SWT.LEFT);
 		tableColumn_1.setWidth(150);
 		tableColumn_1.setText("\u7F16\u8F91");
-		sashForm.setWeights(new int[] {1, 2, 34});
+		sashForm.setWeights(new int[] {2, 34});
 
 //		tableViewer.setContentProvider(new AbsoluteTimeContentProvider());
 //		tableViewer.setLabelProvider(new AbsoluteTimelabelProvider());
@@ -198,15 +188,5 @@ public class AbsoluteTime extends EditorPart {
 		// TODO Auto-generated method stub
 
 	}
-	
-	
-	public void createLabel(){
-		if("绝对时间任务计划".equals(name)){
-			lblNewLabel.setText("绝对时间任务计划");
-		}else if("时间段任务计划".equals(name)){
-			lblNewLabel.setText("时间段任务计划");
-		}else if("相对时间任务计划".equals(name)){
-			lblNewLabel.setText("相对时间任务计划");
-		}
-	}
+
 }

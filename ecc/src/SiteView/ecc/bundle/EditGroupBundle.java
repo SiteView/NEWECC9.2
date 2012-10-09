@@ -1,5 +1,7 @@
 package SiteView.ecc.bundle;
 
+import java.rmi.AccessException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -9,11 +11,9 @@ import java.util.Map;
 import org.eclipse.swt.widgets.Composite;
 
 import COM.dragonflow.Api.APIInterfaces;
-import COM.dragonflow.SiteViewException.SiteViewException;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.SiteViewEcc;
 import SiteView.ecc.data.SiteViewData;
-import SiteView.ecc.dialog.GroupTreeDialog;
 import SiteView.ecc.view.EccTreeControl;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
@@ -122,13 +122,21 @@ public class EditGroupBundle implements IAutoTaskExtension {
 		String serverAddress ="localhost";
 		String serverPort = "3232";
 		APIInterfaces rmiServer=null;
-		try {
-			registry = LocateRegistry.getRegistry(serverAddress, (new Integer(
-					serverPort)).intValue());
-			rmiServer = (APIInterfaces) (registry.lookup("kernelApiRmiServer"));
-		} catch(Exception e){
-			e.printStackTrace();
-		}
+	
+			try {
+				registry = LocateRegistry.getRegistry(serverAddress, (new Integer(
+						serverPort)).intValue());
+				rmiServer = (APIInterfaces) (registry.lookup("kernelApiRmiServer"));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NotBoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		return rmiServer;
 	}
 

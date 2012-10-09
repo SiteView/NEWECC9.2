@@ -74,23 +74,24 @@ public class DailyFileLogger extends COM.dragonflow.Log.BaseFileLogger
         java.io.File file1 = new File(directoryPath);
         String as[] = file1.list();
         jgl.Array array = new Array();
-        for(int i1 = 0; i1 < as.length; i1++)
-        {
-            if(!as[i1].startsWith(baseFileName) || !as[i1].endsWith(suffix))
-            {
-                continue;
-            }
-            java.util.Date date2 = null;
-            if(as[i1].equals(baseFileName + suffix))
-            {
-                date2 = new Date(0L);
-            } else
-            {
-                date2 = COM.dragonflow.Utils.TextUtils.fileNameToDay(as[i1].substring(baseFileName.length()));
-            }
-            array.add(date2);
+        if(as!=null){
+	        for(int i1 = 0; i1 < as.length; i1++)
+	        {
+	            if(!as[i1].startsWith(baseFileName) || !as[i1].endsWith(suffix))
+	            {
+	                continue;
+	            }
+	            java.util.Date date2 = null;
+	            if(as[i1].equals(baseFileName + suffix))
+	            {
+	                date2 = new Date(0L);
+	            } else
+	            {
+	                date2 = COM.dragonflow.Utils.TextUtils.fileNameToDay(as[i1].substring(baseFileName.length()));
+	            }
+	            array.add(date2);
+	        }
         }
-
         jgl.Sorting.sort(array, new GreaterDate());
         jgl.Reversing.reverse(array);
         if(i > 0)
