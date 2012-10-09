@@ -36,7 +36,8 @@ public class AbsoluteTime extends EditorPart {
 	public static TableViewer tableViewer;
 	private Table table;
 	private TableItem tableItem;
-	String name;
+	public static String name;
+	Label lblNewLabel;
 
 	public AbsoluteTime() {
 		// TODO Auto-generated constructor stub
@@ -59,7 +60,7 @@ public class AbsoluteTime extends EditorPart {
 			throws PartInitException {
 		this.setSite(site);
 		this.setInput(input);
-		name = input.getName();
+		name = AbsoluteTimeInput.type;
 		this.setPartName(input.getName());
 
 	}
@@ -84,6 +85,14 @@ public class AbsoluteTime extends EditorPart {
 		SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
 		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
+		Composite composite = new Composite(sashForm, SWT.NONE);
+		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
+		
+		lblNewLabel = new Label(composite, SWT.NONE);
+		lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
+		createLabel();
+		
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
 		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		composite_1.setLayout(null);
@@ -93,13 +102,13 @@ public class AbsoluteTime extends EditorPart {
 		btnNewButton.setText("\u6DFB\u52A0");
 		btnNewButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				if("绝对时间任务计划".equals(name)){
+				if("absolute".equals(name)){
 					AddAbsoluteTime aat=new AddAbsoluteTime(null);
 					aat.open();
-				}else if("时间段任务计划".equals(name)){
+				}else if("quantum".equals(name)){
 					AddTimeQuantum atq = new AddTimeQuantum(null);
 					atq.open();
-				}else if("相对时间任务计划".equals(name)){
+				}else if("ralative".equals(name)){
 					AddRelativeTime art = new AddRelativeTime(null);
 					art.open();
 				}
@@ -176,7 +185,7 @@ public class AbsoluteTime extends EditorPart {
 		TableColumn tableColumn_1 = new TableColumn(table, SWT.LEFT);
 		tableColumn_1.setWidth(150);
 		tableColumn_1.setText("\u7F16\u8F91");
-		sashForm.setWeights(new int[] {2, 34});
+		sashForm.setWeights(new int[] {1, 2, 34});
 
 //		tableViewer.setContentProvider(new AbsoluteTimeContentProvider());
 //		tableViewer.setLabelProvider(new AbsoluteTimelabelProvider());
@@ -188,5 +197,14 @@ public class AbsoluteTime extends EditorPart {
 		// TODO Auto-generated method stub
 
 	}
-
+	
+	public void createLabel(){
+		if("absolute".equals(name)){
+			lblNewLabel.setText("绝对时间任务计划");
+		}else if("quantum".equals(name)){
+			lblNewLabel.setText("时间段任务计划");
+		}else if("ralative".equals(name)){
+			lblNewLabel.setText("相对时间任务计划");
+		}
+	}
 }

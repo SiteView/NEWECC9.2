@@ -6,7 +6,12 @@ import org.eclipse.ui.IPersistableElement;
 
 public class AbsoluteTimeInput implements IEditorInput {
 	private String name="";
-	String type;
+	public static String type;
+	
+	public AbsoluteTimeInput(){
+		
+	}
+	
 
 	public AbsoluteTimeInput(String type) {
 		this.type = type;
@@ -28,14 +33,7 @@ public class AbsoluteTimeInput implements IEditorInput {
 
 	@Override
 	public String getName() {
-		if("absolute".equals(type)){
-			return "绝对时间任务计划";			
-		}else if("quantum".equals(type)){
-			return "时间段任务计划";	
-		}else if("ralative".equals(type)){
-			return "相对时间任务计划";	
-		}
-		return null;
+		return "时间任务计划";
 	}
 
 	@Override

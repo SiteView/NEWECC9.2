@@ -58,6 +58,7 @@ public class AddRelativeTime extends Dialog {
 		TableViewer tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION | SWT.CHECK);
 		table = tableViewer.getTable();
 		table.setHeaderVisible(true);
+		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn.setWidth(80);
