@@ -11,6 +11,8 @@ import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -46,6 +48,7 @@ import COM.dragonflow.SiteView.SiteViewGroup;
 import COM.dragonflow.SiteViewException.SiteViewException;
 import COM.dragonflow.StandardMonitor.SNMPCPUMonitor;
 import COM.dragonflow.Utils.MachineUtil;
+import COM.dragonflow.itsm.data.JDBCForSQL;
 
 public class ApiRmiServer extends java.rmi.server.UnicastRemoteObject implements
 		APIInterfaces {
@@ -608,8 +611,20 @@ public class ApiRmiServer extends java.rmi.server.UnicastRemoteObject implements
 			return s2;
 		}
 
-		public void Refresh(String s)throws RemoteException{
+		public void Refresh(String s,String groupid)throws RemoteException{
 			AtomicMonitor monitor=(AtomicMonitor) MonitorGroup.monitors.get(s);
+			
+			String monitorId = monitor.getGroupPathID();
+			monitorId = monitorId.substring(1, monitorId.length()-1);
+			Array array = new jgl.Array();
+			Array array1 = new jgl.Array();
+			Array array2 = new jgl.Array();
+			jgl.HashMap hashmap = new jgl.HashMap();
+			String ss = "GroupId="+groupid;
+			array1.add(ss);
+			SiteViewGroup siteviewgroup = SiteViewGroup.currentSiteView();
+			siteviewgroup.adjustGroups(array, array1, array2, hashmap);
+			
 			monitor.run();
 		}
 }
