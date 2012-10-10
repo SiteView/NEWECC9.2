@@ -358,7 +358,7 @@ public class TaxAuthority extends Dialog {
 			GroupModle g=subgroup.get(i);
 			BusinessObject bo=g.getBo();
 			String subid=bo.get_RecId();
-			TreeItem treeItem2 = new TreeItem(treeItem1, SWT.NONE
+			TreeItem treeItem2 = new TreeItem(treeItem12, SWT.NONE
 					| SWT.CHECK);
 			treeItem2.setText(bo.GetField("GroupName").get_NativeValue().toString());
 			treeItem2.setData(g);

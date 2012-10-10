@@ -886,9 +886,6 @@ public class AddEmailAlarmRule extends Dialog {
 								}else if(!text_9.getText().equals("")&&!regex.matcher(text_9.getText()).matches()){
 									 MessageDialog.openInformation(new Shell(), "提示", "Email格式不对！");
 									 return;
-								}else if(combo_2.getText().equals("空")){
-									MessageDialog.openInformation(new Shell(), "提示", "值班报警不能为空！");
-									 return;
 								}
 						    bo.GetField("AlarmType").SetValue(new SiteviewValue("email"));
 							bo.GetField("AlarmName").SetValue(new SiteviewValue(text_4.getText()));
@@ -910,15 +907,16 @@ public class AddEmailAlarmRule extends Dialog {
 							bo.GetField("PromotionCount").SetValue(new SiteviewValue(text_8.getText()));
 							bo.GetField("PromotionAddress").SetValue(new SiteviewValue(text_9.getText()));
 							bo.GetField("StopCount").SetValue(new SiteviewValue(text_10.getText()));
-							String DutyId = EccTreeControl.CreateBo("DutyTableName",combo_2.getText(), "EccDutyTable").get_RecId();
-							bo.GetField("DutyId").SetValue(new SiteviewValue(DutyId));
+							if(combo_2.getText().equals("空")){
+								bo.GetField("DutyId").SetValue(new SiteviewValue("空"));
+							}else{
+								String DutyId = EccTreeControl.CreateBo("DutyTableName",combo_2.getText(), "EccDutyTable").get_RecId();
+								bo.GetField("DutyId").SetValue(new SiteviewValue(DutyId));								
+							}
 							bo.GetField("AlarmTactful").SetValue(new SiteviewValue(combo_3.getText()));
 						} else if (name.equals("SMS")) {
 							if(combo_4.getText().equals("其他")&&text_6.getText().equals("")){
 								 MessageDialog.openInformation(new Shell(), "提示", "接收手机不能为空！");
-								 return;
-							}else if(combo_3.getText().equals("空")){
-								MessageDialog.openInformation(new Shell(), "提示", "值班报警列表不能为空！");
 								 return;
 							}
 							bo.GetField("AlarmType").SetValue(new SiteviewValue("SMS"));
@@ -937,8 +935,12 @@ public class AddEmailAlarmRule extends Dialog {
 							bo.GetField("PromotionCount").SetValue(new SiteviewValue(text_8.getText()));
 							bo.GetField("PromotionAddress").SetValue(new SiteviewValue(text_9.getText()));
 							bo.GetField("StopCount").SetValue(new SiteviewValue(text_10.getText()));
-							String DutyId = EccTreeControl.CreateBo("DutyTableName",combo_3.getText(), "EccDutyTable").get_RecId();
-							bo.GetField("DutyId").SetValue(new SiteviewValue(DutyId));
+							if(combo_3.getText().equals("空")){
+								bo.GetField("DutyId").SetValue(new SiteviewValue("空"));
+							}else{
+								String DutyId = EccTreeControl.CreateBo("DutyTableName",combo_3.getText(), "EccDutyTable").get_RecId();
+								bo.GetField("DutyId").SetValue(new SiteviewValue(DutyId));								
+							}
 							bo.GetField("AlarmTactful").SetValue(new SiteviewValue(combo_5.getText()));
 						} else if (name.equals("script")) {
 							bo.GetField("AlarmType").SetValue(new SiteviewValue("script"));
@@ -1015,9 +1017,6 @@ public class AddEmailAlarmRule extends Dialog {
 								}else if(!text_9.getText().equals("")&&!regex.matcher(text_9.getText()).matches()){
 									 MessageDialog.openInformation(new Shell(), "提示", "Email格式不对！");
 									 return;
-								}else if(combo_2.getText().equals("空")){
-									MessageDialog.openInformation(new Shell(), "提示", "值班报警不能为空！");
-									 return;
 								}
 							bo.GetField("AlarmType").SetValue(new SiteviewValue("email"));
 							bo.GetField("AlarmName").SetValue(new SiteviewValue(text_4.getText()));
@@ -1039,15 +1038,16 @@ public class AddEmailAlarmRule extends Dialog {
 							bo.GetField("PromotionCount").SetValue(new SiteviewValue(text_8.getText()));
 							bo.GetField("PromotionAddress").SetValue(new SiteviewValue(text_9.getText()));
 							bo.GetField("StopCount").SetValue(new SiteviewValue(text_10.getText()));
-							String DutyId = EccTreeControl.CreateBo("DutyTableName",combo_2.getText(), "EccDutyTable").get_RecId();
-							bo.GetField("DutyId").SetValue(new SiteviewValue(DutyId));
+							if(combo_2.getText().equals("空")){
+								bo.GetField("DutyId").SetValue(new SiteviewValue("空"));
+							}else{
+								String DutyId = EccTreeControl.CreateBo("DutyTableName",combo_2.getText(), "EccDutyTable").get_RecId();
+								bo.GetField("DutyId").SetValue(new SiteviewValue(DutyId));								
+							}
 							bo.GetField("AlarmTactful").SetValue(new SiteviewValue(combo_3.getText()));
 						} else if (name.equals("SMS")) {
 							if(combo_4.getText().equals("其他")&&text_6.getText().equals("")){
 								 MessageDialog.openInformation(new Shell(), "提示", "接收手机不能为空！");
-								 return;
-							}else if(combo_3.getText().equals("空")){
-								MessageDialog.openInformation(new Shell(), "提示", "值班报警列表不能为空！");
 								 return;
 							}
 							bo.GetField("AlarmType").SetValue(new SiteviewValue("SMS"));
@@ -1066,8 +1066,12 @@ public class AddEmailAlarmRule extends Dialog {
 							bo.GetField("PromotionCount").SetValue(new SiteviewValue(text_8.getText()));
 							bo.GetField("PromotionAddress").SetValue(new SiteviewValue(text_9.getText()));
 							bo.GetField("StopCount").SetValue(new SiteviewValue(text_10.getText()));
-							String DutyId = EccTreeControl.CreateBo("DutyTableName",combo_3.getText(), "EccDutyTable").get_RecId();
-							bo.GetField("DutyId").SetValue(new SiteviewValue(DutyId));
+							if(combo_3.getText().equals("空")){
+								bo.GetField("DutyId").SetValue(new SiteviewValue("空"));
+							}else{
+								String DutyId = EccTreeControl.CreateBo("DutyTableName",combo_3.getText(), "EccDutyTable").get_RecId();
+								bo.GetField("DutyId").SetValue(new SiteviewValue(DutyId));								
+							}
 							bo.GetField("AlarmTactful").SetValue(new SiteviewValue(combo_5.getText()));
 						} else if (name.equals("script")) {
 							bo.GetField("AlarmType").SetValue(new SiteviewValue("script"));
