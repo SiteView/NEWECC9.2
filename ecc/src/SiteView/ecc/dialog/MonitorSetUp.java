@@ -330,7 +330,7 @@ public class MonitorSetUp extends Dialog {
 		for (int i = 0; i < machines.size(); i++) {
 			MachineModle machine = machines.get(i);
 			BusinessObject bo = machine.getBo();
-			TreeItem treeItem3 = new TreeItem(treeItem1, SWT.NONE | SWT.CHECK);
+			TreeItem treeItem3 = new TreeItem(treeItem12, SWT.NONE | SWT.CHECK);
 			treeItem3.setText(bo.GetField("ServerAddress").get_NativeValue()
 					.toString());
 			treeItem3.setData(bo);

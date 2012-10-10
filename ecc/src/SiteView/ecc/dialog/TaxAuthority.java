@@ -330,7 +330,7 @@ public class TaxAuthority extends Dialog {
 			treeItem.setChecked(true);
 		}
 		for(int i=0;i<SiteViewData.groups_0.size();i++){
-			if(SiteViewData.groups_0.get(0) instanceof GroupModle){
+			if(SiteViewData.groups_0.get(i) instanceof GroupModle){
 				GroupModle group=SiteViewData.groups_0.get(i);
 				BusinessObject bo=group.getBo();
 				String s=bo.GetField("GroupName").get_NativeValue().toString();
@@ -375,7 +375,7 @@ public class TaxAuthority extends Dialog {
 		for(int i=0;i<machines.size();i++){
 			MachineModle machine=machines.get(i);
 			BusinessObject bo=machine.getBo();
-			TreeItem treeItem3 = new TreeItem(treeItem1, SWT.NONE
+			TreeItem treeItem3 = new TreeItem(treeItem12, SWT.NONE
 					| SWT.CHECK);
 			treeItem3.setText(bo.GetField("ServerAddress")
 					.get_NativeValue().toString());
