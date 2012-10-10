@@ -21,17 +21,13 @@ public class TableDutyInfor {
 			while(ienum.MoveNext()){
 				BusinessObject bo=(BusinessObject) ienum.get_Current();
 				 String dutyTableName = bo.GetField("DutyTableName").get_NativeValue().toString();//得到值班表名字段对应的值
-//				 System.out.println("dutyTableName"+dutyTableName);
 				 String dutyTableDec=bo.GetField("DutyTableDec").get_NativeValue().toString();//得到描述字段对应的值
-//				 System.out.println("DutyTableDec"+dutyTableDec);
 				 String dutyTableType=bo.GetField("DutyTableType").get_NativeValue().toString();//得到类型字段对应的值
-//				 System.out.println("dutyTableType"+dutyTableType);
-				 
-				    TableModle table=new TableModle(bo);
-					table.setDutyTableName(dutyTableName);
-					table.setDutyTableType(dutyTableType);
-					table.setDutyTableDec(dutyTableDec);
-					list.add(table);
+				 TableModle table=new TableModle(bo);
+				 table.setDutyTableName(dutyTableName);
+				 table.setDutyTableType(dutyTableType);
+				 table.setDutyTableDec(dutyTableDec);
+				 list.add(table);
 			}
 		}
 			        return list;

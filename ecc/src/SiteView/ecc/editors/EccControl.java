@@ -197,7 +197,7 @@ public class EccControl extends EditorPart {
 				if (flag) {
 					if (bo.GetField("Machine").get_NativeValue().toString() != null
 							&& !bo.GetField("Machine").get_NativeValue().toString().equals("")) {
-						break;
+						continue;
 					}
 				}
 				BusinessObject bodyn = EccTreeControl.CreateBo("monitorid",

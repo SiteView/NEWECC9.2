@@ -26,6 +26,9 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.wb.swt.SWTResourceManager;
 
+import system.Collections.ICollection;
+import system.Collections.IEnumerator;
+
 import SiteView.ecc.Control.DutyDetailContentProvider;
 import SiteView.ecc.Control.DutyDetailLabelProvider;
 import SiteView.ecc.Control.TableDutyContentProvider;
@@ -36,8 +39,8 @@ import SiteView.ecc.data.DutyDetailInfor;
 import SiteView.ecc.data.TableDutyInfor;
 import SiteView.ecc.dialog.AddDutyDetail;
 import SiteView.ecc.dialog.AddTableDuty;
-import SiteView.ecc.dialog.DutyDetailEditor;
 import SiteView.ecc.dialog.DutyEditor;
+import SiteView.ecc.tools.FileTools;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
 import Siteview.Windows.Forms.MessageBox;
@@ -48,15 +51,14 @@ public class TableDuty extends EditorPart{
 	public static String ID = "SiteView.ecc.editors.TableDuty";
 	public static TableViewer TableViewer;//第一个表单
 	public Table table;
-	public static TableItem tableItem;//第一个表单的第一行
+	public  TableItem tableItem;//第一个表单的第一行
 	public static TableViewer TableViewer1;//第二个表单
-	public static TableItem tableItem1;//第二个表单的第一行
+	public TableItem tableItem1;//第二个表单的第一行
 	public Table table_1;
 	public Button btnNewButton_1;
 	public Button btnNewButton_2;
 	public String type;
 	public BusinessObject bo1; 
-	public TableModle tm;
 	public TableDuty() {
 		super();
 	}
@@ -111,22 +113,26 @@ public class TableDuty extends EditorPart{
 		button_1.setText("\u5220\u9664");
 		button_1.addSelectionListener(new SelectionAdapter(){//控制第一个表单的删除按钮
 			public void widgetSelected(SelectionEvent e){//删除按钮监听事件
-				if(tm==null){
+				if(tableItem==null){
 					MessageBox messageBox=new MessageBox();
 					messageBox.Show("你还没有选定想删除的项!", "提示", SWT.OK);
 				}else{
-					tm=(TableModle) tableItem.getData();
+					TableModle tm=(TableModle) tableItem.getData();
 					BusinessObject bo=tm.getBo();
+					ICollection ico=FileTools.getBussCollection("DutyId", bo.get_RecId(), "DutyDetail");
+					IEnumerator ien=ico.GetEnumerator();
+					while(ien.MoveNext()){
+						((BusinessObject)ien.get_Current()).DeleteObject(ConnectionBroker.get_SiteviewApi());
+					}
 					bo.DeleteObject(ConnectionBroker.get_SiteviewApi());//将数据库的数据删除
 					TableDutyInfor.list.remove(tm);//将表单里的数据删除
 					TableViewer.setInput(TableDutyInfor.list);
 					TableViewer.refresh();
+					DutyDetailInfor.list.clear();//将表单里的数据删除
+					TableViewer1.setInput(DutyDetailInfor.list);
+					TableViewer1.refresh();
+					btnNewButton_1.setEnabled(false);
 				}
-			    
-				
-//				DutyDetailInfor.list.clear();//将表单里的数据删除
-//				TableViewer1.setInput(DutyDetailInfor.list);
-//				TableViewer1.refresh();
 			}
 		});
 		
@@ -170,7 +176,13 @@ public class TableDuty extends EditorPart{
 		btnNewButton_1.setEnabled(false);
 		btnNewButton_1.addSelectionListener(new SelectionAdapter(){//添加按钮事件
 			public void widgetSelected(SelectionEvent e){
-				AddDutyDetail addDutyDetail=new AddDutyDetail(null,type,bo1);
+				String s="";
+				if(type.equals("day of month")){
+					s="月";
+				}else if(type.equals("day of week")){
+					s="星期";
+				}
+				AddDutyDetail addDutyDetail=new AddDutyDetail(null,s,null,null,((TableModle) tableItem.getData()).getBo().get_RecId());
 				addDutyDetail.open();
 			}
 		});
@@ -187,7 +199,11 @@ public class TableDuty extends EditorPart{
 				DutyDetailInfor.list.remove(dm);//将表单里的数据删除
 				TableViewer1.setInput(DutyDetailInfor.list);
 				TableViewer1.refresh();
-				
+				if(table_1.getItemCount()>0){
+					tableItem1=table_1.getItem(0);
+				}else{
+					btnNewButton_2.setEnabled(false);
+				}
 			}
 		});
 		
@@ -203,26 +219,14 @@ public class TableDuty extends EditorPart{
 				tableItem=(TableItem) e.item;
 				tableItem.setChecked(true);//复选框被选中
 				btnNewButton_1.setEnabled(true);//添加按钮可以使用
-				
+				btnNewButton_2.setEnabled(false);
 				TableModle tm=(TableModle) tableItem.getData();
 				bo1=tm.getBo();
 				type=bo1.GetField("DutyTableType").get_NativeValue().toString();//得到选中的对象的类型
-				
-				if("day".equals(type)){
-					TableViewer1.setContentProvider(new DutyDetailContentProvider());
-					TableViewer1.setLabelProvider(new DutyDetailLabelProvider());
-					TableViewer1.setInput(DutyDetailInfor.getDutyDetaildayInfor());
-				}else if("day of week".equals(type)){
-					TableViewer1.setContentProvider(new DutyDetailContentProvider());
-					TableViewer1.setLabelProvider(new DutyDetailLabelProvider());
-					TableViewer1.setInput(DutyDetailInfor.getDutyDetailweekInfor());
-				}else if("day of month".equals(type)){
-					TableViewer1.setContentProvider(new DutyDetailContentProvider());
-					TableViewer1.setLabelProvider(new DutyDetailLabelProvider());
-					TableViewer1.setInput(DutyDetailInfor.getDutyDetailmonthInfor());
-				}
+				TableViewer1.setContentProvider(new DutyDetailContentProvider());
+				TableViewer1.setLabelProvider(new DutyDetailLabelProvider());
+				TableViewer1.setInput(DutyDetailInfor.getDutyDetaildayInfor(bo1.get_RecId()));
 			}
-			
 			public void widgetDefaultSelected(SelectionEvent e) {
 				tableItem.setChecked(false);
 			}
@@ -307,8 +311,8 @@ public class TableDuty extends EditorPart{
 				if(column1==5){
 					DetailModel dm=(DetailModel)tableItem1.getData();
 					BusinessObject bv=dm.getBo();
-					DutyDetailEditor detailEditor=new DutyDetailEditor(null,bv,dm);
-					detailEditor.open();
+					AddDutyDetail editDutyDetail=new AddDutyDetail(null, bv.GetField("Week").get_NativeValue().toString(), bv,dm,null);
+					editDutyDetail.open();
 				}
 			}
 			
