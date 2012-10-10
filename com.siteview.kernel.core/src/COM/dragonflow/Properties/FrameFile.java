@@ -25,14 +25,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Map;
@@ -46,11 +45,9 @@ import my.util.email.SimpleMailSender;
 import my.util.sound.TestMusic;
 
 import org.apache.commons.httpclient.HttpException;
-import org.eclipse.core.runtime.FileLocator;
 
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
-import system.Windows.Forms.GetChildAtPointSkip;
 import system.Xml.XmlElement;
 import COM.dragonflow.Log.LogManager;
 import COM.dragonflow.SiteView.DetectConfigurationChange;
@@ -682,7 +679,6 @@ public class FrameFile {
 			ResultSet rule=JDBCForSQL.sql_ConnectExecute_Select("select * from EccAlarmRule where MonitorId='"+ monitorid + "'");
 			while(rule.next()){
 				Timestamp LastModDateTime = new Timestamp(System.currentTimeMillis());
-				Alarm(rule, parentGroupName, groupName, monitorName, category, LastModDateTime,s);
 				String alarmstatus=rule.getString("AlarmEvent");
 				if(!rule.getBoolean("RuleStatus")||!alarmstatus.equals(category)){
 					continue;
@@ -704,6 +700,7 @@ public class FrameFile {
 					}
 				}
 				System.out.println("报警条件已经符合，开始报警了");
+				Alarm(rule, parentGroupName, groupName, monitorName, category, LastModDateTime,s);
 			}
 		} catch (Exception e) {
 		}
@@ -747,36 +744,9 @@ public class FrameFile {
 			return;
 		}
 		if(alarmType.equals("email")){
-			 MailSenderInfo mailInfo = new MailSenderInfo();    
-		     mailInfo.setMailServerHost(mailServerHost);    
-		     mailInfo.setMailServerPort("25");    
-		     mailInfo.setValidate(true);    
-		     mailInfo.setUserName(userName);    
-		     mailInfo.setPassword(password);//您的邮箱密码    
-		     mailInfo.setFromAddress(fromAddress); 
-		     mailInfo.setToAddress(toAddress);    
-		     mailInfo.setSubject("Ecc报警");    
-		     mailInfo.setContent(content);    
-		        //这个类主要来发送邮件   
-		     SimpleMailSender sms = new SimpleMailSender();   
-		         //SimpleMailSender.sendTextMail(mailInfo);//发送文体格式    
-		     sms.sendHtmlMail(mailInfo);//发送html格式   
+			sendEmail(mailServerHost,userName,password,fromAddress,toAddress,content);
 		}else if(alarmType.equals("SMS")){
-			ArrayList<String> list = getSendPhoneAndPWD();
-//			String PHONE = "15197170516";
-//			String PWD = "xp198711";
-//			String TO = "15197170516";
-			String PHONE = list.get(0);
-			String PWD = list.get(1);
-			String TO = toAddress;
-			String MSG = content;
-			try {
-				Fetion.sendMsg(PHONE, PWD, TO, MSG);
-			} catch (HttpException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			sendSMS(toAddress,content);
 		}else if(alarmType.equals("script")){
 
 		}else if(alarmType.equals("sound")){
@@ -785,6 +755,99 @@ public class FrameFile {
 			sound.play(stream);
 			System.out.println("声音播放了");
 		}
+		String dutyId = "";
+				try {
+					dutyId = rule.getString("DutyId");
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+		String sql = "select DutyTableType from EccDutyTable where RecId = '"+dutyId+"'";
+		ResultSet rss = JDBCForSQL.sql_ConnectExecute_Select(sql);
+		String dutyType = "";
+		try {
+			if(rss.next()){
+				dutyType = rss.getString("DutyTableType");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Calendar ca =  Calendar.getInstance();
+		String currentTime = new SimpleDateFormat("HHmmss").format(new Date());
+		if("day of week".equals(dutyType)){
+			int dayOfWeek = ca.get(Calendar.DAY_OF_WEEK)-1;
+			String[] arr = {"星期日","星期一","星期二","星期三","星期四","星期五","星期六"};
+			String week = arr[dayOfWeek];
+			ResultSet rsss = getDutyDetail(dutyId,week);
+			DutyAlarm(rsss,currentTime,content,mailServerHost,userName,password,fromAddress);
+		}else if("day of month".equals(dutyType)){
+			int dayOfMonth = ca.get(Calendar.DAY_OF_MONTH);
+			String day = ""+dayOfMonth;
+			ResultSet rsss = getDutyDetail(dutyId,day);
+			DutyAlarm(rsss,currentTime,content,mailServerHost,userName,password,fromAddress);
+		}else if("day".equals(dutyType)){
+			ResultSet rsss = getDutyDetail(dutyId,"");
+			DutyAlarm(rsss,currentTime,content,mailServerHost,userName,password,fromAddress);
+		}
+	}
+	public static void DutyAlarm(ResultSet rsss,String currentTime,String content,String mailServerHost,String userName,String password,String fromAddress){
+		try {
+			while(rsss.next()){
+				String startTime = rsss.getString("StartTime");
+				startTime = startTime.substring(startTime.indexOf(":")-2).replaceAll(":", "").split("\\.")[0];
+				String endTime = rsss.getString("EndTime");
+				endTime = endTime.substring(endTime.indexOf(":")-2).replaceAll(":", "").split("\\.")[0];
+				int start = Integer.parseInt(startTime);
+				int end = Integer.parseInt(endTime);
+				int time = Integer.parseInt(currentTime);
+				if(start<=time&&time<=end){
+					String receivePhone = rsss.getString("ReceiveAlarmpPhone");
+					String receiveEmail = rsss.getString("ReceiveAlarmEmail");
+					if(receivePhone!=null&&receivePhone.length()>0){
+						sendSMS(receivePhone,content);
+					}
+                    if(receiveEmail!=null&&receiveEmail.length()>0){
+                    	sendEmail(mailServerHost,userName,password,fromAddress,receiveEmail,content);
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public static void sendEmail(String mailServerHost,String userName,String password,String fromAddress,String receiveEmail,String content){
+		MailSenderInfo mailInfo = new MailSenderInfo();    
+		     mailInfo.setMailServerHost(mailServerHost);    
+		     mailInfo.setMailServerPort("25");    
+		     mailInfo.setValidate(true);    
+		     mailInfo.setUserName(userName);    
+		     mailInfo.setPassword(password);//您的邮箱密码    
+		     mailInfo.setFromAddress(fromAddress); 
+		     mailInfo.setToAddress(receiveEmail);    
+		     mailInfo.setSubject("Ecc报警");    
+		     mailInfo.setContent(content);    
+		        //这个类主要来发送邮件   
+		     SimpleMailSender sms = new SimpleMailSender();   
+		         //SimpleMailSender.sendTextMail(mailInfo);//发送文体格式    
+		     sms.sendHtmlMail(mailInfo);//发送html格式   
+	}
+	public static void sendSMS(String TO,String MSG){
+		ArrayList<String> list = getSendPhoneAndPWD();
+		String PHONE = list.get(0);
+		String PWD = list.get(1);
+//		String TO = receivePhone;
+//		String MSG = content;
+		try {
+			Fetion.sendMsg(PHONE, PWD, TO, MSG);
+		} catch (HttpException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	private static ResultSet getDutyDetail(String dutyId,String s){
+		String sql2 = "select * from DutyDetail where Week = '"+s+"' and DutyId ='"+dutyId+"'";
+		ResultSet rss2 = JDBCForSQL.sql_ConnectExecute_Select(sql2);
+		return rss2;
 	}
 	private static ArrayList<String> getSendPhoneAndPWD(){
 		ArrayList<String> list = new ArrayList<String>();
