@@ -4,21 +4,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DateTime;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
@@ -30,16 +26,28 @@ import swing2swt.layout.BorderLayout;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.custom.TableCursor;
+import SiteView.ecc.Modle.AbsoluteTimeProjectModel;
+import SiteView.ecc.editors.AbsoluteTime;
+import Siteview.SiteviewValue;
+import Siteview.Api.BusinessObject;
+import Siteview.Windows.Forms.ConnectionBroker;
 
 public class AddAbsoluteTime extends Dialog{
-	public DateTime startTime;
-	public DateTime startTime_1;
-	public DateTime startTime_2;
-	public DateTime startTime_3;
-	public DateTime startTime_4;
-	public DateTime startTime_5;
-	public DateTime startTime_6;
+	public BusinessObject bo;
+	public TableItem tableItem;
+	public TableItem tableItem_1;
+	public TableItem tableItem_2;
+	public TableItem tableItem_3;
+	public TableItem tableItem_4;
+	public TableItem tableItem_5;
+	public TableItem tableItem_6;
+	public Button btnCheckButton;
+	public Button btnCheckButton_1;
+	public Button btnCheckButton_2;
+	public Button btnCheckButton_3;
+	public Button button;
+	public Button btnCheckButton_4;
+	public Button btnCheckButton_5;
 	public String startTimeStr = "";	
 	public String startTimeStr_1 = "";	
 	public String startTimeStr_2 = "";	
@@ -51,14 +59,21 @@ public class AddAbsoluteTime extends Dialog{
 	public Calendar startcal;
 	private String title="添加绝对时间任务计划";
 	private Text text;
+	private Text text1;
 	private Table table;
-
+	public String permission;
+	public String permission_1;
+	public String permission_2;
+	public String permission_3;
+	public String permission_4;
+	public String permission_5;
+	public String permission_6;
 	public AddAbsoluteTime(Shell parentShell) {
 		super(parentShell);
 	}
 	
 	protected void configureShell(Shell newShell) {
-		newShell.setSize(350, 250);
+		newShell.setSize(350, 320);
 		newShell.setLocation(450, 175);
 		newShell.setText(title);
 		super.configureShell(newShell);
@@ -84,7 +99,7 @@ public class AddAbsoluteTime extends Dialog{
 		sashForm.setLocation(0, 0);
 		
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
-		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		text = new Text(composite_1, SWT.BORDER);
 		text.setLocation(137, 0);
 		text.setSize(177, 18);
@@ -96,7 +111,13 @@ public class AddAbsoluteTime extends Dialog{
 		lblNewLabel.setText("\u4EFB\u52A1\u8BA1\u5212\u540D\u79F0*:");
 		
 		table = new Table(sashForm, SWT.BORDER | SWT.FULL_SELECTION);
+		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		table.setLinesVisible(false);
+		table.addListener(SWT.MeasureItem, new Listener() {
+			public void handleEvent(Event event) {
+			event.height=25;
+			}
+		});
 		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn.setWidth(100);
@@ -107,12 +128,12 @@ public class AddAbsoluteTime extends Dialog{
 		TableColumn tblclmnNewColumn_2 = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn_2.setWidth(100);
 		
-		TableItem tableItem = new TableItem(table, SWT.NONE);
+	    tableItem = new TableItem(table, SWT.NONE);
 		tableItem.setText(0, "星期日");
 			TableEditor editor = new TableEditor(table);
-			Button btnCheckButton = new Button(table, SWT.CHECK);
+			btnCheckButton = new Button(table, SWT.CHECK);
 			btnCheckButton.setBounds(130, 31, 45, 16);
-			btnCheckButton.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+			btnCheckButton.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 			btnCheckButton.setText("\u5141\u8BB8");
 			editor.minimumWidth = btnCheckButton.getSize ().x;
 			editor.setEditor(btnCheckButton, tableItem, 1);
@@ -121,7 +142,7 @@ public class AddAbsoluteTime extends Dialog{
 			Date startDateTime  = new Date();
 			startcal = Calendar.getInstance();
 			startcal.setTime(startDateTime);
-			startTime = new DateTime(table, SWT.TIME
+			DateTime startTime = new DateTime(table, SWT.TIME
 					| SWT.SHORT);
 			startTime.setLocation(181, 30);
 			startTime.setSize(79, 15);
@@ -141,12 +162,12 @@ public class AddAbsoluteTime extends Dialog{
 			editor_1.setEditor(startTime, tableItem, 2);
 		
 		
-		TableItem tableItem_1 = new TableItem(table, SWT.NONE);
+		tableItem_1 = new TableItem(table, SWT.NONE);
 		tableItem_1.setText(0, "星期一");
 		TableEditor editor_2 = new TableEditor(table);
-		Button btnCheckButton_1 = new Button(table, SWT.CHECK);
+		btnCheckButton_1 = new Button(table, SWT.CHECK);
 		btnCheckButton_1.setBounds(130, 53, 45, 16);
-		btnCheckButton_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		btnCheckButton_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnCheckButton_1.setText("\u5141\u8BB8");
 		editor_2.minimumWidth = btnCheckButton_1.getSize ().x;
 		editor_2.setEditor(btnCheckButton_1, tableItem_1, 1);
@@ -155,7 +176,7 @@ public class AddAbsoluteTime extends Dialog{
 		Date startDateTime_1  = new Date();
 		startcal = Calendar.getInstance();
 		startcal.setTime(startDateTime_1);
-		startTime_1 = new DateTime(table, SWT.TIME
+		DateTime startTime_1 = new DateTime(table, SWT.TIME
 				| SWT.SHORT);
 		startTime_1.setLocation(181, 52);
 		startTime_1.setSize(79, 15);
@@ -174,11 +195,11 @@ public class AddAbsoluteTime extends Dialog{
 		editor_3.minimumWidth = startTime_1.getSize ().x;
 		editor_3.setEditor(startTime_1, tableItem_1, 2);
 		
-		TableItem tableItem_2 = new TableItem(table, SWT.NONE);
+		tableItem_2 = new TableItem(table, SWT.NONE);
 		tableItem_2.setText(0,"星期二 ");
 		TableEditor editor_4 = new TableEditor(table);
-		Button btnCheckButton_2 = new Button(table, SWT.CHECK);
-		btnCheckButton_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		btnCheckButton_2 = new Button(table, SWT.CHECK);
+		btnCheckButton_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnCheckButton_2.setBounds(130, 73, 45, 16);
 		btnCheckButton_2.setText("\u5141\u8BB8");
 		editor_4.minimumWidth = btnCheckButton_2.getSize ().x;
@@ -188,7 +209,7 @@ public class AddAbsoluteTime extends Dialog{
 		Date startDateTime_2  = new Date();
 		startcal = Calendar.getInstance();
 		startcal.setTime(startDateTime_2);
-		startTime_2 = new DateTime(table, SWT.TIME
+		DateTime startTime_2 = new DateTime(table, SWT.TIME
 				| SWT.SHORT);
 		startTime_2.setLocation(181, 72);
 		startTime_2.setSize(79, 15);
@@ -207,11 +228,11 @@ public class AddAbsoluteTime extends Dialog{
 		 editor_5.minimumWidth = startTime_2.getSize ().x;
 		 editor_5.setEditor(startTime_2, tableItem_2, 2);
 		 
-		TableItem tableItem_3 = new TableItem(table, SWT.NONE);
+		tableItem_3 = new TableItem(table, SWT.NONE);
 		tableItem_3.setText(0,"星期三 ");
 		TableEditor editor_6 = new TableEditor(table);
-		Button btnCheckButton_3 = new Button(table, SWT.CHECK);
-		btnCheckButton_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		btnCheckButton_3 = new Button(table, SWT.CHECK);
+		btnCheckButton_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnCheckButton_3.setBounds(130, 95, 45, 16);
 		btnCheckButton_3.setText("\u5141\u8BB8");
 		editor_6.minimumWidth = btnCheckButton_3.getSize ().x;
@@ -221,7 +242,7 @@ public class AddAbsoluteTime extends Dialog{
 		Date startDateTime_3  = new Date();
 		startcal = Calendar.getInstance();
 		startcal.setTime(startDateTime_3);
-		startTime_3 = new DateTime(table, SWT.TIME
+		DateTime startTime_3 = new DateTime(table, SWT.TIME
 				| SWT.SHORT);
 		startTime_3.setLocation(181, 93);
 		startTime_3.setSize(79, 15);
@@ -240,11 +261,11 @@ public class AddAbsoluteTime extends Dialog{
 		editor_7.minimumWidth = startTime_3.getSize ().x;
 		editor_7.setEditor(startTime_3, tableItem_3, 2);
 		
-		TableItem tableItem_4 = new TableItem(table, SWT.NONE);
+		tableItem_4 = new TableItem(table, SWT.NONE);
 		tableItem_4.setText(0,"星期四 ");
 		TableEditor editor_8 = new TableEditor(table);
-		Button button = new Button(table, SWT.CHECK);
-		button.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		button = new Button(table, SWT.CHECK);
+		button.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		button.setText("\u5141\u8BB8");
 		button.setBounds(130, 116, 45, 16);
 		editor_8.minimumWidth = button.getSize ().x;
@@ -254,7 +275,7 @@ public class AddAbsoluteTime extends Dialog{
 		Date startDateTime_4  = new Date();
 		startcal = Calendar.getInstance();
 		startcal.setTime(startDateTime_4);
-		startTime_4 = new DateTime(table, SWT.TIME
+		DateTime startTime_4 = new DateTime(table, SWT.TIME
 				| SWT.SHORT);
 		startTime_4.setLocation(181, 115);
 		startTime_4.setSize(79, 15);
@@ -273,11 +294,11 @@ public class AddAbsoluteTime extends Dialog{
 		 editor_9.minimumWidth = startTime_4.getSize ().x;
 		 editor_9.setEditor(startTime_4, tableItem_4, 2);
 		 
-		TableItem tableItem_5 = new TableItem(table, SWT.NONE);
+		tableItem_5 = new TableItem(table, SWT.NONE);
 		tableItem_5.setText(0,"星期五");
 		TableEditor editor_10 = new TableEditor(table);
-		Button btnCheckButton_4 = new Button(table, SWT.CHECK);
-		btnCheckButton_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		btnCheckButton_4 = new Button(table, SWT.CHECK);
+		btnCheckButton_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnCheckButton_4.setBounds(130, 138, 45, 16);
 		btnCheckButton_4.setText("\u5141\u8BB8");
 		editor_10.minimumWidth = btnCheckButton_4.getSize ().x;
@@ -287,7 +308,7 @@ public class AddAbsoluteTime extends Dialog{
 		Date startDateTime_5  = new Date();
 		startcal = Calendar.getInstance();
 		startcal.setTime(startDateTime_5);
-		startTime_5 = new DateTime(table, SWT.TIME
+		DateTime startTime_5 = new DateTime(table, SWT.TIME
 				| SWT.SHORT);
 		startTime_5.setLocation(181, 136);
 		startTime_5.setSize(79, 15);
@@ -306,11 +327,11 @@ public class AddAbsoluteTime extends Dialog{
 		editor_11.minimumWidth = startTime_5.getSize ().x;
 		editor_11.setEditor(startTime_5, tableItem_5, 2); 
 		
-		TableItem tableItem_6 = new TableItem(table, SWT.NONE);
+		tableItem_6 = new TableItem(table, SWT.NONE);
 		tableItem_6.setText(0,"星期六");
 		TableEditor editor_12 = new TableEditor(table);
-		Button btnCheckButton_5 = new Button(table, SWT.CHECK);
-		btnCheckButton_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		btnCheckButton_5 = new Button(table, SWT.CHECK);
+		btnCheckButton_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnCheckButton_5.setBounds(130, 160, 45, 16);
 		btnCheckButton_5.setText("\u5141\u8BB8");
 		editor_12.minimumWidth = btnCheckButton_5.getSize ().x;
@@ -320,7 +341,7 @@ public class AddAbsoluteTime extends Dialog{
 		Date startDateTime_6  = new Date();
 		startcal = Calendar.getInstance();
 		startcal.setTime(startDateTime_6);
-		startTime_6 = new DateTime(table, SWT.TIME
+		DateTime startTime_6 = new DateTime(table, SWT.TIME
 				| SWT.SHORT);
 		startTime_6.setLocation(181, 158);
 		startTime_6.setSize(79, 15);
@@ -356,7 +377,7 @@ public class AddAbsoluteTime extends Dialog{
 		label.setLayoutData(BorderLayout.WEST);
 		label.setText("\u63CF\u8FF0\uFF1A");
 		
-		Text text1=new Text(composite2, SWT.WRAP | SWT.BORDER);
+		text1=new Text(composite2, SWT.WRAP | SWT.BORDER);
 		text1.setLayoutData(BorderLayout.CENTER);
 		return composite;
 	}
@@ -372,9 +393,86 @@ public class AddAbsoluteTime extends Dialog{
 	
 	protected void buttonPressed(int buttonId) {
 		if(buttonId==IDialogConstants.OK_ID){
+			if(btnCheckButton.getSelection()){
+				permission="允许";
+			}else{
+				permission="禁止";
+			}
 			
-		}else{
-			this.close();
+			if(btnCheckButton_1.getSelection()){
+				permission_1="允许";
+			}else{
+				permission_1="禁止";
+			}
+			
+			if(btnCheckButton_2.getSelection()){
+				permission_2="允许";
+			}else{
+				permission_2="禁止";
+			}
+			
+			if(btnCheckButton_3.getSelection()){
+				permission_3="允许";
+			}else{
+				permission_3="禁止";
+			}
+			
+			if(button.getSelection()){
+				permission_4="允许";
+			}else{
+				permission_4="禁止";
+			}
+			
+			if(btnCheckButton_4.getSelection()){
+				permission_5="允许";
+			}else{
+				permission_5="禁止";
+			}
+			
+			if(btnCheckButton_5.getSelection()){
+				permission_6="允许";
+			}else{
+				permission_6="禁止";
+			}
+			bo = ConnectionBroker.get_SiteviewApi()//得到数据库表
+					.get_BusObService().Create("EccTaskPlan");
+			bo.GetField("TaskName").SetValue(
+					new SiteviewValue(text.getText()));
+			bo.GetField("Instruction").SetValue(
+					new SiteviewValue(text1.getText()));
+			bo.GetField("Model").SetValue(
+					new SiteviewValue("绝对时间任务计划"));
+			bo.GetField("StatrtTime").SetValue(//得到开始时间的数据
+					new SiteviewValue(tableItem.getText(0)+","+startTimeStr+";"+tableItem_1.getText(0)+","+startTimeStr_1+";"+tableItem_2.getText(0)+","+startTimeStr_2+";"
+							+tableItem_3.getText(0)+","+startTimeStr_3+";"+tableItem_4.getText(0)+","+startTimeStr_4+";"+
+							tableItem_5.getText(0)+","+startTimeStr_5+";"+tableItem_6.getText(0)+","+startTimeStr_6));
+			bo.GetField("Status").SetValue(//得到是否允许的数据
+					new SiteviewValue(tableItem.getText(0)+":"+permission+";"+tableItem_1.getText(0)+":"+permission_1+";"+
+							tableItem_2.getText(0)+":"+permission_2+";"+tableItem_3.getText(0)+":"+permission_3+";"+
+							tableItem_4.getText(0)+":"+permission_4+";"+tableItem_5.getText(0)+":"+permission_5+";"+
+							tableItem_6.getText(0)+":"+permission_6));
+			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,
+					true);//将数据存储到数据
+			
+			//AbsoluteTimeProjectModel atmp=new AbsoluteTimeProjectModel(bo);
+			//atmp.setTaskName(text.getText());
+			//System.out.println(atmp.getTaskName());
+			//atmp.setInstruction(text1.getText());
+			//System.out.println(atmp.getInstruction());
+			//atmp.setModel("绝对时间任务计划");
+			//System.out.println(atmp.getModel());
+			//atmp.setStatrtTime(tableItem.getText(0)+","+startTimeStr+";"+tableItem_1.getText(0)+","+startTimeStr_1+";"+tableItem_2.getText(0)+","+startTimeStr_2+";"
+							//+tableItem_3.getText(0)+","+startTimeStr_3+";"+tableItem_4.getText(0)+","+startTimeStr_4+";"+
+							//tableItem_5.getText(0)+","+startTimeStr_5+";"+tableItem_6.getText(0)+","+startTimeStr_6);
+			//System.out.println(atmp.getStatrtTime());
+			//atmp.setStatus(tableItem.getText(0)+":"+permission+";"+tableItem_1.getText(0)+":"+permission_1+";"+
+							//tableItem_2.getText(0)+":"+permission_2+";"+tableItem_3.getText(0)+":"+permission_3+";"+
+							//tableItem_4.getText(0)+":"+permission_4+";"+tableItem_5.getText(0)+":"+permission_5+";"+
+							//tableItem_6.getText(0)+":"+permission_6);
+			//System.out.println(atmp.getStatus());
+			AbsoluteTime.refresh();//刷新表单
 		}
+		this.close();
+
 	}
 }

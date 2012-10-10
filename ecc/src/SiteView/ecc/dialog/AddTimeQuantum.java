@@ -13,6 +13,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DateTime;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
@@ -66,7 +68,7 @@ public class AddTimeQuantum extends Dialog{
 		
 	}
 	protected void configureShell(Shell newShell) {
-		newShell.setSize(420, 280);
+		newShell.setSize(420, 315);
 		newShell.setLocation(450, 175);
 		newShell.setText(title);
 		super.configureShell(newShell);
@@ -82,15 +84,16 @@ public class AddTimeQuantum extends Dialog{
 		basicItem.setText("基本");
 		
 		Composite composite_1 = new Composite(tabFolder, SWT.NONE);
-		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		basicItem.setControl(composite_1);
 		
 		SashForm sashForm = new SashForm(composite_1, SWT.VERTICAL);
-		sashForm.setSize(436, 199);
+		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		sashForm.setSize(436, 214);
 		sashForm.setLocation(0, 0);
 		
 		Composite composite_3 = new Composite(sashForm, SWT.NONE);
-		composite_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		composite_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		Label lblNewLabel = new Label(composite_3, SWT.NONE);
 		lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
@@ -102,7 +105,13 @@ public class AddTimeQuantum extends Dialog{
 		text_2.setBounds(140, 0, 201, 18);
 		
 		table = new Table(sashForm, SWT.BORDER | SWT.FULL_SELECTION);
-		table.setLinesVisible(true);
+		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		table.setLinesVisible(false);
+		table.addListener(SWT.MeasureItem, new Listener() {
+			public void handleEvent(Event event) {
+				event.height=25;
+			}
+		});
 		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn.setWidth(60);
@@ -126,7 +135,7 @@ public class AddTimeQuantum extends Dialog{
 		tableItem.setText(0,"星期日");
 		TableEditor editor = new TableEditor(table);
 		Button btnCheckButton = new Button(table, SWT.CHECK);
-		btnCheckButton.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		btnCheckButton.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnCheckButton.setBounds(113, 33, 45, 16);
 		btnCheckButton.setText("\u5141\u8BB8");
 		editor.minimumWidth = btnCheckButton.getSize ().x;
@@ -204,7 +213,7 @@ public class AddTimeQuantum extends Dialog{
 		tableItem_1.setText(0,"星期一");
 		TableEditor editor_5 = new TableEditor(table);
 		Button btnCheckButton_1 = new Button(table, SWT.CHECK);
-		btnCheckButton_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		btnCheckButton_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnCheckButton_1.setBounds(113, 51, 45, 16);
 		btnCheckButton_1.setText("\u5141\u8BB8");
 		editor_5.minimumWidth = btnCheckButton_1.getSize ().x;
@@ -282,7 +291,7 @@ public class AddTimeQuantum extends Dialog{
 		tableItem_2.setText(0,"星期二");
 		TableEditor editor_10 = new TableEditor(table);
 		Button btnCheckButton_2 = new Button(table, SWT.CHECK);
-		btnCheckButton_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		btnCheckButton_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnCheckButton_2.setBounds(113, 69, 45, 16);
 		btnCheckButton_2.setText("\u5141\u8BB8");
 		editor_10.minimumWidth = btnCheckButton_2.getSize ().x;
@@ -360,7 +369,7 @@ public class AddTimeQuantum extends Dialog{
 		tableItem_3.setText(0,"星期三");
 		TableEditor editor_15 = new TableEditor(table);
 		Button btnCheckButton_3 = new Button(table, SWT.CHECK);
-		btnCheckButton_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		btnCheckButton_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnCheckButton_3.setBounds(113, 87, 45, 16);
 		btnCheckButton_3.setText("\u5141\u8BB8");
 		editor_15.minimumWidth = btnCheckButton_3.getSize ().x;
@@ -480,7 +489,7 @@ public class AddTimeQuantum extends Dialog{
 		editor_22.setEditor(startTime_8, tableItem_4, 3); 
 		TableEditor editor_23 = new TableEditor(table);
 		Label lblNewLabel_19 = new Label(table, SWT.NONE);
-		lblNewLabel_19.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_19.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel_19.setBounds(276, 107, 18, 12);
 		lblNewLabel_19.setText("\u5230");
 		editor_23.minimumWidth = lblNewLabel_19.getSize ().x;
@@ -519,14 +528,14 @@ public class AddTimeQuantum extends Dialog{
 		tableItem_5.setText(0,"星期五");
 		TableEditor editor_25 = new TableEditor(table);
 		Button btnCheckButton_5 = new Button(table, SWT.CHECK);
-		btnCheckButton_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		btnCheckButton_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnCheckButton_5.setBounds(113, 123, 45, 16);
 		btnCheckButton_5.setText("\u5141\u8BB8");
 		editor_25.minimumWidth = btnCheckButton_5.getSize ().x;
 		editor_25.setEditor(btnCheckButton_5, tableItem_5, 1); 
 		TableEditor editor_26 = new TableEditor(table);
 		Label lblNewLabel_16 = new Label(table, SWT.NONE);
-		lblNewLabel_16.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_16.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel_16.setBounds(172, 125, 18, 12);
 		lblNewLabel_16.setText("\u4ECE");
 		editor_26.minimumWidth = lblNewLabel_16.getSize ().x;
@@ -560,7 +569,7 @@ public class AddTimeQuantum extends Dialog{
 		editor_27.setEditor(startTime_10, tableItem_5, 3); 
 		TableEditor editor_28 = new TableEditor(table);
 		Label lblNewLabel_20 = new Label(table, SWT.NONE);
-		lblNewLabel_20.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_20.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel_20.setBounds(276, 125, 18, 12);
 		lblNewLabel_20.setText("\u5230");
 		editor_28.minimumWidth = lblNewLabel_20.getSize ().x;
@@ -597,14 +606,14 @@ public class AddTimeQuantum extends Dialog{
 		tableItem_6.setText(0,"星期六");
 		TableEditor editor_30 = new TableEditor(table);
 		Button btnCheckButton_6 = new Button(table, SWT.CHECK);
-		btnCheckButton_6.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		btnCheckButton_6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnCheckButton_6.setBounds(113, 141, 45, 16);
 		btnCheckButton_6.setText("\u5141\u8BB8");
 		editor_30.minimumWidth = btnCheckButton_6.getSize ().x;
 		editor_30.setEditor(btnCheckButton_6, tableItem_6, 1); 
 		TableEditor editor_31 = new TableEditor(table);
 		Label lblNewLabel_17 = new Label(table, SWT.NONE);
-		lblNewLabel_17.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_17.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel_17.setBounds(172, 143, 18, 12);
 		lblNewLabel_17.setText("\u4ECE");
 		editor_31.minimumWidth = lblNewLabel_17.getSize ().x;
@@ -638,7 +647,7 @@ public class AddTimeQuantum extends Dialog{
 		 editor_32.setEditor(startTime_12, tableItem_6, 3);
 		 TableEditor editor_33 = new TableEditor(table);
 		 Label lblNewLabel_21 = new Label(table, SWT.NONE);
-		 lblNewLabel_21.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		 lblNewLabel_21.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		 lblNewLabel_21.setBounds(276, 143, 18, 12);
 		 lblNewLabel_21.setText("\u5230");
 		 editor_33.minimumWidth = lblNewLabel_21.getSize ().x;
