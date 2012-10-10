@@ -102,32 +102,25 @@ public class AddTimeQuantum extends Dialog{
 		text_2.setBounds(140, 0, 201, 18);
 		
 		table = new Table(sashForm, SWT.BORDER | SWT.FULL_SELECTION);
-		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn.setWidth(60);
-		tblclmnNewColumn.setText("日期");
 		
 		TableColumn tblclmnNewColumn_1 = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn_1.setWidth(90);
-		tblclmnNewColumn_1.setText("权限");
 		
 		TableColumn tblclmnNewColumn_4 = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn_4.setWidth(25);
-		tblclmnNewColumn_4.setText("从");
 		
 		TableColumn tblclmnNewColumn_2 = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn_2.setWidth(100);
-		tblclmnNewColumn_2.setText("开始");
 		
 		TableColumn tblclmnNewColumn_5 = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn_5.setWidth(25);
-		tblclmnNewColumn_5.setText("到");
 		
 		TableColumn tblclmnNewColumn_3 = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn_3.setWidth(100);
-		tblclmnNewColumn_3.setText("结束");
 		
 		TableItem tableItem = new TableItem(table, SWT.NONE);
 		tableItem.setText(0,"星期日");
@@ -524,154 +517,161 @@ public class AddTimeQuantum extends Dialog{
 		
 		TableItem tableItem_5 = new TableItem(table, SWT.NONE);
 		tableItem_5.setText(0,"星期五");
+		TableEditor editor_25 = new TableEditor(table);
+		Button btnCheckButton_5 = new Button(table, SWT.CHECK);
+		btnCheckButton_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		btnCheckButton_5.setBounds(113, 123, 45, 16);
+		btnCheckButton_5.setText("\u5141\u8BB8");
+		editor_25.minimumWidth = btnCheckButton_5.getSize ().x;
+		editor_25.setEditor(btnCheckButton_5, tableItem_5, 1); 
+		TableEditor editor_26 = new TableEditor(table);
+		Label lblNewLabel_16 = new Label(table, SWT.NONE);
+		lblNewLabel_16.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_16.setBounds(172, 125, 18, 12);
+		lblNewLabel_16.setText("\u4ECE");
+		editor_26.minimumWidth = lblNewLabel_16.getSize ().x;
+		editor_26.setEditor(lblNewLabel_16, tableItem_5, 2); 
+		TableEditor editor_27 = new TableEditor(table);
+		Date startDateTime_10  = new Date();
+		startcal = Calendar.getInstance();
+		startcal.setTime(startDateTime_10);
+		startTime_10 = new DateTime(table, SWT.TIME
+				| SWT.SHORT);
+		startTime_10.setLocation(191, 122);
+		startTime_10.setSize(79, 15);
+		
+		startcal.set(Calendar.HOUR_OF_DAY, 00);
+		startcal.set(Calendar.MINUTE, 0);
+		startcal.set(Calendar.SECOND, 0);
+		
+		startTime_10.setHours(startcal.get(Calendar.HOUR_OF_DAY));
+		startTime_10.setMinutes(startcal.get(Calendar.MINUTE));
+		startTime_10.setSeconds(startcal.get(Calendar.SECOND));
+		startTimeStr_10=startTime_10.getHours() + ":"
+				+ startTime_10.getMinutes() + ":" + startTime_10.getSeconds();
+		 try {
+			 startDateTime_10 = sdf.parse(startTimeStr_10);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		 startTimeStr_10 = new SimpleDateFormat("HH:mm:ss")
+		.format(startcal.getTime());
+		editor_27.minimumWidth = startTime_10.getSize ().x;
+		editor_27.setEditor(startTime_10, tableItem_5, 3); 
+		TableEditor editor_28 = new TableEditor(table);
+		Label lblNewLabel_20 = new Label(table, SWT.NONE);
+		lblNewLabel_20.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_20.setBounds(276, 125, 18, 12);
+		lblNewLabel_20.setText("\u5230");
+		editor_28.minimumWidth = lblNewLabel_20.getSize ().x;
+		editor_28.setEditor(lblNewLabel_20, tableItem_5, 4); 
+		TableEditor editor_29 = new TableEditor(table);
+		Date startDateTime_11  = new Date();
+		startcal = Calendar.getInstance();
+		startcal.setTime(startDateTime_11);
+		startTime_11 = new DateTime(table, SWT.TIME
+				| SWT.SHORT);
+		startTime_11.setLocation(295, 122);
+		startTime_11.setSize(79, 15);
+		
+		startcal.set(Calendar.HOUR_OF_DAY, 23);
+		startcal.set(Calendar.MINUTE, 59);
+		startcal.set(Calendar.SECOND, 0);
+		
+		startTime_11.setHours(startcal.get(Calendar.HOUR_OF_DAY));
+		startTime_11.setMinutes(startcal.get(Calendar.MINUTE));
+		startTime_11.setSeconds(startcal.get(Calendar.SECOND));
+		startTimeStr_11=startTime_11.getHours() + ":"
+				+ startTime_11.getMinutes() + ":" + startTime_11.getSeconds();
+		 try {
+			 startDateTime_11 = sdf.parse(startTimeStr_11);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		 startTimeStr_11 = new SimpleDateFormat("HH:mm:ss")
+		.format(startcal.getTime());
+		editor_29.minimumWidth = startTime_11.getSize ().x;
+		editor_29.setEditor(startTime_11, tableItem_5, 5); 
 		
 		TableItem tableItem_6 = new TableItem(table, SWT.NONE);
 		tableItem_6.setText(0,"星期六");
+		TableEditor editor_30 = new TableEditor(table);
+		Button btnCheckButton_6 = new Button(table, SWT.CHECK);
+		btnCheckButton_6.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		btnCheckButton_6.setBounds(113, 141, 45, 16);
+		btnCheckButton_6.setText("\u5141\u8BB8");
+		editor_30.minimumWidth = btnCheckButton_6.getSize ().x;
+		editor_30.setEditor(btnCheckButton_6, tableItem_6, 1); 
+		TableEditor editor_31 = new TableEditor(table);
+		Label lblNewLabel_17 = new Label(table, SWT.NONE);
+		lblNewLabel_17.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_17.setBounds(172, 143, 18, 12);
+		lblNewLabel_17.setText("\u4ECE");
+		editor_31.minimumWidth = lblNewLabel_17.getSize ().x;
+		editor_31.setEditor(lblNewLabel_17, tableItem_6, 2);
+		TableEditor editor_32 = new TableEditor(table);
+		Date startDateTime_12  = new Date();
+		startcal = Calendar.getInstance();
+		startcal.setTime(startDateTime_12);
+		startTime_12 = new DateTime(table, SWT.TIME
+				| SWT.SHORT);
+		startTime_12.setLocation(191, 140);
+		startTime_12.setSize(79, 15);
 		
+		startcal.set(Calendar.HOUR_OF_DAY, 00);
+		startcal.set(Calendar.MINUTE, 0);
+		startcal.set(Calendar.SECOND, 0);
+		
+		startTime_12.setHours(startcal.get(Calendar.HOUR_OF_DAY));
+		startTime_12.setMinutes(startcal.get(Calendar.MINUTE));
+		startTime_12.setSeconds(startcal.get(Calendar.SECOND));
+		startTimeStr_12=startTime_12.getHours() + ":"
+				+ startTime_12.getMinutes() + ":" + startTime_12.getSeconds();
+		 try {
+			 startDateTime_12 = sdf.parse(startTimeStr_12);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		 startTimeStr_12 = new SimpleDateFormat("HH:mm:ss")
+		.format(startcal.getTime());
+		 editor_32.minimumWidth = startTime_12.getSize ().x;
+		 editor_32.setEditor(startTime_12, tableItem_6, 3);
+		 TableEditor editor_33 = new TableEditor(table);
+		 Label lblNewLabel_21 = new Label(table, SWT.NONE);
+		 lblNewLabel_21.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		 lblNewLabel_21.setBounds(276, 143, 18, 12);
+		 lblNewLabel_21.setText("\u5230");
+		 editor_33.minimumWidth = lblNewLabel_21.getSize ().x;
+		 editor_33.setEditor(lblNewLabel_21, tableItem_6, 4);
+		 TableEditor editor_34 = new TableEditor(table);
+		    Date startDateTime_13  = new Date();
+			startcal = Calendar.getInstance();
+			startcal.setTime(startDateTime_13);
+			startTime_13 = new DateTime(table, SWT.TIME
+					| SWT.SHORT);
+			startTime_13.setLocation(295, 140);
+			startTime_13.setSize(79, 15);
+			
+			startcal.set(Calendar.HOUR_OF_DAY, 23);
+			startcal.set(Calendar.MINUTE, 59);
+			startcal.set(Calendar.SECOND, 0);
+			
+			startTime_13.setHours(startcal.get(Calendar.HOUR_OF_DAY));
+			startTime_13.setMinutes(startcal.get(Calendar.MINUTE));
+			startTime_13.setSeconds(startcal.get(Calendar.SECOND));
+			startTimeStr_13=startTime_13.getHours() + ":"
+					+ startTime_13.getMinutes() + ":" + startTime_13.getSeconds();
+			 try {
+				 startDateTime_13 = sdf.parse(startTimeStr_13);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			 startTimeStr_13 = new SimpleDateFormat("HH:mm:ss")
+			.format(startcal.getTime());
+			 editor_34.minimumWidth = startTime_13.getSize ().x;
+			 editor_34.setEditor(startTime_13, tableItem_6, 5);
+			 
 		sashForm.setWeights(new int[] {25, 171});
-	
-
-	
-	
-	
-
-	
-
-	
-//		Button btnCheckButton_5 = new Button(composite_1, SWT.CHECK);
-//		btnCheckButton_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
-//		btnCheckButton_5.setBounds(113, 123, 45, 16);
-//		btnCheckButton_5.setText("\u5141\u8BB8");
-//		
-//		Label lblNewLabel_16 = new Label(composite_1, SWT.NONE);
-//		lblNewLabel_16.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
-//		lblNewLabel_16.setBounds(172, 125, 18, 12);
-//		lblNewLabel_16.setText("\u4ECE");
-//		
-//		Date startDateTime_10  = new Date();
-//		startcal = Calendar.getInstance();
-//		startcal.setTime(startDateTime_10);
-//		startTime_10 = new DateTime(composite_1, SWT.TIME
-//				| SWT.SHORT);
-//		startTime_10.setLocation(191, 122);
-//		startTime_10.setSize(79, 15);
-//		
-//		startcal.set(Calendar.HOUR_OF_DAY, 00);
-//		startcal.set(Calendar.MINUTE, 0);
-//		startcal.set(Calendar.SECOND, 0);
-//		
-//		startTime_10.setHours(startcal.get(Calendar.HOUR_OF_DAY));
-//		startTime_10.setMinutes(startcal.get(Calendar.MINUTE));
-//		startTime_10.setSeconds(startcal.get(Calendar.SECOND));
-//		startTimeStr_10=startTime_10.getHours() + ":"
-//				+ startTime_10.getMinutes() + ":" + startTime_10.getSeconds();
-//		 try {
-//			 startDateTime_10 = sdf.parse(startTimeStr_10);
-//			} catch (ParseException e) {
-//				e.printStackTrace();
-//			}
-//		 startTimeStr_10 = new SimpleDateFormat("HH:mm:ss")
-//		.format(startcal.getTime());
-//		
-//		Label lblNewLabel_20 = new Label(composite_1, SWT.NONE);
-//		lblNewLabel_20.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
-//		lblNewLabel_20.setBounds(276, 125, 18, 12);
-//		lblNewLabel_20.setText("\u5230");
-//		
-//		Date startDateTime_11  = new Date();
-//		startcal = Calendar.getInstance();
-//		startcal.setTime(startDateTime_11);
-//		startTime_11 = new DateTime(composite_1, SWT.TIME
-//				| SWT.SHORT);
-//		startTime_11.setLocation(295, 122);
-//		startTime_11.setSize(79, 15);
-//		
-//		startcal.set(Calendar.HOUR_OF_DAY, 23);
-//		startcal.set(Calendar.MINUTE, 59);
-//		startcal.set(Calendar.SECOND, 0);
-//		
-//		startTime_11.setHours(startcal.get(Calendar.HOUR_OF_DAY));
-//		startTime_11.setMinutes(startcal.get(Calendar.MINUTE));
-//		startTime_11.setSeconds(startcal.get(Calendar.SECOND));
-//		startTimeStr_11=startTime_11.getHours() + ":"
-//				+ startTime_11.getMinutes() + ":" + startTime_11.getSeconds();
-//		 try {
-//			 startDateTime_11 = sdf.parse(startTimeStr_11);
-//			} catch (ParseException e) {
-//				e.printStackTrace();
-//			}
-//		 startTimeStr_11 = new SimpleDateFormat("HH:mm:ss")
-//		.format(startcal.getTime());
-//		
-//		Label lblNewLabel_7 = new Label(composite_1, SWT.NONE);
-//		lblNewLabel_7.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
-//		lblNewLabel_7.setBounds(20, 143, 54, 12);
-//		lblNewLabel_7.setText("\u661F\u671F\u516D");
-//		
-//		Button btnCheckButton_6 = new Button(composite_1, SWT.CHECK);
-//		btnCheckButton_6.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
-//		btnCheckButton_6.setBounds(113, 141, 45, 16);
-//		btnCheckButton_6.setText("\u5141\u8BB8");
-//		
-//		Label lblNewLabel_17 = new Label(composite_1, SWT.NONE);
-//		lblNewLabel_17.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
-//		lblNewLabel_17.setBounds(172, 143, 18, 12);
-//		lblNewLabel_17.setText("\u4ECE");
-//		
-//		Date startDateTime_12  = new Date();
-//		startcal = Calendar.getInstance();
-//		startcal.setTime(startDateTime_12);
-//		startTime_12 = new DateTime(composite_1, SWT.TIME
-//				| SWT.SHORT);
-//		startTime_12.setLocation(191, 140);
-//		startTime_12.setSize(79, 15);
-//		
-//		startcal.set(Calendar.HOUR_OF_DAY, 00);
-//		startcal.set(Calendar.MINUTE, 0);
-//		startcal.set(Calendar.SECOND, 0);
-//		
-//		startTime_12.setHours(startcal.get(Calendar.HOUR_OF_DAY));
-//		startTime_12.setMinutes(startcal.get(Calendar.MINUTE));
-//		startTime_12.setSeconds(startcal.get(Calendar.SECOND));
-//		startTimeStr_12=startTime_12.getHours() + ":"
-//				+ startTime_12.getMinutes() + ":" + startTime_12.getSeconds();
-//		 try {
-//			 startDateTime_12 = sdf.parse(startTimeStr_12);
-//			} catch (ParseException e) {
-//				e.printStackTrace();
-//			}
-//		 startTimeStr_12 = new SimpleDateFormat("HH:mm:ss")
-//		.format(startcal.getTime());
-//		
-//		 Label lblNewLabel_21 = new Label(composite_1, SWT.NONE);
-//		 lblNewLabel_21.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
-//		 lblNewLabel_21.setBounds(276, 143, 18, 12);
-//		 lblNewLabel_21.setText("\u5230");
-//		 
-//		 Date startDateTime_13  = new Date();
-//			startcal = Calendar.getInstance();
-//			startcal.setTime(startDateTime_13);
-//			startTime_13 = new DateTime(composite_1, SWT.TIME
-//					| SWT.SHORT);
-//			startTime_13.setLocation(295, 140);
-//			startTime_13.setSize(79, 15);
-//			
-//			startcal.set(Calendar.HOUR_OF_DAY, 23);
-//			startcal.set(Calendar.MINUTE, 59);
-//			startcal.set(Calendar.SECOND, 0);
-//			
-//			startTime_13.setHours(startcal.get(Calendar.HOUR_OF_DAY));
-//			startTime_13.setMinutes(startcal.get(Calendar.MINUTE));
-//			startTime_13.setSeconds(startcal.get(Calendar.SECOND));
-//			startTimeStr_13=startTime_13.getHours() + ":"
-//					+ startTime_13.getMinutes() + ":" + startTime_13.getSeconds();
-//			 try {
-//				 startDateTime_13 = sdf.parse(startTimeStr_13);
-//				} catch (ParseException e) {
-//					e.printStackTrace();
-//				}
-//			 startTimeStr_13 = new SimpleDateFormat("HH:mm:ss")
-//			.format(startcal.getTime());
 			
 		TabItem describeItem=new TabItem(tabFolder, SWT.NONE);
 		describeItem.setText("描述");
