@@ -54,6 +54,7 @@ import SiteView.ecc.Modle.SMSModel;
 import SiteView.ecc.dialog.AddEmail;
 import SiteView.ecc.dialog.AddSMSModleSet;
 import SiteView.ecc.dialog.AddSMS;
+import SiteView.ecc.dialog.ConnectSMS;
 import SiteView.ecc.tools.FileTools;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
@@ -354,6 +355,14 @@ public class MessageSetUp extends EditorPart {
 		Button btnNewButton_2 = new Button(composite_3, SWT.NONE);
 		btnNewButton_2.setBounds(238, 120, 72, 22);
 		btnNewButton_2.setText("\u6D4B\u8BD5");
+		btnNewButton_2.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				ConnectSMS sms = new ConnectSMS(null,text.getText(),text_1.getText());
+				sms.open();
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
 		
 		Label lblNewLabel_4 = new Label(composite_3, SWT.NONE);
 		lblNewLabel_4.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));

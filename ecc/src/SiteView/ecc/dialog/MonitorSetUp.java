@@ -53,7 +53,9 @@ public class MonitorSetUp extends Dialog {
 	private Table table;
 
 	Set<String> set1 = new HashSet<String>();
-
+	
+	Set<String> set3;
+	
 	private TableItem tableItem;
 
 	private TableViewer tableViewer;
@@ -110,34 +112,39 @@ public class MonitorSetUp extends Dialog {
 					}
 					SelectParent(item);
 					SelectChild(item);
-					BusinessObject bo = (BusinessObject) item.getData();
-					String selectId = bo.get_RecId();
-					Set<String> set3 = selectAllId(selectId);
+						TreeItem[] item1 = item.getParentItem().getItems();
+						int length = item1.length;
+						for (int i=0;i<length;i++) {
+							if(!item1[i].getChecked()){
+								Set<String> set = new HashSet<String>();
+								set3 = selectAllId(item,set);
+								break;
+							}
+							if(i==item1.length-1){
+								if(length==1){
+									Set<String> set = new HashSet<String>();
+									set3 = selectAllId(item,set);
+								}else{
+									Set<String> set = new HashSet<String>();
+									set3 = selectAllId(item.getParentItem(),set);									
+								}
+							}
+						}
+					
 					for (String str : set3) {
 						set1.add(str);
 					}
-					set1.add(selectId);
 					createTableItem(set1);
 				} else {
 					DeletChild(item);
-					if (item.getText() != "Ecc9.2") {
-						Set<String> set2 = selectAllId(((BusinessObject) item
-								.getData()).get_RecId());
-						set2.add(((BusinessObject) item.getData()).get_RecId());
+					if (!item.getText().equals("Ecc9.2")) {
+						Set<String> set = new HashSet<String>();
+						Set<String> set2 = selectAllId(item,set);
 						for (String string : set2) {
 							set1.remove(string);
 						}
-						TreeItem treeitem1 = item.getParentItem();
-						TreeItem[] ti1 = treeitem1.getItems();
-						int length = ti1.length;
-						for (int i = 0; i < ti1.length; i++) {
-							if (ti1[i].getChecked()) {
-								item.setChecked(false);
-								break;
-							}
-							if (i == length - 1) {
-								DeletParent(item);
-							}
+						if(item.getParentItem().getText().equals("Ecc9.2")){
+							DeletParent(item);
 						}
 						TableItem[] ti = table.getItems();
 						for (TableItem tableItem : ti) {
@@ -164,7 +171,7 @@ public class MonitorSetUp extends Dialog {
 						.toString();
 				treeItem1 = new TreeItem(treeItem, SWT.NONE | SWT.CHECK);
 				treeItem1.setText(s);
-				treeItem1.setData(bo);
+				treeItem1.setData(group);
 				treeItem1.setImage(ImageHelper.LoadImage(Activator.PLUGIN_ID,
 						"icons/node.jpg"));
 				createItem(group, treeItem1);
@@ -239,7 +246,7 @@ public class MonitorSetUp extends Dialog {
 			}
 		});
 
-		combo = new Combo(composite_2, SWT.NONE);
+		combo = new Combo(composite_2, SWT.READ_ONLY);
 		combo.add("Second");
 		combo.add("Minute");
 		combo.add("Hour");
@@ -301,7 +308,7 @@ public class MonitorSetUp extends Dialog {
 			}
 		});
 
-		combo_1 = new Combo(composite_4, SWT.NONE);
+		combo_1 = new Combo(composite_4, SWT.READ_ONLY);
 		combo_1.add("Second");
 		combo_1.add("Minute");
 		combo_1.add("Hour");
@@ -321,7 +328,7 @@ public class MonitorSetUp extends Dialog {
 			TreeItem treeItem2 = new TreeItem(treeItem12, SWT.NONE | SWT.CHECK);
 			treeItem2.setText(bo.GetField("GroupName").get_NativeValue()
 					.toString());
-			treeItem2.setData(bo);
+			treeItem2.setData(g);
 			treeItem2.setImage(ImageHelper.LoadImage(Activator.PLUGIN_ID,
 					"icons/node.jpg"));
 			createItem(g, treeItem2);
@@ -333,7 +340,7 @@ public class MonitorSetUp extends Dialog {
 			TreeItem treeItem3 = new TreeItem(treeItem12, SWT.NONE | SWT.CHECK);
 			treeItem3.setText(bo.GetField("ServerAddress").get_NativeValue()
 					.toString());
-			treeItem3.setData(bo);
+			treeItem3.setData(machine);
 			treeItem3.setImage(ImageHelper.LoadImage(Activator.PLUGIN_ID,
 					"icons/shebei.jpg"));
 		}
@@ -347,66 +354,66 @@ public class MonitorSetUp extends Dialog {
 				tableItem.dispose();
 			}
 		}
-		ICollection icoll = null;
-		IEnumerator ienum = null;
 		for (String s1 : set1) {
-			icoll = FileTools.getBussCollection("Groups", s1, "Ecc");
-			ienum = icoll.GetEnumerator();
-			if (ienum != null) {
-				while (ienum.MoveNext()) {
-					BusinessObject bo1 = (BusinessObject) ienum.get_Current();
-					BusinessObject bodyn = EccTreeControl.CreateBo("monitorid",
-							bo1.get_RecId(), "EccDyn");
-					String[] data = new String[4];
-					if (bodyn == null) {
-						data[0] = bo1.GetField("title").get_NativeValue()
-								.toString();
-						String frequency = bo1.GetField("frequency")
-								.get_NativeValue().toString();
-						frequency = frequency.substring(0,
-								frequency.lastIndexOf("."));
-						String timeUnitSelf = bo1.GetField("timeUnitSelf")
-								.get_NativeValue().toString();
-						data[1] = frequency + " " + timeUnitSelf;
-						data[2] = "測試條件";
-						data[3] = "no data";
-					} else {
-						data[0] = bo1.GetField("title").get_NativeValue()
-								.toString();
-						String frequency = bo1.GetField("frequency")
-								.get_NativeValue().toString();
-						frequency = frequency.substring(0,
-								frequency.lastIndexOf("."));
-						String timeUnitSelf = bo1.GetField("timeUnitSelf")
-								.get_NativeValue().toString();
-						data[1] = frequency + " " + timeUnitSelf;
-						data[2] = "測試條件";
-						data[3] = bodyn.GetField("category").get_NativeValue()
-								.toString();
-					}
-					TableItem tableItem = new TableItem(table, SWT.NONE);
-					tableItem.setData(bo1);
-					tableItem.setText(data);
-				}
+			BusinessObject bo1 = EccTreeControl.CreateBo("RecId",s1, "Ecc");
+			BusinessObject bodyn = EccTreeControl.CreateBo("monitorid",s1, "EccDyn");
+			String[] data = new String[4];
+			if (bodyn == null) {
+				data[0] = bo1.GetField("title").get_NativeValue()
+						.toString();
+				String frequency = bo1.GetField("frequency")
+						.get_NativeValue().toString();
+				frequency = frequency.substring(0,
+						frequency.lastIndexOf("."));
+				String timeUnitSelf = bo1.GetField("timeUnitSelf")
+					.get_NativeValue().toString();
+				data[1] = frequency + " " + timeUnitSelf;
+				data[2] = "測試條件";
+				data[3] = "no data";
+			} else {
+				data[0] = bo1.GetField("title").get_NativeValue()
+						.toString();
+				String frequency = bo1.GetField("frequency")
+						.get_NativeValue().toString();
+				frequency = frequency.substring(0,
+						frequency.lastIndexOf("."));
+				String timeUnitSelf = bo1.GetField("timeUnitSelf")
+						.get_NativeValue().toString();
+				data[1] = frequency + " " + timeUnitSelf;
+				data[2] = "測試條件";
+				data[3] = bodyn.GetField("category").get_NativeValue()
+						.toString();
 			}
+			TableItem tableItem = new TableItem(table, SWT.NONE);
+			tableItem.setData(bo1);
+			tableItem.setText(data);
 		}
 	}
 
-	// 获取所选项的包括孩子的所有组id
-	public Set<String> selectAllId(String groupid) {
-		Set<String> set = new HashSet<String>();
-		ICollection icollGroup = null;
-		IEnumerator ienumGroup = null;
-		icollGroup = FileTools.getBussCollection("ParentGroupId_Valid",
-				groupid, "EccGroup");
-		ienumGroup = icollGroup.GetEnumerator();
-		if (ienumGroup != null) {
+	// 获取所选项的包括孩子的所有监测器id
+	public Set<String> selectAllId(TreeItem item,Set<String> set) {
+		if(item.getData() instanceof GroupModle){
+			ICollection icollGroup = FileTools.getBussCollection("Groups_Valid",((GroupModle)item.getData()).getBo().get_RecId(), "Ecc");
+			IEnumerator ienumGroup = icollGroup.GetEnumerator();
 			while (ienumGroup.MoveNext()) {
 				BusinessObject bo = (BusinessObject) ienumGroup.get_Current();
-				String id = bo.get_RecId();
-				set.add(id);
-				selectAllId(id);
+				set.add(bo.get_RecId());
 			}
+		}
+		if(item.getData() instanceof MachineModle){
+			ICollection icollGroup = FileTools.getBussCollection("Machine",((MachineModle)item.getData()).getBo().get_RecId(), "Ecc");
+			IEnumerator ienumGroup = icollGroup.GetEnumerator();
+			while (ienumGroup.MoveNext()) {
+				BusinessObject bo = (BusinessObject) ienumGroup.get_Current();
+				set.add(bo.get_RecId());
+			}
+		}
+		if(item.getItems().length!=0){
+			TreeItem[] treeitem = item.getItems();
+			for (TreeItem treeItem2 : treeitem) {
+				selectAllId(treeItem2,set);
+			}
+			
 		}
 		return set;
 	}

@@ -114,11 +114,12 @@ public class AddEmail extends Dialog{
 		lblEmail.setBounds(10, 21, 93, 12);
 		lblEmail.setText("email\u6A21\u677F\uFF1A");
 		
-		text_4 = new Combo(group_1, SWT.NONE);
+		text_4 = new Combo(group_1, SWT.READ_ONLY);
 		text_4.setBounds(109, 15, 304, 18);
 		for(BusinessObject bo:MailModleSetUp.modles){
 			text_4.add(bo.GetField("MailTitle").get_NativeValue().toString());
 		}
+		text_4.select(0);
 		
 		Label label_1 = new Label(group_1, SWT.NONE);
 		label_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));

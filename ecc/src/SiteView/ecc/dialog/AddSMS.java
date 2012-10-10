@@ -116,12 +116,12 @@ public class AddSMS extends Dialog {
 		label_4.setBounds(70, 200, 90, 20);
 		label_4.setText("\u4EFB\u52A1\u8BA1\u5212*\uFF1A");
 
-		combo = new Combo(group, SWT.NONE);
+		combo = new Combo(group, SWT.READ_ONLY);
 		combo.setBounds(170, 110, 200, 20);
 		combo.add("feixin");
 		combo.select(0);
 
-		combo_1 = new Combo(group, SWT.NONE);
+		combo_1 = new Combo(group, SWT.READ_ONLY);
 		combo_1.setBounds(170, 140, 200, 20);
 		if (messagemodels == null) {
 			messagemodels = new ArrayList<BusinessObject>();
@@ -138,14 +138,14 @@ public class AddSMS extends Dialog {
 		}
 		combo_1.select(0);
 
-		combo_2 = new Combo(group, SWT.NONE);
+		combo_2 = new Combo(group, SWT.READ_ONLY);
 		combo_2.setBounds(170, 170, 200, 20);
 		combo_2.add("绝对时间任务计划");
 		combo_2.add("时间段任务计划");
 		combo_2.add("相对时间任务计划");
 		combo_2.select(0);
 
-		combo_3 = new Combo(group, SWT.NONE);
+		combo_3 = new Combo(group, SWT.READ_ONLY);
 		combo_3.setBounds(170, 200, 200, 20);
 		if (sms != null) {
 			BusinessObject bo = sms.getBo();
