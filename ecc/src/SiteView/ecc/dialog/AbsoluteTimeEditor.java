@@ -555,8 +555,8 @@ public class AbsoluteTimeEditor extends Dialog{
 			}else{
 				permission_6="禁止";
 			}
-			String TaskName=bo.GetField("TaskName").SetValue(new SiteviewValue(text.getText())).toString();//更新任务计划名称
-			String Instruction=bo.GetField("Instruction").SetValue(new SiteviewValue(text1.getText())).toString();//更新描述 
+			bo.GetField("TaskName").SetValue(new SiteviewValue(text.getText()));//更新任务计划名称
+			bo.GetField("Instruction").SetValue(new SiteviewValue(text1.getText()));//更新描述 
 			bo.GetField("Status").SetValue(//更新是否允许的数据
 					new SiteviewValue(tableItem.getText(0)+":"+permission+";"+tableItem_1.getText(0)+":"+permission_1+";"+
 							tableItem_2.getText(0)+":"+permission_2+";"+tableItem_3.getText(0)+":"+permission_3+";"+
@@ -569,8 +569,9 @@ public class AbsoluteTimeEditor extends Dialog{
 			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,//将修改后的数据存储到数据库
 					true); 
 			
-			item.setText(0, TaskName);
-			item.setText(1, Instruction);
+			item.setText(0, text.getText());
+			item.setText(1, text1.getText());
 		}
+		this.close();
 	}
 }
