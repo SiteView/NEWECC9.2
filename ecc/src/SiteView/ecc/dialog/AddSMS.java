@@ -13,6 +13,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -144,6 +146,14 @@ public class AddSMS extends Dialog {
 		combo_2.add("时间段任务计划");
 		combo_2.add("相对时间任务计划");
 		combo_2.select(0);
+		combo_2.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+			}
+			
+			public void widgetDefaultSelected(SelectionEvent e) {
+				
+			}
+		});
 
 		combo_3 = new Combo(group, SWT.READ_ONLY);
 		combo_3.setBounds(170, 200, 200, 20);
