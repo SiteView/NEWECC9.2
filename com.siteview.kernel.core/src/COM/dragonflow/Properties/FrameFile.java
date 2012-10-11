@@ -64,6 +64,7 @@ import COM.dragonflow.itsm.data.JDBCForSQL;
 import Siteview.Operators;
 import Siteview.QueryInfoToGet;
 import Siteview.SiteviewQuery;
+import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
 
@@ -679,6 +680,7 @@ public class FrameFile {
 			ResultSet rule=JDBCForSQL.sql_ConnectExecute_Select("select * from EccAlarmRule where MonitorId='"+ monitorid + "'");
 			while(rule.next()){
 				Timestamp LastModDateTime = new Timestamp(System.currentTimeMillis());
+				Alarm(rule, parentGroupName, groupName, monitorName, category, LastModDateTime,s);
 				String alarmstatus=rule.getString("AlarmEvent");
 				if(!rule.getBoolean("RuleStatus")||!alarmstatus.equals(category)){
 					continue;
@@ -700,7 +702,6 @@ public class FrameFile {
 					}
 				}
 				System.out.println("报警条件已经符合，开始报警了");
-				Alarm(rule, parentGroupName, groupName, monitorName, category, LastModDateTime,s);
 			}
 		} catch (Exception e) {
 		}
@@ -708,6 +709,8 @@ public class FrameFile {
 
 	private static void Alarm(ResultSet rule,String allGroup,String group,String monitor,String status,Timestamp LastModDateTime,String logFile) {
 		String alarmType="",address="",toAddress="",fromAddress="",mailServerHost="",userName="",password="",modleId="",content="";
+		String ttime = LastModDateTime.toString().split("\\.")[0];
+		String mmonitor = monitor.substring(monitor.lastIndexOf("：")+1);
 		try {
 			modleId = rule.getString("ModleId");
 			alarmType = rule.getString("AlarmType");
@@ -727,7 +730,7 @@ public class FrameFile {
 				String sql3 = "select MailContent from EccMailModle where RecId = '"+modleId+"'";
 				ResultSet rs3 = JDBCForSQL.sql_ConnectExecute_Select(sql3);
 				if(rs3.next()){
-					content = rs3.getString("MailContent").replaceAll("@AllGroup@", allGroup).replaceAll("@Group@", group).replaceAll("@monitor@", monitor.substring(monitor.lastIndexOf("：")+1)).replaceAll("@Status@", status).replaceAll("@Time@", LastModDateTime.toString().split("\\.")[0]).replaceAll("@LogFile@",logFile );
+					content = rs3.getString("MailContent").replaceAll("@AllGroup@", allGroup).replaceAll("@Group@", group).replaceAll("@monitor@", mmonitor).replaceAll("@Status@", status).replaceAll("@Time@", LastModDateTime.toString().split("\\.")[0]).replaceAll("@LogFile@",logFile );
 				}
 			}else{
 				toAddress = rule.getString("Other");
@@ -735,7 +738,7 @@ public class FrameFile {
 				String sql = "select MailContent from EccMailModle where RecId = '"+modleId+"'";
 				ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
 				if(rs.next()){
-					content = rs.getString("MailContent").replaceAll("@AllGroup@", allGroup).replaceAll("@Group@", group).replaceAll("@monitor@", monitor.substring(monitor.lastIndexOf("：")+1)).replaceAll("@Status@", status).replaceAll("@Time@", LastModDateTime.toString().split("\\.")[0]).replaceAll("@LogFile@",logFile );
+					content = rs.getString("MailContent").replaceAll("@AllGroup@", allGroup).replaceAll("@Group@", group).replaceAll("@monitor@", mmonitor).replaceAll("@Status@", status).replaceAll("@Time@", ttime).replaceAll("@LogFile@",logFile );
 				}
 			}
 			
@@ -743,10 +746,22 @@ public class FrameFile {
 			e.printStackTrace();
 			return;
 		}
+		String alarmName = "";
+		try {
+			 alarmName = rule.getString("AlarmName");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		String insertSQL = "insert into EccAlarmLog (RecId,CreatedDateTime,AlarmName,AlarmGroup,AlarmMonitor,AlarmType,ReceiverAddress,AlarmStatus)" +
+				" values('"+getRecId()+"','"+ttime+"','"+alarmName+"','"+group+"','"+mmonitor+"','"+alarmType+"','"+toAddress+"','"+status+"')";
+		ArrayList<String> list = new ArrayList<String>();
+		list.add(ttime);list.add(alarmName);list.add(group);list.add(mmonitor);list.add(alarmType);list.add(toAddress);list.add(status);
 		if(alarmType.equals("email")){
 			sendEmail(mailServerHost,userName,password,fromAddress,toAddress,content);
+			JDBCForSQL.execute_Insert(insertSQL);
 		}else if(alarmType.equals("SMS")){
 			sendSMS(toAddress,content);
+			JDBCForSQL.execute_Insert(insertSQL);
 		}else if(alarmType.equals("script")){
 
 		}else if(alarmType.equals("sound")){
@@ -778,18 +793,23 @@ public class FrameFile {
 			String[] arr = {"星期日","星期一","星期二","星期三","星期四","星期五","星期六"};
 			String week = arr[dayOfWeek];
 			ResultSet rsss = getDutyDetail(dutyId,week);
-			DutyAlarm(rsss,currentTime,content,mailServerHost,userName,password,fromAddress);
+			DutyAlarm(list,insertSQL,rsss,currentTime,content,mailServerHost,userName,password,fromAddress);
 		}else if("day of month".equals(dutyType)){
 			int dayOfMonth = ca.get(Calendar.DAY_OF_MONTH);
 			String day = ""+dayOfMonth;
 			ResultSet rsss = getDutyDetail(dutyId,day);
-			DutyAlarm(rsss,currentTime,content,mailServerHost,userName,password,fromAddress);
+			DutyAlarm(list,insertSQL,rsss,currentTime,content,mailServerHost,userName,password,fromAddress);
 		}else if("day".equals(dutyType)){
 			ResultSet rsss = getDutyDetail(dutyId,"");
-			DutyAlarm(rsss,currentTime,content,mailServerHost,userName,password,fromAddress);
+			DutyAlarm(list,insertSQL,rsss,currentTime,content,mailServerHost,userName,password,fromAddress);
 		}
 	}
-	public static void DutyAlarm(ResultSet rsss,String currentTime,String content,String mailServerHost,String userName,String password,String fromAddress){
+	public static String getRecId(){
+		String RecId = UUID.randomUUID().toString();
+		RecId = RecId.replaceAll("-", "").toUpperCase();
+		return RecId;
+	}
+	public static void DutyAlarm(ArrayList<String> list,String SQL,ResultSet rsss,String currentTime,String content,String mailServerHost,String userName,String password,String fromAddress){
 		try {
 			while(rsss.next()){
 				String startTime = rsss.getString("StartTime");
@@ -804,9 +824,15 @@ public class FrameFile {
 					String receiveEmail = rsss.getString("ReceiveAlarmEmail");
 					if(receivePhone!=null&&receivePhone.length()>0){
 						sendSMS(receivePhone,content);
+						String SQL1 = "insert into EccAlarmLog (RecId,CreatedDateTime,AlarmName,AlarmGroup,AlarmMonitor,AlarmType,ReceiverAddress,AlarmStatus)" +
+								" values('"+getRecId()+"','"+list.get(0)+"','"+list.get(1)+"','"+list.get(2)+"','"+list.get(3)+"','"+list.get(4)+"','"+receivePhone+"','"+list.get(6)+"')";
+						JDBCForSQL.execute_Insert(SQL1);
 					}
                     if(receiveEmail!=null&&receiveEmail.length()>0){
                     	sendEmail(mailServerHost,userName,password,fromAddress,receiveEmail,content);
+                    	String SQL2 = "insert into EccAlarmLog (RecId,CreatedDateTime,AlarmName,AlarmGroup,AlarmMonitor,AlarmType,ReceiverAddress,AlarmStatus)" +
+								" values('"+getRecId()+"','"+list.get(0)+"','"+list.get(1)+"','"+list.get(2)+"','"+list.get(3)+"','"+list.get(4)+"','"+receiveEmail+"','"+list.get(6)+"')";
+                    	JDBCForSQL.execute_Insert(SQL2);
 					}
 				}
 			}
