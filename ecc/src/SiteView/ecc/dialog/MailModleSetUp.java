@@ -249,7 +249,7 @@ public class MailModleSetUp extends Dialog{
 			MessageDialog.openInformation(parentShell, "提示", "请选择要更新的邮件模板!");
 			break L3;
 		}
-		ICollection ico=FileTools.getBussCollection("EccMailModle");
+		 ICollection ico=FileTools.getBussCollection("EccMailModle");
 	     IEnumerator ienum=ico.GetEnumerator();
 	     while(ienum.MoveNext()){
 	    	 BusinessObject bv=(BusinessObject)ienum.get_Current();
