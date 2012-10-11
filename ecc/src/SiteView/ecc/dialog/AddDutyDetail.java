@@ -257,7 +257,6 @@ public class AddDutyDetail extends Dialog{
 				endTimeStr+=dateTime_1.getMinutes()+"";
 			}
 			
-			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 			bo1.GetField("StartTime").SetValue(new SiteviewValue(startTimeStr));//得到第四个文本框里的数据
 			bo1.GetField("EndTime").SetValue(new SiteviewValue(endTimeStr));//得到第五个文本框里的数据
 			if(dutyid!=null){
