@@ -158,10 +158,6 @@
           Name="编辑监测器">
     </AutoTaskExtension>
     <AutoTaskExtension
-          Class="SiteView.ecc.bundle.DeleteMonitorBundle"
-          Name="删除监测器">
-    </AutoTaskExtension>
-    <AutoTaskExtension
           Class="SiteView.ecc.bundle.EditsMonitorBundle"
           Name="编辑监测器1">
     </AutoTaskExtension>
