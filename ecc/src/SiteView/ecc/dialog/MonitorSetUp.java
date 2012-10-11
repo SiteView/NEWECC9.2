@@ -7,6 +7,7 @@ import java.util.Set;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionEvent;
@@ -33,8 +34,11 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import siteview.windows.forms.ImageHelper;
 import SiteView.ecc.Activator;
+import SiteView.ecc.Control.GroupTreeContentProvider;
+import SiteView.ecc.Control.GroupTreeLabelProvider;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MachineModle;
+import SiteView.ecc.Modle.MonitorModle;
 import SiteView.ecc.data.SiteViewData;
 import SiteView.ecc.tools.FileTools;
 import SiteView.ecc.view.EccTreeControl;
@@ -52,20 +56,14 @@ public class MonitorSetUp extends Dialog {
 
 	private Table table;
 
-	Set<String> set1 = new HashSet<String>();
-	
-	Set<String> set3;
-	
 	private TableItem tableItem;
 
 	private TableViewer tableViewer;
 
 	private Tree tree;
 
-	private TreeItem treeItem;
-
-	private TreeItem treeItem1;
 	private Text text_1;
+	
 	private Text text;
 
 	private Combo combo;
@@ -97,87 +95,52 @@ public class MonitorSetUp extends Dialog {
 		composite_1.setVisible(true);
 		composite_1.setLayout(new FillLayout());
 
-		tree = new Tree(composite_1, SWT.BORDER | SWT.CHECK | SWT.V_SCROLL);
+		TreeViewer treeViewer = new TreeViewer(composite_1, SWT.BORDER | SWT.CHECK | SWT.V_SCROLL);
+		tree = treeViewer.getTree();
 		tree.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		tree.setVisible(true);
-		tree.setHeaderVisible(true);
-
 		tree.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				TreeItem item = (TreeItem) e.item;
 				if (item.getChecked()) {
-					TableItem[] ti = table.getItems();
-					for (TableItem tableItem : ti) {
-						tableItem.dispose();
-					}
 					SelectParent(item);
 					SelectChild(item);
-						TreeItem[] item1 = item.getParentItem().getItems();
-						int length = item1.length;
-						for (int i=0;i<length;i++) {
-							if(!item1[i].getChecked()){
-								Set<String> set = new HashSet<String>();
-								set3 = selectAllId(item,set);
-								break;
-							}
-							if(i==item1.length-1){
-								if(length==1){
-									Set<String> set = new HashSet<String>();
-									set3 = selectAllId(item,set);
-								}else{
-									Set<String> set = new HashSet<String>();
-									set3 = selectAllId(item.getParentItem(),set);									
+					Set<String> set = new HashSet<String>();
+					Set<String> set3 = selectAllId(item,set);
+					createTableItem(set3);	
+				}else{
+					DeletChild(item);
+					if (!item.getText().equals("SiteViewEcc9.2")) {
+						Set<String> set = new HashSet<String>();
+						Set<String> set2 = selectAllId(item,set);
+						if(item.getParentItem().getText().equals("SiteViewEcc9.2")){
+							for (int i=0;i<item.getParentItem().getItems().length;i++) {
+								if(item.getParentItem().getItems()[i].getChecked()){
+									break;
+								}
+								if(i==item.getParentItem().getItems().length-1){
+									DeletParent(item);
+									
 								}
 							}
 						}
-					
-					for (String str : set3) {
-						set1.add(str);
-					}
-					createTableItem(set1);
-				} else {
-					DeletChild(item);
-					if (!item.getText().equals("Ecc9.2")) {
-						Set<String> set = new HashSet<String>();
-						Set<String> set2 = selectAllId(item,set);
 						for (String string : set2) {
-							set1.remove(string);
+							TableItem[] ti = table.getItems();
+							for (TableItem tableItem : ti) {
+								if(((BusinessObject)tableItem.getData()).get_RecId().equals(string)){
+									tableItem.dispose();
+								}
+							}
 						}
-						if(item.getParentItem().getText().equals("Ecc9.2")){
-							DeletParent(item);
-						}
-						TableItem[] ti = table.getItems();
-						for (TableItem tableItem : ti) {
-							tableItem.dispose();
-						}
-						createTableItem(set1);
 					}
 				}
-
 			}
-
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
-		treeItem = new TreeItem(tree, SWT.NONE | SWT.CHECK);
-		treeItem.setText("Ecc9.2");
-		treeItem.setImage(ImageHelper.LoadImage(Activator.PLUGIN_ID,
-				"icons/logo.jpg"));
-		for (int i = 0; i < SiteViewData.groups_0.size(); i++) {
-			if (SiteViewData.groups_0.get(i) instanceof GroupModle) {
-				GroupModle group = SiteViewData.groups_0.get(i);
-				BusinessObject bo = group.getBo();
-				String s = bo.GetField("GroupName").get_NativeValue()
-						.toString();
-				treeItem1 = new TreeItem(treeItem, SWT.NONE | SWT.CHECK);
-				treeItem1.setText(s);
-				treeItem1.setData(group);
-				treeItem1.setImage(ImageHelper.LoadImage(Activator.PLUGIN_ID,
-						"icons/node.jpg"));
-				createItem(group, treeItem1);
-			}
-		}
-		treeItem.setExpanded(true);
+		treeViewer.setContentProvider(new GroupTreeContentProvider());
+		treeViewer.setLabelProvider(new GroupTreeLabelProvider());
+		treeViewer.setInput(SiteViewData.CreatTreeData());
+		treeViewer.expandToLevel(2);
 
 		SashForm sashForm_1 = new SashForm(sashForm, SWT.VERTICAL);
 
@@ -320,40 +283,8 @@ public class MonitorSetUp extends Dialog {
 		return composite;
 	}
 
-	public void createItem(GroupModle group, TreeItem treeItem12) {
-		List<GroupModle> subgroup = group.getGroups();
-		for (int i = 0; i < subgroup.size(); i++) {
-			GroupModle g = subgroup.get(i);
-			BusinessObject bo = g.getBo();
-			TreeItem treeItem2 = new TreeItem(treeItem12, SWT.NONE | SWT.CHECK);
-			treeItem2.setText(bo.GetField("GroupName").get_NativeValue()
-					.toString());
-			treeItem2.setData(g);
-			treeItem2.setImage(ImageHelper.LoadImage(Activator.PLUGIN_ID,
-					"icons/node.jpg"));
-			createItem(g, treeItem2);
-		}
-		List<MachineModle> machines = group.getMachines();
-		for (int i = 0; i < machines.size(); i++) {
-			MachineModle machine = machines.get(i);
-			BusinessObject bo = machine.getBo();
-			TreeItem treeItem3 = new TreeItem(treeItem12, SWT.NONE | SWT.CHECK);
-			treeItem3.setText(bo.GetField("ServerAddress").get_NativeValue()
-					.toString());
-			treeItem3.setData(machine);
-			treeItem3.setImage(ImageHelper.LoadImage(Activator.PLUGIN_ID,
-					"icons/shebei.jpg"));
-		}
-
-	}
-
 	// 創建表格項
 	public void createTableItem(Set<String> set1) {
-		if (table.getItemCount() > 0) {
-			for (TableItem tableItem : table.getItems()) {
-				tableItem.dispose();
-			}
-		}
 		for (String s1 : set1) {
 			BusinessObject bo1 = EccTreeControl.CreateBo("RecId",s1, "Ecc");
 			BusinessObject bodyn = EccTreeControl.CreateBo("monitorid",s1, "EccDyn");
@@ -392,21 +323,9 @@ public class MonitorSetUp extends Dialog {
 
 	// 获取所选项的包括孩子的所有监测器id
 	public Set<String> selectAllId(TreeItem item,Set<String> set) {
-		if(item.getData() instanceof GroupModle){
-			ICollection icollGroup = FileTools.getBussCollection("Groups_Valid",((GroupModle)item.getData()).getBo().get_RecId(), "Ecc");
-			IEnumerator ienumGroup = icollGroup.GetEnumerator();
-			while (ienumGroup.MoveNext()) {
-				BusinessObject bo = (BusinessObject) ienumGroup.get_Current();
-				set.add(bo.get_RecId());
-			}
-		}
-		if(item.getData() instanceof MachineModle){
-			ICollection icollGroup = FileTools.getBussCollection("Machine",((MachineModle)item.getData()).getBo().get_RecId(), "Ecc");
-			IEnumerator ienumGroup = icollGroup.GetEnumerator();
-			while (ienumGroup.MoveNext()) {
-				BusinessObject bo = (BusinessObject) ienumGroup.get_Current();
-				set.add(bo.get_RecId());
-			}
+		if(item.getData() instanceof MonitorModle){
+			String s = ((MonitorModle)item.getData()).getBo().get_RecId();
+			set.add(s);
 		}
 		if(item.getItems().length!=0){
 			TreeItem[] treeitem = item.getItems();
@@ -430,7 +349,7 @@ public class MonitorSetUp extends Dialog {
 
 	// 勾选项取消时，取消勾选项的父亲
 	private void DeletParent(TreeItem item) {
-		if (item.getParent() != null && !item.getText().equals("Ecc9.2")) {
+		if (item.getParent() != null && !item.getText().equals("SiteViewEcc9.2")) {
 			TreeItem treeItem = item.getParentItem();
 			treeItem.setChecked(false);
 			DeletParent(treeItem);
@@ -439,7 +358,7 @@ public class MonitorSetUp extends Dialog {
 
 	// 勾选某项时同时勾选他的父亲项
 	private void SelectParent(TreeItem item) {
-		if (item.getParent() != null && !item.getText().equals("Ecc9.2")) {
+		if (item.getParent() != null && !item.getText().equals("SiteViewEcc9.2")) {
 			TreeItem treeItem = item.getParentItem();
 			treeItem.setChecked(true);
 			SelectParent(treeItem);
