@@ -1,7 +1,9 @@
 package SiteView.ecc.Control;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -9,13 +11,14 @@ import org.eclipse.jface.viewers.Viewer;
 import SiteView.ecc.Modle.AlarmModle;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MachineModle;
+import SiteView.ecc.Modle.MonitorModle;
 import SiteView.ecc.Modle.MonitorSetUpModel;
 import SiteView.ecc.Modle.SetUpModle;
 import SiteView.ecc.Modle.SiteViewEcc;
 import SiteView.ecc.Modle.TaskPlanModel;
 
 public class GroupTreeContentProvider implements ITreeContentProvider{
-
+	private Map<String,List<Object>> map=new HashMap<String,List<Object>>();
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
@@ -38,14 +41,19 @@ public class GroupTreeContentProvider implements ITreeContentProvider{
 	public Object[] getChildren(Object parentElement) {
 		if(parentElement instanceof SiteViewEcc){
 			return ((SiteViewEcc) parentElement).getList().toArray();
-		}else if(parentElement instanceof GroupModle) { 	
+		}else if(parentElement instanceof GroupModle ) { 	
 			GroupModle category = (GroupModle)parentElement;
 			List<Object> list=new ArrayList();
-			list.addAll(category.getGroups());
-			list.addAll(category.getMachines());
+			if(getMonitorCount_1(category.getGroups(), new ArrayList<Object>()).size()>0){
+				list.addAll(category.getGroups());
+			}
 			list.addAll(category.getMonitors());
+			if(getMonitorCount((List)category.getMachines()).size()>0){
+				list.addAll(getMonitorCount((List)category.getMachines()));
+			}
+			
 			return list.toArray();
-	     }else if(parentElement instanceof MachineModle){
+	     }else if(parentElement instanceof MachineModle &&((MachineModle)parentElement).getMonitors().size()>0){
 	    	 MachineModle m=(MachineModle) parentElement;
 	    	return m.getMonitors().toArray();
 	     }
@@ -76,5 +84,28 @@ public class GroupTreeContentProvider implements ITreeContentProvider{
 		}
 		return false;
 	}
-
+	public List<MachineModle> getMonitorCount(List<MachineModle> o){
+		List<MachineModle> list=new ArrayList<MachineModle>();
+		for(int i=0;i<o.size();i++){
+			if(o.get(i) instanceof MachineModle){
+				if(((MachineModle)o.get(i)).getMonitors().size()>0){
+					list.add(o.get(i));
+				}
+			}
+		}
+		return list;
+	}
+	public List<Object> getMonitorCount_1(List<GroupModle> group,List<Object> o){
+		List list=new ArrayList<GroupModle>();
+		for(int i=0;i<group.size();i++){
+			GroupModle groupm=group.get(i);
+			o.add(getMonitorCount(groupm.getMachines()));
+			o.add(groupm.getMonitors());
+			getMonitorCount_1(groupm.getGroups(), o);
+			if(o.size()<=0){
+				list.add(groupm);
+			}
+		}
+		return o;
+	}
 }

@@ -21,7 +21,7 @@ public class GroupTreeLabelProvider extends LabelProvider{
 		   return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/logo.jpg");
 	   }else if (element instanceof GroupModle) {
 			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/node.jpg");
-		}else if(element instanceof MachineModle){
+		}else if(element instanceof MachineModle&& ((MachineModle)element).getMonitors().size()>0){
 			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/shebei.jpg");
 		}else if(element instanceof MonitorModle){
 			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/monitor.jpg");
@@ -38,7 +38,7 @@ public class GroupTreeLabelProvider extends LabelProvider{
 			GroupModle m = (GroupModle) element;
 			BusinessObject bo=m.getBo();
 			return bo.GetField("GroupName").get_NativeValue().toString();
-		}else if(element instanceof MachineModle){
+		}else if(element instanceof MachineModle && ((MachineModle)element).getMonitors().size()>0){
 			MachineModle machine=(MachineModle)element;
 			BusinessObject bo=machine.getBo();
 			String type=bo.GetField("RemoteMachineType").get_NativeValue().toString();

@@ -34,6 +34,7 @@ public class BatchAddMachine extends Dialog {
 	public List<String> monitors=new ArrayList<String>();
 	public String group;
 	public String hostname;
+	public String machineId;
 	
 	Button btnPing;
 	Button btnCheckButton;
@@ -209,7 +210,9 @@ public class BatchAddMachine extends Dialog {
 			for(int j=0;j<sa_con;j++){
 				sa_c[j]=1;
 			}
-			sa.setWeights(sa_c);
+			if(sa_con!=0){
+				sa.setWeights(sa_c);
+			}
 		}
 		int [] n=new int[i];
 		
@@ -263,6 +266,7 @@ public class BatchAddMachine extends Dialog {
 					bo.GetField("dependscondition").SetValue(new SiteviewValue("good"));
 					//bo.GetField("dependscondition_Valid").SetValue(new SiteviewValue("B2FC0D40C49D46CF987DE8F3D250A5C7"));
 					bo.GetField("title").SetValue(new SiteviewValue(hostname+":"+s));
+					bo.GetField("Machine").SetValue(new SiteviewValue(machineId));
 					bo.SaveObject(ConnectionBroker.get_SiteviewApi(), false, true);
 					GroupModle subgroupModle=new GroupModle(bo, true, true, true, true,true,true,true,true);
 					list.add(subgroupModle);

@@ -35,4 +35,5 @@ Bundle-ClassPath: lib/jcommon-1.0.15.jar,
  lib/mail/my.mail.jar,
  lib/my.util.sound.jar
 Import-Package: SiteView.ecc.dialog,
- SiteView.ecc.editors
+ SiteView.ecc.editors,
+ org.apache.commons.httpclient;version="3.1.0"

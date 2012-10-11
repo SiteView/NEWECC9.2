@@ -47,6 +47,7 @@ public class RemoteMacheineBundle implements IAutoTaskExtension {
 		b.s=c;
 		b.hostname=hostname;
 		b.group=bo.GetField("Groups").get_NativeValue().toString();
+		b.machineId=bo.get_RecId();
 		b.open();
 		return null;
 	}

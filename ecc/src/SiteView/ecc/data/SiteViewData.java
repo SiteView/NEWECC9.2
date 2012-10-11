@@ -231,6 +231,7 @@ public class SiteViewData {
 			group.setMonitors(monitors);
 			list.remove(n);
 			list.add(n, group);
+			
 		}
 		return list;
 	}

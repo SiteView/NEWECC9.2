@@ -187,6 +187,9 @@ public class WmiService {
 
 		JIVariant results[] = new JIVariant[0];
 		try {
+			if(m_WbemServices==null){
+				return 5;
+			}
 			results = m_WbemServices.callMethodA("ExecQuery", new Object[] {
 					new JIString(strQuery), JIVariant.OPTIONAL_PARAM(),
 					JIVariant.OPTIONAL_PARAM(), JIVariant.OPTIONAL_PARAM() });
