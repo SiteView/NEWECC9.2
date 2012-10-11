@@ -171,8 +171,8 @@ public class FileTools {
 			xmls[i++] = xml;
 		}
 		query.AddOrderByDesc("CreatedDateTime");
-		query.set_BusObSearchCriteria(query.get_CriteriaBuilder()
-				.AndExpressions(xmls));
+//		query.set_BusObSearchCriteria(query.get_CriteriaBuilder()
+//				.AndExpressions(xmls));
 
 		ICollection iCollenction = siteviewApi.get_BusObService()
 				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);
