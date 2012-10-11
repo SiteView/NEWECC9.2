@@ -59,6 +59,7 @@ public class AbsoluteTimeEditor extends Dialog{
 	private Text text1;
 	private Table table;
 	private String name;
+	private TableItem item;
 	public BusinessObject bo;
 	public String TaskName;
 	public String Instruction;
@@ -92,9 +93,10 @@ public class AbsoluteTimeEditor extends Dialog{
 	public DateTime startTime_4;
 	public DateTime startTime_5;
 	public DateTime startTime_6;
-	public AbsoluteTimeEditor(Shell shell,String name) {
+	public AbsoluteTimeEditor(Shell shell,String name,TableItem item) {
 		super(shell);
 		this.name=name;
+		this.item=item;
 	}
 	protected void configureShell(Shell newShell) {
 		newShell.setSize(350, 320);
@@ -497,6 +499,9 @@ public class AbsoluteTimeEditor extends Dialog{
 		text1=new Text(composite2, SWT.WRAP | SWT.BORDER);//描述
 		text1.setLayoutData(BorderLayout.CENTER);
 		text1.setText(Instruction);
+		
+		System.out.println(item.getText(0));
+		System.out.println(item.getText(1));
 		return composite;
 	}
 	
@@ -550,8 +555,8 @@ public class AbsoluteTimeEditor extends Dialog{
 			}else{
 				permission_6="禁止";
 			}
-			bo.GetField("TaskName").SetValue(new SiteviewValue(text.getText()));//更新任务计划名称
-			bo.GetField("Instruction").SetValue(new SiteviewValue(text1.getText()));//更新描述 
+			String TaskName=bo.GetField("TaskName").SetValue(new SiteviewValue(text.getText())).toString();//更新任务计划名称
+			String Instruction=bo.GetField("Instruction").SetValue(new SiteviewValue(text1.getText())).toString();//更新描述 
 			bo.GetField("Status").SetValue(//更新是否允许的数据
 					new SiteviewValue(tableItem.getText(0)+":"+permission+";"+tableItem_1.getText(0)+":"+permission_1+";"+
 							tableItem_2.getText(0)+":"+permission_2+";"+tableItem_3.getText(0)+":"+permission_3+";"+
@@ -563,6 +568,9 @@ public class AbsoluteTimeEditor extends Dialog{
 							tableItem_5.getText(0)+","+startTimeStr_5+";"+tableItem_6.getText(0)+","+startTimeStr_6));
 			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,//将修改后的数据存储到数据库
 					true); 
+			
+			item.setText(0, TaskName);
+			item.setText(1, Instruction);
 		}
 	}
 }
