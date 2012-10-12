@@ -88,6 +88,12 @@
           id="SiteView.ecc.editors.TrendReport"
           name="报表">
     </editor>
+    <editor
+          class="SiteView.ecc.editors.AlarmLog"
+          default="false"
+          id="SiteView.ecc.editors.AlarmLog"
+          name="报警日志">
+    </editor>
  </extension>
  <extension
        point="Siteview.Forms.Common.LayoutExtension">
