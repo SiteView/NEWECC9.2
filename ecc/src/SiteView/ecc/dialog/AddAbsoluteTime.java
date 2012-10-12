@@ -427,6 +427,11 @@ public class AddAbsoluteTime extends Dialog{
 						messageBox.Show("任务计划名称已存在!", "提示", SWT.OK);
 						break L1;
 					}
+					if(text.getText().equals(taskName)){
+						MessageBox messageBox=new MessageBox();
+						messageBox.Show("该任务计划名称已在别的任务计划中存在!", "提示", SWT.OK);
+						break L1;
+					}
 					if(text.getText().isEmpty()){
 						MessageBox messageBox=new MessageBox();
 						messageBox.Show("任务计划名称不能为空!", "提示", SWT.OK);
@@ -442,7 +447,7 @@ public class AddAbsoluteTime extends Dialog{
 			bo.GetField("Instruction").SetValue(
 					new SiteviewValue(text1.getText()));
 			bo.GetField("Model").SetValue(
-					new SiteviewValue("绝对时间任务计划"));
+					new SiteviewValue("绝对时间任务计划"));//类型
 			bo.GetField("StatrtTime").SetValue(//得到开始时间的数据
 					new SiteviewValue(tableItem.getText(0)+","+startTimeStr+";"+tableItem_1.getText(0)+","+startTimeStr_1+";"+tableItem_2.getText(0)+","+startTimeStr_2+";"
 							+tableItem_3.getText(0)+","+startTimeStr_3+";"+tableItem_4.getText(0)+","+startTimeStr_4+";"+

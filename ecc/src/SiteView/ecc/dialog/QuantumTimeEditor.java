@@ -1,41 +1,37 @@
 package SiteView.ecc.dialog;
 
-
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
-import org.eclipse.wb.swt.SWTResourceManager;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.custom.TableEditor;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.wb.swt.SWTResourceManager;
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
-
-import SiteView.ecc.editors.AbsoluteTime;
 import SiteView.ecc.tools.FileTools;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
-import Siteview.Windows.Forms.MessageBox;
 
-public class AddTimeQuantum extends Dialog{
+public class QuantumTimeEditor extends Dialog{
+	private String title="编辑时间段任务计划";
 	public DateTime startTime;
 	public DateTime startTime_1;
 	public DateTime startTime_2;
@@ -64,11 +60,9 @@ public class AddTimeQuantum extends Dialog{
 	public String startTimeStr_11 = "";	
 	public String startTimeStr_12 = "";	
 	public String startTimeStr_13 = "";	
-	private String title="添加时间段任务计划";
 	private Text text_1;
 	private Table table;
 	private Text text_2;
-	public BusinessObject bo;
 	public Button btnCheckButton;
 	public Button btnCheckButton_1;
 	public Button btnCheckButton_2;
@@ -76,13 +70,6 @@ public class AddTimeQuantum extends Dialog{
 	public Button btnCheckButton_4;
 	public Button btnCheckButton_5;
 	public Button btnCheckButton_6;
-	public String permission;
-	public String permission_1;
-	public String permission_2;
-	public String permission_3;
-	public String permission_4;
-	public String permission_5;
-	public String permission_6;
 	public TableItem tableItem;
 	public TableItem tableItem_1;
 	public TableItem tableItem_2;
@@ -90,9 +77,46 @@ public class AddTimeQuantum extends Dialog{
 	public TableItem tableItem_4;
 	public TableItem tableItem_5;
 	public TableItem tableItem_6;
-	public AddTimeQuantum(Shell parentShell) {
-		super(parentShell);
-		
+	public String date;
+	public String permission;
+	public String date_1;
+	public String permission_1;
+	public String date_2;
+	public String permission_2;
+	public String date_3;
+	public String permission_3;
+	public String date_4;
+	public String permission_4;
+	public String date_5;
+	public String permission_5;
+	public String date_6;
+	public String permission_6;
+	private String name;
+	private TableItem item;
+	public BusinessObject bo;
+	public String TaskName;
+	public String Instruction;
+	public String StatrtTime;
+	public String EndTime;
+	public String Status;
+	public String time;
+	public String time_1;
+	public String time_2;
+	public String time_3;
+	public String time_4;
+	public String time_5;
+	public String time_6;
+	public String time_7;
+	public String time_8;
+	public String time_9;
+	public String time_10;
+	public String time_11;
+	public String time_12;
+	public String time_13;
+	public QuantumTimeEditor(Shell shell,String name,TableItem item) {
+		super(shell);
+		this.name=name;
+		this.item=item;
 	}
 	protected void configureShell(Shell newShell) {
 		newShell.setSize(420, 315);
@@ -122,6 +146,78 @@ public class AddTimeQuantum extends Dialog{
 		Composite composite_3 = new Composite(sashForm, SWT.NONE);
 		composite_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
+		ICollection ico=FileTools.getBussCollection("TaskName",name, "EccTaskPlan");
+		IEnumerator ien=ico.GetEnumerator();
+		while(ien.MoveNext()){
+			bo=(BusinessObject)ien.get_Current();
+			if(bo!=null&&bo.GetField("Model").get_NativeValue().toString().equals("时间段计划")){
+				TaskName=bo.GetField("TaskName").get_NativeValue()
+						.toString();
+				Instruction=bo.GetField("Instruction").get_NativeValue()
+						.toString();
+				StatrtTime=bo.GetField("StatrtTime").get_NativeValue()
+						.toString();
+				String []s2=StatrtTime.split(";");
+				String []b1=s2[0].split(",");
+				time=b1[1];
+				String []b2=s2[1].split(",");
+				time_1=b2[1];
+				String []b3=s2[2].split(",");
+				time_2=b3[1];
+				String []b4=s2[3].split(",");
+				time_3=b4[1];
+				String []b5=s2[4].split(",");
+				time_4=b5[1];
+				String []b6=s2[5].split(",");
+				time_5=b6[1];
+				String []b7=s2[6].split(",");
+				time_6=b7[1];
+				
+				EndTime=bo.GetField("EndTime").get_NativeValue()
+						.toString();
+				String []s3=EndTime.split(";");
+				String []c1=s3[0].split(",");
+				time_7=c1[1];
+				String []c2=s3[1].split(",");
+				time_8=c2[1];
+				String []c3=s3[2].split(",");
+				time_9=c3[1];
+				String []c4=s3[3].split(",");
+				time_10=c4[1];
+				String []c5=s3[4].split(",");
+				time_11=c5[1];
+				String []c6=s3[5].split(",");
+				time_12=c6[1];
+				String []c7=s3[6].split(",");
+				time_13=c7[1];
+				
+				Status=bo.GetField("Status").get_NativeValue()
+						.toString();
+				String []s1=Status.split(";");
+                String []a1=s1[0].split(":");
+                date=a1[0];//星期日
+                permission=a1[1];
+                String []a2=s1[1].split(":");
+                date_1=a2[0];//星期一
+                permission_1=a2[1];
+                String []a3=s1[2].split(":");
+                date_2=a3[0];//星期二
+                permission_2=a3[1];
+                String []a4=s1[3].split(":");
+                date_3=a4[0];//星期三
+                permission_3=a4[1];
+                String []a5=s1[4].split(":");
+                date_4=a5[0];//星期四
+                permission_4=a5[1];
+                String []a6=s1[5].split(":");
+                date_5=a6[0];//星期五
+                permission_5=a6[1];
+                String []a7=s1[6].split(":");
+                date_6=a7[0];//星期六
+                permission_6=a7[1];
+			}
+		}
+		
 		Label lblNewLabel = new Label(composite_3, SWT.NONE);
 		lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		lblNewLabel.setFont(SWTResourceManager.getFont("宋体", 10, SWT.NORMAL));
@@ -130,6 +226,8 @@ public class AddTimeQuantum extends Dialog{
 		
 		text_2 = new Text(composite_3, SWT.BORDER);//任务计划名称
 		text_2.setBounds(140, 0, 201, 18);
+		text_2.setText(TaskName);
+		text_2.setEnabled(false);
 		
 		table = new Table(sashForm, SWT.BORDER | SWT.FULL_SELECTION);
 		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -165,6 +263,11 @@ public class AddTimeQuantum extends Dialog{
 		btnCheckButton.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnCheckButton.setBounds(113, 33, 45, 16);
 		btnCheckButton.setText("\u5141\u8BB8");
+		if(tableItem.getText(0).equals(date)&&permission.equals("允许")){
+			btnCheckButton.setSelection(true);
+		}else if(tableItem.getText(0).equals(date)&&permission.equals("禁止")){
+			btnCheckButton.setSelection(false);
+		}
 		editor.minimumWidth = btnCheckButton.getSize ().x;
 		editor.setEditor(btnCheckButton, tableItem, 1);
 		TableEditor editor_1 = new TableEditor(table);
@@ -179,7 +282,10 @@ public class AddTimeQuantum extends Dialog{
 				| SWT.SHORT);
 		startTime.setLocation(191, 32);
 		startTime.setSize(79, 15);
-		startTime.setTime(00, 00, 00);
+		int h=Integer.parseInt(time.substring(0, time.indexOf(":")));
+		int m=Integer.parseInt(time.substring(time.indexOf(":")+1,time.lastIndexOf(":")));
+		int mm=Integer.parseInt(time.substring(time.lastIndexOf(":")+1));
+		startTime.setTime(h, m, mm);
 		startTimeStr=startTime.getHours() + ":"
 				+ startTime.getMinutes() + ":" + startTime.getSeconds();
 		startTime.addSelectionListener(new SelectionListener() {
@@ -206,7 +312,10 @@ public class AddTimeQuantum extends Dialog{
 				| SWT.SHORT);
 		startTime_1.setLocation(295, 32);
 		startTime_1.setSize(79, 15);
-		startTime_1.setTime(23, 59, 00);
+		int h7=Integer.parseInt(time_7.substring(0, time_7.indexOf(":")));
+		int m7=Integer.parseInt(time_7.substring(time_7.indexOf(":")+1,time_7.lastIndexOf(":")));
+		int mm7=Integer.parseInt(time_7.substring(time_7.lastIndexOf(":")+1));
+		startTime_1.setTime(h7, m7, mm7);
 		startTimeStr_1=startTime_1.getHours() + ":"
 				+ startTime_1.getMinutes() + ":" + startTime_1.getSeconds();
 		startTime_1.addSelectionListener(new SelectionListener() {
@@ -227,6 +336,11 @@ public class AddTimeQuantum extends Dialog{
 		btnCheckButton_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnCheckButton_1.setBounds(113, 51, 45, 16);
 		btnCheckButton_1.setText("\u5141\u8BB8");
+		if(tableItem_1.getText(0).equals(date_1)&&permission_1.equals("允许")){
+			btnCheckButton_1.setSelection(true);
+		}else if(tableItem_1.getText(0).equals(date_1)&&permission_1.equals("禁止")){
+			btnCheckButton_1.setSelection(false);
+		}
 		editor_5.minimumWidth = btnCheckButton_1.getSize ().x;
 		editor_5.setEditor(btnCheckButton_1, tableItem_1, 1);
 		TableEditor editor_6 = new TableEditor(table);
@@ -241,7 +355,10 @@ public class AddTimeQuantum extends Dialog{
 				| SWT.SHORT);
 		startTime_2.setLocation(191, 50);
 		startTime_2.setSize(79, 15);
-		startTime_2.setTime(00, 00, 00);
+		int h1=Integer.parseInt(time_1.substring(0, time_1.indexOf(":")));
+		int m1=Integer.parseInt(time_1.substring(time_1.indexOf(":")+1,time_1.lastIndexOf(":")));
+		int mm1=Integer.parseInt(time_1.substring(time_1.lastIndexOf(":")+1));
+		startTime_2.setTime(h1, m1, mm1);
 		startTimeStr_2=startTime_2.getHours() + ":"
 				+ startTime_2.getMinutes() + ":" + startTime_2.getSeconds();
 		startTime_2.addSelectionListener(new SelectionListener() {
@@ -267,7 +384,10 @@ public class AddTimeQuantum extends Dialog{
 				| SWT.SHORT);
 		startTime_3.setLocation(295, 50);
 		startTime_3.setSize(79, 15);
-		startTime_3.setTime(23, 59, 00);
+		int h8=Integer.parseInt(time_8.substring(0, time_8.indexOf(":")));
+		int m8=Integer.parseInt(time_8.substring(time_8.indexOf(":")+1,time_8.lastIndexOf(":")));
+		int mm8=Integer.parseInt(time_8.substring(time_8.lastIndexOf(":")+1));
+		startTime_3.setTime(h8, m8, mm8);
 		startTimeStr_3=startTime_3.getHours() + ":"
 				+ startTime_3.getMinutes() + ":" + startTime_3.getSeconds();
 		startTime_3.addSelectionListener(new SelectionListener() {
@@ -288,6 +408,11 @@ public class AddTimeQuantum extends Dialog{
 		btnCheckButton_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnCheckButton_2.setBounds(113, 69, 45, 16);
 		btnCheckButton_2.setText("\u5141\u8BB8");
+		if(tableItem_2.getText(0).equals(date_2)&&permission_2.equals("允许")){
+			btnCheckButton_2.setSelection(true);
+		}else if(tableItem_2.getText(0).equals(date_2)&&permission_2.equals("禁止")){
+			btnCheckButton_2.setSelection(false);
+		}
 		editor_10.minimumWidth = btnCheckButton_2.getSize ().x;
 		editor_10.setEditor(btnCheckButton_2, tableItem_2, 1); 
 		TableEditor editor_11 = new TableEditor(table);	
@@ -302,7 +427,10 @@ public class AddTimeQuantum extends Dialog{
 				| SWT.SHORT);
 		startTime_4.setLocation(191, 68);
 		startTime_4.setSize(79, 15);
-		startTime_4.setTime(00, 00, 00);
+		int h2=Integer.parseInt(time_2.substring(0, time_2.indexOf(":")));
+		int m2=Integer.parseInt(time_2.substring(time_2.indexOf(":")+1,time_2.lastIndexOf(":")));
+		int mm2=Integer.parseInt(time_2.substring(time_2.lastIndexOf(":")+1));
+		startTime_4.setTime(h2, m2, mm2);
 		startTimeStr_4=startTime_4.getHours() + ":"
 				+ startTime_4.getMinutes() + ":" + startTime_4.getSeconds();
 		startTime_4.addSelectionListener(new SelectionListener() {
@@ -328,7 +456,10 @@ public class AddTimeQuantum extends Dialog{
 				| SWT.SHORT);
 		startTime_5.setLocation(295, 68);
 		startTime_5.setSize(79, 15);
-		startTime_5.setTime(23, 59, 00);
+		int h9=Integer.parseInt(time_9.substring(0, time_9.indexOf(":")));
+		int m9=Integer.parseInt(time_9.substring(time_9.indexOf(":")+1,time_9.lastIndexOf(":")));
+		int mm9=Integer.parseInt(time_9.substring(time_9.lastIndexOf(":")+1));
+		startTime_5.setTime(h9, m9, mm9);
 		startTimeStr_5=startTime_5.getHours() + ":"
 				+ startTime_5.getMinutes() + ":" + startTime_5.getSeconds();
 		startTime_5.addSelectionListener(new SelectionListener() {
@@ -350,6 +481,11 @@ public class AddTimeQuantum extends Dialog{
 		btnCheckButton_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnCheckButton_3.setBounds(113, 87, 45, 16);
 		btnCheckButton_3.setText("\u5141\u8BB8");
+		if(tableItem_3.getText(0).equals(date_3)&&permission_3.equals("允许")){
+			btnCheckButton_3.setSelection(true);
+		}else if(tableItem_3.getText(0).equals(date_3)&&permission_3.equals("禁止")){
+			btnCheckButton_3.setSelection(false);
+		}
 		editor_15.minimumWidth = btnCheckButton_3.getSize ().x;
 		editor_15.setEditor(btnCheckButton_3, tableItem_3, 1); 
 		TableEditor editor_16 = new TableEditor(table);
@@ -364,7 +500,10 @@ public class AddTimeQuantum extends Dialog{
 				| SWT.SHORT);
 		startTime_6.setLocation(191, 86);
 		startTime_6.setSize(79, 15);
-		startTime_6.setTime(00, 00, 00);
+		int h3=Integer.parseInt(time_3.substring(0, time_3.indexOf(":")));
+		int m3=Integer.parseInt(time_3.substring(time_3.indexOf(":")+1,time_3.lastIndexOf(":")));
+		int mm3=Integer.parseInt(time_3.substring(time_3.lastIndexOf(":")+1));
+		startTime_6.setTime(h3, m3, mm3);
 		startTimeStr_6=startTime_6.getHours() + ":"
 				+ startTime_6.getMinutes() + ":" + startTime_6.getSeconds();
 		startTime_6.addSelectionListener(new SelectionListener() {
@@ -389,7 +528,10 @@ public class AddTimeQuantum extends Dialog{
 				| SWT.SHORT);
 		startTime_7.setLocation(295, 86);
 		startTime_7.setSize(79, 15);
-		startTime_7.setTime(23, 59, 00);
+		int h10=Integer.parseInt(time_10.substring(0, time_10.indexOf(":")));
+		int m10=Integer.parseInt(time_10.substring(time_10.indexOf(":")+1,time_10.lastIndexOf(":")));
+		int mm10=Integer.parseInt(time_10.substring(time_10.lastIndexOf(":")+1));
+		startTime_7.setTime(h10, m10, mm10);
 		startTimeStr_7=startTime_7.getHours() + ":"
 				+ startTime_7.getMinutes() + ":" + startTime_7.getSeconds();
 		startTime_7.addSelectionListener(new SelectionListener() {
@@ -412,6 +554,11 @@ public class AddTimeQuantum extends Dialog{
 		btnCheckButton_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		btnCheckButton_4.setBounds(113, 105, 45, 16);
 		btnCheckButton_4.setText("\u5141\u8BB8 ");
+		if(tableItem_4.getText(0).equals(date_4)&&permission_4.equals("允许")){
+			btnCheckButton_4.setSelection(true);
+		}else if(tableItem_4.getText(0).equals(date_4)&&permission_4.equals("禁止")){
+			btnCheckButton_4.setSelection(false);
+		}
 		editor_20.minimumWidth = btnCheckButton_4.getSize ().x;
 		editor_20.setEditor(btnCheckButton_4, tableItem_4, 1); 
 		TableEditor editor_21 = new TableEditor(table);
@@ -426,7 +573,10 @@ public class AddTimeQuantum extends Dialog{
 				| SWT.SHORT);
 		startTime_8.setLocation(191, 104);
 		startTime_8.setSize(79, 15);
-		startTime_8.setTime(00, 00, 00);
+		int h4=Integer.parseInt(time_4.substring(0, time_4.indexOf(":")));
+		int m4=Integer.parseInt(time_4.substring(time_4.indexOf(":")+1,time_4.lastIndexOf(":")));
+		int mm4=Integer.parseInt(time_4.substring(time_4.lastIndexOf(":")+1));
+		startTime_8.setTime(h4, m4, mm4);
 		startTimeStr_8=startTime_8.getHours() + ":"
 				+ startTime_8.getMinutes() + ":" + startTime_8.getSeconds();
 		startTime_8.addSelectionListener(new SelectionListener() {
@@ -451,7 +601,10 @@ public class AddTimeQuantum extends Dialog{
 				| SWT.SHORT);
 		startTime_9.setLocation(295, 104);
 		startTime_9.setSize(79, 15);
-		startTime_9.setTime(23, 59, 00);
+		int h11=Integer.parseInt(time_11.substring(0, time_11.indexOf(":")));
+		int m11=Integer.parseInt(time_11.substring(time_11.indexOf(":")+1,time_11.lastIndexOf(":")));
+		int mm11=Integer.parseInt(time_11.substring(time_11.lastIndexOf(":")+1));
+		startTime_9.setTime(h11, m11, mm11);
 		startTimeStr_9=startTime_9.getHours() + ":"
 				+ startTime_9.getMinutes() + ":" + startTime_9.getSeconds();
 		startTime_9.addSelectionListener(new SelectionListener() {
@@ -475,6 +628,11 @@ public class AddTimeQuantum extends Dialog{
 		btnCheckButton_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnCheckButton_5.setBounds(113, 123, 45, 16);
 		btnCheckButton_5.setText("\u5141\u8BB8");
+		if(tableItem_5.getText(0).equals(date_5)&&permission_5.equals("允许")){
+			btnCheckButton_5.setSelection(true);
+		}else if(tableItem_5.getText(0).equals(date_5)&&permission_5.equals("禁止")){
+			btnCheckButton_5.setSelection(false);
+		}
 		editor_25.minimumWidth = btnCheckButton_5.getSize ().x;
 		editor_25.setEditor(btnCheckButton_5, tableItem_5, 1); 
 		TableEditor editor_26 = new TableEditor(table);
@@ -489,7 +647,10 @@ public class AddTimeQuantum extends Dialog{
 				| SWT.SHORT);
 		startTime_10.setLocation(191, 122);
 		startTime_10.setSize(79, 15);
-		startTime_10.setTime(00, 00, 00);
+		int h5=Integer.parseInt(time_5.substring(0, time_5.indexOf(":")));
+		int m5=Integer.parseInt(time_5.substring(time_5.indexOf(":")+1,time_5.lastIndexOf(":")));
+		int mm5=Integer.parseInt(time_5.substring(time_5.lastIndexOf(":")+1));
+		startTime_10.setTime(h5, m5, mm5);
 		startTimeStr_10=startTime_10.getHours() + ":"
 				+ startTime_10.getMinutes() + ":" + startTime_10.getSeconds();
 		startTime_10.addSelectionListener(new SelectionListener() {
@@ -515,7 +676,10 @@ public class AddTimeQuantum extends Dialog{
 				| SWT.SHORT);
 		startTime_11.setLocation(295, 122);
 		startTime_11.setSize(79, 15);
-		startTime_11.setTime(23, 59, 00);
+		int h12=Integer.parseInt(time_12.substring(0, time_12.indexOf(":")));
+		int m12=Integer.parseInt(time_12.substring(time_12.indexOf(":")+1,time_12.lastIndexOf(":")));
+		int mm12=Integer.parseInt(time_12.substring(time_12.lastIndexOf(":")+1));
+		startTime_11.setTime(h12, m12, mm12);
 		startTimeStr_11=startTime_11.getHours() + ":"
 				+ startTime_11.getMinutes() + ":" + startTime_11.getSeconds();
 		startTime_11.addSelectionListener(new SelectionListener() {
@@ -537,6 +701,11 @@ public class AddTimeQuantum extends Dialog{
 		btnCheckButton_6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnCheckButton_6.setBounds(113, 141, 45, 16);
 		btnCheckButton_6.setText("\u5141\u8BB8");
+		if(tableItem_6.getText(0).equals(date_6)&&permission_6.equals("允许")){
+			btnCheckButton_6.setSelection(true);
+		}else if(tableItem_6.getText(0).equals(date_6)&&permission_6.equals("禁止")){
+			btnCheckButton_6.setSelection(false);
+		}
 		editor_30.minimumWidth = btnCheckButton_6.getSize ().x;
 		editor_30.setEditor(btnCheckButton_6, tableItem_6, 1); 
 		TableEditor editor_31 = new TableEditor(table);
@@ -551,7 +720,10 @@ public class AddTimeQuantum extends Dialog{
 				| SWT.SHORT);
 		startTime_12.setLocation(191, 140);
 		startTime_12.setSize(79, 15);
-		startTime_12.setTime(00, 00, 00);
+		int h6=Integer.parseInt(time_6.substring(0, time_6.indexOf(":")));
+		int m6=Integer.parseInt(time_6.substring(time_6.indexOf(":")+1,time_6.lastIndexOf(":")));
+		int mm6=Integer.parseInt(time_6.substring(time_6.lastIndexOf(":")+1));
+		startTime_12.setTime(h6, m6, mm6);
 		startTimeStr_12=startTime_12.getHours() + ":"
 				+ startTime_12.getMinutes() + ":" + startTime_12.getSeconds();
 		startTime_12.addSelectionListener(new SelectionListener() {
@@ -577,7 +749,10 @@ public class AddTimeQuantum extends Dialog{
 					| SWT.SHORT);
 			startTime_13.setLocation(295, 140);
 			startTime_13.setSize(79, 15);
-			startTime_13.setTime(23, 59, 00);
+			int h13=Integer.parseInt(time_13.substring(0, time_13.indexOf(":")));
+			int m13=Integer.parseInt(time_13.substring(time_13.indexOf(":")+1,time_13.lastIndexOf(":")));
+			int mm13=Integer.parseInt(time_13.substring(time_13.lastIndexOf(":")+1));
+			startTime_13.setTime(h13, m13, mm13);
 			startTimeStr_13=startTime_13.getHours() + ":"
 					+ startTime_13.getMinutes() + ":" + startTime_13.getSeconds();
 			startTime_13.addSelectionListener(new SelectionListener() {
@@ -610,6 +785,7 @@ public class AddTimeQuantum extends Dialog{
 		
 		text_1 = new Text(composite_2, SWT.BORDER);//描述
 		text_1.setBounds(56, 0, 370, 199);
+		text_1.setText(Instruction);
 		return composite;
 	}
 	protected void createButtonsForButtonBar(Composite parent) {
@@ -619,8 +795,8 @@ public class AddTimeQuantum extends Dialog{
 		Button cancelButton = createButton(parent, IDialogConstants.CANCEL_ID,
 				"取消", true);
 	}
-	protected void buttonPressed(int buttonId) {
-		L1:	if(buttonId==IDialogConstants.OK_ID){
+	protected void buttonPressed(int buttonId){
+		if(buttonId==IDialogConstants.OK_ID){
 			if(btnCheckButton.getSelection()){
 				permission="允许";
 			}else{
@@ -663,58 +839,25 @@ public class AddTimeQuantum extends Dialog{
 				permission_6="禁止";
 			}
 			
-			ICollection ico=FileTools.getBussCollection("EccTaskPlan");
-			IEnumerator ienum=ico.GetEnumerator();
-			while(ienum.MoveNext()){
-				BusinessObject businessObject=(BusinessObject)ienum.get_Current();
-				if(businessObject!=null){
-					String taskName=businessObject.GetField("TaskName").get_NativeValue().toString();
-					String model=businessObject.GetField("Model").get_NativeValue().toString();
-					if(text_2.getText().equals(taskName)&&"时间段计划".equals(model)){
-						MessageBox messageBox=new MessageBox();
-						messageBox.Show("任务计划名称已存在!", "提示", SWT.OK);
-						break L1;
-					}
-					if(text_2.getText().equals(taskName)){
-						MessageBox messageBox=new MessageBox();
-						messageBox.Show("该任务计划名称已在别的任务计划中存在!", "提示", SWT.OK);
-						break L1;
-					}
-					if(text_2.getText().isEmpty()){
-						MessageBox messageBox=new MessageBox();
-						messageBox.Show("任务计划名称不能为空!", "提示", SWT.OK);
-						break L1;
-					} 
-				}
-			}
-
-			bo = ConnectionBroker.get_SiteviewApi()//得到数据库表
-					.get_BusObService().Create("EccTaskPlan");
-			bo.GetField("TaskName").SetValue(
-					new SiteviewValue(text_2.getText()));//任务计划名称
-			bo.GetField("Instruction").SetValue(
-					new SiteviewValue(text_1.getText()));//描述
-			bo.GetField("Model").SetValue(
-					new SiteviewValue("时间段计划"));//类型
-			bo.GetField("Status").SetValue(//得到是否允许的数据
+			bo.GetField("Instruction").SetValue(new SiteviewValue(text_1.getText()));//更新描述 
+			bo.GetField("Status").SetValue(//更新是否允许的数据
 					new SiteviewValue(tableItem.getText(0)+":"+permission+";"+tableItem_1.getText(0)+":"+permission_1+";"+
 							tableItem_2.getText(0)+":"+permission_2+";"+tableItem_3.getText(0)+":"+permission_3+";"+
 							tableItem_4.getText(0)+":"+permission_4+";"+tableItem_5.getText(0)+":"+permission_5+";"+
 							tableItem_6.getText(0)+":"+permission_6));
-			bo.GetField("StatrtTime").SetValue(new SiteviewValue(tableItem.getText(0)+","+startTimeStr+";"+tableItem_1.getText(0)+","+startTimeStr_2+";"+
-					tableItem_2.getText(0)+","+startTimeStr_4+";"+tableItem_3.getText(0)+","+startTimeStr_6+";"+
-					tableItem_4.getText(0)+","+startTimeStr_8+";"+tableItem_5.getText(0)+","+startTimeStr_10+";"+
-					tableItem_6.getText(0)+","+startTimeStr_12));//开始时间
+			bo.GetField("StatrtTime").SetValue(//更新开始时间的数据
+					new SiteviewValue(tableItem.getText(0)+","+startTimeStr+";"+tableItem_1.getText(0)+","+startTimeStr_2+";"+
+							tableItem_2.getText(0)+","+startTimeStr_4+";"+tableItem_3.getText(0)+","+startTimeStr_6+";"+
+							tableItem_4.getText(0)+","+startTimeStr_8+";"+tableItem_5.getText(0)+","+startTimeStr_10+";"+
+							tableItem_6.getText(0)+","+startTimeStr_12));
 			bo.GetField("EndTime").SetValue(new SiteviewValue(tableItem.getText(0)+","+startTimeStr_1+";"+tableItem_1.getText(0)+","+startTimeStr_3+";"+
 					tableItem_2.getText(0)+","+startTimeStr_5+";"+tableItem_3.getText(0)+","+startTimeStr_7+";"+
 					tableItem_4.getText(0)+","+startTimeStr_9+";"+tableItem_5.getText(0)+","+startTimeStr_11+";"+
-					tableItem_6.getText(0)+","+startTimeStr_13));//结束时间
+					tableItem_6.getText(0)+","+startTimeStr_13));//更新结束时间的数据
 			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,
-					true);//将数据存储到数据
-			
-			AbsoluteTime.addQuantumData();//刷新表单
+					true);//将修改后的数据存储到数据库
+			item.setText(1, text_1.getText());
 		}
 		this.close();
-	
 	}
 }
