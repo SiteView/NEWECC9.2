@@ -311,7 +311,8 @@ public class AlarmRule extends EditorPart {
 		String[] arr = time.split("\\*");
 		map.put("startTime", arr[1]);
 		map.put("endTime", arr[0]);
-		ICollection ic = FileTools.getLog(map, "EccAlarmLog");
+		map.put("LastModBy", null);
+		ICollection ic = FileTools.getLog2(map, "EccAlarmLog");
 		IEnumerator ieable = ic.GetEnumerator();
 		while(ieable.MoveNext()){
 			TableItem item = new TableItem(table_1, SWT.NONE);
