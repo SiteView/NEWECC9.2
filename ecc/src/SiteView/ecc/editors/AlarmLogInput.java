@@ -41,5 +41,16 @@ public class AlarmLogInput implements IEditorInput {
 		// TODO Auto-generated method stub
 		return "";
 	}
+	
+	@Override  
+	 public boolean equals(Object obj) {  
+	    if(null == obj) return false;  
+	              
+	    if(!(obj instanceof AlarmLogInput)) return false;  
+	              
+	    if(!getName().equals(((AlarmLogInput)obj).getName())) return false;  
+	              
+	    return true;  
+	  }
 
 }

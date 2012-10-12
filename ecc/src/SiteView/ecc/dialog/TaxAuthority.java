@@ -50,7 +50,6 @@ import system.Collections.IEnumerator;
 
 public class TaxAuthority extends Dialog {
 	private String title = "”√ªß ⁄»®";
-	List<BusinessObject> bos;
 	List<BusinessObject> list;
 	private Map<String, BusinessObject> userPermission;
 	private Map<String, BusinessObject> functionPermission;

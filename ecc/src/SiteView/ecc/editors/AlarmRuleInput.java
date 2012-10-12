@@ -41,5 +41,16 @@ public class AlarmRuleInput implements IEditorInput {
 		// TODO Auto-generated method stub
 		return "";
 	}
+	
+	@Override  
+	 public boolean equals(Object obj) {  
+	    if(null == obj) return false;  
+	              
+	    if(!(obj instanceof AlarmRuleInput)) return false;  
+	              
+	    if(!getName().equals(((AlarmRuleInput)obj).getName())) return false;  
+	              
+	    return true;  
+	  }
 
 }
