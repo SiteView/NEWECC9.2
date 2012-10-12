@@ -185,7 +185,7 @@ public class AddEmailAlarmRule extends Dialog {
 		label.setBounds(10, 24, 54, 12);
 		label.setText("\u62A5\u8B66\u4E8B\u4EF6");
 
-		combo = new Combo(group_1, SWT.READ_ONLY);
+		combo = new Combo(group_1, SWT.NONE);
 		combo.setBounds(70, 21, 86, 20);
 		combo.add("Œ£œ’");
 		combo.add("¥ÌŒÛ");
@@ -379,7 +379,7 @@ public class AddEmailAlarmRule extends Dialog {
 		receiveAddress.setBounds(35, 48, 95, 18);
 		receiveAddress.setText("\u90AE\u4EF6\u63A5\u6536\u5730\u5740*\uFF1A");
 
-		combo_4 = new Combo(group, SWT.READ_ONLY);
+		combo_4 = new Combo(group, SWT.NONE);
 		combo_4.setBounds(135, 48, 200, 18);
 		combo_4.add("∆‰À˚");
 		if (list == null) {
@@ -422,7 +422,7 @@ public class AddEmailAlarmRule extends Dialog {
 		lblEmail.setBounds(35, 104, 95, 18);
 		lblEmail.setText("Email\u6A21\u677F*\uFF1A");
 
-		combo_1 = new Combo(group, SWT.READ_ONLY);
+		combo_1 = new Combo(group, SWT.NONE);
 		combo_1.setBounds(135, 104, 200, 18);
 		if (mailmodels == null) {
 			mailmodels = new ArrayList<BusinessObject>();
@@ -483,7 +483,7 @@ public class AddEmailAlarmRule extends Dialog {
 		lblNewLabel_2.setBounds(35, 216, 95, 18);
 		lblNewLabel_2.setText("\u503C\u73ED\u62A5\u8B66\u5217\u8868\uFF1A");
 
-		combo_2 = new Combo(group, SWT.READ_ONLY);
+		combo_2 = new Combo(group, SWT.NONE);
 		combo_2.setBounds(135, 216, 200, 18);
 		combo_2.add("ø’");
 		if (duty == null) {
@@ -511,7 +511,7 @@ public class AddEmailAlarmRule extends Dialog {
 		label_4.setBounds(35, 244, 95, 18);
 		label_4.setText("\u62A5\u8B66\u7B56\u7565\uFF1A");
 
-		combo_3 = new Combo(group, SWT.READ_ONLY);
+		combo_3 = new Combo(group, SWT.NONE);
 		combo_3.setBounds(135, 244, 200, 18);
 		combo_3.add("ø’");
 		combo_3.select(0);
@@ -544,7 +544,7 @@ public class AddEmailAlarmRule extends Dialog {
 		receiveAddress
 				.setText("\u62A5\u8B66\u63A5\u6536\u624B\u673A\u53F7*\uFF1A");
 
-		combo_4 = new Combo(group, SWT.READ_ONLY);
+		combo_4 = new Combo(group, SWT.NONE);
 		combo_4.setBounds(135, 45, 200, 18);
 		combo_4.add("∆‰À˚");
 		combo_4.select(0);
@@ -583,7 +583,7 @@ public class AddEmailAlarmRule extends Dialog {
 		label_5.setBounds(35, 95, 95, 18);
 		label_5.setText("\u53D1\u9001\u65B9\u5F0F*\uFF1A");
 
-		combo_1 = new Combo(group, SWT.READ_ONLY);
+		combo_1 = new Combo(group, SWT.NONE);
 		combo_1.setBounds(135, 95, 200, 18);
 
 		Label lblEmail = new Label(group, SWT.NONE);
@@ -591,7 +591,7 @@ public class AddEmailAlarmRule extends Dialog {
 		lblEmail.setBounds(35, 120, 95, 18);
 		lblEmail.setText("\u77ED\u4FE1\u6A21\u677F*\uFF1A");
 
-		combo_2 = new Combo(group, SWT.READ_ONLY);
+		combo_2 = new Combo(group, SWT.NONE);
 		combo_2.setBounds(135, 120, 200, 18);
 		if (messagemodels == null) {
 			messagemodels = new ArrayList<BusinessObject>();
@@ -652,7 +652,7 @@ public class AddEmailAlarmRule extends Dialog {
 		lblNewLabel_2.setBounds(35, 220, 95, 18);
 		lblNewLabel_2.setText("\u503C\u73ED\u62A5\u8B66\u5217\u8868\uFF1A");
 
-		combo_3 = new Combo(group, SWT.READ_ONLY);
+		combo_3 = new Combo(group, SWT.NONE);
 		combo_3.setBounds(135, 220, 200, 18);
 		combo_3.add("ø’");
 		if (duty == null) {
@@ -680,7 +680,7 @@ public class AddEmailAlarmRule extends Dialog {
 		label_4.setBounds(35, 245, 95, 18);
 		label_4.setText("\u62A5\u8B66\u7B56\u7565\uFF1A");
 
-		combo_5 = new Combo(group, SWT.READ_ONLY);
+		combo_5 = new Combo(group, SWT.NONE);
 		combo_5.setBounds(135, 245, 200, 18);
 		combo_5.add("ø’");
 		combo_5.select(0);
@@ -712,7 +712,7 @@ public class AddEmailAlarmRule extends Dialog {
 		receiveAddress.setBounds(35, 60, 95, 20);
 		receiveAddress.setText("\u9009\u62E9\u670D\u52A1\u5668*\uFF1A");
 
-		combo_4 = new Combo(group, SWT.READ_ONLY);
+		combo_4 = new Combo(group, SWT.NONE);
 		combo_4.setBounds(135, 60, 200, 20);
 		combo_4.add("127.0.0.1");
 		if (service == null) {
@@ -739,7 +739,7 @@ public class AddEmailAlarmRule extends Dialog {
 		label.setBounds(35, 100, 95, 20);
 		label.setText("\u9009\u62E9\u811A\u672C*\uFF1A");
 
-		combo_1 = new Combo(group, SWT.READ_ONLY);
+		combo_1 = new Combo(group, SWT.NONE);
 		combo_1.setBounds(135, 100, 200, 20);
 		combo_1.add("PlayRemoteSound");
 		combo_1.add("Reboot");
@@ -768,7 +768,7 @@ public class AddEmailAlarmRule extends Dialog {
 		lblEmail.setBounds(35, 180, 95, 20);
 		lblEmail.setText("\u62A5\u8B66\u7B56\u7565\uFF1A");
 
-		combo_2 = new Combo(group, SWT.READ_ONLY);
+		combo_2 = new Combo(group, SWT.NONE);
 		combo_2.setBounds(135, 180, 200, 20);
 		combo_2.add("ø’");
 		combo_2.select(0);
@@ -836,7 +836,7 @@ public class AddEmailAlarmRule extends Dialog {
 		lblEmail.setBounds(35, 180, 95, 20);
 		lblEmail.setText("\u62A5\u8B66\u7B56\u7565\uFF1A");
 
-		combo_4 = new Combo(group, SWT.READ_ONLY);
+		combo_4 = new Combo(group, SWT.NONE);
 		combo_4.setBounds(135, 180, 200, 20);
 		combo_4.add("ø’");
 		combo_4.select(0);

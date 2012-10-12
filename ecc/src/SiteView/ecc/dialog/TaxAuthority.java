@@ -14,7 +14,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
-import SiteView.ecc.Activator;
 import SiteView.ecc.Control.EccTreeComparer;
 import SiteView.ecc.Control.EccTreeContentProvider;
 import SiteView.ecc.Control.EccTreeLabelProvider;
@@ -39,7 +38,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FormLayout;
@@ -47,14 +45,15 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-import siteview.windows.forms.ImageHelper;
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
 
 public class TaxAuthority extends Dialog {
 	private String title = "用户授权";
 	List<BusinessObject> bos;
+	List<BusinessObject> list;
 	private Map<String, BusinessObject> userPermission;
+	private Map<String, BusinessObject> functionPermission;
 	TreeItem item;
 	TreeItem treeItem;
 	TreeItem treeItem1;
@@ -155,19 +154,16 @@ public class TaxAuthority extends Dialog {
 			}
 		}
 		combo.setBounds(112, 0, 92, 20);
-		getPermissions("UserId", combo.getText());
-//		combo.addSelectionListener(new SelectionListener() {
-//
-//			@Override
-//			public void widgetSelected(SelectionEvent e) {
-//				getPermissions("UserId", combo.getText());
-////				createTreeItem();
-//			}
-//
-//			@Override
-//			public void widgetDefaultSelected(SelectionEvent e) {
-//			}
-//		});
+		list = getPermissions("UserId", combo.getText());
+		combo.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				removeAllTree(tree.getItems());
+				list = getPermissions("UserId", combo.getText());
+				createTree();
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
 
 		Label label = new Label(composite_3, SWT.NONE);
 		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -204,6 +200,9 @@ public class TaxAuthority extends Dialog {
 					flag[3] = false;
 					stackLayOut.topControl = createEccComposite(composite_8);
 					Authority();
+					if(userPermission.get("SE")!=null){
+						but1.setSelection((Boolean) userPermission.get("SE").GetField("AddGroup").get_NativeValue());						
+					}
 				}else if(item.getText().equals("报警规则")){
 					stackLayOut.topControl = createAlarmComposite(composite_8,"报警规则操作权限","添加报警规则","编辑报警规则","删除报警规则");
 				}else if(item.getText().equals("报警策略")){
@@ -213,40 +212,189 @@ public class TaxAuthority extends Dialog {
 					flag[1] = true;
 					flag[2] = false;
 					flag[3] = true;
-					stackLayOut.topControl = createEccComposite(composite_8);
+					stackLayOut.topControl = createEccComposite(composite_8); 
 					Authority();
+					if(userPermission.get(((GroupModle)item.getData()).getBo().get_RecId())!=null){
+						String macid = ((GroupModle)item.getData()).getBo().get_RecId();
+						but2.setSelection((Boolean) userPermission.get(macid)
+								.GetField("AddGroup").get_NativeValue());
+						but3.setSelection((Boolean) userPermission.get(macid)
+								.GetField("AddMachine").get_NativeValue());
+						but4.setSelection((Boolean) userPermission.get(macid)
+								.GetField("EditGroup").get_NativeValue());
+						but5.setSelection((Boolean) userPermission.get(macid)
+								.GetField("DeleteGroup").get_NativeValue());
+						but6.setSelection((Boolean) userPermission.get(macid)
+								.GetField("AddMonitor").get_NativeValue());
+						but11.setSelection((Boolean) userPermission.get(macid)
+								.GetField("EditMonitor").get_NativeValue());
+						but12.setSelection((Boolean) userPermission.get(macid)
+								.GetField("DeleteMonitor")
+								.get_NativeValue());
+					}
 				}else if(item.getData() instanceof MachineModle){
 					flag[0] = false;
 					flag[1] = false;
 					flag[2] = true;
 					flag[3] = true;
 					stackLayOut.topControl = createEccComposite(composite_8);
-					Authority();;
+					Authority();
+					String macid = ((MachineModle)item.getData()).getBo().get_RecId();
+					if(userPermission.get(macid)!=null){
+						but7.setSelection((Boolean) userPermission.get(macid).GetField("AddMonitor").get_NativeValue());
+						but9.setSelection((Boolean) userPermission.get(macid).GetField("EditMachine").get_NativeValue());
+						but10.setSelection((Boolean) userPermission.get(macid).GetField("DeleteMachine").get_NativeValue());
+						but11.setSelection((Boolean) userPermission.get(macid).GetField("EditMonitor").get_NativeValue());
+						but12.setSelection((Boolean) userPermission.get(macid).GetField("DeleteMonitor").get_NativeValue());
+					}
 				}else{
 					stackLayOut.topControl = createComposite(composite_8);
 				}
 				composite_8.layout();
-			}
-			public void widgetDefaultSelected(SelectionEvent e) {
-				
-			}
+		}
+		public void widgetDefaultSelected(SelectionEvent e) {
+			}	
 		});
 		treeViewer.setContentProvider(new EccTreeContentProvider());
 		treeViewer.setLabelProvider(new EccTreeLabelProvider());
 		SiteViewData s = new SiteViewData();
 		treeViewer.setInput(s.getData());
-		treeViewer.expandToLevel(10);
+		treeViewer.expandAll();
 		treeViewer.setComparer(new EccTreeComparer());
+		createTree();
 
 		sashForm.setWeights(new int[] { 3, 2 });
 		return composite;
 	}
 	
+	
+	public void createTree(){
+		if(list.size()!=0){
+			TreeItem[] item = tree.getItems();
+			for (BusinessObject list1 : list) {
+				if(list1.GetField("ButtonType").get_NativeValue().toString().equals("false")){					
+					String id = list1.GetField("PermissionsId").get_NativeValue().toString();
+					for (TreeItem treeItem : item) {
+						if(treeItem.getText().equals("SiteViewEcc9.2") && id.equals("SE")){
+							treeItem.setChecked(true);
+							for (BusinessObject list2 : list) {								
+								createSEChaild(treeItem.getItems(),list2.GetField("PermissionsId").get_NativeValue().toString());
+							}
+						}else if(treeItem.getData() instanceof AlarmModle && id.equals("Alarm")){
+							treeItem.setChecked(true);
+							for (BusinessObject list2 : list) {								
+								createAlarmChaild(treeItem.getItems(),list2.GetField("PermissionsId").get_NativeValue().toString());
+							}
+						}else if(treeItem.getData() instanceof MonitorSetUpModel && id.equals("Monitor")){
+							treeItem.setChecked(true);
+						}else if(treeItem.getData() instanceof SetUpModle && id.equals("Set")){
+							treeItem.setChecked(true);
+							for (BusinessObject list2 : list) {								
+								createSetChaild(treeItem.getItems(),list2.GetField("PermissionsId").get_NativeValue().toString());
+							}
+						}else if(treeItem.getData() instanceof StatementsModle && id.equals("Report")){
+							treeItem.setChecked(true);
+							for (BusinessObject list2 : list) {								
+								createReporChaild(treeItem.getItems(),list2.GetField("PermissionsId").get_NativeValue().toString());
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	public void removeAllTree(TreeItem[] items){
+		for (TreeItem item :items) {
+			item.setChecked(false);
+			if(item.getItemCount()>0){
+				removeAllTree(item.getItems());
+			}
+		}
+	}
+	
+	public void createSEChaild(TreeItem[] item,String id){
+		for (TreeItem treeItem : item) {
+			if(treeItem.getData() instanceof GroupModle){
+				String id1 = ((GroupModle)treeItem.getData()).getBo().get_RecId();
+				if(id1.equals(id)){
+					treeItem.setChecked(true);
+				}
+				
+			}else if(treeItem.getData() instanceof MachineModle){
+				String id1 = ((MachineModle)treeItem.getData()).getBo().get_RecId();
+				if(id1.equals(id)){
+					treeItem.setChecked(true);
+				}
+			}
+			if(treeItem.getItemCount()>0){
+				createSEChaild(treeItem.getItems(),id);
+			}
+		}
+	}
+	
+	public void createSetChaild(TreeItem[] item,String id){
+		for (TreeItem treeItem : item) {
+			if(treeItem.getText().equals("邮件设置") && id.equals("Email")){
+				treeItem.setChecked(true);
+			}else if(treeItem.getText().equals("短信设置") && id.equals("SMS")){
+				treeItem.setChecked(true);
+			}else if(treeItem.getText().equals("值班表设置") && id.equals("Duty")){
+				treeItem.setChecked(true);
+			}else if(treeItem.getText().equals("用户管理") && id.equals("User")){
+				treeItem.setChecked(true);
+			}else if(treeItem.getText().equals("任务计划") && id.equals("Task")){
+				treeItem.setChecked(true);
+				for (TreeItem treeItem1 : treeItem.getItems()) {
+					for (BusinessObject list1 : list) {
+						String id1 = list1.GetField("PermissionsId").get_NativeValue().toString();
+						if(treeItem1.getText().equals("绝对时间任务计划") && id1.equals("Absolute")){
+							treeItem1.setChecked(true);
+						}else if(treeItem1.getText().equals("时间段计划") && id1.equals("Quantum")){
+							treeItem1.setChecked(true);
+						}else if(treeItem1.getText().equals("相对时间计划") && id1.equals("Relative")){
+							treeItem1.setChecked(true);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	public void createAlarmChaild(TreeItem[] item,String id){
+		for (TreeItem treeItem : item) {
+			if(treeItem.getText().equals("报警规则") && id.equals("AlarmRule")){
+				treeItem.setChecked(true);
+			}else if(treeItem.getText().equals("报警策略") && id.equals("AlarmTactics")){
+				treeItem.setChecked(true);	
+			}else if(treeItem.getText().equals("报警日志") && id.equals("AlarmLog")){
+				treeItem.setChecked(true);
+			}
+		}
+	}
+	
+	public void createReporChaild(TreeItem[] item,String id){
+		for (TreeItem treeItem : item) {
+			if(treeItem.getText().equals("趋势报告") && id.equals("Trend")){
+				treeItem.setChecked(true);
+			}else if(treeItem.getText().equals("对比报告") && id.equals("Ratio")){
+				treeItem.setChecked(true);
+			}else if(treeItem.getText().equals("时段对比报告") && id.equals("TimeRatio")){
+				treeItem.setChecked(true);
+			}else if(treeItem.getText().equals("状态统计报告") && id.equals("Status")){
+				treeItem.setChecked(true);
+			}
+		}
+	}
+	
+	//对应的空白面板
 	public Composite createComposite(Composite composite){
 		Composite composite_8 = new Composite(composite,SWT.BORDER);
 		composite_8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		return composite_8;
 	}
+	
+	//报警规则对应的右边面板
 	public Composite createAlarmComposite(Composite composite,String name1,String name2,String name3,String name4){
 		Composite composite_8 = new Composite(composite,SWT.BORDER);
 		composite_8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -271,6 +419,7 @@ public class TaxAuthority extends Dialog {
 		return composite_8;
 	}
 	
+	//报警策略对应的右边面板
 	public Composite createTacticsComposite(Composite composite,String name1,String name2,String name3,String name4){
 		Composite composite_8 = new Composite(composite,SWT.BORDER);
 		composite_8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -295,6 +444,7 @@ public class TaxAuthority extends Dialog {
 		return composite_8;
 	}
 
+	//siteviewecc9.2对应的右边面板
 	public Composite createEccComposite(Composite composite){
 		Composite composite_8 = new Composite(composite,SWT.BORDER);
 		composite_8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -459,69 +609,350 @@ public class TaxAuthority extends Dialog {
 			TreeItem[] items = tree.getItems();
 			for (TreeItem treeItem : items) {
 				if(treeItem.getChecked()){
-					BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
-					bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
-					bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
-					bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
 					if(treeItem.getText().equals("SiteViewEcc9.2")){
-						bo.GetField("PermissionsType").SetValue(new SiteviewValue("SE"));						
-						bo.GetField("PermissionsId").SetValue(new SiteviewValue("SE"));
-						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
-						if(treeItem.getItemCount()>0){
-							createSEChaild(treeItem.getItems());
+						if(functionPermission.get("SE")!=null){
+							BusinessObject bo1 = functionPermission.get("SE");
+							bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+							bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+							bo1.GetField("ButtonType").SetValue(new SiteviewValue(false));
+							bo1.GetField("PermissionsType").SetValue(new SiteviewValue("SE"));						
+							bo1.GetField("PermissionsId").SetValue(new SiteviewValue("SE"));
+							bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+						}else{
+							BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+							bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+							bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+							bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
+							bo.GetField("PermissionsType").SetValue(new SiteviewValue("SE"));						
+							bo.GetField("PermissionsId").SetValue(new SiteviewValue("SE"));
+							bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);							
 						}
+						createSEChaild(treeItem.getItems());
 					}else if(treeItem.getData() instanceof AlarmModle){
-						bo.GetField("PermissionsType").SetValue(new SiteviewValue("Alarm"));	
-						bo.GetField("PermissionsId").SetValue(new SiteviewValue("Alarm"));
-						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
-						if(treeItem.getItemCount()>0){
-							createAlarmChaild(treeItem.getItems());
+						if(functionPermission.get("Alarm")!=null){
+							BusinessObject bo1 = functionPermission.get("Alarm");
+							bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+							bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+							bo1.GetField("ButtonType").SetValue(new SiteviewValue(false));
+							bo1.GetField("PermissionsType").SetValue(new SiteviewValue("Alarm"));	
+							bo1.GetField("PermissionsId").SetValue(new SiteviewValue("Alarm"));
+							bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+						}else{
+							BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+							bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+							bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+							bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
+							bo.GetField("PermissionsType").SetValue(new SiteviewValue("Alarm"));	
+							bo.GetField("PermissionsId").SetValue(new SiteviewValue("Alarm"));
+							bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);							
 						}
+						createAlarmChaild(treeItem.getItems());
 					}else if(treeItem.getData() instanceof MonitorSetUpModel){
-						bo.GetField("PermissionsType").SetValue(new SiteviewValue("Monitor"));	
-						bo.GetField("PermissionsId").SetValue(new SiteviewValue("Monitor"));
-						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+						if(functionPermission.get("Monitor")!=null){
+							BusinessObject bo1 = functionPermission.get("Monitor");
+							bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+							bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+							bo1.GetField("ButtonType").SetValue(new SiteviewValue(false));
+							bo1.GetField("PermissionsType").SetValue(new SiteviewValue("Monitor"));	
+							bo1.GetField("PermissionsId").SetValue(new SiteviewValue("Monitor"));
+							bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+						}else{							
+							BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+							bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+							bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+							bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
+							bo.GetField("PermissionsType").SetValue(new SiteviewValue("Monitor"));	
+							bo.GetField("PermissionsId").SetValue(new SiteviewValue("Monitor"));
+							bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+						}
 					}else if(treeItem.getData() instanceof StatementsModle){
-						bo.GetField("PermissionsType").SetValue(new SiteviewValue("Report"));	
-						bo.GetField("PermissionsId").SetValue(new SiteviewValue("Report"));	
-						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
-						if(treeItem.getItemCount()>0){
-							createReporChaild(treeItem.getItems());
+						if(functionPermission.get("Report")!=null){
+							BusinessObject bo1 = functionPermission.get("Report");
+							bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+							bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+							bo1.GetField("ButtonType").SetValue(new SiteviewValue(false));
+							bo1.GetField("PermissionsType").SetValue(new SiteviewValue("Report"));	
+							bo1.GetField("PermissionsId").SetValue(new SiteviewValue("Report"));	
+							bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+						}else{							
+							BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+							bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+							bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+							bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
+							bo.GetField("PermissionsType").SetValue(new SiteviewValue("Report"));	
+							bo.GetField("PermissionsId").SetValue(new SiteviewValue("Report"));	
+							bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
 						}
+						createReporChaild(treeItem.getItems());
 					}else if(treeItem.getData() instanceof SetUpModle){
-						bo.GetField("PermissionsType").SetValue(new SiteviewValue("Set"));	
-						bo.GetField("PermissionsId").SetValue(new SiteviewValue("Set"));
-						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
-						if(treeItem.getItemCount()>0){
-							createSetChaild(treeItem.getItems());
+						if(functionPermission.get("Set")!=null){
+							BusinessObject bo1 = functionPermission.get("Set");
+							bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+							bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+							bo1.GetField("ButtonType").SetValue(new SiteviewValue(false));
+							bo1.GetField("PermissionsType").SetValue(new SiteviewValue("Set"));	
+							bo1.GetField("PermissionsId").SetValue(new SiteviewValue("Set"));
+							bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+						}else{							
+							BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+							bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+							bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+							bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
+							bo.GetField("PermissionsType").SetValue(new SiteviewValue("Set"));	
+							bo.GetField("PermissionsId").SetValue(new SiteviewValue("Set"));
+							bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
 						}
+						createSetChaild(treeItem.getItems());
 					}
 				}
 			}
 			applyButton.setEnabled(true);
 		}else if(buttonId ==IDialogConstants.CLOSE_ID){
-			
+			closeButton.setEnabled(false);
+			TreeItem[] items = tree.getItems();
+			for (TreeItem treeItem : items) {
+				if(treeItem.getData() instanceof AlarmModle){
+					if(treeItem.getChecked()){
+						if(userPermission.get("Alarm")!=null){
+							BusinessObject bo1 = userPermission.get("Alarm");
+							bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+							bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+							bo1.GetField("ButtonType").SetValue(new SiteviewValue(true));
+							bo1.GetField("PermissionsType").SetValue(new SiteviewValue("Alarm"));	
+							bo1.GetField("PermissionsId").SetValue(new SiteviewValue("Alarm"));
+							bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+						}else{							
+							BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+							bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+							bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+							bo.GetField("ButtonType").SetValue(new SiteviewValue(true));
+							bo.GetField("PermissionsType").SetValue(new SiteviewValue("Alarm"));	
+							bo.GetField("PermissionsId").SetValue(new SiteviewValue("Alarm"));
+							bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+						}
+						createFunctionAlarm(treeItem.getItems());
+					}
+					
+				}else if(treeItem.getText().equals("SiteViewEcc9.2")){
+					if(treeItem.getChecked()){
+						if(userPermission.get("SE")!=null){
+							BusinessObject bo1 = userPermission.get("SE");
+							bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+							bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+							bo1.GetField("ButtonType").SetValue(new SiteviewValue(true));
+							bo1.GetField("PermissionsType").SetValue(new SiteviewValue("SE"));	
+							bo1.GetField("PermissionsId").SetValue(new SiteviewValue("SE"));
+							bo1.GetField("AddGroup").SetValue(new SiteviewValue(but1.getSelection()));
+							bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+						}else{							
+							BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+							bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+							bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+							bo.GetField("ButtonType").SetValue(new SiteviewValue(true));
+							bo.GetField("PermissionsType").SetValue(new SiteviewValue("SE"));	
+							bo.GetField("PermissionsId").SetValue(new SiteviewValue("SE"));
+							bo.GetField("AddGroup").SetValue(new SiteviewValue(but1.getSelection()));
+							bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+						}
+						createFunctionSE(treeItem.getItems());
+					}
+				}
+			}
+			closeButton.setEnabled(true);
 		}else{
 			this.close();
 		}
 	}
-	
+	//SiteViewEcc9.2的功能子项
+	public void createFunctionSE(TreeItem[] item1){
+		for (TreeItem treeItem : item1) {
+			if(treeItem.getChecked()){
+				if(treeItem.getData() instanceof GroupModle){
+					if(userPermission.get(((GroupModle)treeItem.getData()).getBo().get_RecId())!=null){
+						BusinessObject bo1 = userPermission.get(((GroupModle)treeItem.getData()).getBo().get_RecId());
+						bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo1.GetField("ButtonType").SetValue(new SiteviewValue(true));
+						bo1.GetField("PermissionsType").SetValue(new SiteviewValue("Group"));	
+						bo1.GetField("PermissionsId").SetValue(new SiteviewValue(((GroupModle)treeItem.getData()).getBo().get_RecId()));
+						bo1.GetField("AddGroup").SetValue(new SiteviewValue(but2.getSelection()));
+						bo1.GetField("AddMachine").SetValue(new SiteviewValue(but3.getSelection()));
+						bo1.GetField("EditGroup").SetValue(new SiteviewValue(but4.getSelection()));
+						bo1.GetField("DeleteGroup").SetValue(new SiteviewValue(but5.getSelection()));
+						bo1.GetField("AddMonitor").SetValue(new SiteviewValue(but6.getSelection()));
+						if(item.getData() instanceof GroupModle){
+							bo1.GetField("EditMonitor").SetValue(new SiteviewValue(but11.getSelection()));
+							bo1.GetField("DeleteMonitor").SetValue(new SiteviewValue(but12.getSelection()));
+						}else{
+							bo1.GetField("EditMonitor").SetValue(new SiteviewValue(false));
+							bo1.GetField("DeleteMonitor").SetValue(new SiteviewValue(false));						
+						}
+						bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}else{						
+						BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+						bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo.GetField("ButtonType").SetValue(new SiteviewValue(true));
+						bo.GetField("PermissionsType").SetValue(new SiteviewValue("Group"));	
+						bo.GetField("PermissionsId").SetValue(new SiteviewValue(((GroupModle)treeItem.getData()).getBo().get_RecId()));
+						bo.GetField("AddGroup").SetValue(new SiteviewValue(but2.getSelection()));
+						bo.GetField("AddMachine").SetValue(new SiteviewValue(but3.getSelection()));
+						bo.GetField("EditGroup").SetValue(new SiteviewValue(but4.getSelection()));
+						bo.GetField("DeleteGroup").SetValue(new SiteviewValue(but5.getSelection()));
+						bo.GetField("AddMonitor").SetValue(new SiteviewValue(but6.getSelection()));
+						if(item.getData() instanceof GroupModle){
+							bo.GetField("EditMonitor").SetValue(new SiteviewValue(but11.getSelection()));
+							bo.GetField("DeleteMonitor").SetValue(new SiteviewValue(but12.getSelection()));
+						}else{
+							bo.GetField("EditMonitor").SetValue(new SiteviewValue(false));
+							bo.GetField("DeleteMonitor").SetValue(new SiteviewValue(false));						
+						}
+						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}
+				}else if(treeItem.getData() instanceof MachineModle){
+					if(userPermission.get(((MachineModle)treeItem.getData()).getBo().get_RecId())!=null){
+						BusinessObject bo1 = userPermission.get(((MachineModle)treeItem.getData()).getBo().get_RecId());
+						bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo1.GetField("ButtonType").SetValue(new SiteviewValue(true));
+						bo1.GetField("PermissionsType").SetValue(new SiteviewValue("Machine"));	
+						bo1.GetField("PermissionsId").SetValue(new SiteviewValue(((MachineModle)treeItem.getData()).getBo().get_RecId()));	
+						bo1.GetField("AddMonitor").SetValue(new SiteviewValue(but7.getSelection()));
+						bo1.GetField("EditMachine").SetValue(new SiteviewValue(but9.getSelection()));
+						bo1.GetField("DeleteMachine").SetValue(new SiteviewValue(but10.getSelection()));
+						if(item.getData() instanceof MachineModle){
+							bo1.GetField("EditMonitor").SetValue(new SiteviewValue(but11.getSelection()));
+							bo1.GetField("DeleteMonitor").SetValue(new SiteviewValue(but12.getSelection()));
+						}else{
+							bo1.GetField("EditMonitor").SetValue(new SiteviewValue(false));
+							bo1.GetField("DeleteMonitor").SetValue(new SiteviewValue(false));						
+						}
+						bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}else{						
+						BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+						bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo.GetField("ButtonType").SetValue(new SiteviewValue(true));
+						bo.GetField("PermissionsType").SetValue(new SiteviewValue("Machine"));	
+						bo.GetField("PermissionsId").SetValue(new SiteviewValue(((MachineModle)treeItem.getData()).getBo().get_RecId()));	
+						bo.GetField("AddMonitor").SetValue(new SiteviewValue(but7.getSelection()));
+						bo.GetField("EditMachine").SetValue(new SiteviewValue(but9.getSelection()));
+						bo.GetField("DeleteMachine").SetValue(new SiteviewValue(but10.getSelection()));
+						if(item.getData() instanceof MachineModle){
+							bo.GetField("EditMonitor").SetValue(new SiteviewValue(but11.getSelection()));
+							bo.GetField("DeleteMonitor").SetValue(new SiteviewValue(but12.getSelection()));
+						}else{
+							bo.GetField("EditMonitor").SetValue(new SiteviewValue(false));
+							bo.GetField("DeleteMonitor").SetValue(new SiteviewValue(false));						
+						}
+						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}
+				}
+				if(treeItem.getItemCount()>0){
+					createFunctionSE(treeItem.getItems());
+				}
+			}
+		}
+	}
+	//报警的功能子项
+	public void createFunctionAlarm(TreeItem[] item){
+		for (TreeItem treeItem : item) {
+			if(treeItem.getText().equals("报警规则")){
+				if(treeItem.getChecked()){
+					if(userPermission.get("AlarmRule")!=null){
+						BusinessObject bo1 = userPermission.get("AlarmRule");
+						bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo1.GetField("ButtonType").SetValue(new SiteviewValue(true));
+						bo1.GetField("PermissionsType").SetValue(new SiteviewValue("AlarmRule"));	
+						bo1.GetField("PermissionsId").SetValue(new SiteviewValue("AlarmRule"));
+						bo1.GetField("AddAlarmRule").SetValue(new SiteviewValue(but14.getSelection()));
+						bo1.GetField("EditAlarmRule").SetValue(new SiteviewValue(but15.getSelection()));
+						bo1.GetField("DeleteAlarmRule").SetValue(new SiteviewValue(but16.getSelection()));
+						bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}else{						
+						BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+						bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo.GetField("ButtonType").SetValue(new SiteviewValue(true));
+						bo.GetField("PermissionsType").SetValue(new SiteviewValue("AlarmRule"));	
+						bo.GetField("PermissionsId").SetValue(new SiteviewValue("AlarmRule"));
+						bo.GetField("AddAlarmRule").SetValue(new SiteviewValue(but14.getSelection()));
+						bo.GetField("EditAlarmRule").SetValue(new SiteviewValue(but15.getSelection()));
+						bo.GetField("DeleteAlarmRule").SetValue(new SiteviewValue(but16.getSelection()));
+						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}
+				}
+			}else if(treeItem.getText().equals("报警策略")){
+				if(treeItem.getChecked()){
+					if(userPermission.get("AlarmTactics")!=null){
+						BusinessObject bo1 = userPermission.get("AlarmTactics");
+						bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo1.GetField("ButtonType").SetValue(new SiteviewValue(true));
+						bo1.GetField("PermissionsType").SetValue(new SiteviewValue("AlarmTactics"));	
+						bo1.GetField("PermissionsId").SetValue(new SiteviewValue("AlarmTactics"));
+						bo1.GetField("AddAlarmTactics").SetValue(new SiteviewValue(but17.getSelection()));
+						bo1.GetField("EditAlarmTactics").SetValue(new SiteviewValue(but18.getSelection()));
+						bo1.GetField("DeleteAlarmTactics").SetValue(new SiteviewValue(but19.getSelection()));
+						bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}else{						
+						BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+						bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo.GetField("ButtonType").SetValue(new SiteviewValue(true));
+						bo.GetField("PermissionsType").SetValue(new SiteviewValue("AlarmTactics"));	
+						bo.GetField("PermissionsId").SetValue(new SiteviewValue("AlarmTactics"));
+						bo.GetField("AddAlarmTactics").SetValue(new SiteviewValue(but17.getSelection()));
+						bo.GetField("EditAlarmTactics").SetValue(new SiteviewValue(but18.getSelection()));
+						bo.GetField("DeleteAlarmTactics").SetValue(new SiteviewValue(but19.getSelection()));
+						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}
+				}
+			}
+		}
+	}
 	//SiteViewEcc9.2的子项
 	public void createSEChaild(TreeItem[] item){
 		for (TreeItem treeItem : item) {
 			if(treeItem.getChecked()){
-				BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
-				bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
-				bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
-				bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
 				if(treeItem.getData() instanceof GroupModle){
-					bo.GetField("PermissionsType").SetValue(new SiteviewValue("Group"));	
-					bo.GetField("PermissionsId").SetValue(new SiteviewValue(((GroupModle)treeItem.getData()).getBo().get_RecId()));
+					if(functionPermission.get(((GroupModle)treeItem.getData()).getBo().get_RecId())!=null){
+						BusinessObject bo1 = functionPermission.get(((GroupModle)treeItem.getData()).getBo().get_RecId());
+						bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo1.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo1.GetField("PermissionsType").SetValue(new SiteviewValue("Group"));	
+						bo1.GetField("PermissionsId").SetValue(new SiteviewValue(((GroupModle)treeItem.getData()).getBo().get_RecId()));
+						bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}else{						
+						BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+						bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo.GetField("PermissionsType").SetValue(new SiteviewValue("Group"));	
+						bo.GetField("PermissionsId").SetValue(new SiteviewValue(((GroupModle)treeItem.getData()).getBo().get_RecId()));
+						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}
 				}else if(treeItem.getData() instanceof MachineModle){
-					bo.GetField("PermissionsType").SetValue(new SiteviewValue("Machine"));	
-					bo.GetField("PermissionsId").SetValue(new SiteviewValue(((MachineModle)treeItem.getData()).getBo().get_RecId()));	
+					if(functionPermission.get(((MachineModle)treeItem.getData()).getBo().get_RecId())!=null){
+						BusinessObject bo1 = functionPermission.get(((MachineModle)treeItem.getData()).getBo().get_RecId());
+						bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo1.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo1.GetField("PermissionsType").SetValue(new SiteviewValue("Machine"));	
+						bo1.GetField("PermissionsId").SetValue(new SiteviewValue(((MachineModle)treeItem.getData()).getBo().get_RecId()));	
+						bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}else{						
+						BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+						bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo.GetField("PermissionsType").SetValue(new SiteviewValue("Machine"));	
+						bo.GetField("PermissionsId").SetValue(new SiteviewValue(((MachineModle)treeItem.getData()).getBo().get_RecId()));	
+						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}
 				}
-				bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
 				if(treeItem.getItemCount()>0){
 					createSEChaild(treeItem.getItems());
 				}
@@ -529,52 +960,157 @@ public class TaxAuthority extends Dialog {
 			
 		}
 	}
-	
 	//设置的子项
 	public void createSetChaild(TreeItem[] item){
 		for (TreeItem treeItem : item) {
 			if(treeItem.getChecked()){
-				BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
-				bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
-				bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
-				bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
 				if(treeItem.getText().equals("邮件设置")){
-					bo.GetField("PermissionsType").SetValue(new SiteviewValue("Email"));	
-					bo.GetField("PermissionsId").SetValue(new SiteviewValue("Email"));
-					bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					if(functionPermission.get("Email")!=null){
+						BusinessObject bo1 = functionPermission.get("Email");
+						bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo1.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo1.GetField("PermissionsType").SetValue(new SiteviewValue("Email"));	
+						bo1.GetField("PermissionsId").SetValue(new SiteviewValue("Email"));
+						bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}else{						
+						BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+						bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo.GetField("PermissionsType").SetValue(new SiteviewValue("Email"));	
+						bo.GetField("PermissionsId").SetValue(new SiteviewValue("Email"));
+						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}
 				}else if(treeItem.getText().equals("短信设置")){
-					bo.GetField("PermissionsType").SetValue(new SiteviewValue("SMS"));	
-					bo.GetField("PermissionsId").SetValue(new SiteviewValue("SMS"));
-					bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					if(functionPermission.get("SMS")!=null){
+						BusinessObject bo1 = functionPermission.get("SMS");
+						bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo1.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo1.GetField("PermissionsType").SetValue(new SiteviewValue("SMS"));	
+						bo1.GetField("PermissionsId").SetValue(new SiteviewValue("SMS"));
+						bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}else{						
+						BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+						bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo.GetField("PermissionsType").SetValue(new SiteviewValue("SMS"));	
+						bo.GetField("PermissionsId").SetValue(new SiteviewValue("SMS"));
+						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}
 				}else if(treeItem.getText().equals("值班表设置")){
-					bo.GetField("PermissionsType").SetValue(new SiteviewValue("Duty"));	
-					bo.GetField("PermissionsId").SetValue(new SiteviewValue("Duty"));
-					bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					if(functionPermission.get("Duty")!=null){
+						BusinessObject bo1 = functionPermission.get("Duty");
+						bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo1.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo1.GetField("PermissionsType").SetValue(new SiteviewValue("Duty"));	
+						bo1.GetField("PermissionsId").SetValue(new SiteviewValue("Duty"));
+						bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}else{						
+						BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+						bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo.GetField("PermissionsType").SetValue(new SiteviewValue("Duty"));	
+						bo.GetField("PermissionsId").SetValue(new SiteviewValue("Duty"));
+						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}
 				}else if(treeItem.getText().equals("用户管理")){
-					bo.GetField("PermissionsType").SetValue(new SiteviewValue("User"));	
-					bo.GetField("PermissionsId").SetValue(new SiteviewValue("User"));
-					bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					if(functionPermission.get("User")!=null){
+						BusinessObject bo1 = functionPermission.get("User");
+						bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo1.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo1.GetField("PermissionsType").SetValue(new SiteviewValue("User"));	
+						bo1.GetField("PermissionsId").SetValue(new SiteviewValue("User"));
+						bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}else{						
+						BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+						bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo.GetField("PermissionsType").SetValue(new SiteviewValue("User"));	
+						bo.GetField("PermissionsId").SetValue(new SiteviewValue("User"));
+						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}
 				}else if(treeItem.getText().equals("任务计划")){
-					bo.GetField("PermissionsType").SetValue(new SiteviewValue("Task"));	
-					bo.GetField("PermissionsId").SetValue(new SiteviewValue("Task"));
-					bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					if(functionPermission.get("Task")!=null){
+						BusinessObject bo1 = functionPermission.get("Task");
+						bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo1.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo1.GetField("PermissionsType").SetValue(new SiteviewValue("Task"));	
+						bo1.GetField("PermissionsId").SetValue(new SiteviewValue("Task"));
+						bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}else{						
+						BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+						bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo.GetField("PermissionsType").SetValue(new SiteviewValue("Task"));	
+						bo.GetField("PermissionsId").SetValue(new SiteviewValue("Task"));
+						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}
 					for (TreeItem treeItem2 : treeItem.getItems()) {
 						if(treeItem2.getChecked()){
-							BusinessObject bo1 = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
-							bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
-							bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
-							bo1.GetField("ButtonType").SetValue(new SiteviewValue(false));
 							if(treeItem2.getText().equals("绝对时间任务计划")){
-								bo.GetField("PermissionsType").SetValue(new SiteviewValue("Absolute"));	
-								bo.GetField("PermissionsId").SetValue(new SiteviewValue("Absolute"));
+								if(functionPermission.get("Absolute")!=null){
+									BusinessObject bo2 = functionPermission.get("Absolute");
+									bo2.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+									bo2.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+									bo2.GetField("ButtonType").SetValue(new SiteviewValue(false));
+									bo2.GetField("PermissionsType").SetValue(new SiteviewValue("Absolute"));	
+									bo2.GetField("PermissionsId").SetValue(new SiteviewValue("Absolute"));
+									bo2.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+								}else{									
+									BusinessObject bo1 = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+									bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+									bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+									bo1.GetField("ButtonType").SetValue(new SiteviewValue(false));
+									bo1.GetField("PermissionsType").SetValue(new SiteviewValue("Absolute"));	
+									bo1.GetField("PermissionsId").SetValue(new SiteviewValue("Absolute"));
+									bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+								}
 							}else if(treeItem2.getText().equals("时间段计划")){
-								bo.GetField("PermissionsType").SetValue(new SiteviewValue("Quantum"));	
-								bo.GetField("PermissionsId").SetValue(new SiteviewValue("Quantum"));
+								if(functionPermission.get("Quantum")!=null){
+									BusinessObject bo2 = functionPermission.get("Quantum");
+									bo2.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+									bo2.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+									bo2.GetField("ButtonType").SetValue(new SiteviewValue(false));
+									bo2.GetField("PermissionsType").SetValue(new SiteviewValue("Quantum"));	
+									bo2.GetField("PermissionsId").SetValue(new SiteviewValue("Quantum"));
+									bo2.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+								}else{									
+									BusinessObject bo1 = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+									bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+									bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+									bo1.GetField("ButtonType").SetValue(new SiteviewValue(false));
+									bo1.GetField("PermissionsType").SetValue(new SiteviewValue("Quantum"));	
+									bo1.GetField("PermissionsId").SetValue(new SiteviewValue("Quantum"));
+									bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+								}
 							}else if(treeItem2.getText().equals("相对时间计划")){
-								bo.GetField("PermissionsType").SetValue(new SiteviewValue("Relative"));	
-								bo.GetField("PermissionsId").SetValue(new SiteviewValue("Relative"));
+								if(functionPermission.get("Relative")!=null){
+									BusinessObject bo2 = functionPermission.get("Relative");
+									bo2.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+									bo2.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+									bo2.GetField("ButtonType").SetValue(new SiteviewValue(false));
+									bo2.GetField("PermissionsType").SetValue(new SiteviewValue("Relative"));	
+									bo2.GetField("PermissionsId").SetValue(new SiteviewValue("Relative"));
+									bo2.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+								}else{									
+									BusinessObject bo1 = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+									bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+									bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+									bo1.GetField("ButtonType").SetValue(new SiteviewValue(false));
+									bo1.GetField("PermissionsType").SetValue(new SiteviewValue("Relative"));	
+									bo1.GetField("PermissionsId").SetValue(new SiteviewValue("Relative"));
+									bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+								}
 							}
-							bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
 						}
 					}
 				}
@@ -583,26 +1119,65 @@ public class TaxAuthority extends Dialog {
 			
 		}
 	}
-	
 	//报警的子项
 	public void createAlarmChaild(TreeItem[] item){
 		for (TreeItem treeItem : item) {
 			if(treeItem.getChecked()){
-				BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
-				bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
-				bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
-				bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
 				if(treeItem.getText().equals("报警规则")){
-					bo.GetField("PermissionsType").SetValue(new SiteviewValue("AlarmRule"));	
-					bo.GetField("PermissionsId").SetValue(new SiteviewValue("AlarmRule"));
+					if(functionPermission.get("AlarmRule")!=null){
+						BusinessObject bo1 = functionPermission.get("AlarmRule");
+						bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo1.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo1.GetField("PermissionsType").SetValue(new SiteviewValue("AlarmRule"));	
+						bo1.GetField("PermissionsId").SetValue(new SiteviewValue("AlarmRule"));
+						bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}else{						
+						BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+						bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo.GetField("PermissionsType").SetValue(new SiteviewValue("AlarmRule"));	
+						bo.GetField("PermissionsId").SetValue(new SiteviewValue("AlarmRule"));
+						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}
 				}else if(treeItem.getText().equals("报警策略")){
-					bo.GetField("PermissionsType").SetValue(new SiteviewValue("AlarmTactics"));	
-					bo.GetField("PermissionsId").SetValue(new SiteviewValue("AlarmTactics"));	
+					if(functionPermission.get("AlarmTactics")!=null){
+						BusinessObject bo1 = functionPermission.get("AlarmTactics");
+						bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo1.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo1.GetField("PermissionsType").SetValue(new SiteviewValue("AlarmTactics"));	
+						bo1.GetField("PermissionsId").SetValue(new SiteviewValue("AlarmTactics"));
+						bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}else{						
+						BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+						bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo.GetField("PermissionsType").SetValue(new SiteviewValue("AlarmTactics"));	
+						bo.GetField("PermissionsId").SetValue(new SiteviewValue("AlarmTactics"));
+						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}
 				}else if(treeItem.getText().equals("报警日志")){
-					bo.GetField("PermissionsType").SetValue(new SiteviewValue("AlarmLog"));	
-					bo.GetField("PermissionsId").SetValue(new SiteviewValue("AlarmLog"));	
+					if(functionPermission.get("AlarmLog")!=null){
+						BusinessObject bo1 = functionPermission.get("AlarmLog");
+						bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo1.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo1.GetField("PermissionsType").SetValue(new SiteviewValue("AlarmLog"));	
+						bo1.GetField("PermissionsId").SetValue(new SiteviewValue("AlarmLog"));
+						bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}else{						
+						BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+						bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo.GetField("PermissionsType").SetValue(new SiteviewValue("AlarmLog"));	
+						bo.GetField("PermissionsId").SetValue(new SiteviewValue("AlarmLog"));
+						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}
 				}
-				bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
 			}
 			
 		}
@@ -612,24 +1187,79 @@ public class TaxAuthority extends Dialog {
 	public void createReporChaild(TreeItem[] item){
 		for (TreeItem treeItem : item) {
 			if(treeItem.getChecked()){
-				BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
-				bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
-				bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
-				bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
 				if(treeItem.getText().equals("趋势报告")){
-					bo.GetField("PermissionsType").SetValue(new SiteviewValue("Trend"));	
-					bo.GetField("PermissionsId").SetValue(new SiteviewValue("Trend"));
+					if(functionPermission.get("Trend")!=null){
+						BusinessObject bo1 = functionPermission.get("Trend");
+						bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo1.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo1.GetField("PermissionsType").SetValue(new SiteviewValue("Trend"));	
+						bo1.GetField("PermissionsId").SetValue(new SiteviewValue("Trend"));
+						bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}else{						
+						BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+						bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo.GetField("PermissionsType").SetValue(new SiteviewValue("Trend"));	
+						bo.GetField("PermissionsId").SetValue(new SiteviewValue("Trend"));
+						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}
 				}else if(treeItem.getText().equals("对比报告")){
-					bo.GetField("PermissionsType").SetValue(new SiteviewValue("Ratio"));	
-					bo.GetField("PermissionsId").SetValue(new SiteviewValue("Ratio"));	
+					if(functionPermission.get("Ratio")!=null){
+						BusinessObject bo1 = functionPermission.get("Ratio");
+						bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo1.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo1.GetField("PermissionsType").SetValue(new SiteviewValue("Ratio"));	
+						bo1.GetField("PermissionsId").SetValue(new SiteviewValue("Ratio"));
+						bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}else{						
+						BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+						bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo.GetField("PermissionsType").SetValue(new SiteviewValue("Ratio"));	
+						bo.GetField("PermissionsId").SetValue(new SiteviewValue("Ratio"));
+						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}
 				}else if(treeItem.getText().equals("时段对比报告")){
-					bo.GetField("PermissionsType").SetValue(new SiteviewValue("TimeRatio"));	
-					bo.GetField("PermissionsId").SetValue(new SiteviewValue("TimeRatio"));	
+					if(functionPermission.get("TimeRatio")!=null){
+						BusinessObject bo1 = functionPermission.get("TimeRatio");
+						bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo1.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo1.GetField("PermissionsType").SetValue(new SiteviewValue("TimeRatio"));	
+						bo1.GetField("PermissionsId").SetValue(new SiteviewValue("TimeRatio"));
+						bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}else{						
+						BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+						bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo.GetField("PermissionsType").SetValue(new SiteviewValue("TimeRatio"));	
+						bo.GetField("PermissionsId").SetValue(new SiteviewValue("TimeRatio"));
+						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}
 				}else if(treeItem.getText().equals("状态统计报告")){
-					bo.GetField("PermissionsType").SetValue(new SiteviewValue("Status"));	
-					bo.GetField("PermissionsId").SetValue(new SiteviewValue("Status"));	
+					if(functionPermission.get("Status")!=null){
+						BusinessObject bo1 = functionPermission.get("Status");
+						bo1.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo1.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo1.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo1.GetField("PermissionsType").SetValue(new SiteviewValue("Status"));	
+						bo1.GetField("PermissionsId").SetValue(new SiteviewValue("Status"));	
+						bo1.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}else{						
+						BusinessObject bo = ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Permissions");
+						bo.GetField("UserId").SetValue(new SiteviewValue(combo.getText()));
+						bo.GetField("SelectPerimissions").SetValue(new SiteviewValue(true));
+						bo.GetField("ButtonType").SetValue(new SiteviewValue(false));
+						bo.GetField("PermissionsType").SetValue(new SiteviewValue("Status"));	
+						bo.GetField("PermissionsId").SetValue(new SiteviewValue("Status"));	
+						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}
 				}
-				bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
 			}
 			
 		}
@@ -641,10 +1271,14 @@ public class TaxAuthority extends Dialog {
 		List<BusinessObject> bos = new ArrayList<BusinessObject>();
 		IEnumerator iEnumerator = icollection.GetEnumerator();
 		userPermission = new HashMap<String, BusinessObject>();
+		functionPermission = new HashMap<String, BusinessObject>();
 		while (iEnumerator.MoveNext()) {
 			BusinessObject ob = (BusinessObject) iEnumerator.get_Current();
-			userPermission.put(ob.GetField("PermissionsId").get_NativeValue()
-					.toString(), ob);
+			if(ob.GetField("ButtonType").get_NativeValue().toString().equals("true")){
+				userPermission.put(ob.GetField("PermissionsId").get_NativeValue().toString(), ob);				
+			}else{
+				functionPermission.put(ob.GetField("PermissionsId").get_NativeValue().toString(), ob);
+			}
 			bos.add(ob);
 		}
 		return bos;
