@@ -863,12 +863,10 @@ public class FrameFile {
 //		String TO = receivePhone;
 //		String MSG = content;
 		try {
-			Fetion.sendMsg(PHONE, PWD, TO, MSG);
-		} catch (HttpException e) {
+//			Fetion.sendMsg(PHONE, PWD, TO, MSG);
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} 
 	}
 	private static ResultSet getDutyDetail(String dutyId,String s){
 		String sql2 = "select * from DutyDetail where Week = '"+s+"' and DutyId ='"+dutyId+"'";
