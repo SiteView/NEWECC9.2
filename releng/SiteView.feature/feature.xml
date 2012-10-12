@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="SiteView.feature"
+      label="Feature"
+      version="1.0.0.qualifier"
+      colocation-affinity="testfeature">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <requires>
+      <import plugin="org.eclipse.osgi" version="3.7.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.osgi.services" version="3.3.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.osgi.util" version="3.2.200" match="greaterOrEqual"/>
+      <import plugin="Siteview.Windows.Forms" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="Siteview.Forms.Common" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="Siteview.lib" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.swt"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="core.ui" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.forms"/>
+      <import plugin="core.autotasks.rcp" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="core.busobmaint" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="core.search.form" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="core.search" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="Core.AutoTasks" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="core.dashboards.rcp" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="core.businessprocess" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="core.print.rcp" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.draw2d" version="3.7.2" match="greaterOrEqual"/>
+      <import plugin="core.schedulelib" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui" version="1.5.0" match="greaterOrEqual"/>
+      <import plugin="com.siteview.kernel.core" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="Core.lib" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="core.reporting" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="core.treebrowser" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="ecc" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="core.dashboards" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="AdminLoader" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="javax.servlet"/>
+      <import plugin="org.eclipse.core.databinding"/>
+      <import plugin="org.eclipse.jface.databinding"/>
+      <import plugin="org.eclipse.core.databinding.observable"/>
+      <import plugin="org.apache.xerces"/>
+   </requires>
+
+   <plugin
+         id="com.siteview.kernel.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="core.apploader"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="Core.AutoTasks"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="core.autotasks.rcp"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="core.businessprocess"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="core.busobmaint"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="core.dashboards"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="core.dashboards.rcp"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="core.discoveryJob"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="Core.lib"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="core.monitor.counter"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="core.print.rcp"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="core.reporting"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="core.reporting.rcp"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="core.schedulelib"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="core.search"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="core.search.form"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="core.service"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="core.treebrowser"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="core.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="ecc"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="Siteview.Forms.Common"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="Siteview.lib"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="Siteview.Windows.Forms"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="Topo.lib"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="AdminLoader"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <data
+         id="build.properties"
+         os="win32"
+         ws="win32"
+         nl="en_US,zh_CN"
+         arch="x86"
+         download-size="0"
+         install-size="0"/>
+
+   <data
+         id="pom.xml"
+         download-size="0"
+         install-size="0"/>
+
+</feature>
