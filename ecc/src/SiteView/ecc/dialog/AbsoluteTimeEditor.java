@@ -130,7 +130,7 @@ public class AbsoluteTimeEditor extends Dialog{
 		IEnumerator ien=ico.GetEnumerator();
 		while(ien.MoveNext()){
 			bo=(BusinessObject)ien.get_Current();
-			if(bo!=null){
+			if(bo!=null&&bo.GetField("Model").get_NativeValue().toString().equals("绝对时间任务计划")){
 				TaskName=bo.GetField("TaskName").get_NativeValue()
 				.toString();
 				Instruction=bo.GetField("Instruction").get_NativeValue()
@@ -186,6 +186,7 @@ public class AbsoluteTimeEditor extends Dialog{
 		text.setLocation(137, 0);
 		text.setSize(177, 18);
 		text.setText(TaskName);
+		text.setEnabled(false);
 
 		Label lblNewLabel = new Label(composite_1, SWT.NONE);
 		lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
@@ -553,7 +554,7 @@ public class AbsoluteTimeEditor extends Dialog{
 			}else{
 				permission_6="禁止";
 			}
-			bo.GetField("TaskName").SetValue(new SiteviewValue(text.getText()));//更新任务计划名称
+			
 			bo.GetField("Instruction").SetValue(new SiteviewValue(text1.getText()));//更新描述 
 			bo.GetField("Status").SetValue(//更新是否允许的数据
 					new SiteviewValue(tableItem.getText(0)+":"+permission+";"+tableItem_1.getText(0)+":"+permission_1+";"+
@@ -567,7 +568,6 @@ public class AbsoluteTimeEditor extends Dialog{
 			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,//将修改后的数据存储到数据库
 					true); 
 			
-			item.setText(0, text.getText());
 			item.setText(1, text1.getText());
 		}
 		this.close();

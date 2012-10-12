@@ -15,6 +15,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.layout.FillLayout;
@@ -27,10 +28,13 @@ import system.Collections.IEnumerator;
 import SiteView.ecc.Activator;
 import SiteView.ecc.Modle.AbsoluteTimeModel;
 import SiteView.ecc.Modle.AbsoluteTimeProjectModel;
+import SiteView.ecc.dialog.AbsoluteDetail;
 import SiteView.ecc.dialog.AbsoluteTimeEditor;
 import SiteView.ecc.dialog.AddAbsoluteTime;
 import SiteView.ecc.dialog.AddRelativeTime;
 import SiteView.ecc.dialog.AddTimeQuantum;
+import SiteView.ecc.dialog.QuantumDetail;
+import SiteView.ecc.dialog.QuantumTimeEditor;
 import SiteView.ecc.tools.FileTools;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
@@ -68,6 +72,7 @@ public class AbsoluteTime extends EditorPart {
 		this.setSite(site);
 		this.setInput(input);
 		name = AbsoluteTimeInput.type;
+		System.out.println("name:"+name);
 		this.setPartName(input.getName());
 
 	}
@@ -126,7 +131,7 @@ public class AbsoluteTime extends EditorPart {
 
 			}
 		});
-  
+		
 		Button button = new Button(composite_1, SWT.NONE);//删除
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -163,6 +168,16 @@ public class AbsoluteTime extends EditorPart {
 			tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION
 					| SWT.CHECK);
 			createTable();
+//			if ("absolute".equals(name)) {
+//				System.out.println("第一个");
+//			}
+//
+//            if ("quantum".equals(name)) {
+//				System.out.println("第二个");
+//			} 
+//            if ("ralative".equals(name)) {
+//				System.out.println("第三个");
+//			}
 
 		sashForm.setWeights(new int[] { 1, 2, 34 });
 	}
@@ -181,6 +196,7 @@ public class AbsoluteTime extends EditorPart {
 	}
 	public void createTable(){
 		if("absolute".equals(name)){
+			System.out.println("absolute");
 			table = tableViewer.getTable();
 			table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 			table.setHeaderVisible(true);
@@ -214,6 +230,12 @@ public class AbsoluteTime extends EditorPart {
 							String name=tableItem.getText();
 							AbsoluteTimeEditor editor = new AbsoluteTimeEditor(null,name,tableItem);
 							editor.open();
+							
+					}
+					if(column==0||column==1){
+						String name=tableItem.getText();
+						AbsoluteDetail absoluteDetail=new AbsoluteDetail(null,name);
+						absoluteDetail.open();
 					}
 				}
 				public void mouseDown(MouseEvent e) {
@@ -256,7 +278,7 @@ public class AbsoluteTime extends EditorPart {
 					}
 				}
 		}else if("quantum".equals(name)){
-			System.out.println("quantum");
+			//System.out.println("quantum");
 			table = tableViewer.getTable();
 			table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 			table.setHeaderVisible(true);
@@ -287,7 +309,14 @@ public class AbsoluteTime extends EditorPart {
 					}
 					int column=cursor.getColumn();
 					if(column==2){//编辑
-
+						String name=tableItem.getText();
+						QuantumTimeEditor editor=new QuantumTimeEditor(null,name,tableItem);
+						editor.open();
+					}
+					if(column==0||column==1){
+						String name=tableItem.getText();
+						QuantumDetail quantumDetail=new QuantumDetail(null,name);
+						quantumDetail.open();
 					}
 				}
 				public void mouseDown(MouseEvent e) {
@@ -330,7 +359,7 @@ public class AbsoluteTime extends EditorPart {
 					}
 				}
 		}else if("ralative".equals(name)){
-			System.out.println("ralative");
+			//System.out.println("ralative");
 		}
 	}
 public static void addAbsoluteData(){//添加数据后表单刷新
@@ -379,4 +408,5 @@ public static void addQuantumData(){//添加数据后表单刷新
 		}
 	}
 }
+
 }
