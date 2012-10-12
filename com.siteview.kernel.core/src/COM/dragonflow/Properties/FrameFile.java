@@ -822,13 +822,13 @@ public class FrameFile {
 				if(start<=time&&time<=end){
 					String receivePhone = rsss.getString("ReceiveAlarmpPhone");
 					String receiveEmail = rsss.getString("ReceiveAlarmEmail");
-					if(receivePhone!=null&&receivePhone.length()>0){
+					if(receivePhone!=null&&receivePhone.length()>0&&"SMS".equals(list.get(4))){
 						sendSMS(receivePhone,content);
 						String SQL1 = "insert into EccAlarmLog (RecId,CreatedDateTime,AlarmName,AlarmGroup,AlarmMonitor,AlarmType,ReceiverAddress,AlarmStatus)" +
 								" values('"+getRecId()+"','"+list.get(0)+"','"+list.get(1)+"','"+list.get(2)+"','"+list.get(3)+"','"+list.get(4)+"','"+receivePhone+"','"+list.get(6)+"')";
 						JDBCForSQL.execute_Insert(SQL1);
 					}
-                    if(receiveEmail!=null&&receiveEmail.length()>0){
+                    if(receiveEmail!=null&&receiveEmail.length()>0&&"email".equals(list.get(4))){
                     	sendEmail(mailServerHost,userName,password,fromAddress,receiveEmail,content);
                     	String SQL2 = "insert into EccAlarmLog (RecId,CreatedDateTime,AlarmName,AlarmGroup,AlarmMonitor,AlarmType,ReceiverAddress,AlarmStatus)" +
 								" values('"+getRecId()+"','"+list.get(0)+"','"+list.get(1)+"','"+list.get(2)+"','"+list.get(3)+"','"+list.get(4)+"','"+receiveEmail+"','"+list.get(6)+"')";
