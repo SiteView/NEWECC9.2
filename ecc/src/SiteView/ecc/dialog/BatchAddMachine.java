@@ -238,24 +238,27 @@ public class BatchAddMachine extends Dialog {
 				if(s.equals("Ecc.ping")){
 					bo=ConnectionBroker.get_SiteviewApi().get_BusObService().Create(s);
 					bo.GetField("Groups").SetValue(new SiteviewValue(group));
-					bo.GetField("PingHostName").SetValue(new SiteviewValue(hostname));
+					bo.GetField("PingHostName").SetValue(new SiteviewValue(hostname.substring(2)));
 					bo.GetField("PingTimeout").SetValue(new SiteviewValue(5000));
 					bo.GetField("PingSize").SetValue(new SiteviewValue(100));
 				}else if(s.equals("Ecc.CPUUtilization")){
 					bo=ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Ecc.CPUUtilization");
 					bo.GetField("Groups").SetValue(new SiteviewValue(group));
-					bo.GetField("PingHostName").SetValue(new SiteviewValue(hostname));
+					bo.GetField("HostNameCPU").SetValue(new SiteviewValue(hostname));
 				}else if(s.startsWith("Ecc.DiskSpace--")){
 					bo=ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Ecc.DiskSpace");
 					bo.GetField("Groups").SetValue(new SiteviewValue(group));
-					bo.GetField("PingHostName").SetValue(new SiteviewValue(hostname));
+					bo.GetField("HostNameDiskSpace").SetValue(new SiteviewValue(hostname));
 					bo.GetField("DiskName").SetValue(new SiteviewValue(s.substring(s.lastIndexOf("-")+1)));
-					bo.GetField("PingHostName").SetValue(new SiteviewValue(hostname));
 				}else if(s.startsWith("Ecc.Server--")){
-					bo=ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Ecc.Server");
+					bo=ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Ecc.Service");
 					bo.GetField("Groups").SetValue(new SiteviewValue(group));
-					bo.GetField("PingHostName").SetValue(new SiteviewValue(hostname));
+					bo.GetField("Service").SetValue(new SiteviewValue(hostname));
 					bo.GetField("SerServer").SetValue(new SiteviewValue(s.substring(s.lastIndexOf("-")+1)));
+				}else if(s.equals("Ecc.Memory")){
+					bo=ConnectionBroker.get_SiteviewApi().get_BusObService().Create("Ecc.Memory");
+					bo.GetField("Groups").SetValue(new SiteviewValue(group));
+					bo.GetField("HostName").SetValue(new SiteviewValue(hostname));
 				}
 				if(bo!=null){
 					bo.GetField("frequency").SetValue(new SiteviewValue(10));

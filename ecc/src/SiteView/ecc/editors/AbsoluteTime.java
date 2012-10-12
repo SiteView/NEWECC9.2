@@ -194,7 +194,7 @@ public class AbsoluteTime extends EditorPart {
 					if(column==2){//±à¼­
 						if ("absolute".equals(name)) {
 							String name=tableItem.getText();
-							AbsoluteTimeEditor editor = new AbsoluteTimeEditor(null,name);
+							AbsoluteTimeEditor editor = new AbsoluteTimeEditor(null,name,tableItem);
 							editor.open();
 						}
 					}

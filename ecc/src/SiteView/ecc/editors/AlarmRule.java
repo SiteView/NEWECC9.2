@@ -2,9 +2,11 @@ package SiteView.ecc.editors;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -40,11 +42,13 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import siteview.windows.forms.ImageHelper;
 import system.Collections.ICollection;
+import system.Collections.IEnumerable;
 import system.Collections.IEnumerator;
 import SiteView.ecc.Activator;
 import SiteView.ecc.Modle.AlarmRuleInfo;
 import SiteView.ecc.Modle.SMSModel;
 import SiteView.ecc.dialog.AddEmailAlarmRule;
+import SiteView.ecc.tab.views.MonitorLogTabView;
 import SiteView.ecc.tools.FileTools;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
@@ -302,6 +306,24 @@ public class AlarmRule extends EditorPart {
 		tblclmnNewColumn_1.setText("\u62A5\u8B66\u72B6\u6001");
 		sashForm.setWeights(new int[] {25, 13, 221, 12, 191});
 
+		String time = MonitorLogTabView.getHoursAgoTime(2);
+		Map<String, Object> map = new HashMap<String, Object>();
+		String[] arr = time.split("\\*");
+		map.put("startTime", arr[1]);
+		map.put("endTime", arr[0]);
+		ICollection ic = FileTools.getLog(map, "EccAlarmLog");
+		IEnumerator ieable = ic.GetEnumerator();
+		while(ieable.MoveNext()){
+			TableItem item = new TableItem(table_1, SWT.NONE);
+			BusinessObject bo = (BusinessObject)ieable.get_Current();
+			item.setText(0, bo.GetField("CreatedDateTime").get_NativeValue().toString());
+			item.setText(1, bo.GetField("AlarmName").get_NativeValue().toString());
+			item.setText(2, bo.GetField("AlarmGroup").get_NativeValue().toString());
+			item.setText(3, bo.GetField("AlarmMonitor").get_NativeValue().toString());
+			item.setText(4, bo.GetField("AlarmType").get_NativeValue().toString());
+			item.setText(5, bo.GetField("ReceiverAddress").get_NativeValue().toString());
+			item.setText(6, bo.GetField("AlarmStatus").get_NativeValue().toString());
+		}
 	}
 	
 	//获取数据

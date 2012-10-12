@@ -59,6 +59,7 @@ public class AbsoluteTimeEditor extends Dialog{
 	private Text text1;
 	private Table table;
 	private String name;
+	private TableItem item;
 	public BusinessObject bo;
 	public String TaskName;
 	public String Instruction;
@@ -92,9 +93,10 @@ public class AbsoluteTimeEditor extends Dialog{
 	public DateTime startTime_4;
 	public DateTime startTime_5;
 	public DateTime startTime_6;
-	public AbsoluteTimeEditor(Shell shell,String name) {
+	public AbsoluteTimeEditor(Shell shell,String name,TableItem item) {
 		super(shell);
 		this.name=name;
+		this.item=item;
 	}
 	protected void configureShell(Shell newShell) {
 		newShell.setSize(350, 320);
@@ -497,6 +499,9 @@ public class AbsoluteTimeEditor extends Dialog{
 		text1=new Text(composite2, SWT.WRAP | SWT.BORDER);//描述
 		text1.setLayoutData(BorderLayout.CENTER);
 		text1.setText(Instruction);
+		
+		System.out.println(item.getText(0));
+		System.out.println(item.getText(1));
 		return composite;
 	}
 	
@@ -563,6 +568,10 @@ public class AbsoluteTimeEditor extends Dialog{
 							tableItem_5.getText(0)+","+startTimeStr_5+";"+tableItem_6.getText(0)+","+startTimeStr_6));
 			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,//将修改后的数据存储到数据库
 					true); 
+			
+			item.setText(0, text.getText());
+			item.setText(1, text1.getText());
 		}
+		this.close();
 	}
 }
