@@ -301,7 +301,7 @@ public class AlarmLog extends EditorPart{
 		
 		Composite composite_3 = new Composite(sashForm, SWT.NONE);
 		composite_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
-		sashForm.setWeights(new int[] {13, 143, 27, 257, 22});
+		sashForm.setWeights(new int[] {13, 140, 27, 282, 0});
 		// TODO Auto-generated method stub
 		
 	}
