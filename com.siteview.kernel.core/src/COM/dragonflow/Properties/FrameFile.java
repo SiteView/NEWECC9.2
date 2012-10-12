@@ -732,6 +732,8 @@ public class FrameFile {
 				if(rs3.next()){
 					content = rs3.getString("MailContent").replaceAll("@AllGroup@", allGroup).replaceAll("@Group@", group).replaceAll("@monitor@", mmonitor).replaceAll("@Status@", status).replaceAll("@Time@", LastModDateTime.toString().split("\\.")[0]).replaceAll("@LogFile@",logFile );
 				}
+			}else if(address.length()>2&&address.matches("\\w+")){
+				toAddress = address;
 			}else{
 				toAddress = rule.getString("Other");
 				modleId = rule.getString("ModleId");
