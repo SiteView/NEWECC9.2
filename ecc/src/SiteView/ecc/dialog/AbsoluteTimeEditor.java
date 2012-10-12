@@ -500,8 +500,6 @@ public class AbsoluteTimeEditor extends Dialog{
 		text1.setLayoutData(BorderLayout.CENTER);
 		text1.setText(Instruction);
 		
-		System.out.println(item.getText(0));
-		System.out.println(item.getText(1));
 		return composite;
 	}
 	

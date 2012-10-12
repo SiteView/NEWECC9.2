@@ -171,8 +171,42 @@ public class FileTools {
 			xmls[i++] = xml;
 		}
 		query.AddOrderByDesc("CreatedDateTime");
-//		query.set_BusObSearchCriteria(query.get_CriteriaBuilder()
-//				.AndExpressions(xmls));
+		query.set_BusObSearchCriteria(query.get_CriteriaBuilder()
+				.AndExpressions(xmls));
+
+		ICollection iCollenction = siteviewApi.get_BusObService()
+				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);
+		return iCollenction;
+	}
+	public static ICollection getLog2(Map<String, Object> map,String s) {
+		ISiteviewApi siteviewApi = ConnectionBroker.get_SiteviewApi();
+		SiteviewQuery query = new SiteviewQuery();
+		query.AddBusObQuery(s, QueryInfoToGet.All);
+		XmlElement[] xmls = new XmlElement[map.size() - 1];
+		XmlElement xml;
+		int i = 0;
+		if (map.get("startTime") != null) {
+			xml = query.get_CriteriaBuilder().QueryListExpression(
+					"CreatedDateTime", Operators.Between.name());
+			query.get_CriteriaBuilder().AddLiteralValue(xml,
+					map.get("startTime").toString());
+			query.get_CriteriaBuilder().AddLiteralValue(xml,
+					map.get("endTime").toString());
+			xmls[i++] = xml;
+			map.remove("startTime");
+			map.remove("endTime");
+		}
+		Iterator<Entry<String, Object>> iterator = map.entrySet().iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next().toString();
+			key = key.substring(0, key.indexOf("="));
+			xml = query.get_CriteriaBuilder().FieldAndValueExpression(key,
+					Operators.Null, (String)map.get(key));
+			xmls[i++] = xml;
+		}
+		query.AddOrderByDesc("CreatedDateTime");
+		query.set_BusObSearchCriteria(query.get_CriteriaBuilder()
+				.AndExpressions(xmls));
 
 		ICollection iCollenction = siteviewApi.get_BusObService()
 				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);

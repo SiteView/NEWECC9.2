@@ -20,14 +20,22 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Label;
+
+import siteview.windows.forms.ImageHelper;
 import swing2swt.layout.BorderLayout;
+import system.Collections.ICollection;
+import system.Collections.IEnumerator;
+
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.TableColumn;
+
+import SiteView.ecc.Activator;
 import SiteView.ecc.Modle.AbsoluteTimeProjectModel;
 import SiteView.ecc.editors.AbsoluteTime;
+import SiteView.ecc.tools.FileTools;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
@@ -364,12 +372,6 @@ public class AddAbsoluteTime extends Dialog{
 	
 	protected void buttonPressed(int buttonId) {
 		L1:	if(buttonId==IDialogConstants.OK_ID){
-			if(text.getText().isEmpty()){
-				MessageBox messageBox=new MessageBox();
-				messageBox.Show("任务计划名称不能为空!", "提示", SWT.OK);
-				break L1;
-			} 
-			
 			if(btnCheckButton.getSelection()){
 				permission="允许";
 			}else{
@@ -411,7 +413,28 @@ public class AddAbsoluteTime extends Dialog{
 			}else{
 				permission_6="禁止";
 			}
-
+			
+			
+			ICollection ico=FileTools.getBussCollection("EccTaskPlan");
+			IEnumerator ienum=ico.GetEnumerator();
+			while(ienum.MoveNext()){
+				BusinessObject businessObject=(BusinessObject)ienum.get_Current();
+				if(businessObject!=null){
+					String taskName=businessObject.GetField("TaskName").get_NativeValue().toString();
+					String model=businessObject.GetField("Model").get_NativeValue().toString();
+					if(text.getText().equals(taskName)&&"绝对时间任务计划".equals(model)){
+						MessageBox messageBox=new MessageBox();
+						messageBox.Show("任务计划名称已存在!", "提示", SWT.OK);
+						break L1;
+					}
+					if(text.getText().isEmpty()){
+						MessageBox messageBox=new MessageBox();
+						messageBox.Show("任务计划名称不能为空!", "提示", SWT.OK);
+						break L1;
+					} 
+				}
+			}
+			
 			bo = ConnectionBroker.get_SiteviewApi()//得到数据库表
 					.get_BusObService().Create("EccTaskPlan");
 			bo.GetField("TaskName").SetValue(
@@ -432,14 +455,10 @@ public class AddAbsoluteTime extends Dialog{
 			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,
 					true);//将数据存储到数据
 			
-			AbsoluteTimeProjectModel atmp=new AbsoluteTimeProjectModel(bo);
-			atmp.setStatrtTime(tableItem.getText(0)+","+startTimeStr+";"+tableItem_1.getText(0)+","+startTimeStr_1+";"+tableItem_2.getText(0)+","+startTimeStr_2+";"
-							+tableItem_3.getText(0)+","+startTimeStr_3+";"+tableItem_4.getText(0)+","+startTimeStr_4+";"+
-							tableItem_5.getText(0)+","+startTimeStr_5+";"+tableItem_6.getText(0)+","+startTimeStr_6);
-			System.out.println(atmp.getStatrtTime());
-			AbsoluteTime.addData();//刷新表单
+			AbsoluteTime.addAbsoluteData();//刷新表单
 		}
 		this.close();
 
 	}
 }
+	

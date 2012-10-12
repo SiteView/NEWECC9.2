@@ -1,9 +1,5 @@
 package SiteView.ecc.dialog;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -23,9 +19,21 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+
+import system.Collections.ICollection;
+import system.Collections.IEnumerator;
+
+import SiteView.ecc.editors.AbsoluteTime;
+import SiteView.ecc.tools.FileTools;
+import Siteview.SiteviewValue;
+import Siteview.Api.BusinessObject;
+import Siteview.Windows.Forms.ConnectionBroker;
+import Siteview.Windows.Forms.MessageBox;
 
 public class AddTimeQuantum extends Dialog{
 	public DateTime startTime;
@@ -56,13 +64,32 @@ public class AddTimeQuantum extends Dialog{
 	public String startTimeStr_11 = "";	
 	public String startTimeStr_12 = "";	
 	public String startTimeStr_13 = "";	
-	public Calendar startcal;
-	public SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 	private String title="添加时间段任务计划";
-	private Text text;
 	private Text text_1;
 	private Table table;
 	private Text text_2;
+	public BusinessObject bo;
+	public Button btnCheckButton;
+	public Button btnCheckButton_1;
+	public Button btnCheckButton_2;
+	public Button btnCheckButton_3;
+	public Button btnCheckButton_4;
+	public Button btnCheckButton_5;
+	public Button btnCheckButton_6;
+	public String permission;
+	public String permission_1;
+	public String permission_2;
+	public String permission_3;
+	public String permission_4;
+	public String permission_5;
+	public String permission_6;
+	public TableItem tableItem;
+	public TableItem tableItem_1;
+	public TableItem tableItem_2;
+	public TableItem tableItem_3;
+	public TableItem tableItem_4;
+	public TableItem tableItem_5;
+	public TableItem tableItem_6;
 	public AddTimeQuantum(Shell parentShell) {
 		super(parentShell);
 		
@@ -101,7 +128,7 @@ public class AddTimeQuantum extends Dialog{
 		lblNewLabel.setBounds(26, 0, 107, 15);
 		lblNewLabel.setText("\u4EFB\u52A1\u8BA1\u5212\u540D\u79F0*:");
 		
-		text_2 = new Text(composite_3, SWT.BORDER);
+		text_2 = new Text(composite_3, SWT.BORDER);//任务计划名称
 		text_2.setBounds(140, 0, 201, 18);
 		
 		table = new Table(sashForm, SWT.BORDER | SWT.FULL_SELECTION);
@@ -131,10 +158,10 @@ public class AddTimeQuantum extends Dialog{
 		TableColumn tblclmnNewColumn_3 = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn_3.setWidth(100);
 		
-		TableItem tableItem = new TableItem(table, SWT.NONE);
+		tableItem = new TableItem(table, SWT.NONE);
 		tableItem.setText(0,"星期日");
 		TableEditor editor = new TableEditor(table);
-		Button btnCheckButton = new Button(table, SWT.CHECK);
+		btnCheckButton = new Button(table, SWT.CHECK);
 		btnCheckButton.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnCheckButton.setBounds(113, 33, 45, 16);
 		btnCheckButton.setText("\u5141\u8BB8");
@@ -148,30 +175,23 @@ public class AddTimeQuantum extends Dialog{
 		editor_1.minimumWidth = lblNewLabel_8.getSize ().x;
 		editor_1.setEditor(lblNewLabel_8, tableItem, 2);
 		TableEditor editor_2 = new TableEditor(table);
-		Date startDateTime  = new Date();
-		startcal = Calendar.getInstance();
-		startcal.setTime(startDateTime);
 		startTime = new DateTime(table, SWT.TIME
 				| SWT.SHORT);
 		startTime.setLocation(191, 32);
 		startTime.setSize(79, 15);
-		
-		startcal.set(Calendar.HOUR_OF_DAY, 00);
-		startcal.set(Calendar.MINUTE, 0);
-		startcal.set(Calendar.SECOND, 0);
-		
-		startTime.setHours(startcal.get(Calendar.HOUR_OF_DAY));
-		startTime.setMinutes(startcal.get(Calendar.MINUTE));
-		startTime.setSeconds(startcal.get(Calendar.SECOND));
+		startTime.setTime(00, 00, 00);
 		startTimeStr=startTime.getHours() + ":"
 				+ startTime.getMinutes() + ":" + startTime.getSeconds();
-		 try {
-				startDateTime = sdf.parse(startTimeStr);
-			} catch (ParseException e) {
-				e.printStackTrace();
+		startTime.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+            startTimeStr=startTime.getHours() + ":"
+    				+ startTime.getMinutes() + ":" + startTime.getSeconds();
 			}
-		startTimeStr = new SimpleDateFormat("HH:mm:ss")
-		.format(startcal.getTime());
+			
+			public void widgetDefaultSelected(SelectionEvent e) {
+				
+			}
+		});
 		editor_2.minimumWidth = startTime.getSize ().x;
 		editor_2.setEditor(startTime, tableItem, 3);
 		TableEditor editor_3 = new TableEditor(table);
@@ -182,37 +202,28 @@ public class AddTimeQuantum extends Dialog{
 		editor_3.minimumWidth = lblNewLabel_9.getSize ().x;
 		editor_3.setEditor(lblNewLabel_9, tableItem, 4);
 		TableEditor editor_4 = new TableEditor(table);
-		Date startDateTime_1  = new Date();
-		startcal = Calendar.getInstance();
-		startcal.setTime(startDateTime_1);
 		startTime_1 = new DateTime(table, SWT.TIME
 				| SWT.SHORT);
 		startTime_1.setLocation(295, 32);
 		startTime_1.setSize(79, 15);
-		
-		startcal.set(Calendar.HOUR_OF_DAY, 23);
-		startcal.set(Calendar.MINUTE, 59);
-		startcal.set(Calendar.SECOND, 0);
-		
-		startTime_1.setHours(startcal.get(Calendar.HOUR_OF_DAY));
-		startTime_1.setMinutes(startcal.get(Calendar.MINUTE));
-		startTime_1.setSeconds(startcal.get(Calendar.SECOND));
+		startTime_1.setTime(23, 59, 00);
 		startTimeStr_1=startTime_1.getHours() + ":"
 				+ startTime_1.getMinutes() + ":" + startTime_1.getSeconds();
-		 try {
-			 startDateTime_1 = sdf.parse(startTimeStr_1);
-			} catch (ParseException e) {
-				e.printStackTrace();
+		startTime_1.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				startTimeStr_1=startTime_1.getHours() + ":"
+						+ startTime_1.getMinutes() + ":" + startTime_1.getSeconds();
 			}
-		 startTimeStr_1 = new SimpleDateFormat("HH:mm:ss")
-		.format(startcal.getTime());
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
 		editor_4.minimumWidth = startTime_1.getSize ().x;
 		editor_4.setEditor(startTime_1, tableItem, 5); 
 		
-		TableItem tableItem_1 = new TableItem(table, SWT.NONE);
+		tableItem_1 = new TableItem(table, SWT.NONE);
 		tableItem_1.setText(0,"星期一");
 		TableEditor editor_5 = new TableEditor(table);
-		Button btnCheckButton_1 = new Button(table, SWT.CHECK);
+		btnCheckButton_1 = new Button(table, SWT.CHECK);
 		btnCheckButton_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnCheckButton_1.setBounds(113, 51, 45, 16);
 		btnCheckButton_1.setText("\u5141\u8BB8");
@@ -226,30 +237,22 @@ public class AddTimeQuantum extends Dialog{
 		editor_6.minimumWidth = lblNewLabel_10.getSize ().x;
 		editor_6.setEditor(lblNewLabel_10, tableItem_1, 2);
 		TableEditor editor_7 = new TableEditor(table);
-		Date startDateTime_2  = new Date();
-		startcal = Calendar.getInstance();
-		startcal.setTime(startDateTime_2);
 		startTime_2 = new DateTime(table, SWT.TIME
 				| SWT.SHORT);
 		startTime_2.setLocation(191, 50);
 		startTime_2.setSize(79, 15);
-		
-		startcal.set(Calendar.HOUR_OF_DAY, 00);
-		startcal.set(Calendar.MINUTE, 0);
-		startcal.set(Calendar.SECOND, 0);
-		
-		startTime_2.setHours(startcal.get(Calendar.HOUR_OF_DAY));
-		startTime_2.setMinutes(startcal.get(Calendar.MINUTE));
-		startTime_2.setSeconds(startcal.get(Calendar.SECOND));
+		startTime_2.setTime(00, 00, 00);
 		startTimeStr_2=startTime_2.getHours() + ":"
 				+ startTime_2.getMinutes() + ":" + startTime_2.getSeconds();
-		 try {
-			 startDateTime_2 = sdf.parse(startTimeStr_2);
-			} catch (ParseException e) {
-				e.printStackTrace();
+		startTime_2.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				startTimeStr_2=startTime_2.getHours() + ":"
+						+ startTime_2.getMinutes() + ":" + startTime_2.getSeconds();
 			}
-		 startTimeStr_2 = new SimpleDateFormat("HH:mm:ss")
-		.format(startcal.getTime()); 
+			public void widgetDefaultSelected(SelectionEvent e) {
+			
+			}
+		});
 		 editor_7.minimumWidth = startTime_2.getSize ().x;
 		 editor_7.setEditor(startTime_2, tableItem_1, 3);
 		TableEditor editor_8 = new TableEditor(table);
@@ -260,37 +263,28 @@ public class AddTimeQuantum extends Dialog{
 		editor_8.minimumWidth = lblNewLabel_11.getSize ().x;
 		editor_8.setEditor(lblNewLabel_11, tableItem_1, 4);
 		TableEditor editor_9 = new TableEditor(table);
-		Date startDateTime_3  = new Date();
-		startcal = Calendar.getInstance();
-		startcal.setTime(startDateTime_3);
 		startTime_3 = new DateTime(table, SWT.TIME
 				| SWT.SHORT);
 		startTime_3.setLocation(295, 50);
 		startTime_3.setSize(79, 15);
-		
-		startcal.set(Calendar.HOUR_OF_DAY, 23);
-		startcal.set(Calendar.MINUTE, 59);
-		startcal.set(Calendar.SECOND, 0);
-		
-		startTime_3.setHours(startcal.get(Calendar.HOUR_OF_DAY));
-		startTime_3.setMinutes(startcal.get(Calendar.MINUTE));
-		startTime_3.setSeconds(startcal.get(Calendar.SECOND));
+		startTime_3.setTime(23, 59, 00);
 		startTimeStr_3=startTime_3.getHours() + ":"
 				+ startTime_3.getMinutes() + ":" + startTime_3.getSeconds();
-		 try {
-			 startDateTime_3 = sdf.parse(startTimeStr_3);
-			} catch (ParseException e) {
-				e.printStackTrace();
+		startTime_3.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				startTimeStr_3=startTime_3.getHours() + ":"
+						+ startTime_3.getMinutes() + ":" + startTime_3.getSeconds();
 			}
-		 startTimeStr_3 = new SimpleDateFormat("HH:mm:ss")
-		.format(startcal.getTime()); 
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
 		 editor_9.minimumWidth = startTime_3.getSize ().x;
 		 editor_9.setEditor(startTime_3, tableItem_1, 5); 
 		
-		TableItem tableItem_2 = new TableItem(table, SWT.NONE);
+		tableItem_2 = new TableItem(table, SWT.NONE);
 		tableItem_2.setText(0,"星期二");
 		TableEditor editor_10 = new TableEditor(table);
-		Button btnCheckButton_2 = new Button(table, SWT.CHECK);
+		btnCheckButton_2 = new Button(table, SWT.CHECK);
 		btnCheckButton_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnCheckButton_2.setBounds(113, 69, 45, 16);
 		btnCheckButton_2.setText("\u5141\u8BB8");
@@ -304,30 +298,22 @@ public class AddTimeQuantum extends Dialog{
 		editor_11.minimumWidth = lblNewLabel_12.getSize ().x;
 		editor_11.setEditor(lblNewLabel_12, tableItem_2, 2); 
 		TableEditor editor_12 = new TableEditor(table);
-		Date startDateTime_4  = new Date();
-		startcal = Calendar.getInstance();
-		startcal.setTime(startDateTime_4);
 		startTime_4 = new DateTime(table, SWT.TIME
 				| SWT.SHORT);
 		startTime_4.setLocation(191, 68);
 		startTime_4.setSize(79, 15);
-		
-		startcal.set(Calendar.HOUR_OF_DAY, 00);
-		startcal.set(Calendar.MINUTE, 0);
-		startcal.set(Calendar.SECOND, 0);
-		
-		startTime_4.setHours(startcal.get(Calendar.HOUR_OF_DAY));
-		startTime_4.setMinutes(startcal.get(Calendar.MINUTE));
-		startTime_4.setSeconds(startcal.get(Calendar.SECOND));
+		startTime_4.setTime(00, 00, 00);
 		startTimeStr_4=startTime_4.getHours() + ":"
 				+ startTime_4.getMinutes() + ":" + startTime_4.getSeconds();
-		 try {
-			 startDateTime_4 = sdf.parse(startTimeStr_4);
-			} catch (ParseException e) {
-				e.printStackTrace();
+		startTime_4.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				startTimeStr_4=startTime_4.getHours() + ":"
+						+ startTime_4.getMinutes() + ":" + startTime_4.getSeconds();
 			}
-		 startTimeStr_4 = new SimpleDateFormat("HH:mm:ss")
-		.format(startcal.getTime()); 
+			public void widgetDefaultSelected(SelectionEvent e) {
+			
+			}
+		});
 		editor_12.minimumWidth = startTime_4.getSize ().x;
 		editor_12.setEditor(startTime_4, tableItem_2, 3); 
 		TableEditor editor_13 = new TableEditor(table);
@@ -338,37 +324,29 @@ public class AddTimeQuantum extends Dialog{
 		editor_13.minimumWidth = lblNewLabel_13.getSize ().x;
 		editor_13.setEditor(lblNewLabel_13, tableItem_2, 4); 
 		TableEditor editor_14 = new TableEditor(table);
-		Date startDateTime_5  = new Date();
-		startcal = Calendar.getInstance();
-		startcal.setTime(startDateTime_5);
 		startTime_5 = new DateTime(table, SWT.TIME
 				| SWT.SHORT);
 		startTime_5.setLocation(295, 68);
 		startTime_5.setSize(79, 15);
-		
-		startcal.set(Calendar.HOUR_OF_DAY, 23);
-		startcal.set(Calendar.MINUTE, 59);
-		startcal.set(Calendar.SECOND, 0);
-		
-		startTime_5.setHours(startcal.get(Calendar.HOUR_OF_DAY));
-		startTime_5.setMinutes(startcal.get(Calendar.MINUTE));
-		startTime_5.setSeconds(startcal.get(Calendar.SECOND));
+		startTime_5.setTime(23, 59, 00);
 		startTimeStr_5=startTime_5.getHours() + ":"
 				+ startTime_5.getMinutes() + ":" + startTime_5.getSeconds();
-		 try {
-			 startDateTime_5 = sdf.parse(startTimeStr_5);
-			} catch (ParseException e) {
-				e.printStackTrace();
+		startTime_5.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				startTimeStr_5=startTime_5.getHours() + ":"
+						+ startTime_5.getMinutes() + ":" + startTime_5.getSeconds();
 			}
-		 startTimeStr_5 = new SimpleDateFormat("HH:mm:ss")
-		.format(startcal.getTime()); 
+			public void widgetDefaultSelected(SelectionEvent e) {
+				
+			}
+		});
 		editor_14.minimumWidth = startTime_5.getSize ().x;
 		editor_14.setEditor(startTime_5, tableItem_2, 5); 
 		
-		TableItem tableItem_3 = new TableItem(table, SWT.NONE);
+		tableItem_3 = new TableItem(table, SWT.NONE);
 		tableItem_3.setText(0,"星期三");
 		TableEditor editor_15 = new TableEditor(table);
-		Button btnCheckButton_3 = new Button(table, SWT.CHECK);
+		btnCheckButton_3 = new Button(table, SWT.CHECK);
 		btnCheckButton_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnCheckButton_3.setBounds(113, 87, 45, 16);
 		btnCheckButton_3.setText("\u5141\u8BB8");
@@ -382,30 +360,21 @@ public class AddTimeQuantum extends Dialog{
 		editor_16.minimumWidth = lblNewLabel_14.getSize ().x;
 		editor_16.setEditor(lblNewLabel_14, tableItem_3, 2); 
 		TableEditor editor_17 = new TableEditor(table);
-		Date startDateTime_6  = new Date();
-		startcal = Calendar.getInstance();
-		startcal.setTime(startDateTime_6);
 		startTime_6 = new DateTime(table, SWT.TIME
 				| SWT.SHORT);
 		startTime_6.setLocation(191, 86);
 		startTime_6.setSize(79, 15);
-		
-		startcal.set(Calendar.HOUR_OF_DAY, 00);
-		startcal.set(Calendar.MINUTE, 0);
-		startcal.set(Calendar.SECOND, 0);
-		
-		startTime_6.setHours(startcal.get(Calendar.HOUR_OF_DAY));
-		startTime_6.setMinutes(startcal.get(Calendar.MINUTE));
-		startTime_6.setSeconds(startcal.get(Calendar.SECOND));
+		startTime_6.setTime(00, 00, 00);
 		startTimeStr_6=startTime_6.getHours() + ":"
 				+ startTime_6.getMinutes() + ":" + startTime_6.getSeconds();
-		 try {
-			 startDateTime_6 = sdf.parse(startTimeStr_6);
-			} catch (ParseException e) {
-				e.printStackTrace();
+		startTime_6.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				startTimeStr_6=startTime_6.getHours() + ":"
+						+ startTime_6.getMinutes() + ":" + startTime_6.getSeconds();
 			}
-		 startTimeStr_6 = new SimpleDateFormat("HH:mm:ss")
-		.format(startcal.getTime()); 
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
 		editor_17.minimumWidth = startTime_6.getSize ().x;
 		editor_17.setEditor(startTime_6, tableItem_3, 3); 
 		TableEditor editor_18 = new TableEditor(table);
@@ -416,38 +385,30 @@ public class AddTimeQuantum extends Dialog{
 		editor_18.minimumWidth = lblNewLabel_18.getSize ().x;
 		editor_18.setEditor(lblNewLabel_18, tableItem_3, 4); 
 		TableEditor editor_19 = new TableEditor(table);
-		Date startDateTime_7  = new Date();
-		startcal = Calendar.getInstance();
-		startcal.setTime(startDateTime_7);
 		startTime_7 = new DateTime(table, SWT.TIME
 				| SWT.SHORT);
 		startTime_7.setLocation(295, 86);
 		startTime_7.setSize(79, 15);
-		
-		startcal.set(Calendar.HOUR_OF_DAY, 23);
-		startcal.set(Calendar.MINUTE, 59);
-		startcal.set(Calendar.SECOND, 0);
-		
-		startTime_7.setHours(startcal.get(Calendar.HOUR_OF_DAY));
-		startTime_7.setMinutes(startcal.get(Calendar.MINUTE));
-		startTime_7.setSeconds(startcal.get(Calendar.SECOND));
+		startTime_7.setTime(23, 59, 00);
 		startTimeStr_7=startTime_7.getHours() + ":"
 				+ startTime_7.getMinutes() + ":" + startTime_7.getSeconds();
-		 try {
-			 startDateTime_7 = sdf.parse(startTimeStr_7);
-			} catch (ParseException e) {
-				e.printStackTrace();
+		startTime_7.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				startTimeStr_7=startTime_7.getHours() + ":"
+						+ startTime_7.getMinutes() + ":" + startTime_7.getSeconds();
 			}
-		 startTimeStr_7 = new SimpleDateFormat("HH:mm:ss")
-		.format(startcal.getTime());
+			public void widgetDefaultSelected(SelectionEvent e) {
+				
+			}
+		});
 		editor_19.minimumWidth = startTime_7.getSize ().x;
 		editor_19.setEditor(startTime_7, tableItem_3, 5); 
 		
 		
-		TableItem tableItem_4 = new TableItem(table, SWT.NONE);
+		tableItem_4 = new TableItem(table, SWT.NONE);
 		tableItem_4.setText(0,"星期四");
 		TableEditor editor_20 = new TableEditor(table);
-		Button btnCheckButton_4 = new Button(table, SWT.CHECK);
+		btnCheckButton_4 = new Button(table, SWT.CHECK);
 		btnCheckButton_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		btnCheckButton_4.setBounds(113, 105, 45, 16);
 		btnCheckButton_4.setText("\u5141\u8BB8 ");
@@ -461,30 +422,21 @@ public class AddTimeQuantum extends Dialog{
 		editor_21.minimumWidth = lblNewLabel_15.getSize ().x;
 		editor_21.setEditor(lblNewLabel_15, tableItem_4, 2); 
 		TableEditor editor_22 = new TableEditor(table);
-		Date startDateTime_8  = new Date();
-		startcal = Calendar.getInstance();
-		startcal.setTime(startDateTime_8);
 		startTime_8 = new DateTime(table, SWT.TIME
 				| SWT.SHORT);
 		startTime_8.setLocation(191, 104);
 		startTime_8.setSize(79, 15);
-		
-		startcal.set(Calendar.HOUR_OF_DAY, 00);
-		startcal.set(Calendar.MINUTE, 0);
-		startcal.set(Calendar.SECOND, 0);
-		
-		startTime_8.setHours(startcal.get(Calendar.HOUR_OF_DAY));
-		startTime_8.setMinutes(startcal.get(Calendar.MINUTE));
-		startTime_8.setSeconds(startcal.get(Calendar.SECOND));
+		startTime_8.setTime(00, 00, 00);
 		startTimeStr_8=startTime_8.getHours() + ":"
 				+ startTime_8.getMinutes() + ":" + startTime_8.getSeconds();
-		 try {
-			 startDateTime_8 = sdf.parse(startTimeStr_8);
-			} catch (ParseException e) {
-				e.printStackTrace();
+		startTime_8.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				startTimeStr_8=startTime_8.getHours() + ":"
+						+ startTime_8.getMinutes() + ":" + startTime_8.getSeconds();
 			}
-		 startTimeStr_8 = new SimpleDateFormat("HH:mm:ss")
-		.format(startcal.getTime());
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
 		editor_22.minimumWidth = startTime_8.getSize ().x;
 		editor_22.setEditor(startTime_8, tableItem_4, 3); 
 		TableEditor editor_23 = new TableEditor(table);
@@ -495,39 +447,31 @@ public class AddTimeQuantum extends Dialog{
 		editor_23.minimumWidth = lblNewLabel_19.getSize ().x;
 		editor_23.setEditor(lblNewLabel_19, tableItem_4, 4); 
 		TableEditor editor_24 = new TableEditor(table);
-		Date startDateTime_9  = new Date();
-		startcal = Calendar.getInstance();
-		startcal.setTime(startDateTime_9);
 		startTime_9 = new DateTime(table, SWT.TIME
 				| SWT.SHORT);
 		startTime_9.setLocation(295, 104);
 		startTime_9.setSize(79, 15);
-		
-		startcal.set(Calendar.HOUR_OF_DAY, 23);
-		startcal.set(Calendar.MINUTE, 59);
-		startcal.set(Calendar.SECOND, 0);
-		
-		startTime_9.setHours(startcal.get(Calendar.HOUR_OF_DAY));
-		startTime_9.setMinutes(startcal.get(Calendar.MINUTE));
-		startTime_9.setSeconds(startcal.get(Calendar.SECOND));
+		startTime_9.setTime(23, 59, 00);
 		startTimeStr_9=startTime_9.getHours() + ":"
 				+ startTime_9.getMinutes() + ":" + startTime_9.getSeconds();
-		 try {
-			 startDateTime_9 = sdf.parse(startTimeStr_9);
-			} catch (ParseException e) {
-				e.printStackTrace();
+		startTime_9.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				startTimeStr_9=startTime_9.getHours() + ":"
+						+ startTime_9.getMinutes() + ":" + startTime_9.getSeconds();
 			}
-		 startTimeStr_9 = new SimpleDateFormat("HH:mm:ss")
-		.format(startcal.getTime());
+			public void widgetDefaultSelected(SelectionEvent e) {
+			
+			}
+		});
 		editor_24.minimumWidth = startTime_9.getSize ().x;
 		editor_24.setEditor(startTime_9, tableItem_4, 5); 
 		
 		
 		
-		TableItem tableItem_5 = new TableItem(table, SWT.NONE);
+		tableItem_5 = new TableItem(table, SWT.NONE);
 		tableItem_5.setText(0,"星期五");
 		TableEditor editor_25 = new TableEditor(table);
-		Button btnCheckButton_5 = new Button(table, SWT.CHECK);
+		btnCheckButton_5 = new Button(table, SWT.CHECK);
 		btnCheckButton_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnCheckButton_5.setBounds(113, 123, 45, 16);
 		btnCheckButton_5.setText("\u5141\u8BB8");
@@ -541,30 +485,22 @@ public class AddTimeQuantum extends Dialog{
 		editor_26.minimumWidth = lblNewLabel_16.getSize ().x;
 		editor_26.setEditor(lblNewLabel_16, tableItem_5, 2); 
 		TableEditor editor_27 = new TableEditor(table);
-		Date startDateTime_10  = new Date();
-		startcal = Calendar.getInstance();
-		startcal.setTime(startDateTime_10);
 		startTime_10 = new DateTime(table, SWT.TIME
 				| SWT.SHORT);
 		startTime_10.setLocation(191, 122);
 		startTime_10.setSize(79, 15);
-		
-		startcal.set(Calendar.HOUR_OF_DAY, 00);
-		startcal.set(Calendar.MINUTE, 0);
-		startcal.set(Calendar.SECOND, 0);
-		
-		startTime_10.setHours(startcal.get(Calendar.HOUR_OF_DAY));
-		startTime_10.setMinutes(startcal.get(Calendar.MINUTE));
-		startTime_10.setSeconds(startcal.get(Calendar.SECOND));
+		startTime_10.setTime(00, 00, 00);
 		startTimeStr_10=startTime_10.getHours() + ":"
 				+ startTime_10.getMinutes() + ":" + startTime_10.getSeconds();
-		 try {
-			 startDateTime_10 = sdf.parse(startTimeStr_10);
-			} catch (ParseException e) {
-				e.printStackTrace();
+		startTime_10.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				startTimeStr_10=startTime_10.getHours() + ":"
+						+ startTime_10.getMinutes() + ":" + startTime_10.getSeconds();
 			}
-		 startTimeStr_10 = new SimpleDateFormat("HH:mm:ss")
-		.format(startcal.getTime());
+			public void widgetDefaultSelected(SelectionEvent e) {
+			
+			}
+		});
 		editor_27.minimumWidth = startTime_10.getSize ().x;
 		editor_27.setEditor(startTime_10, tableItem_5, 3); 
 		TableEditor editor_28 = new TableEditor(table);
@@ -575,37 +511,29 @@ public class AddTimeQuantum extends Dialog{
 		editor_28.minimumWidth = lblNewLabel_20.getSize ().x;
 		editor_28.setEditor(lblNewLabel_20, tableItem_5, 4); 
 		TableEditor editor_29 = new TableEditor(table);
-		Date startDateTime_11  = new Date();
-		startcal = Calendar.getInstance();
-		startcal.setTime(startDateTime_11);
 		startTime_11 = new DateTime(table, SWT.TIME
 				| SWT.SHORT);
 		startTime_11.setLocation(295, 122);
 		startTime_11.setSize(79, 15);
-		
-		startcal.set(Calendar.HOUR_OF_DAY, 23);
-		startcal.set(Calendar.MINUTE, 59);
-		startcal.set(Calendar.SECOND, 0);
-		
-		startTime_11.setHours(startcal.get(Calendar.HOUR_OF_DAY));
-		startTime_11.setMinutes(startcal.get(Calendar.MINUTE));
-		startTime_11.setSeconds(startcal.get(Calendar.SECOND));
+		startTime_11.setTime(23, 59, 00);
 		startTimeStr_11=startTime_11.getHours() + ":"
 				+ startTime_11.getMinutes() + ":" + startTime_11.getSeconds();
-		 try {
-			 startDateTime_11 = sdf.parse(startTimeStr_11);
-			} catch (ParseException e) {
-				e.printStackTrace();
+		startTime_11.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				startTimeStr_11=startTime_11.getHours() + ":"
+						+ startTime_11.getMinutes() + ":" + startTime_11.getSeconds();
 			}
-		 startTimeStr_11 = new SimpleDateFormat("HH:mm:ss")
-		.format(startcal.getTime());
+			public void widgetDefaultSelected(SelectionEvent e) {
+			
+			}
+		});
 		editor_29.minimumWidth = startTime_11.getSize ().x;
 		editor_29.setEditor(startTime_11, tableItem_5, 5); 
 		
-		TableItem tableItem_6 = new TableItem(table, SWT.NONE);
+		tableItem_6 = new TableItem(table, SWT.NONE);
 		tableItem_6.setText(0,"星期六");
 		TableEditor editor_30 = new TableEditor(table);
-		Button btnCheckButton_6 = new Button(table, SWT.CHECK);
+		btnCheckButton_6 = new Button(table, SWT.CHECK);
 		btnCheckButton_6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnCheckButton_6.setBounds(113, 141, 45, 16);
 		btnCheckButton_6.setText("\u5141\u8BB8");
@@ -619,30 +547,22 @@ public class AddTimeQuantum extends Dialog{
 		editor_31.minimumWidth = lblNewLabel_17.getSize ().x;
 		editor_31.setEditor(lblNewLabel_17, tableItem_6, 2);
 		TableEditor editor_32 = new TableEditor(table);
-		Date startDateTime_12  = new Date();
-		startcal = Calendar.getInstance();
-		startcal.setTime(startDateTime_12);
 		startTime_12 = new DateTime(table, SWT.TIME
 				| SWT.SHORT);
 		startTime_12.setLocation(191, 140);
 		startTime_12.setSize(79, 15);
-		
-		startcal.set(Calendar.HOUR_OF_DAY, 00);
-		startcal.set(Calendar.MINUTE, 0);
-		startcal.set(Calendar.SECOND, 0);
-		
-		startTime_12.setHours(startcal.get(Calendar.HOUR_OF_DAY));
-		startTime_12.setMinutes(startcal.get(Calendar.MINUTE));
-		startTime_12.setSeconds(startcal.get(Calendar.SECOND));
+		startTime_12.setTime(00, 00, 00);
 		startTimeStr_12=startTime_12.getHours() + ":"
 				+ startTime_12.getMinutes() + ":" + startTime_12.getSeconds();
-		 try {
-			 startDateTime_12 = sdf.parse(startTimeStr_12);
-			} catch (ParseException e) {
-				e.printStackTrace();
+		startTime_12.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				startTimeStr_12=startTime_12.getHours() + ":"
+						+ startTime_12.getMinutes() + ":" + startTime_12.getSeconds();
 			}
-		 startTimeStr_12 = new SimpleDateFormat("HH:mm:ss")
-		.format(startcal.getTime());
+			public void widgetDefaultSelected(SelectionEvent e) {
+			
+			}
+		});
 		 editor_32.minimumWidth = startTime_12.getSize ().x;
 		 editor_32.setEditor(startTime_12, tableItem_6, 3);
 		 TableEditor editor_33 = new TableEditor(table);
@@ -653,30 +573,22 @@ public class AddTimeQuantum extends Dialog{
 		 editor_33.minimumWidth = lblNewLabel_21.getSize ().x;
 		 editor_33.setEditor(lblNewLabel_21, tableItem_6, 4);
 		 TableEditor editor_34 = new TableEditor(table);
-		    Date startDateTime_13  = new Date();
-			startcal = Calendar.getInstance();
-			startcal.setTime(startDateTime_13);
 			startTime_13 = new DateTime(table, SWT.TIME
 					| SWT.SHORT);
 			startTime_13.setLocation(295, 140);
 			startTime_13.setSize(79, 15);
-			
-			startcal.set(Calendar.HOUR_OF_DAY, 23);
-			startcal.set(Calendar.MINUTE, 59);
-			startcal.set(Calendar.SECOND, 0);
-			
-			startTime_13.setHours(startcal.get(Calendar.HOUR_OF_DAY));
-			startTime_13.setMinutes(startcal.get(Calendar.MINUTE));
-			startTime_13.setSeconds(startcal.get(Calendar.SECOND));
+			startTime_13.setTime(23, 59, 00);
 			startTimeStr_13=startTime_13.getHours() + ":"
 					+ startTime_13.getMinutes() + ":" + startTime_13.getSeconds();
-			 try {
-				 startDateTime_13 = sdf.parse(startTimeStr_13);
-				} catch (ParseException e) {
-					e.printStackTrace();
+			startTime_13.addSelectionListener(new SelectionListener() {
+				public void widgetSelected(SelectionEvent e) {
+					startTimeStr_13=startTime_13.getHours() + ":"
+							+ startTime_13.getMinutes() + ":" + startTime_13.getSeconds();
 				}
-			 startTimeStr_13 = new SimpleDateFormat("HH:mm:ss")
-			.format(startcal.getTime());
+				public void widgetDefaultSelected(SelectionEvent e) {
+				
+				}
+			});
 			 editor_34.minimumWidth = startTime_13.getSize ().x;
 			 editor_34.setEditor(startTime_13, tableItem_6, 5);
 			 
@@ -696,7 +608,7 @@ public class AddTimeQuantum extends Dialog{
 		lblNewLabel_22.setBounds(0, 0, 54, 199);
 		lblNewLabel_22.setText("\u63CF\u8FF0:");
 		
-		text_1 = new Text(composite_2, SWT.BORDER);
+		text_1 = new Text(composite_2, SWT.BORDER);//描述
 		text_1.setBounds(56, 0, 370, 199);
 		return composite;
 	}
@@ -708,10 +620,91 @@ public class AddTimeQuantum extends Dialog{
 				"取消", true);
 	}
 	protected void buttonPressed(int buttonId) {
-		if(buttonId==IDialogConstants.OK_ID){
+		L1:	if(buttonId==IDialogConstants.OK_ID){
+			if(btnCheckButton.getSelection()){
+				permission="允许";
+			}else{
+				permission="禁止";
+			}
 			
-		}else{
-			this.close();
+			if(btnCheckButton_1.getSelection()){
+				permission_1="允许";
+			}else{
+				permission_1="禁止";
+			}
+			
+			if(btnCheckButton_2.getSelection()){
+				permission_2="允许";
+			}else{
+				permission_2="禁止";
+			}
+			
+			if(btnCheckButton_3.getSelection()){
+				permission_3="允许";
+			}else{
+				permission_3="禁止";
+			}
+			
+			if(btnCheckButton_4.getSelection()){
+				permission_4="允许";
+			}else{
+				permission_4="禁止";
+			}
+			
+			if(btnCheckButton_5.getSelection()){
+				permission_5="允许";
+			}else{
+				permission_5="禁止";
+			}
+			
+			if(btnCheckButton_6.getSelection()){
+				permission_6="允许";
+			}else{
+				permission_6="禁止";
+			}
+			
+			ICollection ico=FileTools.getBussCollection("EccTaskPlan");
+			IEnumerator ienum=ico.GetEnumerator();
+			while(ienum.MoveNext()){
+				BusinessObject businessObject=(BusinessObject)ienum.get_Current();
+				if(businessObject!=null){
+					String taskName=businessObject.GetField("TaskName").get_NativeValue().toString();
+					String model=businessObject.GetField("Model").get_NativeValue().toString();
+					if(text_2.getText().equals(taskName)&&"时间段计划".equals(model)){
+						MessageBox messageBox=new MessageBox();
+						messageBox.Show("任务计划名称已存在!", "提示", SWT.OK);
+						break L1;
+					}
+					if(text_2.getText().isEmpty()){
+						MessageBox messageBox=new MessageBox();
+						messageBox.Show("任务计划名称不能为空!", "提示", SWT.OK);
+						break L1;
+					} 
+				}
+			}
+
+			bo = ConnectionBroker.get_SiteviewApi()//得到数据库表
+					.get_BusObService().Create("EccTaskPlan");
+			bo.GetField("TaskName").SetValue(
+					new SiteviewValue(text_2.getText()));//任务计划名称
+			bo.GetField("Instruction").SetValue(
+					new SiteviewValue(text_1.getText()));//描述
+			bo.GetField("Model").SetValue(
+					new SiteviewValue("时间段计划"));
+			bo.GetField("StatrtTime").SetValue(new SiteviewValue(tableItem.getText(0)+","+startTimeStr+";"+tableItem_1.getText(0)+","+startTimeStr_2+";"+
+					tableItem_2.getText(0)+","+startTimeStr_4+";"+tableItem_3.getText(0)+","+startTimeStr_6+";"+
+					tableItem_4.getText(0)+","+startTimeStr_8+";"+tableItem_5.getText(0)+","+startTimeStr_10+";"+
+					tableItem_6.getText(0)+","+startTimeStr_12));//开始时间
+			bo.GetField("StatrtTime").SetValue(new SiteviewValue(tableItem.getText(0)+","+startTimeStr_1+";"+tableItem_1.getText(0)+","+startTimeStr_3+";"+
+					tableItem_2.getText(0)+","+startTimeStr_5+";"+tableItem_3.getText(0)+","+startTimeStr_7+";"+
+					tableItem_4.getText(0)+","+startTimeStr_9+";"+tableItem_5.getText(0)+","+startTimeStr_11+";"+
+					tableItem_6.getText(0)+","+startTimeStr_13));//结束时间
+			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,
+					true);//将数据存储到数据
+			
+			AbsoluteTime.addQuantumData();//刷新表单
 		}
+		this.close();
+	
 	}
 }
