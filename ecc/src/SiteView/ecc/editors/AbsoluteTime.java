@@ -35,6 +35,7 @@ import SiteView.ecc.dialog.AddRelativeTime;
 import SiteView.ecc.dialog.AddTimeQuantum;
 import SiteView.ecc.dialog.QuantumDetail;
 import SiteView.ecc.dialog.QuantumTimeEditor;
+import SiteView.ecc.dialog.RelativeTimeEditor;
 import SiteView.ecc.tools.FileTools;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
@@ -168,17 +169,7 @@ public class AbsoluteTime extends EditorPart {
 			tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION
 					| SWT.CHECK);
 			createTable();
-//			if ("absolute".equals(name)) {
-//				System.out.println("第一个");
-//			}
-//
-//            if ("quantum".equals(name)) {
-//				System.out.println("第二个");
-//			} 
-//            if ("ralative".equals(name)) {
-//				System.out.println("第三个");
-//			}
-
+			
 		sashForm.setWeights(new int[] { 1, 2, 34 });
 	}
 
@@ -196,7 +187,6 @@ public class AbsoluteTime extends EditorPart {
 	}
 	public void createTable(){
 		if("absolute".equals(name)){
-			System.out.println("absolute");
 			table = tableViewer.getTable();
 			table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 			table.setHeaderVisible(true);
@@ -278,7 +268,6 @@ public class AbsoluteTime extends EditorPart {
 					}
 				}
 		}else if("quantum".equals(name)){
-			//System.out.println("quantum");
 			table = tableViewer.getTable();
 			table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 			table.setHeaderVisible(true);
@@ -359,7 +348,80 @@ public class AbsoluteTime extends EditorPart {
 					}
 				}
 		}else if("ralative".equals(name)){
-			//System.out.println("ralative");
+			table = tableViewer.getTable();
+			table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+			table.setHeaderVisible(true);
+			table.setLinesVisible(true);
+			table.addSelectionListener(new SelectionListener() {
+
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					tableItem = (TableItem) e.item;
+					tableItem.setChecked(true);
+				}
+
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {
+					tableItem.setChecked(false);
+				}
+			});
+
+			final TableCursor cursor = new TableCursor(table, SWT.NONE);
+			cursor.addMouseListener(new MouseListener() {
+
+				@Override
+				public void mouseUp(MouseEvent e) {
+					for (TableItem ta : table.getItems()) {
+						if (!ta.equals(tableItem)) {
+							ta.setChecked(false);
+						}
+					}
+					int column=cursor.getColumn();
+					if(column==2){//编辑
+						String name=tableItem.getText();
+                        RelativeTimeEditor relativeEditor=new RelativeTimeEditor(null,name);
+                        relativeEditor.open();
+					}
+				}
+				public void mouseDown(MouseEvent e) {
+
+				}
+				public void mouseDoubleClick(MouseEvent e) {
+
+				}
+			});
+			
+			TableColumn tblclmnNewColumn_1 = new TableColumn(table, SWT.LEFT);
+			tblclmnNewColumn_1.setWidth(150);
+			tblclmnNewColumn_1.setText("\u540D\u79F0");
+
+			TableColumn tblclmnNewColumn = new TableColumn(table, SWT.LEFT);
+			tblclmnNewColumn.setWidth(150);
+			tblclmnNewColumn.setText("\u63CF\u8FF0");
+
+			TableColumn tableColumn_1 = new TableColumn(table, SWT.LEFT);
+			tableColumn_1.setWidth(150);
+			tableColumn_1.setText("\u7F16\u8F91");
+			
+				ICollection icoll = FileTools.getBussCollection("EccTaskPlan");
+				IEnumerator ienum = icoll.GetEnumerator();
+				if (ienum != null) {
+					while (ienum.MoveNext()) {
+						BusinessObject bo = (BusinessObject) ienum.get_Current();
+						if (bo != null&&bo.GetField("Model").get_NativeValue().toString().equals("相对时间计划")) {
+							String TaskName = bo.GetField("TaskName").get_NativeValue()
+									.toString();
+							String Instruction = bo.GetField("Instruction")
+									.get_NativeValue().toString();
+
+							TableItem tableItem_1 = new TableItem(table, SWT.NONE);
+							tableItem_1.setText(0, TaskName);
+							tableItem_1.setText(1, Instruction);
+							tableItem_1.setImage(2, ImageHelper.LoadImage(
+									Activator.PLUGIN_ID, "icons/edit.jpg"));
+						}
+					}
+				}
 		}
 	}
 public static void addAbsoluteData(){//添加数据后表单刷新
@@ -408,5 +470,27 @@ public static void addQuantumData(){//添加数据后表单刷新
 		}
 	}
 }
-
+public static void addRelativeData(){//添加数据后表单刷新
+	for(TableItem item:table.getItems()){
+		item.dispose();
+	}
+	ICollection icoll = FileTools.getBussCollection("EccTaskPlan");
+	IEnumerator ienum = icoll.GetEnumerator();
+	if (ienum != null) {
+		while (ienum.MoveNext()) {
+			BusinessObject bo = (BusinessObject) ienum.get_Current();
+			if (bo != null&& bo.GetField("Model").get_NativeValue().toString().equals("相对时间计划")) {
+				String TaskName = bo.GetField("TaskName").get_NativeValue()
+						.toString();
+				String Instruction = bo.GetField("Instruction")
+						.get_NativeValue().toString();
+                	TableItem tableItem_2 = new TableItem(table, SWT.NONE);
+    				tableItem_2.setText(0, TaskName);
+    				tableItem_2.setText(1, Instruction);
+    				tableItem_2.setImage(2, ImageHelper.LoadImage(
+    						Activator.PLUGIN_ID, "icons/edit.jpg"));
+			}
+		}
+	}
+}
 }
