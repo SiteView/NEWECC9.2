@@ -404,9 +404,9 @@ public class EccControl extends EditorPart {
 				}else{
 					s[0] = "ÔÊÐí";
 					s[1] = "no data";
-					s[2] = bo.GetField("title").get_NativeValue().toString();
+					s[2] = monitor.GetField("title").get_NativeValue().toString();
 					s[3] = "has no logs";
-					s[4] = bo.GetField("LastModDateTime").get_NativeValue()
+					s[4] = monitor.GetField("LastModDateTime").get_NativeValue()
 							.toString();
 				}
 				itable.setText(s);
