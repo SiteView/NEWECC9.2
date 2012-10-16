@@ -73,7 +73,6 @@ public class AbsoluteTime extends EditorPart {
 		this.setSite(site);
 		this.setInput(input);
 		name = AbsoluteTimeInput.type;
-		System.out.println("name:"+name);
 		this.setPartName(input.getName());
 
 	}
@@ -111,7 +110,7 @@ public class AbsoluteTime extends EditorPart {
 		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		composite_1.setLayout(null);
 
-		Button btnNewButton = new Button(composite_1, SWT.NONE);//添加
+		Button btnNewButton = new Button(composite_1, SWT.NONE);// 添加
 		btnNewButton.setBounds(10, 5, 36, 22);
 		btnNewButton.setText("\u6DFB\u52A0");
 		btnNewButton.addSelectionListener(new SelectionListener() {
@@ -132,28 +131,31 @@ public class AbsoluteTime extends EditorPart {
 
 			}
 		});
-		
-		Button button = new Button(composite_1, SWT.NONE);//删除
+
+		Button button = new Button(composite_1, SWT.NONE);// 删除
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if(tableItem==null){
-					MessageBox messageBox=new MessageBox();
+				if (tableItem == null) {
+					MessageBox messageBox = new MessageBox();
 					messageBox.Show("你还没有选定想删除的项!", "提示", SWT.OK);
-				}else{
-					ICollection ico=FileTools.getBussCollection("TaskName",tableItem.getText(0), "EccTaskPlan");
-					IEnumerator ien=ico.GetEnumerator();
-					while(ien.MoveNext()){
-						((BusinessObject)ien.get_Current()).DeleteObject(ConnectionBroker.get_SiteviewApi());//删除数据库数据
+				} else {
+					ICollection ico = FileTools.getBussCollection("TaskName",
+							tableItem.getText(0), "EccTaskPlan");
+					IEnumerator ien = ico.GetEnumerator();
+					while (ien.MoveNext()) {
+						((BusinessObject) ien.get_Current())
+								.DeleteObject(ConnectionBroker
+										.get_SiteviewApi());// 删除数据库数据
 					}
-					tableItem.dispose();//删除表单数据
+					tableItem.dispose();// 删除表单数据
 				}
 			}
 		});
 		button.setBounds(52, 5, 36, 22);
 		button.setText("\u5220\u9664");
-		
-		Button button_1 = new Button(composite_1, SWT.NONE);//刷新
+
+		Button button_1 = new Button(composite_1, SWT.NONE);// 刷新
 		button_1.setBounds(94, 5, 36, 22);
 		button_1.setText("\u5237\u65B0");
 		button_1.addSelectionListener(new SelectionAdapter() {
@@ -162,22 +164,107 @@ public class AbsoluteTime extends EditorPart {
 			}
 		});
 
-		Button button_2 = new Button(composite_1, SWT.NONE);//帮助
+		Button button_2 = new Button(composite_1, SWT.NONE);// 帮助
 		button_2.setBounds(136, 5, 36, 22);
 		button_2.setText("\u5E2E\u52A9");
-        
-			tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION
-					| SWT.CHECK);
-			
-			if ("absolute".equals(name)) {
-				createAbsoluteTable();
-			} else if ("quantum".equals(name)) {
-				createQuantumTable();
-			} else if ("ralative".equals(name)) {
-				createRelativeTable();
+
+		
+		tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION
+				| SWT.CHECK);
+		table = tableViewer.getTable();
+		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
+		table.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				tableItem = (TableItem) e.item;
+				tableItem.setChecked(true);
 			}
-			
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				tableItem.setChecked(false);
+			}
+		});
+
+		final TableCursor cursor = new TableCursor(table, SWT.NONE);
+		cursor.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseUp(MouseEvent e) {
+				for (TableItem ta : table.getItems()) {
+					if (!ta.equals(tableItem)) {
+						ta.setChecked(false);
+					}
+				}
+				int column = cursor.getColumn();
+				if (column == 2) {// 编辑
+					if ("absolute".equals(name)) {
+						String name = tableItem.getText();
+						AbsoluteTimeEditor editor = new AbsoluteTimeEditor(null,
+								name, tableItem);
+						editor.open();
+					} else if ("quantum".equals(name)) {
+						String name = tableItem.getText();
+						QuantumTimeEditor editor = new QuantumTimeEditor(null,
+								name, tableItem);
+						editor.open();
+					} else if ("ralative".equals(name)) {
+						String name = tableItem.getText();
+						RelativeTimeEditor editor = new RelativeTimeEditor(null,
+								name, tableItem);
+						editor.open();
+					}
+				}
+				
+				if (column == 0 || column == 1) {
+					if ("absolute".equals(name)) {
+						String name = tableItem.getText();
+						AbsoluteDetail absoluteDetail = new AbsoluteDetail(null, name);
+						absoluteDetail.open();
+					} else if ("quantum".equals(name)) {
+						String name = tableItem.getText();
+						QuantumDetail quantumDetail = new QuantumDetail(null, name);
+						quantumDetail.open();
+					}
+				}
+			}
+
+			public void mouseDown(MouseEvent e) {
+
+			}
+
+			public void mouseDoubleClick(MouseEvent e) {
+
+			}
+		});
+
+		TableColumn tblclmnNewColumn_1 = new TableColumn(table, SWT.LEFT);
+		tblclmnNewColumn_1.setWidth(150);
+		tblclmnNewColumn_1.setText("\u540D\u79F0");
+
+		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.LEFT);
+		tblclmnNewColumn.setWidth(150);
+		tblclmnNewColumn.setText("\u63CF\u8FF0");
+
+		TableColumn tableColumn_1 = new TableColumn(table, SWT.LEFT);
+		tableColumn_1.setWidth(150);
+		tableColumn_1.setText("\u7F16\u8F91");
+		createTable();
+
 		sashForm.setWeights(new int[] { 1, 2, 34 });
+	}
+
+	public void createTable() {
+		if ("absolute".equals(name)) {
+			createAbsoluteTable();
+		} else if ("quantum".equals(name)) {
+			createQuantumTable();
+		} else if ("ralative".equals(name)) {
+			createRelativeTable();
+		}
 	}
 
 	public void setFocus() {
@@ -192,312 +279,163 @@ public class AbsoluteTime extends EditorPart {
 			lblNewLabel.setText("相对时间任务计划");
 		}
 	}
-	public void createAbsoluteTable(){
-			table = tableViewer.getTable();
-			table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-			table.setHeaderVisible(true);
-			table.setLinesVisible(true);
-			table.addSelectionListener(new SelectionListener() {
 
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					tableItem = (TableItem) e.item;
-					tableItem.setChecked(true);
+	public void createAbsoluteTable() {
+		for (TableItem item : table.getItems()) {
+			item.dispose();
+		}
+		ICollection icoll = FileTools.getBussCollection("EccTaskPlan");
+		IEnumerator ienum = icoll.GetEnumerator();
+		if (ienum != null) {
+			while (ienum.MoveNext()) {
+				BusinessObject bo = (BusinessObject) ienum.get_Current();
+				if (bo != null
+						&& bo.GetField("Model").get_NativeValue().toString()
+								.equals("绝对时间任务计划")) {
+					String TaskName = bo.GetField("TaskName").get_NativeValue()
+							.toString();
+					String Instruction = bo.GetField("Instruction")
+							.get_NativeValue().toString();
+
+					TableItem tableItem_1 = new TableItem(table, SWT.NONE);
+					tableItem_1.setText(0, TaskName);
+					tableItem_1.setText(1, Instruction);
+					tableItem_1.setImage(2, ImageHelper.LoadImage(
+							Activator.PLUGIN_ID, "icons/edit.jpg"));
 				}
-
-				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-					tableItem.setChecked(false);
-				}
-			});
-
-			final TableCursor cursor = new TableCursor(table, SWT.NONE);
-			cursor.addMouseListener(new MouseListener() {
-
-				@Override
-				public void mouseUp(MouseEvent e) {
-					for (TableItem ta : table.getItems()) {
-						if (!ta.equals(tableItem)) {
-							ta.setChecked(false);
-						}
-					}
-					int column=cursor.getColumn();
-					if(column==2){//编辑
-							String name=tableItem.getText();
-							AbsoluteTimeEditor editor = new AbsoluteTimeEditor(null,name,tableItem);
-							editor.open();
-							
-					}
-					if(column==0||column==1){
-						String name=tableItem.getText();
-						AbsoluteDetail absoluteDetail=new AbsoluteDetail(null,name);
-						absoluteDetail.open();
-					}
-				}
-				public void mouseDown(MouseEvent e) {
-
-				}
-				public void mouseDoubleClick(MouseEvent e) {
-
-				}
-			});
-			
-			TableColumn tblclmnNewColumn_1 = new TableColumn(table, SWT.LEFT);
-			tblclmnNewColumn_1.setWidth(150);
-			tblclmnNewColumn_1.setText("\u540D\u79F0");
-
-			TableColumn tblclmnNewColumn = new TableColumn(table, SWT.LEFT);
-			tblclmnNewColumn.setWidth(150);
-			tblclmnNewColumn.setText("\u63CF\u8FF0");
-
-			TableColumn tableColumn_1 = new TableColumn(table, SWT.LEFT);
-			tableColumn_1.setWidth(150);
-			tableColumn_1.setText("\u7F16\u8F91");
-			
-				ICollection icoll = FileTools.getBussCollection("EccTaskPlan");
-				IEnumerator ienum = icoll.GetEnumerator();
-				if (ienum != null) {
-					while (ienum.MoveNext()) {
-						BusinessObject bo = (BusinessObject) ienum.get_Current();
-						if (bo != null&&bo.GetField("Model").get_NativeValue().toString().equals("绝对时间任务计划")) {
-							String TaskName = bo.GetField("TaskName").get_NativeValue()
-									.toString();
-							String Instruction = bo.GetField("Instruction")
-									.get_NativeValue().toString();
-
-							TableItem tableItem_1 = new TableItem(table, SWT.NONE);
-							tableItem_1.setText(0, TaskName);
-							tableItem_1.setText(1, Instruction);
-							tableItem_1.setImage(2, ImageHelper.LoadImage(
-									Activator.PLUGIN_ID, "icons/edit.jpg"));
-						}
-					}
-				}
-	}
-	public void createQuantumTable(){
-			table = tableViewer.getTable();
-			table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-			table.setHeaderVisible(true);
-			table.setLinesVisible(true);
-			table.addSelectionListener(new SelectionListener() {
-
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					tableItem = (TableItem) e.item;
-					tableItem.setChecked(true);
-				}
-
-				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-					tableItem.setChecked(false);
-				}
-			});
-
-			final TableCursor cursor = new TableCursor(table, SWT.NONE);
-			cursor.addMouseListener(new MouseListener() {
-
-				@Override
-				public void mouseUp(MouseEvent e) {
-					for (TableItem ta : table.getItems()) {
-						if (!ta.equals(tableItem)) {
-							ta.setChecked(false);
-						}
-					}
-					int column=cursor.getColumn();
-					if(column==2){//编辑
-						String name=tableItem.getText();
-						QuantumTimeEditor editor=new QuantumTimeEditor(null,name,tableItem);
-						editor.open();
-					}
-					if(column==0||column==1){
-						String name=tableItem.getText();
-						QuantumDetail quantumDetail=new QuantumDetail(null,name);
-						quantumDetail.open();
-					}
-				}
-				public void mouseDown(MouseEvent e) {
-
-				}
-				public void mouseDoubleClick(MouseEvent e) {
-
-				}
-			});
-			
-			TableColumn tblclmnNewColumn_1 = new TableColumn(table, SWT.LEFT);
-			tblclmnNewColumn_1.setWidth(150);
-			tblclmnNewColumn_1.setText("\u540D\u79F0");
-
-			TableColumn tblclmnNewColumn = new TableColumn(table, SWT.LEFT);
-			tblclmnNewColumn.setWidth(150);
-			tblclmnNewColumn.setText("\u63CF\u8FF0");
-
-			TableColumn tableColumn_1 = new TableColumn(table, SWT.LEFT);
-			tableColumn_1.setWidth(150);
-			tableColumn_1.setText("\u7F16\u8F91");
-			
-				ICollection icoll = FileTools.getBussCollection("EccTaskPlan");
-				IEnumerator ienum = icoll.GetEnumerator();
-				if (ienum != null) {
-					while (ienum.MoveNext()) {
-						BusinessObject bo = (BusinessObject) ienum.get_Current();
-						if (bo != null&&bo.GetField("Model").get_NativeValue().toString().equals("时间段计划")) {
-							String TaskName = bo.GetField("TaskName").get_NativeValue()
-									.toString();
-							String Instruction = bo.GetField("Instruction")
-									.get_NativeValue().toString();
-
-							TableItem tableItem_1 = new TableItem(table, SWT.NONE);
-							tableItem_1.setText(0, TaskName);
-							tableItem_1.setText(1, Instruction);
-							tableItem_1.setImage(2, ImageHelper.LoadImage(
-									Activator.PLUGIN_ID, "icons/edit.jpg"));
-						}
-					}
-				}
-	}
-	public void createRelativeTable(){
-			table = tableViewer.getTable();
-			table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-			table.setHeaderVisible(true);
-			table.setLinesVisible(true);
-			table.addSelectionListener(new SelectionListener() {
-
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					tableItem = (TableItem) e.item;
-					tableItem.setChecked(true);
-				}
-
-				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-					tableItem.setChecked(false);
-				}
-			});
-
-			final TableCursor cursor = new TableCursor(table, SWT.NONE);
-			cursor.addMouseListener(new MouseListener() {
-
-				@Override
-				public void mouseUp(MouseEvent e) {
-					for (TableItem ta : table.getItems()) {
-						if (!ta.equals(tableItem)) {
-							ta.setChecked(false);
-						}
-					}
-					int column=cursor.getColumn();
-					if(column==2){//编辑
-						String name=tableItem.getText();
-                        RelativeTimeEditor relativeEditor=new RelativeTimeEditor(null,name,tableItem);
-                        relativeEditor.open();
-					}
-				}
-				public void mouseDown(MouseEvent e) {
-
-				}
-				public void mouseDoubleClick(MouseEvent e) {
-
-				}
-			});
-			
-			TableColumn tblclmnNewColumn_1 = new TableColumn(table, SWT.LEFT);
-			tblclmnNewColumn_1.setWidth(150);
-			tblclmnNewColumn_1.setText("\u540D\u79F0");
-
-			TableColumn tblclmnNewColumn = new TableColumn(table, SWT.LEFT);
-			tblclmnNewColumn.setWidth(150);
-			tblclmnNewColumn.setText("\u63CF\u8FF0");
-
-			TableColumn tableColumn_1 = new TableColumn(table, SWT.LEFT);
-			tableColumn_1.setWidth(150);
-			tableColumn_1.setText("\u7F16\u8F91");
-			
-				ICollection icoll = FileTools.getBussCollection("EccTaskPlan");
-				IEnumerator ienum = icoll.GetEnumerator();
-				if (ienum != null) {
-					while (ienum.MoveNext()) {
-						BusinessObject bo = (BusinessObject) ienum.get_Current();
-						if (bo != null&&bo.GetField("Model").get_NativeValue().toString().equals("相对时间计划")) {
-							String TaskName = bo.GetField("TaskName").get_NativeValue()
-									.toString();
-							String Instruction = bo.GetField("Instruction")
-									.get_NativeValue().toString();
-
-							TableItem tableItem_1 = new TableItem(table, SWT.NONE);
-							tableItem_1.setText(0, TaskName);
-							tableItem_1.setText(1, Instruction);
-							tableItem_1.setImage(2, ImageHelper.LoadImage(
-									Activator.PLUGIN_ID, "icons/edit.jpg"));
-						}
-					}
-				}
-	}
-public static void addAbsoluteData(){//添加数据后表单刷新
-	for(TableItem item:table.getItems()){
-		item.dispose();
-	}
-	ICollection icoll = FileTools.getBussCollection("EccTaskPlan");
-	IEnumerator ienum = icoll.GetEnumerator();
-	if (ienum != null) {
-		while (ienum.MoveNext()) {
-			BusinessObject bo = (BusinessObject) ienum.get_Current();
-			if (bo != null&& bo.GetField("Model").get_NativeValue().toString().equals("绝对时间任务计划")) {
-				String TaskName = bo.GetField("TaskName").get_NativeValue()
-						.toString();
-				String Instruction = bo.GetField("Instruction")
-						.get_NativeValue().toString();
-                	TableItem tableItem_2 = new TableItem(table, SWT.NONE);
-    				tableItem_2.setText(0, TaskName);
-    				tableItem_2.setText(1, Instruction);
-    				tableItem_2.setImage(2, ImageHelper.LoadImage(
-    						Activator.PLUGIN_ID, "icons/edit.jpg"));
 			}
 		}
 	}
-}
-public static void addQuantumData(){//添加数据后表单刷新
-	for(TableItem item:table.getItems()){
-		item.dispose();
-	}
-	ICollection icoll = FileTools.getBussCollection("EccTaskPlan");
-	IEnumerator ienum = icoll.GetEnumerator();
-	if (ienum != null) {
-		while (ienum.MoveNext()) {
-			BusinessObject bo = (BusinessObject) ienum.get_Current();
-			if (bo != null&& bo.GetField("Model").get_NativeValue().toString().equals("时间段计划")) {
-				String TaskName = bo.GetField("TaskName").get_NativeValue()
-						.toString();
-				String Instruction = bo.GetField("Instruction")
-						.get_NativeValue().toString();
-                	TableItem tableItem_2 = new TableItem(table, SWT.NONE);
-    				tableItem_2.setText(0, TaskName);
-    				tableItem_2.setText(1, Instruction);
-    				tableItem_2.setImage(2, ImageHelper.LoadImage(
-    						Activator.PLUGIN_ID, "icons/edit.jpg"));
+
+	public void createQuantumTable() {
+		for (TableItem item : table.getItems()) {
+			item.dispose();
+		}
+		ICollection icoll = FileTools.getBussCollection("EccTaskPlan");
+		IEnumerator ienum = icoll.GetEnumerator();
+		if (ienum != null) {
+			while (ienum.MoveNext()) {
+				BusinessObject bo = (BusinessObject) ienum.get_Current();
+				if (bo != null
+						&& bo.GetField("Model").get_NativeValue().toString()
+								.equals("时间段计划")) {
+					String TaskName = bo.GetField("TaskName").get_NativeValue()
+							.toString();
+					String Instruction = bo.GetField("Instruction")
+							.get_NativeValue().toString();
+
+					TableItem tableItem_1 = new TableItem(table, SWT.NONE);
+					tableItem_1.setText(0, TaskName);
+					tableItem_1.setText(1, Instruction);
+					tableItem_1.setImage(2, ImageHelper.LoadImage(
+							Activator.PLUGIN_ID, "icons/edit.jpg"));
+				}
 			}
 		}
 	}
-}
-public static void addRelativeData(){//添加数据后表单刷新
-	for(TableItem item:table.getItems()){
-		item.dispose();
-	}
-	ICollection icoll = FileTools.getBussCollection("EccTaskPlan");
-	IEnumerator ienum = icoll.GetEnumerator();
-	if (ienum != null) {
-		while (ienum.MoveNext()) {
-			BusinessObject bo = (BusinessObject) ienum.get_Current();
-			if (bo != null&& bo.GetField("Model").get_NativeValue().toString().equals("相对时间计划")) {
-				String TaskName = bo.GetField("TaskName").get_NativeValue()
-						.toString();
-				String Instruction = bo.GetField("Instruction")
-						.get_NativeValue().toString();
-                	TableItem tableItem_2 = new TableItem(table, SWT.NONE);
-    				tableItem_2.setText(0, TaskName);
-    				tableItem_2.setText(1, Instruction);
-    				tableItem_2.setImage(2, ImageHelper.LoadImage(
-    						Activator.PLUGIN_ID, "icons/edit.jpg"));
+
+	public void createRelativeTable() {
+		for (TableItem item : table.getItems()) {
+			item.dispose();
+		}
+		ICollection icoll = FileTools.getBussCollection("EccTaskPlan");
+		IEnumerator ienum = icoll.GetEnumerator();
+		if (ienum != null) {
+			while (ienum.MoveNext()) {
+				BusinessObject bo = (BusinessObject) ienum.get_Current();
+				if (bo != null
+						&& bo.GetField("Model").get_NativeValue().toString()
+								.equals("相对时间计划")) {
+					String TaskName = bo.GetField("TaskName").get_NativeValue()
+							.toString();
+					String Instruction = bo.GetField("Instruction")
+							.get_NativeValue().toString();
+
+					TableItem tableItem_1 = new TableItem(table, SWT.NONE);
+					tableItem_1.setText(0, TaskName);
+					tableItem_1.setText(1, Instruction);
+					tableItem_1.setImage(2, ImageHelper.LoadImage(
+							Activator.PLUGIN_ID, "icons/edit.jpg"));
+				}
 			}
 		}
 	}
-}
+
+	public static void addAbsoluteData() {// 添加数据后表单刷新
+		for (TableItem item : table.getItems()) {
+			item.dispose();
+		}
+		ICollection icoll = FileTools.getBussCollection("EccTaskPlan");
+		IEnumerator ienum = icoll.GetEnumerator();
+		if (ienum != null) {
+			while (ienum.MoveNext()) {
+				BusinessObject bo = (BusinessObject) ienum.get_Current();
+				if (bo != null
+						&& bo.GetField("Model").get_NativeValue().toString()
+								.equals("绝对时间任务计划")) {
+					String TaskName = bo.GetField("TaskName").get_NativeValue()
+							.toString();
+					String Instruction = bo.GetField("Instruction")
+							.get_NativeValue().toString();
+					TableItem tableItem_2 = new TableItem(table, SWT.NONE);
+					tableItem_2.setText(0, TaskName);
+					tableItem_2.setText(1, Instruction);
+					tableItem_2.setImage(2, ImageHelper.LoadImage(
+							Activator.PLUGIN_ID, "icons/edit.jpg"));
+				}
+			}
+		}
+	}
+
+	public static void addQuantumData() {// 添加数据后表单刷新
+		for (TableItem item : table.getItems()) {
+			item.dispose();
+		}
+		ICollection icoll = FileTools.getBussCollection("EccTaskPlan");
+		IEnumerator ienum = icoll.GetEnumerator();
+		if (ienum != null) {
+			while (ienum.MoveNext()) {
+				BusinessObject bo = (BusinessObject) ienum.get_Current();
+				if (bo != null
+						&& bo.GetField("Model").get_NativeValue().toString()
+								.equals("时间段计划")) {
+					String TaskName = bo.GetField("TaskName").get_NativeValue()
+							.toString();
+					String Instruction = bo.GetField("Instruction")
+							.get_NativeValue().toString();
+					TableItem tableItem_2 = new TableItem(table, SWT.NONE);
+					tableItem_2.setText(0, TaskName);
+					tableItem_2.setText(1, Instruction);
+					tableItem_2.setImage(2, ImageHelper.LoadImage(
+							Activator.PLUGIN_ID, "icons/edit.jpg"));
+				}
+			}
+		}
+	}
+
+	public static void addRelativeData() {// 添加数据后表单刷新
+		for (TableItem item : table.getItems()) {
+			item.dispose();
+		}
+		ICollection icoll = FileTools.getBussCollection("EccTaskPlan");
+		IEnumerator ienum = icoll.GetEnumerator();
+		if (ienum != null) {
+			while (ienum.MoveNext()) {
+				BusinessObject bo = (BusinessObject) ienum.get_Current();
+				if (bo != null
+						&& bo.GetField("Model").get_NativeValue().toString()
+								.equals("相对时间计划")) {
+					String TaskName = bo.GetField("TaskName").get_NativeValue()
+							.toString();
+					String Instruction = bo.GetField("Instruction")
+							.get_NativeValue().toString();
+					TableItem tableItem_2 = new TableItem(table, SWT.NONE);
+					tableItem_2.setText(0, TaskName);
+					tableItem_2.setText(1, Instruction);
+					tableItem_2.setImage(2, ImageHelper.LoadImage(
+							Activator.PLUGIN_ID, "icons/edit.jpg"));
+				}
+			}
+		}
+	}
 }
