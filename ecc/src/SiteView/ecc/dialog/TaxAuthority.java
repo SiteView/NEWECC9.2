@@ -703,9 +703,41 @@ public class TaxAuthority extends Dialog {
 						}
 						createSetChaild(treeItem.getItems());
 					}
+				}else{
+					if(treeItem.getText().equals("SiteViewEcc9.2")){
+						if(functionPermission.get("SE")!=null){
+							BusinessObject bo1 = functionPermission.get("SE");
+							bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+						}
+						createSEChaild(treeItem.getItems());
+					}else if(treeItem.getData() instanceof AlarmModle){
+						if(functionPermission.get("Alarm")!=null){
+							BusinessObject bo1 = functionPermission.get("Alarm");
+							bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+						}
+						createAlarmChaild(treeItem.getItems());
+					}else if(treeItem.getData() instanceof MonitorSetUpModel){
+						if(functionPermission.get("Monitor")!=null){
+							BusinessObject bo1 = functionPermission.get("Monitor");
+							bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+						}
+					}else if(treeItem.getData() instanceof StatementsModle){
+						if(functionPermission.get("Report")!=null){
+							BusinessObject bo1 = functionPermission.get("Report");
+							bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+						}
+						createReporChaild(treeItem.getItems());
+					}else if(treeItem.getData() instanceof SetUpModle){
+						if(functionPermission.get("Set")!=null){
+							BusinessObject bo1 = functionPermission.get("Set");
+							bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+						}
+						createSetChaild(treeItem.getItems());
+					}
 				}
 			}
 			applyButton.setEnabled(true);
+			this.close();
 		}else if(buttonId ==IDialogConstants.CLOSE_ID){
 			closeButton.setEnabled(false);
 			TreeItem[] items = tree.getItems();
@@ -730,8 +762,13 @@ public class TaxAuthority extends Dialog {
 							bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
 						}
 						createFunctionAlarm(treeItem.getItems());
+					}else{
+						if(userPermission.get("Alarm")!=null){
+							BusinessObject bo1 = userPermission.get("Alarm");
+							bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+						}
+						createFunctionAlarm(treeItem.getItems());
 					}
-					
 				}else if(treeItem.getText().equals("SiteViewEcc9.2")){
 					if(treeItem.getChecked()){
 						if(userPermission.get("SE")!=null){
@@ -754,10 +791,17 @@ public class TaxAuthority extends Dialog {
 							bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
 						}
 						createFunctionSE(treeItem.getItems());
+					}else{
+						if(userPermission.get("SE")!=null){
+							BusinessObject bo1 = userPermission.get("SE");
+							bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+						}
+						createFunctionSE(treeItem.getItems());
 					}
 				}
 			}
 			closeButton.setEnabled(true);
+			this.close();
 		}else{
 			this.close();
 		}
@@ -847,9 +891,21 @@ public class TaxAuthority extends Dialog {
 						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
 					}
 				}
-				if(treeItem.getItemCount()>0){
-					createFunctionSE(treeItem.getItems());
+			}else{
+				if(treeItem.getData() instanceof GroupModle){
+					if(userPermission.get(((GroupModle)treeItem.getData()).getBo().get_RecId())!=null){
+						BusinessObject bo1 = userPermission.get(((GroupModle)treeItem.getData()).getBo().get_RecId());
+						bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+					}
+				}else if(treeItem.getData() instanceof MachineModle){
+					if(userPermission.get(((MachineModle)treeItem.getData()).getBo().get_RecId())!=null){
+						BusinessObject bo1 = userPermission.get(((MachineModle)treeItem.getData()).getBo().get_RecId());
+						bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+					}
 				}
+			}
+			if(treeItem.getItemCount()>0){
+				createFunctionSE(treeItem.getItems());
 			}
 		}
 	}
@@ -881,6 +937,11 @@ public class TaxAuthority extends Dialog {
 						bo.GetField("DeleteAlarmRule").SetValue(new SiteviewValue(but16.getSelection()));
 						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
 					}
+				}else{
+					if(userPermission.get("AlarmRule")!=null){
+						BusinessObject bo1 = userPermission.get("AlarmRule");
+						bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+					}
 				}
 			}else if(treeItem.getText().equals("报警策略")){
 				if(treeItem.getChecked()){
@@ -906,6 +967,11 @@ public class TaxAuthority extends Dialog {
 						bo.GetField("EditAlarmTactics").SetValue(new SiteviewValue(but18.getSelection()));
 						bo.GetField("DeleteAlarmTactics").SetValue(new SiteviewValue(but19.getSelection()));
 						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}
+				}else{
+					if(userPermission.get("AlarmTactics")!=null){
+						BusinessObject bo1 = userPermission.get("AlarmTactics");
+						bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
 					}
 				}
 			}
@@ -952,11 +1018,22 @@ public class TaxAuthority extends Dialog {
 						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
 					}
 				}
-				if(treeItem.getItemCount()>0){
-					createSEChaild(treeItem.getItems());
+			}else{
+				if(treeItem.getData() instanceof GroupModle){
+					if(functionPermission.get(((GroupModle)treeItem.getData()).getBo().get_RecId())!=null){
+						BusinessObject bo1 = functionPermission.get(((GroupModle)treeItem.getData()).getBo().get_RecId());
+						bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+					}
+				}else if(treeItem.getData() instanceof MachineModle){
+					if(functionPermission.get(((MachineModle)treeItem.getData()).getBo().get_RecId())!=null){
+						BusinessObject bo1 = functionPermission.get(((MachineModle)treeItem.getData()).getBo().get_RecId());
+						bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+					}
 				}
 			}
-			
+			if(treeItem.getItemCount()>0){
+				createSEChaild(treeItem.getItems());
+			}
 		}
 	}
 	//设置的子项
@@ -1114,8 +1191,54 @@ public class TaxAuthority extends Dialog {
 					}
 				}
 				
+			}else{
+				if(treeItem.getText().equals("邮件设置")){
+					if(functionPermission.get("Email")!=null){
+						BusinessObject bo1 = functionPermission.get("Email");
+						bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+					}
+				}else if(treeItem.getText().equals("短信设置")){
+					if(functionPermission.get("SMS")!=null){
+						BusinessObject bo1 = functionPermission.get("SMS");
+						bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+					}
+				}else if(treeItem.getText().equals("值班表设置")){
+					if(functionPermission.get("Duty")!=null){
+						BusinessObject bo1 = functionPermission.get("Duty");
+						bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+					}
+				}else if(treeItem.getText().equals("用户管理")){
+					if(functionPermission.get("User")!=null){
+						BusinessObject bo1 = functionPermission.get("User");
+						bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+					}
+				}else if(treeItem.getText().equals("任务计划")){
+					if(functionPermission.get("Task")!=null){
+						BusinessObject bo1 = functionPermission.get("Task");
+						bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+					}
+					for (TreeItem treeItem2 : treeItem.getItems()) {
+						if(treeItem2.getChecked()){
+							if(treeItem2.getText().equals("绝对时间任务计划")){
+								if(functionPermission.get("Absolute")!=null){
+									BusinessObject bo2 = functionPermission.get("Absolute");
+									bo2.DeleteObject(ConnectionBroker.get_SiteviewApi());
+								}
+							}else if(treeItem2.getText().equals("时间段计划")){
+								if(functionPermission.get("Quantum")!=null){
+									BusinessObject bo2 = functionPermission.get("Quantum");
+									bo2.DeleteObject(ConnectionBroker.get_SiteviewApi());
+								}
+							}else if(treeItem2.getText().equals("相对时间计划")){
+								if(functionPermission.get("Relative")!=null){
+									BusinessObject bo2 = functionPermission.get("Relative");
+									bo2.DeleteObject(ConnectionBroker.get_SiteviewApi());
+								}
+							}
+						}
+					}
+				}
 			}
-			
 		}
 	}
 	//报警的子项
@@ -1177,11 +1300,27 @@ public class TaxAuthority extends Dialog {
 						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
 					}
 				}
+			}else{
+				if(treeItem.getText().equals("报警规则")){
+					if(functionPermission.get("AlarmRule")!=null){
+						BusinessObject bo1 = functionPermission.get("AlarmRule");
+						bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+					}
+				}else if(treeItem.getText().equals("报警策略")){
+					if(functionPermission.get("AlarmTactics")!=null){
+						BusinessObject bo1 = functionPermission.get("AlarmTactics");
+						bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+					}
+				}else if(treeItem.getText().equals("报警日志")){
+					if(functionPermission.get("AlarmLog")!=null){
+						BusinessObject bo1 = functionPermission.get("AlarmLog");
+						bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+					}
+				}
 			}
 			
 		}
 	}
-	
 	//报告的子项
 	public void createReporChaild(TreeItem[] item){
 		for (TreeItem treeItem : item) {
@@ -1257,6 +1396,28 @@ public class TaxAuthority extends Dialog {
 						bo.GetField("PermissionsType").SetValue(new SiteviewValue("Status"));	
 						bo.GetField("PermissionsId").SetValue(new SiteviewValue("Status"));	
 						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+					}
+				}
+			}else{
+				if(treeItem.getText().equals("趋势报告")){
+					if(functionPermission.get("Trend")!=null){
+						BusinessObject bo1 = functionPermission.get("Trend");
+						bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+					}
+				}else if(treeItem.getText().equals("对比报告")){
+					if(functionPermission.get("Ratio")!=null){
+						BusinessObject bo1 = functionPermission.get("Ratio");
+						bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+					}
+				}else if(treeItem.getText().equals("时段对比报告")){
+					if(functionPermission.get("TimeRatio")!=null){
+						BusinessObject bo1 = functionPermission.get("TimeRatio");
+						bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
+					}
+				}else if(treeItem.getText().equals("状态统计报告")){
+					if(functionPermission.get("Status")!=null){
+						BusinessObject bo1 = functionPermission.get("Status");
+						bo1.DeleteObject(ConnectionBroker.get_SiteviewApi());
 					}
 				}
 			}

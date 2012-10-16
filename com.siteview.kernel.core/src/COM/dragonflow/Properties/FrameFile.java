@@ -1181,6 +1181,12 @@ public class FrameFile {
 												.equals("once afterall log entries")) {
 									datavalue = "once";
 								}
+								if(parmName.equals("_cacheLife")){
+									datavalue = "0";
+								}
+								if(parmName.equals("_remotescript")){
+									datavalue = "none";
+								}
 								if (parmName.equals("_resetFile")
 										&& (datavalue
 												.equals("Never First Time Only") || datavalue
@@ -1197,7 +1203,7 @@ public class FrameFile {
 											"itsm_siteview9.2.properties",
 											datavalue);
 								}
-
+								
 								// Windows Performance Counter¹ýÂË
 								if (parmName.equals("_pmcfile")
 										&& datavalue.equals("(Custom Object)")) {

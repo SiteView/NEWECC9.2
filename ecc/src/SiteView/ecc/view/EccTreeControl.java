@@ -133,7 +133,6 @@ public class EccTreeControl extends ViewPart {
 		list_2.add("Ecc.DiskSpace");
 		list_2.add("Ecc.Memory");
 		list_2.add("Ecc.Port");
-		list_2.add("Ecc.Memory");
 		list_2.add("Ecc.Service");
 	}
 	 
