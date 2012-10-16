@@ -22,6 +22,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
 import SiteView.ecc.tools.FileTools;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
@@ -406,16 +407,16 @@ public class RelativeTimeEditor extends Dialog{
 		super.configureShell(newShell);
 	}
 	protected Control createDialogArea(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setBackground(EccTreeControl.color);
 		Composite composite = (Composite) super.createDialogArea(parent);
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite.setBackground(EccTreeControl.color);
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		SashForm sashForm = new SashForm(composite, SWT.VERTICAL);
-		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		sashForm.setBackground(EccTreeControl.color);
 		
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
-		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_1.setBackground(EccTreeControl.color);
 		
 		ICollection ico=FileTools.getBussCollection("TaskName",name, "EccTaskPlan");
 		IEnumerator ien=ico.GetEnumerator();
@@ -456,7 +457,7 @@ public class RelativeTimeEditor extends Dialog{
 		}
 		
 		Label lblNewLabel_1 = new Label(composite_1, SWT.NONE);
-		lblNewLabel_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_1.setBackground(EccTreeControl.color);
 		lblNewLabel_1.setBounds(10, 5, 100, 18);
 		lblNewLabel_1.setText("\u4EFB\u52A1\u8BA1\u5212\u540D\u79F0*\uFF1A");
 		
@@ -468,7 +469,7 @@ public class RelativeTimeEditor extends Dialog{
 		TableViewer tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION | SWT.CHECK);
 		table = tableViewer.getTable();
 		table.setHeaderVisible(true);
-		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		table.setBackground(EccTreeControl.color);
 		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn.setWidth(80);
@@ -486,7 +487,7 @@ public class RelativeTimeEditor extends Dialog{
 		item1.setImage(image);
 		TableEditor editor_0 = new TableEditor(table);
 		check_0 = new Button(table, SWT.CHECK);
-		check_0.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_0.setBackground(EccTreeControl.color);
 		check_0.pack();
         if(item1.getText(0).equals(date_0)&&c1[0].equals("true")){
         	check_0.setSelection(true);
@@ -498,7 +499,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_1 = new TableEditor(table);
 		check_1 = new Button(table, SWT.CHECK);
-		check_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_1.setBackground(EccTreeControl.color);
 		check_1.pack();
 		if(item1.getText(0).equals(date_0)&&c1[1].equals("true")){
 			check_1.setSelection(true);
@@ -510,7 +511,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_2 = new TableEditor(table);
 		check_2 = new Button(table, SWT.CHECK);
-		check_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_2.setBackground(EccTreeControl.color);
 		check_2.pack();
 		if(item1.getText(0).equals(date_0)&&c1[2].equals("true")){
 			check_2.setSelection(true);
@@ -522,7 +523,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_3 = new TableEditor(table);
 		check_3 = new Button(table, SWT.CHECK);
-		check_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_3.setBackground(EccTreeControl.color);
 		check_3.pack();
 		if(item1.getText(0).equals(date_0)&&c1[3].equals("true")){
 			check_3.setSelection(true);
@@ -534,7 +535,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_4 = new TableEditor(table);
 		check_4 = new Button(table, SWT.CHECK);
-		check_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_4.setBackground(EccTreeControl.color);
 		check_4.pack();
 		if(item1.getText(0).equals(date_0)&&c1[4].equals("true")){
 			check_4.setSelection(true);
@@ -546,7 +547,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_5 = new TableEditor(table);
 		check_5 = new Button(table, SWT.CHECK);
-		check_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_5.setBackground(EccTreeControl.color);
 		check_5.pack();
 		if(item1.getText(0).equals(date_0)&&c1[5].equals("true")){
 			check_5.setSelection(true);
@@ -558,7 +559,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_6 = new TableEditor(table);
 		check_6 = new Button(table, SWT.CHECK);
-		check_6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_6.setBackground(EccTreeControl.color);
 		check_6.pack();
 		if(item1.getText(0).equals(date_0)&&c1[6].equals("true")){
 			check_6.setSelection(true);
@@ -570,7 +571,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_7 = new TableEditor(table);
 		check_7 = new Button(table, SWT.CHECK);
-		check_7.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_7.setBackground(EccTreeControl.color);
 		check_7.pack();
 		if(item1.getText(0).equals(date_0)&&c1[7].equals("true")){
 			check_7.setSelection(true);
@@ -582,7 +583,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_8 = new TableEditor(table);
 		check_8 = new Button(table, SWT.CHECK);
-		check_8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_8.setBackground(EccTreeControl.color);
 		check_8.pack();
 		if(item1.getText(0).equals(date_0)&&c1[8].equals("true")){
 			check_8.setSelection(true);
@@ -594,7 +595,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_9 = new TableEditor(table);
 		check_9 = new Button(table, SWT.CHECK);
-		check_9.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_9.setBackground(EccTreeControl.color);
 		check_9.pack();
 		if(item1.getText(0).equals(date_0)&&c1[9].equals("true")){
 			check_9.setSelection(true);
@@ -606,7 +607,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_10 = new TableEditor(table);
 		check_10 = new Button(table, SWT.CHECK);
-		check_10.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_10.setBackground(EccTreeControl.color);
 		check_10.pack();
 		if(item1.getText(0).equals(date_0)&&c1[10].equals("true")){
 			check_10.setSelection(true);
@@ -618,7 +619,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_11 = new TableEditor(table);
 		check_11 = new Button(table, SWT.CHECK);
-		check_11.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_11.setBackground(EccTreeControl.color);
 		check_11.pack();
 		if(item1.getText(0).equals(date_0)&&c1[11].equals("true")){
 			check_11.setSelection(true);
@@ -630,7 +631,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_12 = new TableEditor(table);
 		check_12 = new Button(table, SWT.CHECK);
-		check_12.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_12.setBackground(EccTreeControl.color);
 		check_12.pack();
 		if(item1.getText(0).equals(date_0)&&c1[12].equals("true")){
 			check_12.setSelection(true);
@@ -642,7 +643,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_13 = new TableEditor(table);
 		check_13 = new Button(table, SWT.CHECK);
-		check_13.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_13.setBackground(EccTreeControl.color);
 		check_13.pack();
 		if(item1.getText(0).equals(date_0)&&c1[13].equals("true")){
 			check_13.setSelection(true);
@@ -654,7 +655,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_14 = new TableEditor(table);
 		check_14 = new Button(table, SWT.CHECK);
-		check_14.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_14.setBackground(EccTreeControl.color);
 		check_14.pack();
 		if(item1.getText(0).equals(date_0)&&c1[14].equals("true")){
 			check_14.setSelection(true);
@@ -666,7 +667,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_15 = new TableEditor(table);
 		check_15 = new Button(table, SWT.CHECK);
-		check_15.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_15.setBackground(EccTreeControl.color);
 		check_15.pack();
 		if(item1.getText(0).equals(date_0)&&c1[15].equals("true")){
 			check_15.setSelection(true);
@@ -678,7 +679,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_16 = new TableEditor(table);
 		check_16 = new Button(table, SWT.CHECK);
-		check_16.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_16.setBackground(EccTreeControl.color);
 		check_16.pack();
 		if(item1.getText(0).equals(date_0)&&c1[16].equals("true")){
 			check_16.setSelection(true);
@@ -690,7 +691,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_17 = new TableEditor(table);
 		check_17 = new Button(table, SWT.CHECK);
-		check_17.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_17.setBackground(EccTreeControl.color);
 		check_17.pack();
 		if(item1.getText(0).equals(date_0)&&c1[17].equals("true")){
 			check_17.setSelection(true);
@@ -702,7 +703,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_18 = new TableEditor(table);
 		check_18 = new Button(table, SWT.CHECK);
-		check_18.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_18.setBackground(EccTreeControl.color);
 		check_18.pack();
 		if(item1.getText(0).equals(date_0)&&c1[18].equals("true")){
 			check_18.setSelection(true);
@@ -714,7 +715,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_19 = new TableEditor(table);
 		check_19 = new Button(table, SWT.CHECK);
-		check_19.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_19.setBackground(EccTreeControl.color);
 		check_19.pack();
 		if(item1.getText(0).equals(date_0)&&c1[19].equals("true")){
 			check_19.setSelection(true);
@@ -726,7 +727,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_20 = new TableEditor(table);
 		check_20 = new Button(table, SWT.CHECK);
-		check_20.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_20.setBackground(EccTreeControl.color);
 		check_20.pack();
 		if(item1.getText(0).equals(date_0)&&c1[20].equals("true")){
 			check_20.setSelection(true);
@@ -738,7 +739,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_21 = new TableEditor(table);
 		check_21 = new Button(table, SWT.CHECK);
-		check_21.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_21.setBackground(EccTreeControl.color);
 		check_21.pack();
 		if(item1.getText(0).equals(date_0)&&c1[21].equals("true")){
 			check_21.setSelection(true);
@@ -750,7 +751,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_22 = new TableEditor(table);
 		check_22 = new Button(table, SWT.CHECK);
-		check_22.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_22.setBackground(EccTreeControl.color);
 		check_22.pack();
 		if(item1.getText(0).equals(date_0)&&c1[22].equals("true")){
 			check_22.setSelection(true);
@@ -762,7 +763,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_23 = new TableEditor(table);
 		check_23 = new Button(table, SWT.CHECK);
-		check_23.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_23.setBackground(EccTreeControl.color);
 		check_23.pack();
 		if(item1.getText(0).equals(date_0)&&c1[23].equals("true")){
 			check_23.setSelection(true);
@@ -777,7 +778,7 @@ public class RelativeTimeEditor extends Dialog{
 		item2.setText(0, "星期一");
 		TableEditor editor_a1 = new TableEditor(table);
 		check_a1 = new Button(table, SWT.CHECK);
-		check_a1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a1.setBackground(EccTreeControl.color);
 		check_a1.pack();
 		if(item2.getText(0).equals(date_1)&&c2[0].equals("true")){
 			check_a1.setSelection(true);
@@ -789,7 +790,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_a2 = new TableEditor(table);
 		check_a2 = new Button(table, SWT.CHECK);
-		check_a2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a2.setBackground(EccTreeControl.color);
 		check_a2.pack();
 		if(item2.getText(0).equals(date_1)&&c2[1].equals("true")){
 			check_a2.setSelection(true);
@@ -801,7 +802,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_a3 = new TableEditor(table);
 		check_a3 = new Button(table, SWT.CHECK);
-		check_a3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a3.setBackground(EccTreeControl.color);
 		check_a3.pack();
 		if(item2.getText(0).equals(date_1)&&c2[2].equals("true")){
 			check_a3.setSelection(true);
@@ -813,7 +814,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_a4 = new TableEditor(table);
 		check_a4 = new Button(table, SWT.CHECK);
-		check_a4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a4.setBackground(EccTreeControl.color);
 		check_a4.pack();
 		if(item2.getText(0).equals(date_1)&&c2[3].equals("true")){
 			check_a4.setSelection(true);
@@ -825,7 +826,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_a5 = new TableEditor(table);
 		check_a5 = new Button(table, SWT.CHECK);
-		check_a5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a5.setBackground(EccTreeControl.color);
 		check_a5.pack();
 		if(item2.getText(0).equals(date_1)&&c2[4].equals("true")){
 			check_a5.setSelection(true);
@@ -837,7 +838,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_a6 = new TableEditor(table);
 		check_a6 = new Button(table, SWT.CHECK);
-		check_a6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a6.setBackground(EccTreeControl.color);
 		check_a6.pack();
 		if(item2.getText(0).equals(date_1)&&c2[5].equals("true")){
 			check_a6.setSelection(true);
@@ -849,7 +850,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_a7 = new TableEditor(table);
 		check_a7 = new Button(table, SWT.CHECK);
-		check_a7.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a7.setBackground(EccTreeControl.color);
 		check_a7.pack();
 		if(item2.getText(0).equals(date_1)&&c2[6].equals("true")){
 			check_a7.setSelection(true);
@@ -861,7 +862,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_a8 = new TableEditor(table);
 		check_a8 = new Button(table, SWT.CHECK);
-		check_a8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a8.setBackground(EccTreeControl.color);
 		check_a8.pack();
 		if(item2.getText(0).equals(date_1)&&c2[7].equals("true")){
 			check_a8.setSelection(true);
@@ -873,7 +874,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_a9 = new TableEditor(table);
 		check_a9 = new Button(table, SWT.CHECK);
-		check_a9.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a9.setBackground(EccTreeControl.color);
 		check_a9.pack();
 		if(item2.getText(0).equals(date_1)&&c2[8].equals("true")){
 			check_a9.setSelection(true);
@@ -885,7 +886,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_a10 = new TableEditor(table);
 		check_a10 = new Button(table, SWT.CHECK);
-		check_a10.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a10.setBackground(EccTreeControl.color);
 		check_a10.pack();
 		if(item2.getText(0).equals(date_1)&&c2[9].equals("true")){
 			check_a10.setSelection(true);
@@ -897,7 +898,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_a11 = new TableEditor(table);
 		check_a11 = new Button(table, SWT.CHECK);
-		check_a11.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a11.setBackground(EccTreeControl.color);
 		check_a11.pack();
 		if(item2.getText(0).equals(date_1)&&c2[10].equals("true")){
 			check_a11.setSelection(true);
@@ -909,7 +910,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_a12 = new TableEditor(table);
 		check_a12 = new Button(table, SWT.CHECK);
-		check_a12.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a12.setBackground(EccTreeControl.color);
 		check_a12.pack();
 		if(item2.getText(0).equals(date_1)&&c2[11].equals("true")){
 			check_a12.setSelection(true);
@@ -921,7 +922,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_a13 = new TableEditor(table);
 		check_a13 = new Button(table, SWT.CHECK);
-		check_a13.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a13.setBackground(EccTreeControl.color);
 		check_a13.pack();
 		if(item2.getText(0).equals(date_1)&&c2[12].equals("true")){
 			check_a13.setSelection(true);
@@ -933,7 +934,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_a14 = new TableEditor(table);
 		check_a14 = new Button(table, SWT.CHECK);
-		check_a14.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a14.setBackground(EccTreeControl.color);
 		check_a14.pack();
 		if(item2.getText(0).equals(date_1)&&c2[13].equals("true")){
 			check_a14.setSelection(true);
@@ -945,7 +946,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_a15 = new TableEditor(table);
 		check_a15 = new Button(table, SWT.CHECK);
-		check_a15.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a15.setBackground(EccTreeControl.color);
 		check_a15.pack();
 		if(item2.getText(0).equals(date_1)&&c2[14].equals("true")){
 			check_a15.setSelection(true);
@@ -957,7 +958,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_a16 = new TableEditor(table);
 		check_a16 = new Button(table, SWT.CHECK);
-		check_a16.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a16.setBackground(EccTreeControl.color);
 		check_a16.pack();
 		if(item2.getText(0).equals(date_1)&&c2[15].equals("true")){
 			check_a16.setSelection(true);
@@ -969,7 +970,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_a17 = new TableEditor(table);
 		check_a17 = new Button(table, SWT.CHECK);
-		check_a17.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a17.setBackground(EccTreeControl.color);
 		check_a17.pack();
 		if(item2.getText(0).equals(date_1)&&c2[16].equals("true")){
 			check_a17.setSelection(true);
@@ -981,7 +982,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_a18 = new TableEditor(table);
 		check_a18 = new Button(table, SWT.CHECK);
-		check_a18.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a18.setBackground(EccTreeControl.color);
 		check_a18.pack();
 		if(item2.getText(0).equals(date_1)&&c2[17].equals("true")){
 			check_a18.setSelection(true);
@@ -993,7 +994,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_a19 = new TableEditor(table);
 		check_a19 = new Button(table, SWT.CHECK);
-		check_a19.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a19.setBackground(EccTreeControl.color);
 		check_a19.pack();
 		if(item2.getText(0).equals(date_1)&&c2[18].equals("true")){
 			check_a19.setSelection(true);
@@ -1005,7 +1006,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_a20 = new TableEditor(table);
 		check_a20 = new Button(table, SWT.CHECK);
-		check_a20.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a20.setBackground(EccTreeControl.color);
 		check_a20.pack();
 		if(item2.getText(0).equals(date_1)&&c2[19].equals("true")){
 			check_a20.setSelection(true);
@@ -1017,7 +1018,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_a21 = new TableEditor(table);
 		check_a21 = new Button(table, SWT.CHECK);
-		check_a21.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a21.setBackground(EccTreeControl.color);
 		check_a21.pack();
 		if(item2.getText(0).equals(date_1)&&c2[20].equals("true")){
 			check_a21.setSelection(true);
@@ -1029,7 +1030,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_a22 = new TableEditor(table);
 		check_a22 = new Button(table, SWT.CHECK);
-		check_a22.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a22.setBackground(EccTreeControl.color);
 		check_a22.pack();
 		if(item2.getText(0).equals(date_1)&&c2[21].equals("true")){
 			check_a22.setSelection(true);
@@ -1041,7 +1042,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_a23 = new TableEditor(table);
 		check_a23 = new Button(table, SWT.CHECK);
-		check_a23.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a23.setBackground(EccTreeControl.color);
 		check_a23.pack();
 		if(item2.getText(0).equals(date_1)&&c2[22].equals("true")){
 			check_a23.setSelection(true);
@@ -1053,7 +1054,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_a24 = new TableEditor(table);
 		check_a24 = new Button(table, SWT.CHECK);
-		check_a24.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a24.setBackground(EccTreeControl.color);
 		check_a24.pack();
 		if(item2.getText(0).equals(date_1)&&c2[23].equals("true")){
 			check_a24.setSelection(true);
@@ -1068,7 +1069,7 @@ public class RelativeTimeEditor extends Dialog{
 		item3.setText(0, "星期二");
 		TableEditor editor_b1 = new TableEditor(table);
 		check_b1 = new Button(table, SWT.CHECK);
-		check_b1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b1.setBackground(EccTreeControl.color);
 		check_b1.pack();
 		if(item3.getText(0).equals(date_2)&&c3[0].equals("true")){
 			check_b1.setSelection(true);
@@ -1080,7 +1081,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_b2 = new TableEditor(table);
 		check_b2 = new Button(table, SWT.CHECK);
-		check_b2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b2.setBackground(EccTreeControl.color);
 		check_b2.pack();
 		if(item3.getText(0).equals(date_2)&&c3[1].equals("true")){
 			check_b2.setSelection(true);
@@ -1092,7 +1093,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_b3 = new TableEditor(table);
 		check_b3 = new Button(table, SWT.CHECK);
-		check_b3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b3.setBackground(EccTreeControl.color);
 		check_b3.pack();
 		if(item3.getText(0).equals(date_2)&&c3[2].equals("true")){
 			check_b3.setSelection(true);
@@ -1104,7 +1105,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_b4 = new TableEditor(table);
 		check_b4 = new Button(table, SWT.CHECK);
-		check_b4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b4.setBackground(EccTreeControl.color);
 		check_b4.pack();
 		if(item3.getText(0).equals(date_2)&&c3[3].equals("true")){
 			check_b4.setSelection(true);
@@ -1116,7 +1117,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_b5 = new TableEditor(table);
 		check_b5 = new Button(table, SWT.CHECK);
-		check_b5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b5.setBackground(EccTreeControl.color);
 		check_b5.pack();
 		if(item3.getText(0).equals(date_2)&&c3[4].equals("true")){
 			check_b5.setSelection(true);
@@ -1128,7 +1129,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_b6 = new TableEditor(table);
 		check_b6 = new Button(table, SWT.CHECK);
-		check_b6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b6.setBackground(EccTreeControl.color);
 		check_b6.pack();
 		if(item3.getText(0).equals(date_2)&&c3[5].equals("true")){
 			check_b6.setSelection(true);
@@ -1140,7 +1141,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_b7 = new TableEditor(table);
 		check_b7 = new Button(table, SWT.CHECK);
-		check_b7.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b7.setBackground(EccTreeControl.color);
 		check_b7.pack();
 		if(item3.getText(0).equals(date_2)&&c3[6].equals("true")){
 			check_b7.setSelection(true);
@@ -1152,7 +1153,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_b8 = new TableEditor(table);
 		check_b8 = new Button(table, SWT.CHECK);
-		check_b8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b8.setBackground(EccTreeControl.color);
 		check_b8.pack();
 		if(item3.getText(0).equals(date_2)&&c3[7].equals("true")){
 			check_b8.setSelection(true);
@@ -1164,7 +1165,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_b9 = new TableEditor(table);
 		check_b9 = new Button(table, SWT.CHECK);
-		check_b9.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b9.setBackground(EccTreeControl.color);
 		check_b9.pack();
 		if(item3.getText(0).equals(date_2)&&c3[8].equals("true")){
 			check_b9.setSelection(true);
@@ -1176,7 +1177,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_b10 = new TableEditor(table);
 		check_b10 = new Button(table, SWT.CHECK);
-		check_b10.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b10.setBackground(EccTreeControl.color);
 		check_b10.pack();
 		if(item3.getText(0).equals(date_2)&&c3[9].equals("true")){
 			check_b10.setSelection(true);
@@ -1188,7 +1189,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_b11 = new TableEditor(table);
 		check_b11 = new Button(table, SWT.CHECK);
-		check_b11.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b11.setBackground(EccTreeControl.color);
 		check_b11.pack();
 		if(item3.getText(0).equals(date_2)&&c3[10].equals("true")){
 			check_b11.setSelection(true);
@@ -1200,7 +1201,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_b12 = new TableEditor(table);
 		check_b12 = new Button(table, SWT.CHECK);
-		check_b12.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b12.setBackground(EccTreeControl.color);
 		check_b12.pack();
 		if(item3.getText(0).equals(date_2)&&c3[11].equals("true")){
 			check_b12.setSelection(true);
@@ -1212,7 +1213,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_b13 = new TableEditor(table);
 		check_b13 = new Button(table, SWT.CHECK);
-		check_b13.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b13.setBackground(EccTreeControl.color);
 		check_b13.pack();
 		if(item3.getText(0).equals(date_2)&&c3[12].equals("true")){
 			check_b13.setSelection(true);
@@ -1224,7 +1225,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_b14 = new TableEditor(table);
 		check_b14 = new Button(table, SWT.CHECK);
-		check_b14.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b14.setBackground(EccTreeControl.color);
 		check_b14.pack();
 		if(item3.getText(0).equals(date_2)&&c3[13].equals("true")){
 			check_b14.setSelection(true);
@@ -1236,7 +1237,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_b15 = new TableEditor(table);
 		check_b15 = new Button(table, SWT.CHECK);
-		check_b15.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b15.setBackground(EccTreeControl.color);
 		check_b15.pack();
 		if(item3.getText(0).equals(date_2)&&c3[14].equals("true")){
 			check_b15.setSelection(true);
@@ -1248,7 +1249,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_b16 = new TableEditor(table);
 		check_b16 = new Button(table, SWT.CHECK);
-		check_b16.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b16.setBackground(EccTreeControl.color);
 		check_b16.pack();
 		if(item3.getText(0).equals(date_2)&&c3[15].equals("true")){
 			check_b16.setSelection(true);
@@ -1260,7 +1261,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_b17 = new TableEditor(table);
 		check_b17 = new Button(table, SWT.CHECK);
-		check_b17.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b17.setBackground(EccTreeControl.color);
 		check_b17.pack();
 		if(item3.getText(0).equals(date_2)&&c3[16].equals("true")){
 			check_b17.setSelection(true);
@@ -1272,7 +1273,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_b18 = new TableEditor(table);
 		check_b18 = new Button(table, SWT.CHECK);
-		check_b18.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b18.setBackground(EccTreeControl.color);
 		check_b18.pack();
 		if(item3.getText(0).equals(date_2)&&c3[17].equals("true")){
 			check_b18.setSelection(true);
@@ -1284,7 +1285,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_b19 = new TableEditor(table);
 		check_b19 = new Button(table, SWT.CHECK);
-		check_b19.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b19.setBackground(EccTreeControl.color);
 		check_b19.pack();
 		if(item3.getText(0).equals(date_2)&&c3[18].equals("true")){
 			check_b19.setSelection(true);
@@ -1296,7 +1297,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_b20 = new TableEditor(table);
 		check_b20 = new Button(table, SWT.CHECK);
-		check_b20.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b20.setBackground(EccTreeControl.color);
 		check_b20.pack();
 		if(item3.getText(0).equals(date_2)&&c3[19].equals("true")){
 			check_b20.setSelection(true);
@@ -1308,7 +1309,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_b21 = new TableEditor(table);
 		check_b21 = new Button(table, SWT.CHECK);
-		check_b21.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b21.setBackground(EccTreeControl.color);
 		check_b21.pack();
 		if(item3.getText(0).equals(date_2)&&c3[20].equals("true")){
 			check_b21.setSelection(true);
@@ -1320,7 +1321,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_b22 = new TableEditor(table);
 		check_b22 = new Button(table, SWT.CHECK);
-		check_b22.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b22.setBackground(EccTreeControl.color);
 		check_b22.pack();
 		if(item3.getText(0).equals(date_2)&&c3[21].equals("true")){
 			check_b22.setSelection(true);
@@ -1332,7 +1333,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_b23 = new TableEditor(table);
 		check_b23 = new Button(table, SWT.CHECK);
-		check_b23.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b23.setBackground(EccTreeControl.color);
 		check_b23.pack();
 		if(item3.getText(0).equals(date_2)&&c3[22].equals("true")){
 			check_b23.setSelection(true);
@@ -1344,7 +1345,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_b24 = new TableEditor(table);
 		check_b24 = new Button(table, SWT.CHECK);
-		check_b24.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b24.setBackground(EccTreeControl.color);
 		check_b24.pack();
 		if(item3.getText(0).equals(date_2)&&c3[23].equals("true")){
 			check_b24.setSelection(true);
@@ -1359,7 +1360,7 @@ public class RelativeTimeEditor extends Dialog{
 		item4.setText(0, "星期三");
 		TableEditor editor_c1 = new TableEditor(table);
 		check_c1 = new Button(table, SWT.CHECK);
-		check_c1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c1.setBackground(EccTreeControl.color);
 		check_c1.pack();
 		if(item4.getText(0).equals(date_3)&&c4[0].equals("true")){
 			check_c1.setSelection(true);
@@ -1371,7 +1372,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_c2 = new TableEditor(table);
 		check_c2 = new Button(table, SWT.CHECK);
-		check_c2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c2.setBackground(EccTreeControl.color);
 		check_c2.pack();
 		if(item4.getText(0).equals(date_3)&&c4[1].equals("true")){
 			check_c2.setSelection(true);
@@ -1383,7 +1384,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_c3 = new TableEditor(table);
 		check_c3 = new Button(table, SWT.CHECK);
-		check_c3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c3.setBackground(EccTreeControl.color);
 		check_c3.pack();
 		if(item4.getText(0).equals(date_3)&&c4[2].equals("true")){
 			check_c3.setSelection(true);
@@ -1395,7 +1396,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_c4 = new TableEditor(table);
 		check_c4 = new Button(table, SWT.CHECK);
-		check_c4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c4.setBackground(EccTreeControl.color);
 		check_c4.pack();
 		if(item4.getText(0).equals(date_3)&&c4[3].equals("true")){
 			check_c4.setSelection(true);
@@ -1407,7 +1408,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_c5 = new TableEditor(table);
 		check_c5 = new Button(table, SWT.CHECK);
-		check_c5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c5.setBackground(EccTreeControl.color);
 		check_c5.pack();
 		if(item4.getText(0).equals(date_3)&&c4[4].equals("true")){
 			check_c5.setSelection(true);
@@ -1419,7 +1420,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_c6 = new TableEditor(table);
 		check_c6 = new Button(table, SWT.CHECK);
-		check_c6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c6.setBackground(EccTreeControl.color);
 		check_c6.pack();
 		if(item4.getText(0).equals(date_3)&&c4[5].equals("true")){
 			check_c6.setSelection(true);
@@ -1431,7 +1432,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_c7 = new TableEditor(table);
 		check_c7 = new Button(table, SWT.CHECK);
-		check_c7.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c7.setBackground(EccTreeControl.color);
 		check_c7.pack();
 		if(item4.getText(0).equals(date_3)&&c4[6].equals("true")){
 			check_c7.setSelection(true);
@@ -1443,7 +1444,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_c8 = new TableEditor(table);
 		check_c8 = new Button(table, SWT.CHECK);
-		check_c8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c8.setBackground(EccTreeControl.color);
 		check_c8.pack();
 		if(item4.getText(0).equals(date_3)&&c4[7].equals("true")){
 			check_c8.setSelection(true);
@@ -1455,7 +1456,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_c9 = new TableEditor(table);
 		check_c9 = new Button(table, SWT.CHECK);
-		check_c9.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c9.setBackground(EccTreeControl.color);
 		check_c9.pack();
 		if(item4.getText(0).equals(date_3)&&c4[8].equals("true")){
 			check_c9.setSelection(true);
@@ -1467,7 +1468,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_c10 = new TableEditor(table);
 		check_c10 = new Button(table, SWT.CHECK);
-		check_c10.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c10.setBackground(EccTreeControl.color);
 		check_c10.pack();
 		if(item4.getText(0).equals(date_3)&&c4[9].equals("true")){
 			check_c10.setSelection(true);
@@ -1479,7 +1480,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_c11 = new TableEditor(table);
 		check_c11 = new Button(table, SWT.CHECK);
-		check_c11.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c11.setBackground(EccTreeControl.color);
 		check_c11.pack();
 		if(item4.getText(0).equals(date_3)&&c4[10].equals("true")){
 			check_c11.setSelection(true);
@@ -1491,7 +1492,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_c12 = new TableEditor(table);
 		check_c12 = new Button(table, SWT.CHECK);
-		check_c12.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c12.setBackground(EccTreeControl.color);
 		check_c12.pack();
 		if(item4.getText(0).equals(date_3)&&c4[11].equals("true")){
 			check_c12.setSelection(true);
@@ -1503,7 +1504,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_c13 = new TableEditor(table);
 		check_c13 = new Button(table, SWT.CHECK);
-		check_c13.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c13.setBackground(EccTreeControl.color);
 		check_c13.pack();
 		if(item4.getText(0).equals(date_3)&&c4[12].equals("true")){
 			check_c13.setSelection(true);
@@ -1515,7 +1516,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_c14 = new TableEditor(table);
 		check_c14 = new Button(table, SWT.CHECK);
-		check_c14.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c14.setBackground(EccTreeControl.color);
 		check_c14.pack();
 		if(item4.getText(0).equals(date_3)&&c4[13].equals("true")){
 			check_c14.setSelection(true);
@@ -1527,7 +1528,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_c15 = new TableEditor(table);
 		check_c15 = new Button(table, SWT.CHECK);
-		check_c15.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c15.setBackground(EccTreeControl.color);
 		check_c15.pack();
 		if(item4.getText(0).equals(date_3)&&c4[14].equals("true")){
 			check_c15.setSelection(true);
@@ -1539,7 +1540,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_c16 = new TableEditor(table);
 		check_c16 = new Button(table, SWT.CHECK);
-		check_c16.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c16.setBackground(EccTreeControl.color);
 		check_c16.pack();
 		if(item4.getText(0).equals(date_3)&&c4[15].equals("true")){
 			check_c16.setSelection(true);
@@ -1551,7 +1552,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_c17 = new TableEditor(table);
 		check_c17 = new Button(table, SWT.CHECK);
-		check_c17.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c17.setBackground(EccTreeControl.color);
 		check_c17.pack();
 		if(item4.getText(0).equals(date_3)&&c4[16].equals("true")){
 			check_c17.setSelection(true);
@@ -1563,7 +1564,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_c18 = new TableEditor(table);
 		check_c18 = new Button(table, SWT.CHECK);
-		check_c18.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c18.setBackground(EccTreeControl.color);
 		check_c18.pack();
 		if(item4.getText(0).equals(date_3)&&c4[17].equals("true")){
 			check_c18.setSelection(true);
@@ -1575,7 +1576,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_c19 = new TableEditor(table);
 		check_c19 = new Button(table, SWT.CHECK);
-		check_c19.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c19.setBackground(EccTreeControl.color);
 		check_c19.pack();
 		if(item4.getText(0).equals(date_3)&&c4[18].equals("true")){
 			check_c19.setSelection(true);
@@ -1587,7 +1588,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_c20 = new TableEditor(table);
 		check_c20 = new Button(table, SWT.CHECK);
-		check_c20.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c20.setBackground(EccTreeControl.color);
 		check_c20.pack();
 		if(item4.getText(0).equals(date_3)&&c4[19].equals("true")){
 			check_c20.setSelection(true);
@@ -1599,7 +1600,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_c21 = new TableEditor(table);
 		check_c21 = new Button(table, SWT.CHECK);
-		check_c21.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c21.setBackground(EccTreeControl.color);
 		check_c21.pack();
 		if(item4.getText(0).equals(date_3)&&c4[20].equals("true")){
 			check_c21.setSelection(true);
@@ -1611,7 +1612,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_c22 = new TableEditor(table);
 		check_c22 = new Button(table, SWT.CHECK);
-		check_c22.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c22.setBackground(EccTreeControl.color);
 		check_c22.pack();
 		if(item4.getText(0).equals(date_3)&&c4[21].equals("true")){
 			check_c22.setSelection(true);
@@ -1623,7 +1624,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_c23 = new TableEditor(table);
 		check_c23 = new Button(table, SWT.CHECK);
-		check_c23.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c23.setBackground(EccTreeControl.color);
 		check_c23.pack();
 		if(item4.getText(0).equals(date_3)&&c4[22].equals("true")){
 			check_c23.setSelection(true);
@@ -1635,7 +1636,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_c24 = new TableEditor(table);
 		check_c24 = new Button(table, SWT.CHECK);
-		check_c24.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c24.setBackground(EccTreeControl.color);
 		check_c24.pack();
 		if(item4.getText(0).equals(date_3)&&c4[23].equals("true")){
 			check_c24.setSelection(true);
@@ -1650,7 +1651,7 @@ public class RelativeTimeEditor extends Dialog{
 		item5.setText(0, "星期四");
 		TableEditor editor_d1 = new TableEditor(table);
 		check_d1 = new Button(table, SWT.CHECK);
-		check_d1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d1.setBackground(EccTreeControl.color);
 		check_d1.pack();
 		if(item5.getText(0).equals(date_4)&&c5[0].equals("true")){
 			check_d1.setSelection(true);
@@ -1662,7 +1663,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_d2 = new TableEditor(table);
 		check_d2 = new Button(table, SWT.CHECK);
-		check_d2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d2.setBackground(EccTreeControl.color);
 		check_d2.pack();
 		if(item5.getText(0).equals(date_4)&&c5[1].equals("true")){
 			check_d2.setSelection(true);
@@ -1674,7 +1675,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_d3 = new TableEditor(table);
 		check_d3 = new Button(table, SWT.CHECK);
-		check_d3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d3.setBackground(EccTreeControl.color);
 		check_d3.pack();
 		if(item5.getText(0).equals(date_4)&&c5[2].equals("true")){
 			check_d3.setSelection(true);
@@ -1686,7 +1687,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_d4 = new TableEditor(table);
 		check_d4 = new Button(table, SWT.CHECK);
-		check_d4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d4.setBackground(EccTreeControl.color);
 		check_d4.pack();
 		if(item5.getText(0).equals(date_4)&&c5[3].equals("true")){
 			check_d4.setSelection(true);
@@ -1698,7 +1699,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_d5 = new TableEditor(table);
 		check_d5 = new Button(table, SWT.CHECK);
-		check_d5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d5.setBackground(EccTreeControl.color);
 		check_d5.pack();
 		if(item5.getText(0).equals(date_4)&&c5[4].equals("true")){
 			check_d5.setSelection(true);
@@ -1710,7 +1711,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_d6 = new TableEditor(table);
 		check_d6 = new Button(table, SWT.CHECK);
-		check_d6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d6.setBackground(EccTreeControl.color);
 		check_d6.pack();
 		if(item5.getText(0).equals(date_4)&&c5[5].equals("true")){
 			check_d6.setSelection(true);
@@ -1722,7 +1723,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_d7 = new TableEditor(table);
 		check_d7 = new Button(table, SWT.CHECK);
-		check_d7.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d7.setBackground(EccTreeControl.color);
 		check_d7.pack();
 		if(item5.getText(0).equals(date_4)&&c5[6].equals("true")){
 			check_d7.setSelection(true);
@@ -1734,7 +1735,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_d8 = new TableEditor(table);
 		check_d8 = new Button(table, SWT.CHECK);
-		check_d8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d8.setBackground(EccTreeControl.color);
 		check_d8.pack();
 		if(item5.getText(0).equals(date_4)&&c5[7].equals("true")){
 			check_d8.setSelection(true);
@@ -1746,7 +1747,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_d9 = new TableEditor(table);
 		check_d9 = new Button(table, SWT.CHECK);
-		check_d9.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d9.setBackground(EccTreeControl.color);
 		check_d9.pack();
 		if(item5.getText(0).equals(date_4)&&c5[8].equals("true")){
 			check_d9.setSelection(true);
@@ -1758,7 +1759,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_d10 = new TableEditor(table);
 		check_d10 = new Button(table, SWT.CHECK);
-		check_d10.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d10.setBackground(EccTreeControl.color);
 		check_d10.pack();
 		if(item5.getText(0).equals(date_4)&&c5[9].equals("true")){
 			check_d10.setSelection(true);
@@ -1770,7 +1771,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_d11 = new TableEditor(table);
 		check_d11 = new Button(table, SWT.CHECK);
-		check_d11.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d11.setBackground(EccTreeControl.color);
 		check_d11.pack();
 		if(item5.getText(0).equals(date_4)&&c5[10].equals("true")){
 			check_d11.setSelection(true);
@@ -1782,7 +1783,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_d12 = new TableEditor(table);
 		check_d12 = new Button(table, SWT.CHECK);
-		check_d12.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d12.setBackground(EccTreeControl.color);
 		check_d12.pack();
 		if(item5.getText(0).equals(date_4)&&c5[11].equals("true")){
 			check_d12.setSelection(true);
@@ -1794,7 +1795,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_d13 = new TableEditor(table);
 		check_d13 = new Button(table, SWT.CHECK);
-		check_d13.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d13.setBackground(EccTreeControl.color);
 		check_d13.pack();
 		if(item5.getText(0).equals(date_4)&&c5[12].equals("true")){
 			check_d13.setSelection(true);
@@ -1806,7 +1807,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_d14 = new TableEditor(table);
 		check_d14 = new Button(table, SWT.CHECK);
-		check_d14.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d14.setBackground(EccTreeControl.color);
 		check_d14.pack();
 		if(item5.getText(0).equals(date_4)&&c5[13].equals("true")){
 			check_d14.setSelection(true);
@@ -1818,7 +1819,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_d15 = new TableEditor(table);
 		check_d15 = new Button(table, SWT.CHECK);
-		check_d15.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d15.setBackground(EccTreeControl.color);
 		check_d15.pack();
 		if(item5.getText(0).equals(date_4)&&c5[14].equals("true")){
 			check_d15.setSelection(true);
@@ -1830,7 +1831,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_d16 = new TableEditor(table);
 		check_d16 = new Button(table, SWT.CHECK);
-		check_d16.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d16.setBackground(EccTreeControl.color);
 		check_d16.pack();
 		if(item5.getText(0).equals(date_4)&&c5[15].equals("true")){
 			check_d16.setSelection(true);
@@ -1842,7 +1843,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_d17 = new TableEditor(table);
 		check_d17 = new Button(table, SWT.CHECK);
-		check_d17.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d17.setBackground(EccTreeControl.color);
 		check_d17.pack();
 		if(item5.getText(0).equals(date_4)&&c5[16].equals("true")){
 			check_d17.setSelection(true);
@@ -1854,7 +1855,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_d18 = new TableEditor(table);
 		check_d18 = new Button(table, SWT.CHECK);
-		check_d18.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d18.setBackground(EccTreeControl.color);
 		check_d18.pack();
 		if(item5.getText(0).equals(date_4)&&c5[17].equals("true")){
 			check_d18.setSelection(true);
@@ -1866,7 +1867,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_d19 = new TableEditor(table);
 		check_d19 = new Button(table, SWT.CHECK);
-		check_d19.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d19.setBackground(EccTreeControl.color);
 		check_d19.pack();
 		if(item5.getText(0).equals(date_4)&&c5[18].equals("true")){
 			check_d19.setSelection(true);
@@ -1878,7 +1879,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_d20 = new TableEditor(table);
 		check_d20 = new Button(table, SWT.CHECK);
-		check_d20.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d20.setBackground(EccTreeControl.color);
 		check_d20.pack();
 		if(item5.getText(0).equals(date_4)&&c5[19].equals("true")){
 			check_d20.setSelection(true);
@@ -1890,7 +1891,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_d21 = new TableEditor(table);
 		check_d21 = new Button(table, SWT.CHECK);
-		check_d21.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d21.setBackground(EccTreeControl.color);
 		check_d21.pack();
 		if(item5.getText(0).equals(date_4)&&c5[20].equals("true")){
 			check_d21.setSelection(true);
@@ -1902,7 +1903,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_d22 = new TableEditor(table);
 		check_d22 = new Button(table, SWT.CHECK);
-		check_d22.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d22.setBackground(EccTreeControl.color);
 		check_d22.pack();
 		if(item5.getText(0).equals(date_4)&&c5[21].equals("true")){
 			check_d22.setSelection(true);
@@ -1914,7 +1915,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_d23 = new TableEditor(table);
 		check_d23 = new Button(table, SWT.CHECK);
-		check_d23.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d23.setBackground(EccTreeControl.color);
 		check_d23.pack();
 		if(item5.getText(0).equals(date_4)&&c5[22].equals("true")){
 			check_d23.setSelection(true);
@@ -1926,7 +1927,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_d24 = new TableEditor(table);
 		check_d24 = new Button(table, SWT.CHECK);
-		check_d24.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d24.setBackground(EccTreeControl.color);
 		check_d24.pack();
 		if(item5.getText(0).equals(date_4)&&c5[23].equals("true")){
 			check_d24.setSelection(true);
@@ -1942,7 +1943,7 @@ public class RelativeTimeEditor extends Dialog{
 		item6.setText(0, "星期五");
 		TableEditor editor_e1 = new TableEditor(table);
 		check_e1 = new Button(table, SWT.CHECK);
-		check_e1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e1.setBackground(EccTreeControl.color);
 		check_e1.pack();
 		if(item6.getText(0).equals(date_5)&&c6[0].equals("true")){
 			check_e1.setSelection(true);
@@ -1954,7 +1955,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_e2 = new TableEditor(table);
 		check_e2 = new Button(table, SWT.CHECK);
-		check_e2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e2.setBackground(EccTreeControl.color);
 		check_e2.pack();
 		if(item6.getText(0).equals(date_5)&&c6[1].equals("true")){
 			check_e2.setSelection(true);
@@ -1966,7 +1967,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_e3 = new TableEditor(table);
 		check_e3 = new Button(table, SWT.CHECK);
-		check_e3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e3.setBackground(EccTreeControl.color);
 		check_e3.pack();
 		if(item6.getText(0).equals(date_5)&&c6[2].equals("true")){
 			check_e3.setSelection(true);
@@ -1978,7 +1979,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_e4 = new TableEditor(table);
 		check_e4 = new Button(table, SWT.CHECK);
-		check_e4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e4.setBackground(EccTreeControl.color);
 		check_e4.pack();
 		if(item6.getText(0).equals(date_5)&&c6[3].equals("true")){
 			check_e4.setSelection(true);
@@ -1990,7 +1991,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_e5 = new TableEditor(table);
 		check_e5 = new Button(table, SWT.CHECK);
-		check_e5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e5.setBackground(EccTreeControl.color);
 		check_e5.pack();
 		if(item6.getText(0).equals(date_5)&&c6[4].equals("true")){
 			check_e5.setSelection(true);
@@ -2002,7 +2003,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_e6 = new TableEditor(table);
 		check_e6 = new Button(table, SWT.CHECK);
-		check_e6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e6.setBackground(EccTreeControl.color);
 		check_e6.pack();
 		if(item6.getText(0).equals(date_5)&&c6[5].equals("true")){
 			check_e6.setSelection(true);
@@ -2014,7 +2015,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_e7 = new TableEditor(table);
 		check_e7 = new Button(table, SWT.CHECK);
-		check_e7.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e7.setBackground(EccTreeControl.color);
 		check_e7.pack();
 		if(item6.getText(0).equals(date_5)&&c6[6].equals("true")){
 			check_e7.setSelection(true);
@@ -2026,7 +2027,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_e8 = new TableEditor(table);
 		check_e8 = new Button(table, SWT.CHECK);
-		check_e8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e8.setBackground(EccTreeControl.color);
 		check_e8.pack();
 		if(item6.getText(0).equals(date_5)&&c6[7].equals("true")){
 			check_e8.setSelection(true);
@@ -2038,7 +2039,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_e9 = new TableEditor(table);
 		check_e9 = new Button(table, SWT.CHECK);
-		check_e9.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e9.setBackground(EccTreeControl.color);
 		check_e9.pack();
 		if(item6.getText(0).equals(date_5)&&c6[8].equals("true")){
 			check_e9.setSelection(true);
@@ -2050,7 +2051,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_e10 = new TableEditor(table);
 		check_e10 = new Button(table, SWT.CHECK);
-		check_e10.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e10.setBackground(EccTreeControl.color);
 		check_e10.pack();
 		if(item6.getText(0).equals(date_5)&&c6[9].equals("true")){
 			check_e10.setSelection(true);
@@ -2062,7 +2063,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_e11 = new TableEditor(table);
 		check_e11 = new Button(table, SWT.CHECK);
-		check_e11.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e11.setBackground(EccTreeControl.color);
 		check_e11.pack();
 		if(item6.getText(0).equals(date_5)&&c6[10].equals("true")){
 			check_e11.setSelection(true);
@@ -2074,7 +2075,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_e12 = new TableEditor(table);
 		check_e12 = new Button(table, SWT.CHECK);
-		check_e12.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e12.setBackground(EccTreeControl.color);
 		check_e12.pack();
 		if(item6.getText(0).equals(date_5)&&c6[11].equals("true")){
 			check_e12.setSelection(true);
@@ -2086,7 +2087,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_e13 = new TableEditor(table);
 		check_e13 = new Button(table, SWT.CHECK);
-		check_e13.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e13.setBackground(EccTreeControl.color);
 		check_e13.pack();
 		if(item6.getText(0).equals(date_5)&&c6[12].equals("true")){
 			check_e13.setSelection(true);
@@ -2098,7 +2099,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_e14 = new TableEditor(table);
 		check_e14 = new Button(table, SWT.CHECK);
-		check_e14.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e14.setBackground(EccTreeControl.color);
 		check_e14.pack();
 		if(item6.getText(0).equals(date_5)&&c6[13].equals("true")){
 			check_e14.setSelection(true);
@@ -2110,7 +2111,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_e15 = new TableEditor(table);
 		check_e15 = new Button(table, SWT.CHECK);
-		check_e15.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e15.setBackground(EccTreeControl.color);
 		check_e15.pack();
 		if(item6.getText(0).equals(date_5)&&c6[14].equals("true")){
 			check_e15.setSelection(true);
@@ -2122,7 +2123,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_e16 = new TableEditor(table);
 		check_e16 = new Button(table, SWT.CHECK);
-		check_e16.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e16.setBackground(EccTreeControl.color);
 		check_e16.pack();
 		if(item6.getText(0).equals(date_5)&&c6[15].equals("true")){
 			check_e16.setSelection(true);
@@ -2134,7 +2135,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_e17 = new TableEditor(table);
 		check_e17 = new Button(table, SWT.CHECK);
-		check_e17.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e17.setBackground(EccTreeControl.color);
 		check_e17.pack();
 		if(item6.getText(0).equals(date_5)&&c6[16].equals("true")){
 			check_e17.setSelection(true);
@@ -2146,7 +2147,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_e18 = new TableEditor(table);
 		check_e18 = new Button(table, SWT.CHECK);
-		check_e18.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e18.setBackground(EccTreeControl.color);
 		check_e18.pack();
 		if(item6.getText(0).equals(date_5)&&c6[17].equals("true")){
 			check_e18.setSelection(true);
@@ -2158,7 +2159,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_e19 = new TableEditor(table);
 		check_e19 = new Button(table, SWT.CHECK);
-		check_e19.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e19.setBackground(EccTreeControl.color);
 		check_e19.pack();
 		if(item6.getText(0).equals(date_5)&&c6[18].equals("true")){
 			check_e19.setSelection(true);
@@ -2170,7 +2171,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_e20 = new TableEditor(table);
 		check_e20 = new Button(table, SWT.CHECK);
-		check_e20.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e20.setBackground(EccTreeControl.color);
 		check_e20.pack();
 		if(item6.getText(0).equals(date_5)&&c6[19].equals("true")){
 			check_e20.setSelection(true);
@@ -2182,7 +2183,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_e21 = new TableEditor(table);
 		check_e21 = new Button(table, SWT.CHECK);
-		check_e21.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e21.setBackground(EccTreeControl.color);
 		check_e21.pack();
 		if(item6.getText(0).equals(date_5)&&c6[20].equals("true")){
 			check_e21.setSelection(true);
@@ -2194,7 +2195,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_e22 = new TableEditor(table);
 		check_e22 = new Button(table, SWT.CHECK);
-		check_e22.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e22.setBackground(EccTreeControl.color);
 		check_e22.pack();
 		if(item6.getText(0).equals(date_5)&&c6[21].equals("true")){
 			check_e22.setSelection(true);
@@ -2206,7 +2207,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_e23 = new TableEditor(table);
 		check_e23 = new Button(table, SWT.CHECK);
-		check_e23.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e23.setBackground(EccTreeControl.color);
 		check_e23.pack();
 		if(item6.getText(0).equals(date_5)&&c6[22].equals("true")){
 			check_e23.setSelection(true);
@@ -2218,7 +2219,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_e24 = new TableEditor(table);
 		check_e24 = new Button(table, SWT.CHECK);
-		check_e24.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e24.setBackground(EccTreeControl.color);
 		check_e24.pack();
 		if(item6.getText(0).equals(date_5)&&c6[23].equals("true")){
 			check_e24.setSelection(true);
@@ -2233,7 +2234,7 @@ public class RelativeTimeEditor extends Dialog{
 		item7.setText(0, "星期六");
 		TableEditor editor_f1 = new TableEditor(table);
 		check_f1 = new Button(table, SWT.CHECK);
-		check_f1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f1.setBackground(EccTreeControl.color);
 		check_f1.pack();
 		if(item7.getText(0).equals(date_6)&&c7[0].equals("true")){
 			check_f1.setSelection(true);
@@ -2245,7 +2246,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_f2 = new TableEditor(table);
 		check_f2 = new Button(table, SWT.CHECK);
-		check_f2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f2.setBackground(EccTreeControl.color);
 		check_f2.pack();
 		if(item7.getText(0).equals(date_6)&&c7[1].equals("true")){
 			check_f2.setSelection(true);
@@ -2257,7 +2258,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_f3 = new TableEditor(table);
 		check_f3 = new Button(table, SWT.CHECK);
-		check_f3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f3.setBackground(EccTreeControl.color);
 		check_f3.pack();
 		if(item7.getText(0).equals(date_6)&&c7[2].equals("true")){
 			check_f3.setSelection(true);
@@ -2269,7 +2270,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_f4 = new TableEditor(table);
 		check_f4 = new Button(table, SWT.CHECK);
-		check_f4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f4.setBackground(EccTreeControl.color);
 		check_f4.pack();
 		if(item7.getText(0).equals(date_6)&&c7[3].equals("true")){
 			check_f4.setSelection(true);
@@ -2281,7 +2282,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_f5 = new TableEditor(table);
 		check_f5 = new Button(table, SWT.CHECK);
-		check_f5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f5.setBackground(EccTreeControl.color);
 		check_f5.pack();
 		if(item7.getText(0).equals(date_6)&&c7[4].equals("true")){
 			check_f5.setSelection(true);
@@ -2293,7 +2294,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_f6 = new TableEditor(table);
 		check_f6 = new Button(table, SWT.CHECK);
-		check_f6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f6.setBackground(EccTreeControl.color);
 		check_f6.pack();
 		if(item7.getText(0).equals(date_6)&&c7[5].equals("true")){
 			check_f6.setSelection(true);
@@ -2305,7 +2306,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_f7 = new TableEditor(table);
 		check_f7 = new Button(table, SWT.CHECK);
-		check_f7.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f7.setBackground(EccTreeControl.color);
 		check_f7.pack();
 		if(item7.getText(0).equals(date_6)&&c7[6].equals("true")){
 			check_f7.setSelection(true);
@@ -2317,7 +2318,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_f8 = new TableEditor(table);
 		check_f8 = new Button(table, SWT.CHECK);
-		check_f8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f8.setBackground(EccTreeControl.color);
 		check_f8.pack();
 		if(item7.getText(0).equals(date_6)&&c7[7].equals("true")){
 			check_f8.setSelection(true);
@@ -2329,7 +2330,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_f9 = new TableEditor(table);
 		check_f9 = new Button(table, SWT.CHECK);
-		check_f9.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f9.setBackground(EccTreeControl.color);
 		check_f9.pack();
 		if(item7.getText(0).equals(date_6)&&c7[8].equals("true")){
 			check_f9.setSelection(true);
@@ -2341,7 +2342,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_f10 = new TableEditor(table);
 		check_f10 = new Button(table, SWT.CHECK);
-		check_f10.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f10.setBackground(EccTreeControl.color);
 		check_f10.pack();
 		if(item7.getText(0).equals(date_6)&&c7[9].equals("true")){
 			check_f10.setSelection(true);
@@ -2353,7 +2354,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_f11 = new TableEditor(table);
 		check_f11 = new Button(table, SWT.CHECK);
-		check_f11.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f11.setBackground(EccTreeControl.color);
 		check_f11.pack();
 		if(item7.getText(0).equals(date_6)&&c7[10].equals("true")){
 			check_f11.setSelection(true);
@@ -2365,7 +2366,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_f12 = new TableEditor(table);
 		check_f12 = new Button(table, SWT.CHECK);
-		check_f12.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f12.setBackground(EccTreeControl.color);
 		check_f12.pack();
 		if(item7.getText(0).equals(date_6)&&c7[11].equals("true")){
 			check_f12.setSelection(true);
@@ -2377,7 +2378,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_f13 = new TableEditor(table);
 		check_f13 = new Button(table, SWT.CHECK);
-		check_f13.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f13.setBackground(EccTreeControl.color);
 		check_f13.pack();
 		if(item7.getText(0).equals(date_6)&&c7[12].equals("true")){
 			check_f13.setSelection(true);
@@ -2389,7 +2390,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_f14 = new TableEditor(table);
 		check_f14 = new Button(table, SWT.CHECK);
-		check_f14.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f14.setBackground(EccTreeControl.color);
 		check_f14.pack();
 		if(item7.getText(0).equals(date_6)&&c7[13].equals("true")){
 			check_f14.setSelection(true);
@@ -2401,7 +2402,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_f15 = new TableEditor(table);
 		check_f15 = new Button(table, SWT.CHECK);
-		check_f15.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f15.setBackground(EccTreeControl.color);
 		check_f15.pack();
 		if(item7.getText(0).equals(date_6)&&c7[14].equals("true")){
 			check_f15.setSelection(true);
@@ -2413,7 +2414,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_f16 = new TableEditor(table);
 		check_f16 = new Button(table, SWT.CHECK);
-		check_f16.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f16.setBackground(EccTreeControl.color);
 		check_f16.pack();
 		if(item7.getText(0).equals(date_6)&&c7[15].equals("true")){
 			check_f16.setSelection(true);
@@ -2425,7 +2426,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_f17 = new TableEditor(table);
 		check_f17 = new Button(table, SWT.CHECK);
-		check_f17.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f17.setBackground(EccTreeControl.color);
 		check_f17.pack();
 		if(item7.getText(0).equals(date_6)&&c7[16].equals("true")){
 			check_f17.setSelection(true);
@@ -2437,7 +2438,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_f18 = new TableEditor(table);
 		check_f18 = new Button(table, SWT.CHECK);
-		check_f18.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f18.setBackground(EccTreeControl.color);
 		check_f18.pack();
 		if(item7.getText(0).equals(date_6)&&c7[17].equals("true")){
 			check_f18.setSelection(true);
@@ -2449,7 +2450,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_f19 = new TableEditor(table);
 		check_f19 = new Button(table, SWT.CHECK);
-		check_f19.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f19.setBackground(EccTreeControl.color);
 		check_f19.pack();
 		if(item7.getText(0).equals(date_6)&&c7[18].equals("true")){
 			check_f19.setSelection(true);
@@ -2461,7 +2462,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_f20 = new TableEditor(table);
 		check_f20 = new Button(table, SWT.CHECK);
-		check_f20.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f20.setBackground(EccTreeControl.color);
 		check_f20.pack();
 		if(item7.getText(0).equals(date_6)&&c7[19].equals("true")){
 			check_f20.setSelection(true);
@@ -2473,7 +2474,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_f21 = new TableEditor(table);
 		check_f21 = new Button(table, SWT.CHECK);
-		check_f21.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f21.setBackground(EccTreeControl.color);
 		check_f21.pack();
 		if(item7.getText(0).equals(date_6)&&c7[20].equals("true")){
 			check_f21.setSelection(true);
@@ -2485,7 +2486,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_f22 = new TableEditor(table);
 		check_f22 = new Button(table, SWT.CHECK);
-		check_f22.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f22.setBackground(EccTreeControl.color);
 		check_f22.pack();
 		if(item7.getText(0).equals(date_6)&&c7[21].equals("true")){
 			check_f22.setSelection(true);
@@ -2497,7 +2498,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_f23 = new TableEditor(table);
 		check_f23 = new Button(table, SWT.CHECK);
-		check_f23.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f23.setBackground(EccTreeControl.color);
 		check_f23.pack();
 		if(item7.getText(0).equals(date_6)&&c7[22].equals("true")){
 			check_f23.setSelection(true);
@@ -2509,7 +2510,7 @@ public class RelativeTimeEditor extends Dialog{
 		
 		TableEditor editor_f24 = new TableEditor(table);
 		check_f24 = new Button(table, SWT.CHECK);
-		check_f24.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f24.setBackground(EccTreeControl.color);
 		check_f24.pack();
 		if(item7.getText(0).equals(date_6)&&c7[23].equals("true")){
 			check_f24.setSelection(true);
@@ -2521,10 +2522,10 @@ public class RelativeTimeEditor extends Dialog{
 		
 		
 		Composite composite_2 = new Composite(sashForm, SWT.NONE);
-		composite_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_2.setBackground(EccTreeControl.color);
 		
 		Label lblNewLabel = new Label(composite_2, SWT.NONE);
-		lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel.setBackground(EccTreeControl.color);
 		lblNewLabel.setBounds(10, 10, 40, 12);
 		lblNewLabel.setText("\u5907\u6CE8\uFF1A");
 		
@@ -2537,7 +2538,7 @@ public class RelativeTimeEditor extends Dialog{
 	}
 	
 	protected void createButtonsForButtonBar(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setBackground(EccTreeControl.color);
 		Button button = createButton(parent, IDialogConstants.OK_ID, "确定",true);
 		Button button1 = createButton(parent, IDialogConstants.CANCEL_ID, "取消",true);
 	}

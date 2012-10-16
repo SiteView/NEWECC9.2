@@ -30,6 +30,7 @@ import org.eclipse.swt.widgets.DateTime;
 import SiteView.ecc.Modle.DetailModel;
 import SiteView.ecc.data.DutyDetailInfor;
 import SiteView.ecc.editors.TableDuty;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
@@ -75,24 +76,24 @@ public class AddDutyDetail extends Dialog{
 		 newShell.setText("添加值班表详细信息");
 	}
 	protected Control createDialogArea(Composite parent){
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		parent.setBackground(EccTreeControl.color);
 		Composite container = (Composite) super.createDialogArea(parent);
-		container.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		container.setBackground(EccTreeControl.color);
 		container.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		group = new Group(container, SWT.NONE);
-		group.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		group.setBackground(EccTreeControl.color);
 		group.setText("\u8BE6\u7EC6\u60C5\u51B5");
 		group.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		SashForm sashForm = new SashForm(group, SWT.VERTICAL);
-		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		sashForm.setBackground(EccTreeControl.color);
 		
 		Composite composite = new Composite(sashForm, SWT.NONE);
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		composite.setBackground(EccTreeControl.color);
 		
 		Label label = new Label(composite, SWT.NONE);
-		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		label.setBackground(EccTreeControl.color);
 		label.setBounds(10, 10, 141, 19);
 		label.setText(" \u63A5\u6536\u544A\u8B66\u77ED\u4FE1\u624B\u673A\u53F7\u7801 *:");
 		
@@ -100,10 +101,10 @@ public class AddDutyDetail extends Dialog{
 		text.setBounds(180, 10, 141, 18);
 		
 		composite_1 = new Composite(sashForm, SWT.NONE);
-		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		composite_1.setBackground(EccTreeControl.color);
 		
 		Label label_1 = new Label(composite_1, SWT.NONE);
-		label_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		label_1.setBackground(EccTreeControl.color);
 		label_1.setBounds(10, 10, 141, 12);
 		label_1.setText(" \u63A5\u6536\u544A\u8B66\u4FE1\u606F\u90AE\u7BB1 *\uFF1A ");
 		
@@ -112,10 +113,10 @@ public class AddDutyDetail extends Dialog{
 		
 		if(type.startsWith("星期")){ 
 			composite=new Composite(sashForm, SWT.NONE);
-			composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+			composite.setBackground(EccTreeControl.color);
 			
 			label_4 = new Label(composite, SWT.NONE);
-			label_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+			label_4.setBackground(EccTreeControl.color);
 			label_4.setBounds(10, 10, 141, 12);
 			label_4.setText("\u661F    \u671F\uFF1A");
 			
@@ -131,10 +132,10 @@ public class AddDutyDetail extends Dialog{
 			combo.select(0);
 		}else if(!type.equals("")){
 			composite=new Composite(sashForm, SWT.NONE);
-			composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+			composite.setBackground(EccTreeControl.color);
 			
 			label_4 = new Label(composite, SWT.NONE);
-			label_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+			label_4.setBackground(EccTreeControl.color);
 			label_4.setBounds(10, 10, 141, 12);
 			label_4.setText("\u65E5    \u671F\uFF1A");
 			
@@ -147,20 +148,20 @@ public class AddDutyDetail extends Dialog{
 		}
 		
 		composite_2 = new Composite(sashForm, SWT.NONE);
-		composite_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		composite_2.setBackground(EccTreeControl.color);
 		
 		Label label_2 = new Label(composite_2, SWT.NONE);
-		label_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		label_2.setBackground(EccTreeControl.color);
 		label_2.setBounds(10, 10, 141, 12);
 		label_2.setText(" \u5F00 \u59CB \u65F6 \u95F4\uFF1A");
 		
 		dateTime = new DateTime(composite_2, SWT.TIME);
 		dateTime.setBounds(180, 10, 141, 20);
 		composite_3 = new Composite(sashForm, SWT.NONE);
-		composite_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		composite_3.setBackground(EccTreeControl.color);
 		
 		Label label_3 = new Label(composite_3, SWT.NONE);
-		label_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		label_3.setBackground(EccTreeControl.color);
 		label_3.setBounds(10, 10, 141, 12);
 		label_3.setText(" \u7ED3 \u675F \u65F6 \u95F4\uFF1A ");
 		
@@ -197,7 +198,7 @@ public class AddDutyDetail extends Dialog{
 		return container;
 	}
 	public void createButtonsForButtonBar(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));//设置保存和取消两个按钮
+		parent.setBackground(EccTreeControl.color);//设置保存和取消两个按钮
 		applyButton = createButton(parent, IDialogConstants.OK_ID, "保存",true);
 		closeButton=createButton(parent, IDialogConstants.CANCEL_ID, "取消", true);
     }

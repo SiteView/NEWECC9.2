@@ -6,7 +6,7 @@ import org.eclipse.swt.widgets.TableItem;
 
 import SiteView.ecc.tools.Config;
 import SiteView.ecc.tools.FileTools;
-import SiteView.ecc.views.EccTreeControl;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.Api.BusinessObject;
 
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -56,7 +56,7 @@ public class RelativelyMonitor extends LayoutViewBase{
 		parent.setLayout(new FillLayout());
 		
 		SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
-		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		sashForm.setBackground(EccTreeControl.color);
 		
 		Label lblNewLabel_1 = new Label(sashForm, SWT.NONE);
 		lblNewLabel_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
@@ -64,7 +64,7 @@ public class RelativelyMonitor extends LayoutViewBase{
 		lblNewLabel_1.setText("\u8BBE\u5907");
 		
 		table_2 = new Table(sashForm, SWT.NONE);
-		table_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		table_2.setBackground(EccTreeControl.color);
 		table_2.setHeaderVisible(true);
 		table_2.setLinesVisible(true);
 		TableColumn tableColumn = new TableColumn(table_2, SWT.CENTER);
@@ -126,7 +126,7 @@ public class RelativelyMonitor extends LayoutViewBase{
 		lblNewLabel_2.setText("\u76F8\u540CIP\u76D1\u6D4B\u5668");
 		
 		table = new Table(sashForm, SWT.BORDER | SWT.FULL_SELECTION);
-		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		table.setBackground(EccTreeControl.color);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		
@@ -136,7 +136,7 @@ public class RelativelyMonitor extends LayoutViewBase{
 		lblNewLabel_3.setText("\u6709\u4F9D\u8D56\u5173\u7CFB\u76D1\u6D4B\u5668");
 		
 		table_1 = new Table(sashForm, SWT.BORDER | SWT.FULL_SELECTION);
-		table_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		table_1.setBackground(EccTreeControl.color);
 		table_1.setHeaderVisible(true);
 		table_1.setLinesVisible(true);
 		TableColumn tableColumn_4 = new TableColumn(table_1, SWT.CENTER);

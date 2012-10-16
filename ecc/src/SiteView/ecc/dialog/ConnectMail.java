@@ -20,6 +20,7 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.widgets.Text;
 
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.Api.BusinessObject;
 
 public class ConnectMail extends Dialog{
@@ -44,13 +45,13 @@ public class ConnectMail extends Dialog{
 		super.configureShell(newShell);
 	}
 	protected Control createDialogArea(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		parent.setBackground(EccTreeControl.color);
 		Composite composite = (Composite) super.createDialogArea(parent);
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		composite.setBackground(EccTreeControl.color);
 		composite.setLayout(new FormLayout());
 		
 		Label lblNewLabel = new Label(composite, SWT.NONE);
-		lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel.setBackground(EccTreeControl.color);
 		FormData fd_lblNewLabel = new FormData();
 		fd_lblNewLabel.top = new FormAttachment(0, 10);
 		fd_lblNewLabel.left = new FormAttachment(0, 10);
@@ -66,7 +67,7 @@ public class ConnectMail extends Dialog{
 		
 		Label label = new Label(composite, SWT.NONE);
 		fd_text.bottom = new FormAttachment(100, -174);
-		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		label.setBackground(EccTreeControl.color);
 		FormData fd_label = new FormData();
 		fd_label.left = new FormAttachment(0, 10);
 		label.setLayoutData(fd_label);

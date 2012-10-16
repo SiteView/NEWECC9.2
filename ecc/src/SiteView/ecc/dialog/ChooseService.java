@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
 
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 
@@ -42,7 +43,7 @@ public class ChooseService extends Dialog {
 	@Override
 	protected void configureShell(Shell newShell) {
 		newShell.setSize(300,400);
-		newShell.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		newShell.setBackground(EccTreeControl.color);
 		newShell.setLocation(400,250);
 		newShell.setText("服务信息");
 		super.configureShell(newShell);

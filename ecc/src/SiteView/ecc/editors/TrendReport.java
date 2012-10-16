@@ -26,6 +26,7 @@ import SiteView.ecc.data.SiteViewData;
 import SiteView.ecc.reportchart.StatusCTIReport;
 import SiteView.ecc.reportchart.TimeContrastReport;
 import SiteView.ecc.tab.views.TotalTabView;
+import SiteView.ecc.view.EccTreeControl;
 import SiteView.ecc.views.ContrastReportView;
 import SiteView.ecc.views.TrendReportView;
 
@@ -72,18 +73,18 @@ public class TrendReport extends EditorPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		parent.setBackground(EccTreeControl.color);
 		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		SashForm sashForm = new SashForm(parent, SWT.NONE);
-		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		sashForm.setBackground(EccTreeControl.color);
 		
 		Composite composite = new Composite(sashForm, SWT.NONE);
 		composite.setLayout(new FillLayout());
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		composite.setBackground(EccTreeControl.color);
 		TreeViewer treeViewer = new TreeViewer(composite,SWT.NONE);
 		Tree tree = treeViewer.getTree();
-		tree.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		tree.setBackground(EccTreeControl.color);
 		tree.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				if(e.item.getData() instanceof MonitorModle){
@@ -103,7 +104,7 @@ public class TrendReport extends EditorPart {
 		});
 		
 		composite_1 = new Composite(sashForm, SWT.NONE);
-		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		composite_1.setBackground(EccTreeControl.color);
 		createComposite_1(composite_1);
 		sashForm.setWeights(new int[] {123, 468});
 		

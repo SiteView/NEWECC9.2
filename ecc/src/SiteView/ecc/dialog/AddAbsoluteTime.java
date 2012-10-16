@@ -36,6 +36,7 @@ import SiteView.ecc.Activator;
 import SiteView.ecc.Modle.AbsoluteTimeProjectModel;
 import SiteView.ecc.editors.AbsoluteTime;
 import SiteView.ecc.tools.FileTools;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
@@ -94,7 +95,7 @@ public class AddAbsoluteTime extends Dialog{
 	}
 	
 	protected Control createDialogArea(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setBackground(EccTreeControl.color);
 		Composite composite = (Composite) super.createDialogArea(parent);
 		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
@@ -105,7 +106,7 @@ public class AddAbsoluteTime extends Dialog{
 		basicItem.setText("基本");
 		
 		Composite composite1 = new Composite(tabFolder, SWT.NONE);
-		composite1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite1.setBackground(EccTreeControl.color);
 		basicItem.setControl(composite1);
 		
 		SashForm sashForm = new SashForm(composite1, SWT.VERTICAL);
@@ -113,7 +114,7 @@ public class AddAbsoluteTime extends Dialog{
 		sashForm.setLocation(0, 0);
 		
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
-		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_1.setBackground(EccTreeControl.color);
 		text = new Text(composite_1, SWT.BORDER);
 		text.setLocation(137, 0);
 		text.setSize(177, 18);
@@ -125,7 +126,7 @@ public class AddAbsoluteTime extends Dialog{
 		lblNewLabel.setText("\u4EFB\u52A1\u8BA1\u5212\u540D\u79F0*:");
 		
 		table = new Table(sashForm, SWT.BORDER | SWT.FULL_SELECTION);
-		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		table.setBackground(EccTreeControl.color);
 		table.setLinesVisible(false);
 		table.addListener(SWT.MeasureItem, new Listener() {
 			public void handleEvent(Event event) {
@@ -147,7 +148,7 @@ public class AddAbsoluteTime extends Dialog{
 			TableEditor editor = new TableEditor(table);
 			btnCheckButton = new Button(table, SWT.CHECK);
 			btnCheckButton.setBounds(130, 31, 45, 16);
-			btnCheckButton.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+			btnCheckButton.setBackground(EccTreeControl.color);
 			btnCheckButton.setText("\u5141\u8BB8");
 			editor.minimumWidth = btnCheckButton.getSize ().x;
 			editor.setEditor(btnCheckButton, tableItem, 1);
@@ -176,7 +177,7 @@ public class AddAbsoluteTime extends Dialog{
 		TableEditor editor_2 = new TableEditor(table);
 		btnCheckButton_1 = new Button(table, SWT.CHECK);
 		btnCheckButton_1.setBounds(130, 53, 45, 16);
-		btnCheckButton_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		btnCheckButton_1.setBackground(EccTreeControl.color);
 		btnCheckButton_1.setText("\u5141\u8BB8");
 		editor_2.minimumWidth = btnCheckButton_1.getSize ().x;
 		editor_2.setEditor(btnCheckButton_1, tableItem_1, 1);
@@ -203,7 +204,7 @@ public class AddAbsoluteTime extends Dialog{
 		tableItem_2.setText(0,"星期二 ");
 		TableEditor editor_4 = new TableEditor(table);
 		btnCheckButton_2 = new Button(table, SWT.CHECK);
-		btnCheckButton_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		btnCheckButton_2.setBackground(EccTreeControl.color);
 		btnCheckButton_2.setBounds(130, 73, 45, 16);
 		btnCheckButton_2.setText("\u5141\u8BB8");
 		editor_4.minimumWidth = btnCheckButton_2.getSize ().x;
@@ -231,7 +232,7 @@ public class AddAbsoluteTime extends Dialog{
 		tableItem_3.setText(0,"星期三 ");
 		TableEditor editor_6 = new TableEditor(table);
 		btnCheckButton_3 = new Button(table, SWT.CHECK);
-		btnCheckButton_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		btnCheckButton_3.setBackground(EccTreeControl.color);
 		btnCheckButton_3.setBounds(130, 95, 45, 16);
 		btnCheckButton_3.setText("\u5141\u8BB8");
 		editor_6.minimumWidth = btnCheckButton_3.getSize ().x;
@@ -259,7 +260,7 @@ public class AddAbsoluteTime extends Dialog{
 		tableItem_4.setText(0,"星期四 ");
 		TableEditor editor_8 = new TableEditor(table);
 		button = new Button(table, SWT.CHECK);
-		button.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		button.setBackground(EccTreeControl.color);
 		button.setText("\u5141\u8BB8");
 		button.setBounds(130, 116, 45, 16);
 		editor_8.minimumWidth = button.getSize ().x;
@@ -287,7 +288,7 @@ public class AddAbsoluteTime extends Dialog{
 		tableItem_5.setText(0,"星期五");
 		TableEditor editor_10 = new TableEditor(table);
 		btnCheckButton_4 = new Button(table, SWT.CHECK);
-		btnCheckButton_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		btnCheckButton_4.setBackground(EccTreeControl.color);
 		btnCheckButton_4.setBounds(130, 138, 45, 16);
 		btnCheckButton_4.setText("\u5141\u8BB8");
 		editor_10.minimumWidth = btnCheckButton_4.getSize ().x;
@@ -315,7 +316,7 @@ public class AddAbsoluteTime extends Dialog{
 		tableItem_6.setText(0,"星期六");
 		TableEditor editor_12 = new TableEditor(table);
 		btnCheckButton_5 = new Button(table, SWT.CHECK);
-		btnCheckButton_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		btnCheckButton_5.setBackground(EccTreeControl.color);
 		btnCheckButton_5.setBounds(130, 160, 45, 16);
 		btnCheckButton_5.setText("\u5141\u8BB8");
 		editor_12.minimumWidth = btnCheckButton_5.getSize ().x;
@@ -345,13 +346,13 @@ public class AddAbsoluteTime extends Dialog{
 		describeItem.setText("描述");
 		
 		Composite composite2 = new Composite(tabFolder, SWT.NONE);
-		composite2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite2.setBackground(EccTreeControl.color);
 		describeItem.setControl(composite2);
 		composite2.setLayout(new BorderLayout(0, 0));
 		
 		Label label = new Label(composite2, SWT.HORIZONTAL);
 		label.setAlignment(SWT.CENTER);
-		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		label.setBackground(EccTreeControl.color);
 		label.setBounds(0, 0, 54, 199);
 		label.setLayoutData(BorderLayout.WEST);
 		label.setText("\u63CF\u8FF0\uFF1A");
@@ -362,7 +363,7 @@ public class AddAbsoluteTime extends Dialog{
 	}
 	
 	protected void createButtonsForButtonBar(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setBackground(EccTreeControl.color);
 		Button subButton = createButton(parent, IDialogConstants.OK_ID, "保存",
 				true);
 		Button cancelButton = createButton(parent, IDialogConstants.CANCEL_ID,

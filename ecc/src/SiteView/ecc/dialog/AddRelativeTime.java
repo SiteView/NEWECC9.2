@@ -26,6 +26,7 @@ import system.Collections.ICollection;
 import system.Collections.IEnumerator;
 import SiteView.ecc.editors.AbsoluteTime;
 import SiteView.ecc.tools.FileTools;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
@@ -226,19 +227,19 @@ public class AddRelativeTime extends Dialog {
 	}
 	
 	protected Control createDialogArea(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setBackground(EccTreeControl.color);
 		Composite composite = (Composite) super.createDialogArea(parent);
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite.setBackground(EccTreeControl.color);
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		SashForm sashForm = new SashForm(composite, SWT.VERTICAL);
-		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		sashForm.setBackground(EccTreeControl.color);
 		
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
-		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_1.setBackground(EccTreeControl.color);
 		
 		Label lblNewLabel_1 = new Label(composite_1, SWT.NONE);
-		lblNewLabel_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_1.setBackground(EccTreeControl.color);
 		lblNewLabel_1.setBounds(10, 5, 100, 18);
 		lblNewLabel_1.setText("\u4EFB\u52A1\u8BA1\u5212\u540D\u79F0*\uFF1A");
 		
@@ -248,7 +249,7 @@ public class AddRelativeTime extends Dialog {
 		tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION | SWT.CHECK);
 		table = tableViewer.getTable();
 		table.setHeaderVisible(true);
-		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		table.setBackground(EccTreeControl.color);
 
 		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
@@ -268,7 +269,7 @@ public class AddRelativeTime extends Dialog {
 		item1.setImage(image);
 		TableEditor editor_0 = new TableEditor(table);
 		final Button check_0 = new Button(table, SWT.CHECK);
-		check_0.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_0.setBackground(EccTreeControl.color);
 		check_0.pack();
 		check_0.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -296,7 +297,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_1 = new TableEditor(table);
 		final Button check_1 = new Button(table, SWT.CHECK);
-		check_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_1.setBackground(EccTreeControl.color);
 		check_1.pack();
 		check_1.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -323,7 +324,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_2 = new TableEditor(table);
 		final Button check_2 = new Button(table, SWT.CHECK);
-		check_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_2.setBackground(EccTreeControl.color);
 		check_2.pack();
 		check_2.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -350,7 +351,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_3 = new TableEditor(table);
 		final Button check_3 = new Button(table, SWT.CHECK);
-		check_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_3.setBackground(EccTreeControl.color);
 		check_3.pack();
 		check_3.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -377,7 +378,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_4 = new TableEditor(table);
 		final Button check_4 = new Button(table, SWT.CHECK);
-		check_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_4.setBackground(EccTreeControl.color);
 		check_4.pack();
 		check_4.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -404,7 +405,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_5 = new TableEditor(table);
 		final Button check_5 = new Button(table, SWT.CHECK);
-		check_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_5.setBackground(EccTreeControl.color);
 		check_5.pack();
 		check_5.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -431,7 +432,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_6 = new TableEditor(table);
 		final Button check_6 = new Button(table, SWT.CHECK);
-		check_6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_6.setBackground(EccTreeControl.color);
 		check_6.pack();
 		check_6.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -458,7 +459,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_7 = new TableEditor(table);
 		final Button check_7 = new Button(table, SWT.CHECK);
-		check_7.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_7.setBackground(EccTreeControl.color);
 		check_7.pack();
 		check_7.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -485,7 +486,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_8 = new TableEditor(table);
 		final Button check_8 = new Button(table, SWT.CHECK);
-		check_8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_8.setBackground(EccTreeControl.color);
 		check_8.pack();
 		check_8.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -512,7 +513,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_9 = new TableEditor(table);
 		final Button check_9 = new Button(table, SWT.CHECK);
-		check_9.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_9.setBackground(EccTreeControl.color);
 		check_9.pack();
 		check_9.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -539,7 +540,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_10 = new TableEditor(table);
 		final Button check_10 = new Button(table, SWT.CHECK);
-		check_10.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_10.setBackground(EccTreeControl.color);
 		check_10.pack();
 		check_10.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -566,7 +567,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_11 = new TableEditor(table);
 		final Button check_11 = new Button(table, SWT.CHECK);
-		check_11.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_11.setBackground(EccTreeControl.color);
 		check_11.pack();
 		check_11.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -593,7 +594,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_12 = new TableEditor(table);
 		final Button check_12 = new Button(table, SWT.CHECK);
-		check_12.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_12.setBackground(EccTreeControl.color);
 		check_12.pack();
 		check_12.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -620,7 +621,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_13 = new TableEditor(table);
 		final Button check_13 = new Button(table, SWT.CHECK);
-		check_13.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_13.setBackground(EccTreeControl.color);
 		check_13.pack();
 		check_13.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -647,7 +648,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_14 = new TableEditor(table);
 		final Button check_14 = new Button(table, SWT.CHECK);
-		check_14.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_14.setBackground(EccTreeControl.color);
 		check_14.pack();
 		check_14.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -674,7 +675,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_15 = new TableEditor(table);
 		final Button check_15 = new Button(table, SWT.CHECK);
-		check_15.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_15.setBackground(EccTreeControl.color);
 		check_15.pack();
 		check_15.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -701,7 +702,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_16 = new TableEditor(table);
 		final Button check_16 = new Button(table, SWT.CHECK);
-		check_16.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_16.setBackground(EccTreeControl.color);
 		check_16.pack();
 		check_16.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -728,7 +729,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_17 = new TableEditor(table);
 		final Button check_17 = new Button(table, SWT.CHECK);
-		check_17.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_17.setBackground(EccTreeControl.color);
 		check_17.pack();
 		check_17.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -755,7 +756,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_18 = new TableEditor(table);
 		final Button check_18 = new Button(table, SWT.CHECK);
-		check_18.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_18.setBackground(EccTreeControl.color);
 		check_18.pack();
 		check_18.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -782,7 +783,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_19 = new TableEditor(table);
 		final Button check_19 = new Button(table, SWT.CHECK);
-		check_19.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_19.setBackground(EccTreeControl.color);
 		check_19.pack();
 		check_19.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -809,7 +810,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_20 = new TableEditor(table);
 		final Button check_20 = new Button(table, SWT.CHECK);
-		check_20.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_20.setBackground(EccTreeControl.color);
 		check_20.pack();
 		check_20.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -836,7 +837,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_21 = new TableEditor(table);
 		final Button check_21 = new Button(table, SWT.CHECK);
-		check_21.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_21.setBackground(EccTreeControl.color);
 		check_21.pack();
 		check_21.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -863,7 +864,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_22 = new TableEditor(table);
 		final Button check_22 = new Button(table, SWT.CHECK);
-		check_22.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_22.setBackground(EccTreeControl.color);
 		check_22.pack();
 		check_22.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -890,7 +891,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_23 = new TableEditor(table);
 		final Button check_23 = new Button(table, SWT.CHECK);
-		check_23.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_23.setBackground(EccTreeControl.color);
 		check_23.pack();
 		check_23.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -920,7 +921,7 @@ public class AddRelativeTime extends Dialog {
 		item2.setText(0, "星期一");
 		TableEditor editor_a1 = new TableEditor(table);
 		final Button check_a1 = new Button(table, SWT.CHECK);
-		check_a1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a1.setBackground(EccTreeControl.color);
 		check_a1.pack();
 		check_a1.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -947,7 +948,7 @@ public class AddRelativeTime extends Dialog {
 		TableEditor editor_a2 = new TableEditor(table);
 		final Button check_a2 = new Button(table, SWT.CHECK);
 		
-		check_a2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a2.setBackground(EccTreeControl.color);
 		check_a2.pack();
 		check_a2.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -972,7 +973,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_a3 = new TableEditor(table);
 		final Button check_a3 = new Button(table, SWT.CHECK);
-		check_a3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a3.setBackground(EccTreeControl.color);
 		check_a3.pack();
 		check_a3.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -997,7 +998,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_a4 = new TableEditor(table);
 		final Button check_a4 = new Button(table, SWT.CHECK);
-		check_a4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a4.setBackground(EccTreeControl.color);
 		check_a4.pack();
 		check_a4.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1022,7 +1023,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_a5 = new TableEditor(table);
 		final Button check_a5 = new Button(table, SWT.CHECK);
-		check_a5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a5.setBackground(EccTreeControl.color);
 		check_a5.pack();
 		check_a5.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1047,7 +1048,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_a6 = new TableEditor(table);
 		final Button check_a6 = new Button(table, SWT.CHECK);
-		check_a6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a6.setBackground(EccTreeControl.color);
 		check_a6.pack();
 		check_a6.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1072,7 +1073,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_a7 = new TableEditor(table);
 		final Button check_a7 = new Button(table, SWT.CHECK);
-		check_a7.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a7.setBackground(EccTreeControl.color);
 		check_a7.pack();
 		check_a7.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1097,7 +1098,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_a8 = new TableEditor(table);
 		final Button check_a8 = new Button(table, SWT.CHECK);
-		check_a8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a8.setBackground(EccTreeControl.color);
 		check_a8.pack();
 		check_a8.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1122,7 +1123,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_a9 = new TableEditor(table);
 		final Button check_a9 = new Button(table, SWT.CHECK);
-		check_a9.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a9.setBackground(EccTreeControl.color);
 		check_a9.pack();
 		check_a9.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1147,7 +1148,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_a10 = new TableEditor(table);
 		final Button check_a10 = new Button(table, SWT.CHECK);
-		check_a10.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a10.setBackground(EccTreeControl.color);
 		check_a10.pack();
 		check_a10.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1172,7 +1173,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_a11 = new TableEditor(table);
 		final Button check_a11 = new Button(table, SWT.CHECK);
-		check_a11.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a11.setBackground(EccTreeControl.color);
 		check_a11.pack();
 		check_a11.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1197,7 +1198,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_a12 = new TableEditor(table);
 		final Button check_a12 = new Button(table, SWT.CHECK);
-		check_a12.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a12.setBackground(EccTreeControl.color);
 		check_a12.pack();
 		check_a12.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1222,7 +1223,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_a13 = new TableEditor(table);
 		final Button check_a13 = new Button(table, SWT.CHECK);
-		check_a13.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a13.setBackground(EccTreeControl.color);
 		check_a13.pack();
 		check_a13.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1247,7 +1248,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_a14 = new TableEditor(table);
 		final Button check_a14 = new Button(table, SWT.CHECK);
-		check_a14.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a14.setBackground(EccTreeControl.color);
 		check_a14.pack();
 		check_a14.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1272,7 +1273,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_a15 = new TableEditor(table);
 		final Button check_a15 = new Button(table, SWT.CHECK);
-		check_a15.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a15.setBackground(EccTreeControl.color);
 		check_a15.pack();
 		check_a15.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1297,7 +1298,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_a16 = new TableEditor(table);
 		final Button check_a16 = new Button(table, SWT.CHECK);
-		check_a16.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a16.setBackground(EccTreeControl.color);
 		check_a16.pack();
 		check_a16.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1322,7 +1323,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_a17 = new TableEditor(table);
 		final Button check_a17 = new Button(table, SWT.CHECK);
-		check_a17.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a17.setBackground(EccTreeControl.color);
 		check_a17.pack();
 		check_a17.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1347,7 +1348,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_a18 = new TableEditor(table);
 		final Button check_a18 = new Button(table, SWT.CHECK);
-		check_a18.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a18.setBackground(EccTreeControl.color);
 		check_a18.pack();
 		check_a18.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1372,7 +1373,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_a19 = new TableEditor(table);
 		final Button check_a19 = new Button(table, SWT.CHECK);
-		check_a19.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a19.setBackground(EccTreeControl.color);
 		check_a19.pack();
 		check_a19.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1397,7 +1398,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_a20 = new TableEditor(table);
 		final Button check_a20 = new Button(table, SWT.CHECK);
-		check_a20.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a20.setBackground(EccTreeControl.color);
 		check_a20.pack();
 		check_a20.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1422,7 +1423,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_a21 = new TableEditor(table);
 		final Button check_a21 = new Button(table, SWT.CHECK);
-		check_a21.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a21.setBackground(EccTreeControl.color);
 		check_a21.pack();
 		check_a21.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1447,7 +1448,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_a22 = new TableEditor(table);
 		final Button check_a22 = new Button(table, SWT.CHECK);
-		check_a22.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a22.setBackground(EccTreeControl.color);
 		check_a22.pack();
 		check_a22.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1472,7 +1473,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_a23 = new TableEditor(table);
 		final Button check_a23 = new Button(table, SWT.CHECK);
-		check_a23.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a23.setBackground(EccTreeControl.color);
 		check_a23.pack();
 		check_a23.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1497,7 +1498,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_a24 = new TableEditor(table);
 		final Button check_a24 = new Button(table, SWT.CHECK);
-		check_a24.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_a24.setBackground(EccTreeControl.color);
 		check_a24.pack();
 		check_a24.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1525,7 +1526,7 @@ public class AddRelativeTime extends Dialog {
 		item3.setText(0, "星期二");
 		TableEditor editor_b1 = new TableEditor(table);
 		final Button check_b1 = new Button(table, SWT.CHECK);
-		check_b1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b1.setBackground(EccTreeControl.color);
 		check_b1.pack();
 		check_b1.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1550,7 +1551,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_b2 = new TableEditor(table);
 		final Button check_b2 = new Button(table, SWT.CHECK);
-		check_b2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b2.setBackground(EccTreeControl.color);
 		check_b2.pack();
 		check_b2.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1575,7 +1576,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_b3 = new TableEditor(table);
 		final Button check_b3 = new Button(table, SWT.CHECK);
-		check_b3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b3.setBackground(EccTreeControl.color);
 		check_b3.pack();
 		check_b3.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1600,7 +1601,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_b4 = new TableEditor(table);
 		final Button check_b4 = new Button(table, SWT.CHECK);
-		check_b4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b4.setBackground(EccTreeControl.color);
 		check_b4.pack();
 		check_b4.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1625,7 +1626,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_b5 = new TableEditor(table);
 		final Button check_b5 = new Button(table, SWT.CHECK);
-		check_b5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b5.setBackground(EccTreeControl.color);
 		check_b5.pack();
 		check_b5.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1650,7 +1651,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_b6 = new TableEditor(table);
 		final Button check_b6 = new Button(table, SWT.CHECK);
-		check_b6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b6.setBackground(EccTreeControl.color);
 		check_b6.pack();
 		check_b6.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1675,7 +1676,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_b7 = new TableEditor(table);
 		final Button check_b7 = new Button(table, SWT.CHECK);
-		check_b7.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b7.setBackground(EccTreeControl.color);
 		check_b7.pack();
 		check_b7.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1700,7 +1701,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_b8 = new TableEditor(table);
 		final Button check_b8 = new Button(table, SWT.CHECK);
-		check_b8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b8.setBackground(EccTreeControl.color);
 		check_b8.pack();
 		check_b8.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1725,7 +1726,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_b9 = new TableEditor(table);
 		final Button check_b9 = new Button(table, SWT.CHECK);
-		check_b9.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b9.setBackground(EccTreeControl.color);
 		check_b9.pack();
 		check_b9.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1750,7 +1751,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_b10 = new TableEditor(table);
 		final Button check_b10 = new Button(table, SWT.CHECK);
-		check_b10.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b10.setBackground(EccTreeControl.color);
 		check_b10.pack();
 		check_b10.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1775,7 +1776,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_b11 = new TableEditor(table);
 		final Button check_b11 = new Button(table, SWT.CHECK);
-		check_b11.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b11.setBackground(EccTreeControl.color);
 		check_b11.pack();
 		check_b11.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1800,7 +1801,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_b12 = new TableEditor(table);
 		final Button check_b12 = new Button(table, SWT.CHECK);
-		check_b12.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b12.setBackground(EccTreeControl.color);
 		check_b12.pack();
 		check_b12.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1825,7 +1826,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_b13 = new TableEditor(table);
 		final Button check_b13 = new Button(table, SWT.CHECK);
-		check_b13.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b13.setBackground(EccTreeControl.color);
 		check_b13.pack();
 		check_b13.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1850,7 +1851,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_b14 = new TableEditor(table);
 		final Button check_b14 = new Button(table, SWT.CHECK);
-		check_b14.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b14.setBackground(EccTreeControl.color);
 		check_b14.pack();
 		check_b14.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1875,7 +1876,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_b15 = new TableEditor(table);
 		final Button check_b15 = new Button(table, SWT.CHECK);
-		check_b15.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b15.setBackground(EccTreeControl.color);
 		check_b15.pack();
 		check_b15.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1900,7 +1901,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_b16 = new TableEditor(table);
 		final Button check_b16 = new Button(table, SWT.CHECK);
-		check_b16.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b16.setBackground(EccTreeControl.color);
 		check_b16.pack();
 		check_b16.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1925,7 +1926,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_b17 = new TableEditor(table);
 		final Button check_b17 = new Button(table, SWT.CHECK);
-		check_b17.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b17.setBackground(EccTreeControl.color);
 		check_b17.pack();
 		check_b17.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1950,7 +1951,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_b18 = new TableEditor(table);
 		final Button check_b18 = new Button(table, SWT.CHECK);
-		check_b18.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b18.setBackground(EccTreeControl.color);
 		check_b18.pack();
 		check_b18.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -1975,7 +1976,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_b19 = new TableEditor(table);
 		final Button check_b19 = new Button(table, SWT.CHECK);
-		check_b19.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b19.setBackground(EccTreeControl.color);
 		check_b19.pack();
 		check_b19.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2000,7 +2001,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_b20 = new TableEditor(table);
 		final Button check_b20 = new Button(table, SWT.CHECK);
-		check_b20.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b20.setBackground(EccTreeControl.color);
 		check_b20.pack();
 		check_b20.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2025,7 +2026,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_b21 = new TableEditor(table);
 		final Button check_b21 = new Button(table, SWT.CHECK);
-		check_b21.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b21.setBackground(EccTreeControl.color);
 		check_b21.pack();
 		check_b21.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2050,7 +2051,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_b22 = new TableEditor(table);
 		final Button check_b22 = new Button(table, SWT.CHECK);
-		check_b22.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b22.setBackground(EccTreeControl.color);
 		check_b22.pack();
 		check_b22.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2075,7 +2076,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_b23 = new TableEditor(table);
 		final Button check_b23 = new Button(table, SWT.CHECK);
-		check_b23.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b23.setBackground(EccTreeControl.color);
 		check_b23.pack();
 		check_b23.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2100,7 +2101,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_b24 = new TableEditor(table);
 		final Button check_b24 = new Button(table, SWT.CHECK);
-		check_b24.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_b24.setBackground(EccTreeControl.color);
 		check_b24.pack();
 		check_b24.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2128,7 +2129,7 @@ public class AddRelativeTime extends Dialog {
 		item4.setText(0, "星期三");
 		TableEditor editor_c1 = new TableEditor(table);
 		final Button check_c1 = new Button(table, SWT.CHECK);
-		check_c1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c1.setBackground(EccTreeControl.color);
 		check_c1.pack();
 		check_c1.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2153,7 +2154,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_c2 = new TableEditor(table);
 		final Button check_c2 = new Button(table, SWT.CHECK);
-		check_c2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c2.setBackground(EccTreeControl.color);
 		check_c2.pack();
 		check_c2.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2178,7 +2179,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_c3 = new TableEditor(table);
 		final Button check_c3 = new Button(table, SWT.CHECK);
-		check_c3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c3.setBackground(EccTreeControl.color);
 		check_c3.pack();
 		check_c3.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2203,7 +2204,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_c4 = new TableEditor(table);
 		final Button check_c4 = new Button(table, SWT.CHECK);
-		check_c4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c4.setBackground(EccTreeControl.color);
 		check_c4.pack();
 		check_c4.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2228,7 +2229,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_c5 = new TableEditor(table);
 		final Button check_c5 = new Button(table, SWT.CHECK);
-		check_c5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c5.setBackground(EccTreeControl.color);
 		check_c5.pack();
 		check_c5.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2253,7 +2254,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_c6 = new TableEditor(table);
 		final Button check_c6 = new Button(table, SWT.CHECK);
-		check_c6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c6.setBackground(EccTreeControl.color);
 		check_c6.pack();
 		check_c6.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2278,7 +2279,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_c7 = new TableEditor(table);
 		final Button check_c7 = new Button(table, SWT.CHECK);
-		check_c7.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c7.setBackground(EccTreeControl.color);
 		check_c7.pack();
 		check_c7.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2303,7 +2304,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_c8 = new TableEditor(table);
 		final Button check_c8 = new Button(table, SWT.CHECK);
-		check_c8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c8.setBackground(EccTreeControl.color);
 		check_c8.pack();
 		check_c8.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2328,7 +2329,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_c9 = new TableEditor(table);
 		final Button check_c9 = new Button(table, SWT.CHECK);
-		check_c9.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c9.setBackground(EccTreeControl.color);
 		check_c9.pack();
 		check_c9.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2353,7 +2354,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_c10 = new TableEditor(table);
 		final Button check_c10 = new Button(table, SWT.CHECK);
-		check_c10.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c10.setBackground(EccTreeControl.color);
 		check_c10.pack();
 		check_c10.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2378,7 +2379,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_c11 = new TableEditor(table);
 		final Button check_c11 = new Button(table, SWT.CHECK);
-		check_c11.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c11.setBackground(EccTreeControl.color);
 		check_c11.pack();
 		check_c11.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2403,7 +2404,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_c12 = new TableEditor(table);
 		final Button check_c12 = new Button(table, SWT.CHECK);
-		check_c12.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c12.setBackground(EccTreeControl.color);
 		check_c12.pack();
 		check_c12.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2428,7 +2429,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_c13 = new TableEditor(table);
 		final Button check_c13 = new Button(table, SWT.CHECK);
-		check_c13.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c13.setBackground(EccTreeControl.color);
 		check_c13.pack();
 		check_c13.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2453,7 +2454,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_c14 = new TableEditor(table);
 		final Button check_c14 = new Button(table, SWT.CHECK);
-		check_c14.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c14.setBackground(EccTreeControl.color);
 		check_c14.pack();
 		check_c14.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2478,7 +2479,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_c15 = new TableEditor(table);
 		final Button check_c15 = new Button(table, SWT.CHECK);
-		check_c15.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c15.setBackground(EccTreeControl.color);
 		check_c15.pack();
 		check_c15.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2503,7 +2504,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_c16 = new TableEditor(table);
 		final Button check_c16 = new Button(table, SWT.CHECK);
-		check_c16.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c16.setBackground(EccTreeControl.color);
 		check_c16.pack();
 		check_c16.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2528,7 +2529,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_c17 = new TableEditor(table);
 		final Button check_c17 = new Button(table, SWT.CHECK);
-		check_c17.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c17.setBackground(EccTreeControl.color);
 		check_c17.pack();
 		check_c17.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2553,7 +2554,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_c18 = new TableEditor(table);
 		final Button check_c18 = new Button(table, SWT.CHECK);
-		check_c18.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c18.setBackground(EccTreeControl.color);
 		check_c18.pack();
 		check_c18.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2578,7 +2579,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_c19 = new TableEditor(table);
 		final Button check_c19 = new Button(table, SWT.CHECK);
-		check_c19.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c19.setBackground(EccTreeControl.color);
 		check_c19.pack();
 		check_c19.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2603,7 +2604,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_c20 = new TableEditor(table);
 		final Button check_c20 = new Button(table, SWT.CHECK);
-		check_c20.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c20.setBackground(EccTreeControl.color);
 		check_c20.pack();
 		check_c20.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2628,7 +2629,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_c21 = new TableEditor(table);
 		final Button check_c21 = new Button(table, SWT.CHECK);
-		check_c21.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c21.setBackground(EccTreeControl.color);
 		check_c21.pack();
 		check_c21.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2653,7 +2654,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_c22 = new TableEditor(table);
 		final Button check_c22 = new Button(table, SWT.CHECK);
-		check_c22.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c22.setBackground(EccTreeControl.color);
 		check_c22.pack();
 		check_c22.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2678,7 +2679,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_c23 = new TableEditor(table);
 		final Button check_c23 = new Button(table, SWT.CHECK);
-		check_c23.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c23.setBackground(EccTreeControl.color);
 		check_c23.pack();
 		check_c23.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2703,7 +2704,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_c24 = new TableEditor(table);
 		final Button check_c24 = new Button(table, SWT.CHECK);
-		check_c24.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_c24.setBackground(EccTreeControl.color);
 		check_c24.pack();
 		check_c24.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2731,7 +2732,7 @@ public class AddRelativeTime extends Dialog {
 		item5.setText(0, "星期四");
 		TableEditor editor_d1 = new TableEditor(table);
 		final Button check_d1 = new Button(table, SWT.CHECK);
-		check_d1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d1.setBackground(EccTreeControl.color);
 		check_d1.pack();
 		check_d1.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2756,7 +2757,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_d2 = new TableEditor(table);
 		final Button check_d2 = new Button(table, SWT.CHECK);
-		check_d2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d2.setBackground(EccTreeControl.color);
 		check_d2.pack();
 		check_d2.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2781,7 +2782,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_d3 = new TableEditor(table);
 		final Button check_d3 = new Button(table, SWT.CHECK);
-		check_d3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d3.setBackground(EccTreeControl.color);
 		check_d3.pack();
 		check_d3.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2806,7 +2807,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_d4 = new TableEditor(table);
 		final Button check_d4 = new Button(table, SWT.CHECK);
-		check_d4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d4.setBackground(EccTreeControl.color);
 		check_d4.pack();
 		check_d4.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2831,7 +2832,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_d5 = new TableEditor(table);
 		final Button check_d5 = new Button(table, SWT.CHECK);
-		check_d5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d5.setBackground(EccTreeControl.color);
 		check_d5.pack();
 		check_d5.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2856,7 +2857,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_d6 = new TableEditor(table);
 		final Button check_d6 = new Button(table, SWT.CHECK);
-		check_d6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d6.setBackground(EccTreeControl.color);
 		check_d6.pack();
 		check_d6.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2881,7 +2882,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_d7 = new TableEditor(table);
 		final Button check_d7 = new Button(table, SWT.CHECK);
-		check_d7.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d7.setBackground(EccTreeControl.color);
 		check_d7.pack();
 		check_d7.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2906,7 +2907,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_d8 = new TableEditor(table);
 		final Button check_d8 = new Button(table, SWT.CHECK);
-		check_d8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d8.setBackground(EccTreeControl.color);
 		check_d8.pack();
 		check_d8.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2931,7 +2932,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_d9 = new TableEditor(table);
 		final Button check_d9 = new Button(table, SWT.CHECK);
-		check_d9.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d9.setBackground(EccTreeControl.color);
 		check_d9.pack();
 		check_d9.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2956,7 +2957,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_d10 = new TableEditor(table);
 		final Button check_d10 = new Button(table, SWT.CHECK);
-		check_d10.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d10.setBackground(EccTreeControl.color);
 		check_d10.pack();
 		check_d10.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -2981,7 +2982,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_d11 = new TableEditor(table);
 		final Button check_d11 = new Button(table, SWT.CHECK);
-		check_d11.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d11.setBackground(EccTreeControl.color);
 		check_d11.pack();
 		check_d11.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3006,7 +3007,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_d12 = new TableEditor(table);
 		final Button check_d12 = new Button(table, SWT.CHECK);
-		check_d12.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d12.setBackground(EccTreeControl.color);
 		check_d12.pack();
 		check_d12.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3031,7 +3032,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_d13 = new TableEditor(table);
 		final Button check_d13 = new Button(table, SWT.CHECK);
-		check_d13.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d13.setBackground(EccTreeControl.color);
 		check_d13.pack();
 		check_d13.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3056,7 +3057,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_d14 = new TableEditor(table);
 		final Button check_d14 = new Button(table, SWT.CHECK);
-		check_d14.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d14.setBackground(EccTreeControl.color);
 		check_d14.pack();
 		check_d14.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3081,7 +3082,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_d15 = new TableEditor(table);
 		final Button check_d15 = new Button(table, SWT.CHECK);
-		check_d15.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d15.setBackground(EccTreeControl.color);
 		check_d15.pack();
 		check_d15.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3106,7 +3107,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_d16 = new TableEditor(table);
 		final Button check_d16 = new Button(table, SWT.CHECK);
-		check_d16.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d16.setBackground(EccTreeControl.color);
 		check_d16.pack();
 		check_d16.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3131,7 +3132,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_d17 = new TableEditor(table);
 		final Button check_d17 = new Button(table, SWT.CHECK);
-		check_d17.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d17.setBackground(EccTreeControl.color);
 		check_d17.pack();
 		check_d17.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3156,7 +3157,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_d18 = new TableEditor(table);
 		final Button check_d18 = new Button(table, SWT.CHECK);
-		check_d18.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d18.setBackground(EccTreeControl.color);
 		check_d18.pack();
 		check_d18.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3181,7 +3182,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_d19 = new TableEditor(table);
 		final Button check_d19 = new Button(table, SWT.CHECK);
-		check_d19.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d19.setBackground(EccTreeControl.color);
 		check_d19.pack();
 		check_d19.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3206,7 +3207,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_d20 = new TableEditor(table);
 		final Button check_d20 = new Button(table, SWT.CHECK);
-		check_d20.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d20.setBackground(EccTreeControl.color);
 		check_d20.pack();
 		check_d20.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3231,7 +3232,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_d21 = new TableEditor(table);
 		final Button check_d21 = new Button(table, SWT.CHECK);
-		check_d21.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d21.setBackground(EccTreeControl.color);
 		check_d21.pack();
 		check_d21.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3256,7 +3257,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_d22 = new TableEditor(table);
 		final Button check_d22 = new Button(table, SWT.CHECK);
-		check_d22.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d22.setBackground(EccTreeControl.color);
 		check_d22.pack();
 		check_d22.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3281,7 +3282,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_d23 = new TableEditor(table);
 		final Button check_d23 = new Button(table, SWT.CHECK);
-		check_d23.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d23.setBackground(EccTreeControl.color);
 		check_d23.pack();
 		check_d23.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3306,7 +3307,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_d24 = new TableEditor(table);
 		final Button check_d24 = new Button(table, SWT.CHECK);
-		check_d24.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_d24.setBackground(EccTreeControl.color);
 		check_d24.pack();
 		check_d24.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3335,7 +3336,7 @@ public class AddRelativeTime extends Dialog {
 		item6.setText(0, "星期五");
 		TableEditor editor_e1 = new TableEditor(table);
 		final Button check_e1 = new Button(table, SWT.CHECK);
-		check_e1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e1.setBackground(EccTreeControl.color);
 		check_e1.pack();
 		check_e1.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3360,7 +3361,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_e2 = new TableEditor(table);
 		final Button check_e2 = new Button(table, SWT.CHECK);
-		check_e2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e2.setBackground(EccTreeControl.color);
 		check_e2.pack();
 		check_e2.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3385,7 +3386,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_e3 = new TableEditor(table);
 		final Button check_e3 = new Button(table, SWT.CHECK);
-		check_e3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e3.setBackground(EccTreeControl.color);
 		check_e3.pack();
 		check_e3.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3410,7 +3411,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_e4 = new TableEditor(table);
 		final Button check_e4 = new Button(table, SWT.CHECK);
-		check_e4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e4.setBackground(EccTreeControl.color);
 		check_e4.pack();
 		check_e4.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3435,7 +3436,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_e5 = new TableEditor(table);
 		final Button check_e5 = new Button(table, SWT.CHECK);
-		check_e5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e5.setBackground(EccTreeControl.color);
 		check_e5.pack();
 		check_e5.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3460,7 +3461,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_e6 = new TableEditor(table);
 		final Button check_e6 = new Button(table, SWT.CHECK);
-		check_e6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e6.setBackground(EccTreeControl.color);
 		check_e6.pack();
 		check_e6.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3485,7 +3486,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_e7 = new TableEditor(table);
 		final Button check_e7 = new Button(table, SWT.CHECK);
-		check_e7.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e7.setBackground(EccTreeControl.color);
 		check_e7.pack();
 		check_e7.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3510,7 +3511,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_e8 = new TableEditor(table);
 		final Button check_e8 = new Button(table, SWT.CHECK);
-		check_e8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e8.setBackground(EccTreeControl.color);
 		check_e8.pack();
 		check_e8.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3535,7 +3536,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_e9 = new TableEditor(table);
 		final Button check_e9 = new Button(table, SWT.CHECK);
-		check_e9.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e9.setBackground(EccTreeControl.color);
 		check_e9.pack();
 		check_e9.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3560,7 +3561,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_e10 = new TableEditor(table);
 		final Button check_e10 = new Button(table, SWT.CHECK);
-		check_e10.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e10.setBackground(EccTreeControl.color);
 		check_e10.pack();
 		check_e10.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3585,7 +3586,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_e11 = new TableEditor(table);
 		final Button check_e11 = new Button(table, SWT.CHECK);
-		check_e11.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e11.setBackground(EccTreeControl.color);
 		check_e11.pack();
 		check_e11.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3610,7 +3611,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_e12 = new TableEditor(table);
 		final Button check_e12 = new Button(table, SWT.CHECK);
-		check_e12.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e12.setBackground(EccTreeControl.color);
 		check_e12.pack();
 		check_e12.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3635,7 +3636,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_e13 = new TableEditor(table);
 		final Button check_e13 = new Button(table, SWT.CHECK);
-		check_e13.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e13.setBackground(EccTreeControl.color);
 		check_e13.pack();
 		check_e13.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3660,7 +3661,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_e14 = new TableEditor(table);
 		final Button check_e14 = new Button(table, SWT.CHECK);
-		check_e14.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e14.setBackground(EccTreeControl.color);
 		check_e14.pack();
 		check_e14.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3685,7 +3686,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_e15 = new TableEditor(table);
 		final Button check_e15 = new Button(table, SWT.CHECK);
-		check_e15.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e15.setBackground(EccTreeControl.color);
 		check_e15.pack();
 		check_e15.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3710,7 +3711,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_e16 = new TableEditor(table);
 		final Button check_e16 = new Button(table, SWT.CHECK);
-		check_e16.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e16.setBackground(EccTreeControl.color);
 		check_e16.pack();
 		check_e16.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3735,7 +3736,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_e17 = new TableEditor(table);
 		final Button check_e17 = new Button(table, SWT.CHECK);
-		check_e17.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e17.setBackground(EccTreeControl.color);
 		check_e17.pack();
 		check_e17.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3760,7 +3761,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_e18 = new TableEditor(table);
 		final Button check_e18 = new Button(table, SWT.CHECK);
-		check_e18.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e18.setBackground(EccTreeControl.color);
 		check_e18.pack();
 		check_e18.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3785,7 +3786,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_e19 = new TableEditor(table);
 		final Button check_e19 = new Button(table, SWT.CHECK);
-		check_e19.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e19.setBackground(EccTreeControl.color);
 		check_e19.pack();
 		check_e19.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3810,7 +3811,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_e20 = new TableEditor(table);
 		final Button check_e20 = new Button(table, SWT.CHECK);
-		check_e20.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e20.setBackground(EccTreeControl.color);
 		check_e20.pack();
 		check_e20.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3835,7 +3836,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_e21 = new TableEditor(table);
 		final Button check_e21 = new Button(table, SWT.CHECK);
-		check_e21.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e21.setBackground(EccTreeControl.color);
 		check_e21.pack();
 		check_e21.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3860,7 +3861,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_e22 = new TableEditor(table);
 		final Button check_e22 = new Button(table, SWT.CHECK);
-		check_e22.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e22.setBackground(EccTreeControl.color);
 		check_e22.pack();
 		check_e22.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3885,7 +3886,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_e23 = new TableEditor(table);
 		final Button check_e23 = new Button(table, SWT.CHECK);
-		check_e23.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e23.setBackground(EccTreeControl.color);
 		check_e23.pack();
 		check_e23.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3910,7 +3911,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_e24 = new TableEditor(table);
 		final Button check_e24 = new Button(table, SWT.CHECK);
-		check_e24.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_e24.setBackground(EccTreeControl.color);
 		check_e24.pack();
 		check_e24.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3938,7 +3939,7 @@ public class AddRelativeTime extends Dialog {
 		item7.setText(0, "星期六");
 		TableEditor editor_f1 = new TableEditor(table);
 		final Button check_f1 = new Button(table, SWT.CHECK);
-		check_f1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f1.setBackground(EccTreeControl.color);
 		check_f1.pack();
 		check_f1.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3963,7 +3964,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_f2 = new TableEditor(table);
 		final Button check_f2 = new Button(table, SWT.CHECK);
-		check_f2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f2.setBackground(EccTreeControl.color);
 		check_f2.pack();
 		check_f2.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -3988,7 +3989,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_f3 = new TableEditor(table);
 		final Button check_f3 = new Button(table, SWT.CHECK);
-		check_f3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f3.setBackground(EccTreeControl.color);
 		check_f3.pack();
 		check_f3.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -4013,7 +4014,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_f4 = new TableEditor(table);
 		final Button check_f4 = new Button(table, SWT.CHECK);
-		check_f4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f4.setBackground(EccTreeControl.color);
 		check_f4.pack();
 		check_f4.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -4038,7 +4039,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_f5 = new TableEditor(table);
 		final Button check_f5 = new Button(table, SWT.CHECK);
-		check_f5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f5.setBackground(EccTreeControl.color);
 		check_f5.pack();
 		check_f5.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -4063,7 +4064,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_f6 = new TableEditor(table);
 		final Button check_f6 = new Button(table, SWT.CHECK);
-		check_f6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f6.setBackground(EccTreeControl.color);
 		check_f6.pack();
 		check_f6.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -4088,7 +4089,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_f7 = new TableEditor(table);
 		final Button check_f7 = new Button(table, SWT.CHECK);
-		check_f7.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f7.setBackground(EccTreeControl.color);
 		check_f7.pack();
 		check_f7.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -4113,7 +4114,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_f8 = new TableEditor(table);
 		final Button check_f8 = new Button(table, SWT.CHECK);
-		check_f8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f8.setBackground(EccTreeControl.color);
 		check_f8.pack();
 		check_f8.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -4138,7 +4139,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_f9 = new TableEditor(table);
 		final Button check_f9 = new Button(table, SWT.CHECK);
-		check_f9.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f9.setBackground(EccTreeControl.color);
 		check_f9.pack();
 		check_f9.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -4163,7 +4164,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_f10 = new TableEditor(table);
 		final Button check_f10 = new Button(table, SWT.CHECK);
-		check_f10.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f10.setBackground(EccTreeControl.color);
 		check_f10.pack();
 		check_f10.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -4188,7 +4189,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_f11 = new TableEditor(table);
 		final Button check_f11 = new Button(table, SWT.CHECK);
-		check_f11.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f11.setBackground(EccTreeControl.color);
 		check_f11.pack();
 		check_f11.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -4213,7 +4214,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_f12 = new TableEditor(table);
 		final Button check_f12 = new Button(table, SWT.CHECK);
-		check_f12.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f12.setBackground(EccTreeControl.color);
 		check_f12.pack();
 		check_f12.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -4238,7 +4239,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_f13 = new TableEditor(table);
 		final Button check_f13 = new Button(table, SWT.CHECK);
-		check_f13.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f13.setBackground(EccTreeControl.color);
 		check_f13.pack();
 		check_f13.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -4263,7 +4264,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_f14 = new TableEditor(table);
 		final Button check_f14 = new Button(table, SWT.CHECK);
-		check_f14.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f14.setBackground(EccTreeControl.color);
 		check_f14.pack();
 		check_f14.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -4288,7 +4289,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_f15 = new TableEditor(table);
 		final Button check_f15 = new Button(table, SWT.CHECK);
-		check_f15.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f15.setBackground(EccTreeControl.color);
 		check_f15.pack();
 		check_f15.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -4313,7 +4314,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_f16 = new TableEditor(table);
 		final Button check_f16 = new Button(table, SWT.CHECK);
-		check_f16.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f16.setBackground(EccTreeControl.color);
 		check_f16.pack();
 		check_f16.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -4338,7 +4339,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_f17 = new TableEditor(table);
 		final Button check_f17 = new Button(table, SWT.CHECK);
-		check_f17.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f17.setBackground(EccTreeControl.color);
 		check_f17.pack();
 		check_f17.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -4363,7 +4364,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_f18 = new TableEditor(table);
 		final Button check_f18 = new Button(table, SWT.CHECK);
-		check_f18.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f18.setBackground(EccTreeControl.color);
 		check_f18.pack();
 		check_f18.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -4388,7 +4389,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_f19 = new TableEditor(table);
 		final Button check_f19 = new Button(table, SWT.CHECK);
-		check_f19.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f19.setBackground(EccTreeControl.color);
 		check_f19.pack();
 		check_f19.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -4413,7 +4414,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_f20 = new TableEditor(table);
 		final Button check_f20 = new Button(table, SWT.CHECK);
-		check_f20.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f20.setBackground(EccTreeControl.color);
 		check_f20.pack();
 		check_f20.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -4438,7 +4439,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_f21 = new TableEditor(table);
 		final Button check_f21 = new Button(table, SWT.CHECK);
-		check_f21.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f21.setBackground(EccTreeControl.color);
 		check_f21.pack();
 		check_f21.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -4463,7 +4464,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_f22 = new TableEditor(table);
 		final Button check_f22 = new Button(table, SWT.CHECK);
-		check_f22.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f22.setBackground(EccTreeControl.color);
 		check_f22.pack();
 		check_f22.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -4488,7 +4489,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_f23 = new TableEditor(table);
 		final Button check_f23 = new Button(table, SWT.CHECK);
-		check_f23.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f23.setBackground(EccTreeControl.color);
 		check_f23.pack();
 		check_f23.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -4513,7 +4514,7 @@ public class AddRelativeTime extends Dialog {
 		
 		TableEditor editor_f24 = new TableEditor(table);
 		final Button check_f24 = new Button(table, SWT.CHECK);
-		check_f24.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		check_f24.setBackground(EccTreeControl.color);
 		check_f24.pack();
 		check_f24.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
@@ -4538,10 +4539,10 @@ public class AddRelativeTime extends Dialog {
 		
 		
 		Composite composite_2 = new Composite(sashForm, SWT.NONE);
-		composite_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_2.setBackground(EccTreeControl.color);
 		
 		Label lblNewLabel = new Label(composite_2, SWT.NONE);
-		lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel.setBackground(EccTreeControl.color);
 		lblNewLabel.setBounds(10, 10, 40, 12);
 		lblNewLabel.setText("\u5907\u6CE8\uFF1A");
 		
@@ -4552,11 +4553,10 @@ public class AddRelativeTime extends Dialog {
 	}
 	
 	protected void createButtonsForButtonBar(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setBackground(EccTreeControl.color);
 		Button button = createButton(parent, IDialogConstants.OK_ID, "确定",true);
 		Button button1 = createButton(parent, IDialogConstants.CANCEL_ID, "取消",true);
 	}
-	
 	protected void buttonPressed(int buttonId) {
 	L1:	if(buttonId==IDialogConstants.OK_ID){
 			ICollection ico=FileTools.getBussCollection("EccTaskPlan");

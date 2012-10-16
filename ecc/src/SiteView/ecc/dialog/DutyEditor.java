@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Combo;
 import SiteView.ecc.Modle.TableModle;
 import SiteView.ecc.data.TableDutyInfor;
 import SiteView.ecc.editors.TableDuty;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
@@ -47,11 +48,11 @@ public class DutyEditor extends Dialog {
 		newShell.setText("编辑值班表信息设置");
 	}
 	protected Control createDialogArea(Composite parent){
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		parent.setBackground(EccTreeControl.color);
 		Composite container = (Composite) super.createDialogArea(parent);
-		container.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		container.setBackground(EccTreeControl.color);
 		Group g=new Group(container,SWT.NONE);
-		g.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		g.setBackground(EccTreeControl.color);
 		GridData gd_g = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_g.heightHint = 204;
 		gd_g.widthHint = 419;
@@ -59,7 +60,7 @@ public class DutyEditor extends Dialog {
 		g.setText("值班表");
 		
 		Label lblNewLabel = new Label(g, SWT.NONE);
-		lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel.setBackground(EccTreeControl.color);
 		lblNewLabel.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
 		lblNewLabel.setBounds(45, 23, 105, 18);
 		lblNewLabel.setText("\u539F\u503C\u73ED\u8868\u540D\u79F0:");
@@ -70,7 +71,7 @@ public class DutyEditor extends Dialog {
 		text.setEnabled(false);
 		
 		Label lblNewLabel_1 = new Label(g, SWT.NONE);
-		lblNewLabel_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_1.setBackground(EccTreeControl.color);
 		lblNewLabel_1.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
 		lblNewLabel_1.setBounds(45, 55, 105, 18);
 		lblNewLabel_1.setText("\u65B0\u503C\u73ED\u8868\u540D\u79F0:");
@@ -79,7 +80,7 @@ public class DutyEditor extends Dialog {
 		text_1.setBounds(170, 54, 152, 18);
 		
 		Label lblNewLabel_2 = new Label(g, SWT.NONE);
-		lblNewLabel_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_2.setBackground(EccTreeControl.color);
 		lblNewLabel_2.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
 		lblNewLabel_2.setText("\u539F\u503C\u73ED\u8868\u63CF\u8FF0:");
 		lblNewLabel_2.setBounds(45, 86, 108, 18);
@@ -90,7 +91,7 @@ public class DutyEditor extends Dialog {
 		text_2.setEnabled(false);
 		
 		Label lblNewLabel_3 = new Label(g, SWT.NONE);
-		lblNewLabel_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_3.setBackground(EccTreeControl.color);
 		lblNewLabel_3.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
 		lblNewLabel_3.setBounds(45, 116, 108, 18);
 		lblNewLabel_3.setText("\u65B0\u503C\u73ED\u8868\u63CF\u8FF0:");
@@ -99,7 +100,7 @@ public class DutyEditor extends Dialog {
 		text_3.setBounds(170, 117, 152, 18);
 		
 		Label lblNewLabel_4 = new Label(g, SWT.NONE);
-		lblNewLabel_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_4.setBackground(EccTreeControl.color);
 		lblNewLabel_4.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
 		lblNewLabel_4.setBounds(45, 150, 108, 18);
 		lblNewLabel_4.setText("\u503C\u73ED\u7C7B\u578B:");
@@ -113,7 +114,7 @@ public class DutyEditor extends Dialog {
 		return container;
 	}
 	protected void createButtonsForButtonBar(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		parent.setBackground(EccTreeControl.color);
 		applyButton = createButton(parent, IDialogConstants.OK_ID, "保存",true);
 		closeButton=createButton(parent, IDialogConstants.CANCEL_ID, "取消", true);
 	}

@@ -86,13 +86,13 @@ public class TrendReportView extends ViewPart {
 			TotalTabView.setTotalData(TotalTabView.businessObj);
 		}
 		trendComposite.setLayout(new FillLayout());
-		trendComposite.setBackground(new Color(null, 255, 255, 255));
+		trendComposite.setBackground(SiteView.ecc.view.EccTreeControl.color);
 		SashForm reportForm = new SashForm(trendComposite, SWT.BORDER);
 		reportForm.setOrientation(SWT.VERTICAL);
 		reportForm.setLayout(new FillLayout());
 
 		Composite queryComposite = new Composite(reportForm, SWT.NONE);
-		queryComposite.setBackground(new Color(null, 255, 255, 255));
+		queryComposite.setBackground(SiteView.ecc.view.EccTreeControl.color);
 		queryComposite.setLayout(new FormLayout());
 
 		queryLabel = new Label(queryComposite, SWT.NONE);
@@ -107,7 +107,7 @@ public class TrendReportView extends ViewPart {
 		start = new Label(queryComposite, SWT.None);
 		FormData fd_start = new FormData();
 		fd_start.left = new FormAttachment(0);
-		start.setBackground(new Color(null, 255, 255, 255));
+		start.setBackground(SiteView.ecc.view.EccTreeControl.color);
 		start.setLayoutData(fd_start);
 		start.setText("开始时间:");
 		final DateTime startDate = new DateTime(queryComposite, SWT.DROP_DOWN);
@@ -145,7 +145,7 @@ public class TrendReportView extends ViewPart {
 		startTime.setMinutes(startcal.get(Calendar.MINUTE));
 		startTime.setSeconds(startcal.get(Calendar.SECOND));
 		Label end = new Label(queryComposite, SWT.None);
-		end.setBackground(new Color(null, 255, 255, 255));
+		end.setBackground(SiteView.ecc.view.EccTreeControl.color);
 		FormData fd_end = new FormData();
 		end.setLayoutData(fd_end);
 		end.setText("结束时间:");
@@ -195,7 +195,7 @@ public class TrendReportView extends ViewPart {
 
 		Label towHourBtn = new Label(queryComposite, SWT.NONE);
 		fd_start.top = new FormAttachment(towHourBtn, 12);
-		towHourBtn.setBackground(new Color(null, 255, 255, 255));
+		towHourBtn.setBackground(SiteView.ecc.view.EccTreeControl.color);
 		FormData fd_lblNewLabel = new FormData();
 		fd_lblNewLabel.top = new FormAttachment(queryLabel, 3);
 		fd_lblNewLabel.left = new FormAttachment(queryLabel, 10, SWT.LEFT);
@@ -227,7 +227,7 @@ public class TrendReportView extends ViewPart {
 
 		Label fourHourBtn = new Label(queryComposite, SWT.NONE);
 		fd_startDate.top = new FormAttachment(fourHourBtn, 10);
-		fourHourBtn.setBackground(new Color(null, 255, 255, 255));
+		fourHourBtn.setBackground(SiteView.ecc.view.EccTreeControl.color);
 		FormData fd_lblNewLabel_1 = new FormData();
 		fd_lblNewLabel_1.top = new FormAttachment(towHourBtn, 0, SWT.TOP);
 		fd_lblNewLabel_1.left = new FormAttachment(towHourBtn, 16);
@@ -258,7 +258,7 @@ public class TrendReportView extends ViewPart {
 		});
 
 		Label eightHourBtn = new Label(queryComposite, SWT.NONE);
-		eightHourBtn.setBackground(new Color(null, 255, 255, 255));
+		eightHourBtn.setBackground(SiteView.ecc.view.EccTreeControl.color);
 		FormData fd_lblNewLabel_2 = new FormData();
 		fd_lblNewLabel_2.top = new FormAttachment(towHourBtn, 0, SWT.TOP);
 		fd_lblNewLabel_2.left = new FormAttachment(fourHourBtn, 17);
@@ -308,7 +308,7 @@ public class TrendReportView extends ViewPart {
 		table.setLayoutData(fd_table);
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
-		table.setBackground(new Color(null, 255, 255, 255));
+		table.setBackground(SiteView.ecc.view.EccTreeControl.color);
 		TableColumn newColumnTableColumn = new TableColumn(table, SWT.NONE);
 		newColumnTableColumn.setWidth(103);
 		newColumnTableColumn.setText("名称");
@@ -357,7 +357,7 @@ public class TrendReportView extends ViewPart {
 		fd_oneDayBtn.top = new FormAttachment(towHourBtn, 0, SWT.TOP);
 		fd_oneDayBtn.left = new FormAttachment(eightHourBtn, 18);
 		oneDayBtn.setLayoutData(fd_oneDayBtn);
-		oneDayBtn.setBackground(new Color(null, 255, 255, 255));
+		oneDayBtn.setBackground(SiteView.ecc.view.EccTreeControl.color);
 		oneDayBtn.setText("1天");
 
 		Label threeDayBtn = new Label(queryComposite, SWT.NONE);
@@ -365,14 +365,14 @@ public class TrendReportView extends ViewPart {
 		fd_threeDayBtn.left = new FormAttachment(oneDayBtn, 51);
 		fd_threeDayBtn.top = new FormAttachment(towHourBtn, 0, SWT.TOP);
 		threeDayBtn.setLayoutData(fd_threeDayBtn);
-		threeDayBtn.setBackground(new Color(null, 255, 255, 255));
+		threeDayBtn.setBackground(SiteView.ecc.view.EccTreeControl.color);
 		threeDayBtn.setText("3天");
 		Label fiveDayBtn = new Label(queryComposite, SWT.NONE);
 		FormData fd_fiveDayBtn = new FormData();
 		fd_fiveDayBtn.left = new FormAttachment(threeDayBtn, 22);
 		fd_fiveDayBtn.top = new FormAttachment(towHourBtn, 0, SWT.TOP);
 		fiveDayBtn.setLayoutData(fd_fiveDayBtn);
-		fiveDayBtn.setBackground(new Color(null, 255, 255, 255));
+		fiveDayBtn.setBackground(SiteView.ecc.view.EccTreeControl.color);
 		fiveDayBtn.setText("5天");
 
 		Label thisWeekBtn = new Label(queryComposite, SWT.NONE);
@@ -380,7 +380,7 @@ public class TrendReportView extends ViewPart {
 		fd_thisWeekBtn.top = new FormAttachment(towHourBtn, 0, SWT.TOP);
 		fd_thisWeekBtn.left = new FormAttachment(fiveDayBtn, 16);
 		thisWeekBtn.setLayoutData(fd_thisWeekBtn);
-		thisWeekBtn.setBackground(new Color(null, 255, 255, 255));
+		thisWeekBtn.setBackground(SiteView.ecc.view.EccTreeControl.color);
 		thisWeekBtn.setText("本周");
 
 		Label oneWeekBtn = new Label(queryComposite, SWT.NONE);
@@ -388,7 +388,7 @@ public class TrendReportView extends ViewPart {
 		fd_oneWeekBtn.top = new FormAttachment(towHourBtn, 0, SWT.TOP);
 		fd_oneWeekBtn.left = new FormAttachment(thisWeekBtn, 21);
 		oneWeekBtn.setLayoutData(fd_oneWeekBtn);
-		oneWeekBtn.setBackground(new Color(null, 255, 255, 255));
+		oneWeekBtn.setBackground(SiteView.ecc.view.EccTreeControl.color);
 		oneWeekBtn.setText("1周");
 
 		Label twoDayBtn = new Label(queryComposite, SWT.NONE);
@@ -396,7 +396,7 @@ public class TrendReportView extends ViewPart {
 		fd_twoDayBtn.top = new FormAttachment(towHourBtn, 0, SWT.TOP);
 		fd_twoDayBtn.left = new FormAttachment(oneDayBtn, 16);
 		twoDayBtn.setLayoutData(fd_twoDayBtn);
-		twoDayBtn.setBackground(new Color(null, 255, 255, 255));
+		twoDayBtn.setBackground(SiteView.ecc.view.EccTreeControl.color);
 		twoDayBtn.setText("2天");
 								
 										TableViewer totaltableViewer = new TableViewer(queryComposite,
@@ -408,7 +408,7 @@ public class TrendReportView extends ViewPart {
 										totaltable.setLayoutData(fd_totaltable);
 										totaltable.setLinesVisible(true);
 										totaltable.setHeaderVisible(true);
-										totaltable.setBackground(new Color(null, 255, 255, 255));
+										totaltable.setBackground(SiteView.ecc.view.EccTreeControl.color);
 										TableColumn totalColumnTableColumn = new TableColumn(totaltable,
 												SWT.NONE);
 										totalColumnTableColumn.setWidth(81);
@@ -444,7 +444,7 @@ public class TrendReportView extends ViewPart {
 														fd_oneMonthBtn.top = new FormAttachment(towHourBtn, 0, SWT.TOP);
 														fd_oneMonthBtn.right = new FormAttachment(endTime, 0, SWT.RIGHT);
 														oneMonthBtn.setLayoutData(fd_oneMonthBtn);
-														oneMonthBtn.setBackground(new Color(null, 255, 255, 255));
+														oneMonthBtn.setBackground(SiteView.ecc.view.EccTreeControl.color);
 														oneMonthBtn.setText("1个月");
 														
 																Label twoMonthBtn = new Label(queryComposite, SWT.NONE);
@@ -452,7 +452,7 @@ public class TrendReportView extends ViewPart {
 																fd_twoMonthBtn.bottom = new FormAttachment(queryBtn, -6);
 																fd_twoMonthBtn.right = new FormAttachment(queryBtn, 0, SWT.RIGHT);
 																twoMonthBtn.setLayoutData(fd_twoMonthBtn);
-																twoMonthBtn.setBackground(new Color(null, 255, 255, 255));
+																twoMonthBtn.setBackground(SiteView.ecc.view.EccTreeControl.color);
 																twoMonthBtn.setText("2个月");
 																
 																		Label sixMonthBtn = new Label(queryComposite, SWT.NONE);
@@ -460,7 +460,7 @@ public class TrendReportView extends ViewPart {
 																		fd_sixMonthBtn.top = new FormAttachment(towHourBtn, 0, SWT.TOP);
 																		fd_sixMonthBtn.left = new FormAttachment(twoMonthBtn, 15);
 																		sixMonthBtn.setLayoutData(fd_sixMonthBtn);
-																		sixMonthBtn.setBackground(new Color(null, 255, 255, 255));
+																		sixMonthBtn.setBackground(SiteView.ecc.view.EccTreeControl.color);
 																		sixMonthBtn.setText("6个月");
 																		
 																				Label thisDayBtn = new Label(queryComposite, SWT.NONE);
@@ -468,7 +468,7 @@ public class TrendReportView extends ViewPart {
 																				fd_thisDayBtn.top = new FormAttachment(towHourBtn, 0, SWT.TOP);
 																				fd_thisDayBtn.left = new FormAttachment(sixMonthBtn, 17);
 																				thisDayBtn.setLayoutData(fd_thisDayBtn);
-																				thisDayBtn.setBackground(new Color(null, 255, 255, 255));
+																				thisDayBtn.setBackground(SiteView.ecc.view.EccTreeControl.color);
 																				thisDayBtn.setText("当天");
 																				thisDayBtn.addMouseListener(new MouseListener() {
 
@@ -754,7 +754,7 @@ public class TrendReportView extends ViewPart {
 
 		Composite chatComposite = new Composite(scrolledComposite, SWT.NONE);
 		scrolledComposite.setContent(chatComposite);// 设置chatComposite被scrolledComposite控制
-		chatComposite.setBackground(new Color(null, 255, 255, 255));
+		chatComposite.setBackground(SiteView.ecc.view.EccTreeControl.color);
 		chatComposite.setLayout(new FormLayout());
 
 		Label reportImgLabel = new Label(chatComposite, SWT.NONE);

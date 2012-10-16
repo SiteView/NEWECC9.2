@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import SiteView.ecc.tools.FileTools;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.Api.BusinessObject;
 
 import system.Collections.ICollection;
@@ -55,7 +56,7 @@ public class AbsoluteDetail extends Dialog{
 		super.configureShell(newShell);
 	}
 	protected Control createDialogArea(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setBackground(EccTreeControl.color);
 		Composite composite = (Composite) super.createDialogArea(parent);
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
@@ -187,7 +188,7 @@ public class AbsoluteDetail extends Dialog{
 		return composite;
 	}
 	protected void createButtonsForButtonBar(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setBackground(EccTreeControl.color);
     }
 
 }

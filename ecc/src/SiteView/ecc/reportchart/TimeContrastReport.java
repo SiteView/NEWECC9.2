@@ -14,6 +14,7 @@ import SiteView.ecc.tab.views.MonitorLogTabView;
 import SiteView.ecc.tools.ArrayTool;
 import SiteView.ecc.tools.Config;
 import SiteView.ecc.tools.FileTools;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.Api.BusinessObject;
 
 import org.eclipse.swt.layout.FillLayout;
@@ -359,7 +360,7 @@ public class TimeContrastReport extends ViewPart{
 		
 		Composite group = new Composite(sashForm, SWT.NONE);
 		group.setLayout(new FormLayout());
-		group.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		group.setBackground(EccTreeControl.color);
 		Label label = new Label(group, SWT.NONE);
 		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		FormData fd_label = new FormData();
@@ -374,7 +375,7 @@ public class TimeContrastReport extends ViewPart{
 		fd_label_1.left = new FormAttachment(label, 0, SWT.LEFT);
 		label_1.setLayoutData(fd_label_1);
 		label_1.setText("比对方式");
-		label_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		label_1.setBackground(EccTreeControl.color);
 		
 		final Combo combo = new Combo(group, SWT.NONE);
 		combo.add("按天对比");
@@ -391,7 +392,7 @@ public class TimeContrastReport extends ViewPart{
 		fd_label_2.left = new FormAttachment(combo, 6);
 		label_2.setLayoutData(fd_label_2);
 		label_2.setText("第一次时间:");
-		label_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		label_2.setBackground(EccTreeControl.color);
 		
 		final DateTime dateTime = new DateTime(group, SWT.DROP_DOWN);
 		if(bo!=null){
@@ -412,7 +413,7 @@ public class TimeContrastReport extends ViewPart{
 		fd_label_3.left = new FormAttachment(dateTime, 6);
 		label_3.setLayoutData(fd_label_3);
 		label_3.setText("第二次时间:");
-		label_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		label_3.setBackground(EccTreeControl.color);
 		
 		final DateTime dateTime_1 = new DateTime(group, SWT.DROP_DOWN);
 		if(bo!=null){
@@ -506,7 +507,7 @@ public class TimeContrastReport extends ViewPart{
 		
 		ScrolledComposite group_1 = new ScrolledComposite(sashForm, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		group_1.setLayout(new FillLayout(SWT.HORIZONTAL));
-		group_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		group_1.setBackground(EccTreeControl.color);
 		group_1.setExpandHorizontal(true);
 		group_1.setExpandVertical(true);
 		group_1.setMinWidth(400);
@@ -516,11 +517,11 @@ public class TimeContrastReport extends ViewPart{
 			group_1.setMinHeight(190);
 		}
 		Composite  chatComposite = new Composite(group_1, SWT.NONE);
-		chatComposite.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		chatComposite.setBackground(EccTreeControl.color);
 		group_1.setContent(chatComposite);// 设置chatComposite被scrolledComposite控制
 		chatComposite.setLayout(new FillLayout());
 		SashForm sashForm_1 = new SashForm(chatComposite, SWT.VERTICAL);
-		sashForm_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		sashForm_1.setBackground(EccTreeControl.color);
 		if(icCollection!=null&&icCollection.get_Count()!=0&&icCollection1.get_Count()!=0){
 			int[] s0={5,22,90};
 			int[] ss=new int[3*des.size()];
@@ -534,7 +535,7 @@ public class TimeContrastReport extends ViewPart{
 				Table table_1 = new Table(sashForm_1, SWT.BORDER | SWT.FULL_SELECTION);
 				table_1.setHeaderVisible(true);
 				table_1.setLinesVisible(true);
-				table_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+				table_1.setBackground(EccTreeControl.color);
 				
 				TableColumn tblclmnNewColumn = new TableColumn(table_1, SWT.NONE);
 				tblclmnNewColumn.setText("名称");
@@ -560,7 +561,7 @@ public class TimeContrastReport extends ViewPart{
 				
 				Composite composite = new Composite(sashForm_1, SWT.NONE);
 				composite.setLayout(new FillLayout(SWT.HORIZONTAL));
-				composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+				composite.setBackground(EccTreeControl.color);
 				XYDataset xydata=createDataset(xydate.get(i).get(yname),xyDataArrayList.get(i).get(xyDataArrayList.get(i).keySet().iterator().next()),sstartTime+"~"+sendTime,estartTime+"~"+eendTime);
 				JFreeChart chart=createChart(xydata, "时间",yname,bo1.get_Name());
 				ChartComposite frame = new ChartComposite(composite, SWT.NONE, chart, true);

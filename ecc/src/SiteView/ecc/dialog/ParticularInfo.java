@@ -13,6 +13,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import SiteView.ecc.editors.EccControl;
 import SiteView.ecc.reportchart.StatusCTIReport;
 import SiteView.ecc.reportchart.TimeContrastReport;
+import SiteView.ecc.view.EccTreeControl;
 import SiteView.ecc.views.ContrastReportView;
 import SiteView.ecc.views.TrendReportView;
 import Siteview.Api.BusinessObject;
@@ -34,7 +35,7 @@ public class ParticularInfo extends Dialog {
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 		composite.setLayout(new FillLayout());
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
+		composite.setBackground(EccTreeControl.color);
 		TabFolder tab=new TabFolder(composite, SWT.FULL_SELECTION);
         
     	TabItem tabItem_2=new TabItem(tab, SWT.NONE);

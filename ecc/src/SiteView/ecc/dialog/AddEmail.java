@@ -26,6 +26,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import SiteView.ecc.Modle.EmailModle;
 import SiteView.ecc.editors.EmailSetUp;
 import SiteView.ecc.tools.FileTools;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
@@ -72,20 +73,20 @@ public class AddEmail extends Dialog{
 				MailModleSetUp.modles.add((BusinessObject)ie.get_Current());
 			}
 		}
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		parent.setBackground(EccTreeControl.color);
 		Composite composite = (Composite) super.createDialogArea(parent);
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		composite.setBackground(EccTreeControl.color);
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		SashForm sashForm = new SashForm(composite, SWT.VERTICAL);
-		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		sashForm.setBackground(EccTreeControl.color);
 		
 		Group group = new Group(sashForm, SWT.NONE);
-		group.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		group.setBackground(EccTreeControl.color);
 		group.setText("\u57FA\u672C\u5C5E\u6027");
 		
 		Label label = new Label(group, SWT.NONE);
-		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		label.setBackground(EccTreeControl.color);
 		label.setBounds(10, 20, 83, 12);
 		label.setText("\u540D\u79F0\uFF1A");
 		
@@ -93,7 +94,7 @@ public class AddEmail extends Dialog{
 		text_2.setBounds(113, 14, 307, 18);
 		
 		Label lblemail = new Label(group, SWT.NONE);
-		lblemail.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblemail.setBackground(EccTreeControl.color);
 		lblemail.setBounds(10, 48, 97, 12);
 		lblemail.setText("\u63A5\u6536email\u5730\u5740\uFF1A");
 		
@@ -101,16 +102,16 @@ public class AddEmail extends Dialog{
 		text_3.setBounds(113, 45, 307, 18);
 		
 		button = new Button(group, SWT.CHECK);
-		button.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		button.setBackground(EccTreeControl.color);
 		button.setBounds(113, 67, 51, 16);
 		button.setText("\u7981\u6B62");
 		
 		Group group_1 = new Group(sashForm, SWT.NONE);
-		group_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		group_1.setBackground(EccTreeControl.color);
 		group_1.setText("\u9AD8\u7EA7\u5C5E\u6027");
 		
 		Label lblEmail = new Label(group_1, SWT.NONE);
-		lblEmail.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblEmail.setBackground(EccTreeControl.color);
 		lblEmail.setBounds(10, 21, 93, 12);
 		lblEmail.setText("email\u6A21\u677F\uFF1A");
 		
@@ -122,7 +123,7 @@ public class AddEmail extends Dialog{
 		text_4.select(0);
 		
 		Label label_1 = new Label(group_1, SWT.NONE);
-		label_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		label_1.setBackground(EccTreeControl.color);
 		label_1.setBounds(10, 53, 93, 12);
 		label_1.setText("\u4EFB\u52A1\u8BA1\u5212\u7C7B\u578B\uFF1A");
 		
@@ -130,7 +131,7 @@ public class AddEmail extends Dialog{
 		text_5.setBounds(109, 50, 304, 18);
 		
 		Label label_2 = new Label(group_1, SWT.NONE);
-		label_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		label_2.setBackground(EccTreeControl.color);
 		label_2.setBounds(10, 84, 76, 12);
 		label_2.setText("\u4EFB\u52A1\u8BA1\u5212\uFF1A");
 		
@@ -138,7 +139,7 @@ public class AddEmail extends Dialog{
 		text_6.setBounds(109, 81, 304, 18);
 		
 		Label label_3 = new Label(group_1, SWT.NONE);
-		label_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		label_3.setBackground(EccTreeControl.color);
 		label_3.setBounds(10, 133, 93, 12);
 		label_3.setText("\u63CF\u8FF0\uFF1A");
 		

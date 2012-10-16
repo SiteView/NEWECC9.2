@@ -41,6 +41,7 @@ import SiteView.ecc.dialog.AddDutyDetail;
 import SiteView.ecc.dialog.AddTableDuty;
 import SiteView.ecc.dialog.DutyEditor;
 import SiteView.ecc.tools.FileTools;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
 import Siteview.Windows.Forms.MessageBox;
@@ -168,7 +169,7 @@ public class TableDuty extends EditorPart{
 		
 		
         Composite composite_3 = new Composite(sashForm, SWT.NONE);
-        composite_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+        composite_3.setBackground(EccTreeControl.color);
 		
 	    btnNewButton_1 = new Button(composite_3, SWT.NONE);//控制第二个表单的添加按钮
 		btnNewButton_1.setBounds(27, 10, 47, 22);

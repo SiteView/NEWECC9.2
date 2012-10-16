@@ -14,6 +14,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.DateTime;
 
+import SiteView.ecc.view.EccTreeControl;
+
 public class AlarmTactics extends EditorPart{
 	public AlarmTactics() {
 	}
@@ -53,14 +55,14 @@ public class AlarmTactics extends EditorPart{
 
 	@Override
 	public void createPartControl(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		parent.setBackground(EccTreeControl.color);
 		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
-		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		sashForm.setBackground(EccTreeControl.color);
 		
 		Composite composite = new Composite(sashForm, SWT.NONE);
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		composite.setBackground(EccTreeControl.color);
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		Label label = new Label(composite, SWT.NONE);
@@ -68,30 +70,30 @@ public class AlarmTactics extends EditorPart{
 		label.setText("\u67E5\u8BE2\u6761\u4EF6");
 		
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
-		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		composite_1.setBackground(EccTreeControl.color);
 		
 		Label lblNewLabel_1 = new Label(composite_1, SWT.NONE);
-		lblNewLabel_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_1.setBackground(EccTreeControl.color);
 		lblNewLabel_1.setBounds(0, 10, 66, 12);
 		lblNewLabel_1.setText(" \u62A5\u8B66\u540D\u79F0\uFF1A");
 		
 		Label lblNewLabel_2 = new Label(composite_1, SWT.NONE);
-		lblNewLabel_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_2.setBackground(EccTreeControl.color);
 		lblNewLabel_2.setBounds(0, 33, 78, 12);
 		lblNewLabel_2.setText(" \u62A5\u8B66\u63A5\u6536\u4EBA\uFF1A");
 		
 		Label label_1 = new Label(composite_1, SWT.NONE);
-		label_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		label_1.setBackground(EccTreeControl.color);
 		label_1.setBounds(0, 51, 90, 12);
 		label_1.setText(" \u62A5\u8B66\u5F00\u59CB\u65F6\u95F4\uFF1A");
 		
 		Label label_2 = new Label(composite_1, SWT.NONE);
-		label_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		label_2.setBackground(EccTreeControl.color);
 		label_2.setBounds(0, 69, 104, 12);
 		label_2.setText(" \u62A5\u8B66\u7ED3\u675F\u65F6\u95F4\uFF1A");
 		
 		Label label_3 = new Label(composite_1, SWT.NONE);
-		label_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		label_3.setBackground(EccTreeControl.color);
 		label_3.setBounds(0, 96, 78, 12);
 		label_3.setText(" \u62A5\u8B66\u7C7B\u578B\uFF1A");
 		
@@ -127,7 +129,7 @@ public class AlarmTactics extends EditorPart{
 		dateTime_3.setBounds(286, 69, 90, 20);
 		
 		Composite composite_2 = new Composite(sashForm, SWT.NONE);
-		composite_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		composite_2.setBackground(EccTreeControl.color);
 		composite_2.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		Label lblNewLabel = new Label(composite_2, SWT.NONE);
@@ -135,7 +137,7 @@ public class AlarmTactics extends EditorPart{
 		lblNewLabel.setText("\u62A5\u8B66\u65E5\u5FD7\u5217\u8868");
 		
 		Composite composite_3 = new Composite(sashForm, SWT.NONE);
-		composite_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		composite_3.setBackground(EccTreeControl.color);
 		sashForm.setWeights(new int[] {11, 128, 18, 308});
 		// TODO Auto-generated method stub
 		

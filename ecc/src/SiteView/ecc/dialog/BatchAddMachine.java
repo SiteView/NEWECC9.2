@@ -47,7 +47,7 @@ public class BatchAddMachine extends Dialog {
 	 */
 	protected void configureShell(Shell newShell) {
 		newShell.setSize(500,500);
-		newShell.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		newShell.setBackground(EccTreeControl.color);
 		newShell.setLocation(250,150);
 		newShell.setText("ÅúÁ¿Ìí¼Ó¼à²âÆ÷");
 		super.configureShell(newShell);

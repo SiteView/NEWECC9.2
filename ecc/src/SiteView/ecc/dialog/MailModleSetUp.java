@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.Text;
 import SiteView.ecc.Modle.EmailModle;
 import SiteView.ecc.Modle.TableModle;
 import SiteView.ecc.tools.FileTools;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
@@ -72,7 +73,7 @@ public class MailModleSetUp extends Dialog{
 		super.configureShell(newShell);
 	}
 	protected Control createDialogArea(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setBackground(EccTreeControl.color);
 		if(modles==null){
 			modles=new ArrayList<BusinessObject>();
 			ICollection ico=FileTools.getBussCollection("EccMailModle");
@@ -82,14 +83,14 @@ public class MailModleSetUp extends Dialog{
 			}
 		}
 		Composite composite = (Composite) super.createDialogArea(parent);
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite.setBackground(EccTreeControl.color);
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		SashForm sashForm = new SashForm(composite, SWT.NONE);
-		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		sashForm.setBackground(EccTreeControl.color);
 		
 		Group grpEmail = new Group(sashForm, SWT.NONE);
-		grpEmail.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		grpEmail.setBackground(EccTreeControl.color);
 		grpEmail.setText("Email\u6A21\u677F\u5217\u8868");
 		grpEmail.setLayout(new FillLayout());
 		
@@ -128,11 +129,11 @@ public class MailModleSetUp extends Dialog{
 		});
 
 		grpEmail_1 = new Group(sashForm, SWT.NONE);
-		grpEmail_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		grpEmail_1.setBackground(EccTreeControl.color);
 		grpEmail_1.setText("Email\u6A21\u677F\u8BBE\u7F6E");
 		
 		Label label = new Label(grpEmail_1, SWT.NONE);//邮件标题
-		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		label.setBackground(EccTreeControl.color);
 		label.setBounds(10, 36, 54, 12);
 		label.setText("\u90AE\u4EF6\u6807\u9898\uFF1A");
 		
@@ -141,7 +142,7 @@ public class MailModleSetUp extends Dialog{
 		
 		
 		Label label_1 = new Label(grpEmail_1, SWT.NONE);//邮件内容
-		label_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		label_1.setBackground(EccTreeControl.color);
 		label_1.setBounds(10, 67, 54, 12);
 		label_1.setText("\u90AE\u4EF6\u5185\u5BB9\uFF1A");
 		
@@ -151,7 +152,7 @@ public class MailModleSetUp extends Dialog{
 		
 		
 		Label label_2 = new Label(grpEmail_1, SWT.NONE);//邮件模板
-		label_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		label_2.setBackground(EccTreeControl.color);
 		label_2.setBounds(10, 218, 60, 12);
 		label_2.setText("\u90AE\u4EF6\u6A21\u677F\uFF1A");
 		
@@ -159,12 +160,12 @@ public class MailModleSetUp extends Dialog{
 		text_2.setBounds(70, 215, 344, 18);
 		
 		group = new Group(grpEmail_1, SWT.NONE);
-		group.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		group.setBackground(EccTreeControl.color);
 		group.setBounds(10, 252, 404, 143);
 		group.setText("\u8BF4\u660E\u5217\u8868");
 		
 		text_3 = new Text(group, SWT.BORDER|SWT.WRAP);
-		text_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		text_3.setBackground(EccTreeControl.color);
 		text_3.setBounds(0, 10, 404, 130);
 		text_3.setFont(SWTResourceManager.getFont("宋体", 10, SWT.NORMAL));
 		text_3.setText("注意：系统模板不可以删除和修改你可以拷贝参数，请不要随意输入“@”和两个“@”间的参数变量,可以参考系统模板进行添加。参数变量如下： @FullPathGroup@ :监测点所在设备所在组的全部路径名称@Status@监测器点的状态 @AllGroup@ :监测点所在设备所在组名称@Group@监测点所在组下 @Device@ :监测点所在设备的名称@Monitor@ :监测点名称@MonitorDstr@ :监测器描述@MonitorAlertDes@ :监测点报警描述，在监测点高级设置中设置 @Time@ : 报警时间");
@@ -174,7 +175,7 @@ public class MailModleSetUp extends Dialog{
 		return composite;
 	}
 	protected void createButtonsForButtonBar(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setBackground(EccTreeControl.color);
 		 subButton = createButton(parent, IDialogConstants.OK_ID, "添加",
 				true);
 		 cancelButton = createButton(parent, IDialogConstants.ABORT_ID,

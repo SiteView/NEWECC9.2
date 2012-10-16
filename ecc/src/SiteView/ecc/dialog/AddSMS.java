@@ -66,24 +66,24 @@ public class AddSMS extends Dialog {
 	}
 
 	protected Control createDialogArea(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setBackground(EccTreeControl.color);
 		Composite composite = (Composite) super.createDialogArea(parent);
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite.setBackground(EccTreeControl.color);
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		Group group = new Group(composite, SWT.NONE);
 		group.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 		group.setText("\u624B\u673A\u53F7\u7801\u4FE1\u606F");
-		group.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		group.setBackground(EccTreeControl.color);
 		group.setLayout(null);
 
 		Label label = new Label(group, SWT.NONE);
-		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		label.setBackground(EccTreeControl.color);
 		label.setBounds(70, 20, 90, 18);
 		label.setText("\u540D\u79F0*\uFF1A");
 
 		Label label_1 = new Label(group, SWT.NONE);
-		label_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		label_1.setBackground(EccTreeControl.color);
 		label_1.setBounds(70, 50, 90, 18);
 		label_1.setText("\u63A5\u6536\u624B\u673A\u53F7\u7801*\uFF1A");
 
@@ -94,27 +94,27 @@ public class AddSMS extends Dialog {
 		text_1.setBounds(170, 50, 200, 18);
 
 		button = new Button(group, SWT.CHECK);
-		button.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		button.setBackground(EccTreeControl.color);
 		button.setBounds(170, 80, 90, 16);
 		button.setText("\u7981\u6B62");
 
 		Label lblNewLabel = new Label(group, SWT.NONE);
-		lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel.setBackground(EccTreeControl.color);
 		lblNewLabel.setBounds(70, 110, 90, 20);
 		lblNewLabel.setText("\u6A21\u677F\u7C7B\u578B\uFF1A");
 
 		Label label_2 = new Label(group, SWT.NONE);
-		label_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		label_2.setBackground(EccTreeControl.color);
 		label_2.setBounds(70, 140, 90, 20);
 		label_2.setText("\u4FE1\u606F\u6A21\u677F*\uFF1A");
 
 		Label label_3 = new Label(group, SWT.NONE);
-		label_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		label_3.setBackground(EccTreeControl.color);
 		label_3.setBounds(70, 170, 90, 20);
 		label_3.setText("\u4EFB\u52A1\u8BA1\u5212\u7C7B\u578B\uFF1A");
 
 		Label label_4 = new Label(group, SWT.NONE);
-		label_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		label_4.setBackground(EccTreeControl.color);
 		label_4.setBounds(70, 200, 90, 20);
 		label_4.setText("\u4EFB\u52A1\u8BA1\u5212*\uFF1A");
 
@@ -172,7 +172,7 @@ public class AddSMS extends Dialog {
 	}
 
 	protected void createButtonsForButtonBar(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setBackground(EccTreeControl.color);
 		Button subButton = createButton(parent, IDialogConstants.OK_ID, "±£´æ",
 				true);
 		Button cancelButton = createButton(parent, IDialogConstants.CANCEL_ID,

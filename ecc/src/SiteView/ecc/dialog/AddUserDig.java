@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.TabItem;
 
 import SiteView.ecc.data.UserInfor;
 import SiteView.ecc.editors.UserManager;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.AuthenticationSource;
 import Siteview.IUserInfo;
 import Siteview.QueryInfoToGet;
@@ -139,7 +140,7 @@ public class AddUserDig extends Dialog {
 		label_1.pack();
 		
 		cboSecurityGroup = new Text(compBase, SWT.BORDER | SWT.READ_ONLY);
-		cboSecurityGroup.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
+		cboSecurityGroup.setBackground(EccTreeControl.color);
 		cboSecurityGroup.setFont(SWTResourceManager.getFont("ËÎÌו", 10, SWT.NORMAL));
 		cboSecurityGroup.setBounds(100, 36, 327, 20);
 		if(!EditUser){

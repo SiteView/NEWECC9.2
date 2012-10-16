@@ -27,6 +27,7 @@ import SiteView.ecc.data.SiteViewData;
 import SiteView.ecc.data.UserInfor;
 import SiteView.ecc.editors.UserManager;
 import SiteView.ecc.tools.FileTools;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
@@ -100,28 +101,28 @@ public class TaxAuthority extends Dialog {
 	}
 
 	protected Control createDialogArea(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setBackground(EccTreeControl.color);
 		Composite composite = (Composite) super.createDialogArea(parent);
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite.setBackground(EccTreeControl.color);
 		composite.setLayout(new FillLayout());
 
 		SashForm sashForm = new SashForm(composite, SWT.NONE);
-		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		sashForm.setBackground(EccTreeControl.color);
 
 		Composite composite_1 = new Composite(sashForm, SWT.VIRTUAL);
-		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_1.setBackground(EccTreeControl.color);
 		composite_1.setLayout(new FillLayout());
 
 		SashForm sashForm_1 = new SashForm(composite_1, SWT.VERTICAL);
-		sashForm_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		sashForm_1.setBackground(EccTreeControl.color);
 
 		Composite composite_3 = new Composite(sashForm_1, SWT.NONE);
-		composite_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_3.setBackground(EccTreeControl.color);
 
 		btnCheckButton = new Button(composite_3, SWT.CHECK);
 		btnCheckButton.setBounds(0, 0, 51, 20);
 		btnCheckButton.setText("\u5168\u9009");// 全选
-		btnCheckButton.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		btnCheckButton.setBackground(EccTreeControl.color);
 		btnCheckButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				if (btnCheckButton.getSelection()) {
@@ -165,12 +166,12 @@ public class TaxAuthority extends Dialog {
 		});
 
 		Label label = new Label(composite_3, SWT.NONE);
-		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		label.setBackground(EccTreeControl.color);
 		label.setBounds(70, 4, 36, 12);
 		label.setText("\u7528\u6237\uFF1A");
 
 		Composite composite_4 = new Composite(sashForm_1, SWT.NONE);
-		composite_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_4.setBackground(EccTreeControl.color);
 		composite_4.setVisible(true);
 		composite_4.setLayout(new FillLayout());
 
@@ -182,7 +183,7 @@ public class TaxAuthority extends Dialog {
 	
 		TreeViewer treeViewer = new TreeViewer(composite_4, SWT.BORDER | SWT.CHECK);
 		tree = treeViewer.getTree();
-		tree.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		tree.setBackground(EccTreeControl.color);
 		tree.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				item = (TreeItem) e.item;
@@ -389,31 +390,31 @@ public class TaxAuthority extends Dialog {
 	//对应的空白面板
 	public Composite createComposite(Composite composite){
 		Composite composite_8 = new Composite(composite,SWT.BORDER);
-		composite_8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_8.setBackground(EccTreeControl.color);
 		return composite_8;
 	}
 	
 	//报警规则对应的右边面板
 	public Composite createAlarmComposite(Composite composite,String name1,String name2,String name3,String name4){
 		Composite composite_8 = new Composite(composite,SWT.BORDER);
-		composite_8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_8.setBackground(EccTreeControl.color);
 		Label label= new Label(composite_8, SWT.NONE);
 		label.setText(name1);
 		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		label.setBounds(0, 10, 240, 15);
 		but14 = new Button(composite_8, SWT.CHECK);
 		but14.setText(name2);
-		but14.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		but14.setBackground(EccTreeControl.color);
 		but14.setBounds(10, 30, 93, 16);
 		
 		but15 = new Button(composite_8, SWT.CHECK);
 		but15.setText(name3);
-		but15.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		but15.setBackground(EccTreeControl.color);
 		but15.setBounds(10, 65, 93, 16);
 		
 		but16 = new Button(composite_8, SWT.CHECK);
 		but16.setText(name4);
-		but16.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		but16.setBackground(EccTreeControl.color);
 		but16.setBounds(10, 100, 93, 16);
 		return composite_8;
 	}
@@ -421,24 +422,24 @@ public class TaxAuthority extends Dialog {
 	//报警策略对应的右边面板
 	public Composite createTacticsComposite(Composite composite,String name1,String name2,String name3,String name4){
 		Composite composite_8 = new Composite(composite,SWT.BORDER);
-		composite_8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_8.setBackground(EccTreeControl.color);
 		Label label= new Label(composite_8, SWT.NONE);
 		label.setText(name1);
 		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		label.setBounds(0, 10, 240, 15);
 		but17 = new Button(composite_8, SWT.CHECK);
 		but17.setText(name2);
-		but17.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		but17.setBackground(EccTreeControl.color);
 		but17.setBounds(10, 30, 93, 16);
 		
 		but18 = new Button(composite_8, SWT.CHECK);
 		but18.setText(name3);
-		but18.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		but18.setBackground(EccTreeControl.color);
 		but18.setBounds(10, 65, 93, 16);
 		
 		but19 = new Button(composite_8, SWT.CHECK);
 		but19.setText(name4);
-		but19.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		but19.setBackground(EccTreeControl.color);
 		but19.setBounds(10, 100, 93, 16);
 		return composite_8;
 	}
@@ -446,14 +447,14 @@ public class TaxAuthority extends Dialog {
 	//siteviewecc9.2对应的右边面板
 	public Composite createEccComposite(Composite composite){
 		Composite composite_8 = new Composite(composite,SWT.BORDER);
-		composite_8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_8.setBackground(EccTreeControl.color);
 		composite_8.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		SashForm sashForm_2 = new SashForm(composite_8, SWT.VERTICAL);
-		sashForm_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		sashForm_2.setBackground(EccTreeControl.color);
 
 		composite_2 = new Composite(sashForm_2, SWT.BORDER);
-		composite_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_2.setBackground(EccTreeControl.color);
 		composite_2.setToolTipText("SE权限");
 		composite_2.setLayout(new FormLayout());
 
@@ -463,72 +464,72 @@ public class TaxAuthority extends Dialog {
 		fd_btnCheckButton_1.left = new FormAttachment(0, 10);
 		but1.setLayoutData(fd_btnCheckButton_1);
 		but1.setText("\u6DFB\u52A0\u7EC4");
-		but1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		but1.setBackground(EccTreeControl.color);
 
 		composite_5 = new Composite(sashForm_2, SWT.BORDER);
-		composite_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_5.setBackground(EccTreeControl.color);
 		composite_5.setToolTipText("组权限");
 
 		but2 = new Button(composite_5, SWT.CHECK);
 		but2.setBounds(10, 10, 93, 16);
-		but2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		but2.setBackground(EccTreeControl.color);
 		but2.setText("\u6DFB\u52A0\u5B50\u7EC4");
 
 		but3 = new Button(composite_5, SWT.CHECK);
 		but3.setBounds(10, 40, 93, 16);
-		but3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		but3.setBackground(EccTreeControl.color);
 		but3.setText("\u6DFB\u52A0\u8BBE\u5907");
 
 		but4 = new Button(composite_5, SWT.CHECK);
 		but4.setBounds(10, 69, 93, 16);
-		but4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		but4.setBackground(EccTreeControl.color);
 		but4.setText("\u7F16\u8F91\u7EC4");
 
 		but5 = new Button(composite_5, SWT.CHECK);
 		but5.setBounds(10, 101, 93, 16);
-		but5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		but5.setBackground(EccTreeControl.color);
 		but5.setText("\u5220\u9664\u7EC4");
 
 		but6 = new Button(composite_5, SWT.CHECK);
 		but6.setBounds(10, 131, 93, 16);
-		but6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		but6.setBackground(EccTreeControl.color);
 		but6.setText("\u6DFB\u52A0\u76D1\u6D4B\u5668");
 
 		composite_6 = new Composite(sashForm_2, SWT.BORDER);
-		composite_6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_6.setBackground(EccTreeControl.color);
 
 		but7 = new Button(composite_6, SWT.CHECK);
 		but7.setBounds(10, 10, 93, 16);
-		but7.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		but7.setBackground(EccTreeControl.color);
 		but7.setText("\u6DFB\u52A0\u76D1\u6D4B\u5668");
 
 		but9 = new Button(composite_6, SWT.CHECK);
 		but9.setBounds(10, 40, 93, 16);
-		but9.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		but9.setBackground(EccTreeControl.color);
 		but9.setText("\u7F16\u8F91\u8BBE\u5907");
 
 		but10 = new Button(composite_6, SWT.CHECK);
 		but10.setBounds(10, 70, 93, 16);
-		but10.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		but10.setBackground(EccTreeControl.color);
 		but10.setText("\u5220\u9664\u8BBE\u5907");
 
 		composite_7 = new Composite(sashForm_2, SWT.BORDER);
-		composite_7.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_7.setBackground(EccTreeControl.color);
 		composite_7.setToolTipText("监测器权限");
 
 		but11 = new Button(composite_7, SWT.CHECK);
 		but11.setBounds(10, 10, 93, 16);
-		but11.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		but11.setBackground(EccTreeControl.color);
 		but11.setText("\u7F16\u8F91\u76D1\u6D4B\u5668");
 
 		but12 = new Button(composite_7, SWT.CHECK);
 		but12.setBounds(10, 44, 93, 16);
-		but12.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		but12.setBackground(EccTreeControl.color);
 		but12.setText("\u5220\u9664\u76D1\u6D4B\u5668");
 
 		but13 = new Button(composite_7, SWT.CHECK);
 		but13.setBounds(10, 77, 93, 16);
-		but13.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		but13.setBackground(EccTreeControl.color);
 		but13.setText("\u5237\u65B0\u76D1\u6D4B\u5668");
 		sashForm_2.setWeights(new int[] { 40, 163, 110, 110 });
 		return composite_8;
@@ -567,7 +568,7 @@ public class TaxAuthority extends Dialog {
 	}
 
 	protected void createButtonsForButtonBar(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setBackground(EccTreeControl.color);
 		applyButton = createButton(parent, IDialogConstants.OK_ID,
 				"授予勾选节点", true);
 		giveupButton = createButton(parent, IDialogConstants.CANCEL_ID,

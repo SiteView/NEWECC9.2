@@ -97,7 +97,7 @@ public class MonitorSetUp extends Dialog {
 
 		TreeViewer treeViewer = new TreeViewer(composite_1, SWT.BORDER | SWT.CHECK | SWT.V_SCROLL);
 		tree = treeViewer.getTree();
-		tree.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		tree.setBackground(EccTreeControl.color);
 		tree.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				TreeItem item = (TreeItem) e.item;
@@ -147,7 +147,7 @@ public class MonitorSetUp extends Dialog {
 		tableViewer = new TableViewer(sashForm_1, SWT.MULTI | SWT.BORDER
 				| SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.H_SCROLL);
 		table = tableViewer.getTable();
-		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		table.setBackground(EccTreeControl.color);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 
@@ -187,7 +187,7 @@ public class MonitorSetUp extends Dialog {
 		Composite composite_2 = new Composite(tabFolder, SWT.NONE);
 		tbtmNewItem.setControl(composite_2);
 		composite_2.setLayout(new GridLayout(5, false));
-		composite_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_2.setBackground(EccTreeControl.color);
 		new Label(composite_2, SWT.NONE);
 		new Label(composite_2, SWT.NONE);
 		new Label(composite_2, SWT.NONE);
@@ -198,7 +198,7 @@ public class MonitorSetUp extends Dialog {
 
 		Label label_1 = new Label(composite_2, SWT.NONE);
 		label_1.setText("\u76D1\u6D4B\u5668\u9891\u7387 *\uFF1A");
-		label_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		label_1.setBackground(EccTreeControl.color);
 
 		text = new Text(composite_2, SWT.BORDER);
 		text.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 1, 1));
@@ -222,7 +222,7 @@ public class MonitorSetUp extends Dialog {
 		Composite composite_3 = new Composite(tabFolder, SWT.NONE);
 		tbtmNewItem_1.setControl(composite_3);
 		composite_3.setLayout(new FormLayout());
-		composite_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_3.setBackground(EccTreeControl.color);
 
 		TabItem tbtmNewItem_2 = new TabItem(tabFolder, SWT.NONE);
 		tbtmNewItem_2.setText("\u9519\u8BEF\u6821\u9A8C");
@@ -230,7 +230,7 @@ public class MonitorSetUp extends Dialog {
 		Composite composite_4 = new Composite(tabFolder, SWT.NONE);
 		tbtmNewItem_2.setControl(composite_4);
 		composite_4.setLayout(new GridLayout(5, false));
-		composite_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_4.setBackground(EccTreeControl.color);
 		new Label(composite_4, SWT.NONE);
 		new Label(composite_4, SWT.NONE);
 		new Label(composite_4, SWT.NONE);
@@ -259,7 +259,7 @@ public class MonitorSetUp extends Dialog {
 
 		Label label = new Label(composite_4, SWT.NONE);
 		label.setText("\u9519\u8BEF\u6821\u9A8C\u9891\u7387\uFF1A");
-		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		label.setBackground(EccTreeControl.color);
 
 		text_1 = new Text(composite_4, SWT.BORDER);
 		text_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1,

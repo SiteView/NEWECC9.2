@@ -37,6 +37,7 @@ import SiteView.ecc.dialog.QuantumDetail;
 import SiteView.ecc.dialog.QuantumTimeEditor;
 import SiteView.ecc.dialog.RelativeTimeEditor;
 import SiteView.ecc.tools.FileTools;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
 import Siteview.Windows.Forms.MessageBox;
@@ -91,14 +92,14 @@ public class AbsoluteTime extends EditorPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setBackground(EccTreeControl.color);
 		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
-		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		sashForm.setBackground(EccTreeControl.color);
 
 		Composite composite = new Composite(sashForm, SWT.NONE);
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite.setBackground(EccTreeControl.color);
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		lblNewLabel = new Label(composite, SWT.NONE);
@@ -107,7 +108,7 @@ public class AbsoluteTime extends EditorPart {
 		createLabel();
 
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
-		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_1.setBackground(EccTreeControl.color);
 		composite_1.setLayout(null);
 
 		Button btnNewButton = new Button(composite_1, SWT.NONE);// Ìí¼Ó
@@ -172,7 +173,7 @@ public class AbsoluteTime extends EditorPart {
 		tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION
 				| SWT.CHECK);
 		table = tableViewer.getTable();
-		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		table.setBackground(EccTreeControl.color);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		table.addSelectionListener(new SelectionListener() {

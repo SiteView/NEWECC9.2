@@ -26,6 +26,7 @@ import java.awt.Color;
 
 import SiteView.ecc.tab.views.MonitorLogTabView;
 import SiteView.ecc.tab.views.TotalTabView;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.Api.BusinessObject;
 import siteview.windows.forms.LayoutViewBase;
 
@@ -79,7 +80,7 @@ public class StatusCTIReport extends ViewPart {
 	//通过传人Composite 和字符串数组，创建表
 	protected Table createTable(SashForm sashForm,String[] column){
 		Table table = new Table(sashForm, SWT.BORDER | SWT.FULL_SELECTION);
-		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		table.setBackground(EccTreeControl.color);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		for(int i=0;i<column.length;i++){
@@ -312,12 +313,12 @@ public class StatusCTIReport extends ViewPart {
 		final SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
 		
 		Composite group = new Composite(sashForm, SWT.NONE);
-		group.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		group.setBackground(EccTreeControl.color);
 		group.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		Label label = new Label(group, SWT.NONE);
 		label.setBounds(0, 0, 54, 12);
 		label.setText("\u5F00\u59CB\u65F6\u95F4\uFF1A");
-		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		label.setBackground(EccTreeControl.color);
 		
 		final DateTime startdate = new DateTime(group, SWT.DROP_DOWN);
 		startdate.setBounds(0, 0, 84, 20);
@@ -336,7 +337,7 @@ public class StatusCTIReport extends ViewPart {
 		Label lblNewLabel = new Label(group, SWT.NONE);
 		lblNewLabel.setBounds(0, 0, 54, 12);
 		lblNewLabel.setText("\u7ED3\u675F\u65F6\u95F4\uFF1A");
-		lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel.setBackground(EccTreeControl.color);
 		
 		final DateTime enddate = new DateTime(group, SWT.DROP_DOWN);
 		enddate.setBounds(0, 0, 84, 20);
@@ -378,7 +379,7 @@ public class StatusCTIReport extends ViewPart {
 		group_1.setExpandVertical(true);
 		group_1.setMinWidth(400);
 		group_1.setMinHeight(600);
-		group_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		group_1.setBackground(EccTreeControl.color);
 		
 		Composite  chatComposite = new Composite(group_1, SWT.NONE);
 		group_1.setContent(chatComposite);// 设置chatComposite被scrolledComposite控制
@@ -398,14 +399,14 @@ public class StatusCTIReport extends ViewPart {
 		
 		comp= new Composite(sashForm_1, SWT.BORDER);
 		comp.setLayout(new FillLayout(SWT.VERTICAL));
-        comp.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+        comp.setBackground(EccTreeControl.color);
 		Label lblNewLabel_2 = new Label(sashForm_1, SWT.NONE);
 		lblNewLabel_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		lblNewLabel_2.setText("\u72B6\u6001\u7EDF\u8BA1\u5217\u8868");
 		
 		table_1=createTable(sashForm_1,column_1);
 		TableItem(table,table_1,comp);
-		table_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		table_1.setBackground(EccTreeControl.color);
 		
 		Label lblNewLabel_3 = new Label(sashForm_1, SWT.NONE);
 		lblNewLabel_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
@@ -413,7 +414,7 @@ public class StatusCTIReport extends ViewPart {
 		
 		Composite c= new Composite(sashForm_1, SWT.BORDER);
 		c.setLayout(new FillLayout(SWT.VERTICAL));
-		c.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		c.setBackground(EccTreeControl.color);
 		if(bo!=null){
 			DefaultPieDataset dataset = new DefaultPieDataset();
 			 dataset.setValue("error", datas[2]);

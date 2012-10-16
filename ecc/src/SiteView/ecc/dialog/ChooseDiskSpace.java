@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
 
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 
@@ -32,7 +33,7 @@ public class ChooseDiskSpace extends Dialog {
 	@Override
 	protected void configureShell(Shell newShell) {
 		newShell.setSize(300,200);
-		newShell.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		newShell.setBackground(EccTreeControl.color);
 		newShell.setLocation(300,150);
 		newShell.setText("¥≈≈Ã–≈œ¢");
 		super.configureShell(newShell);

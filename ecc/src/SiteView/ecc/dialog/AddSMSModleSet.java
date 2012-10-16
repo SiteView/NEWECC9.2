@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
 import SiteView.ecc.tools.FileTools;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
@@ -61,16 +62,16 @@ private Text text_3;
 		super.configureShell(newShell);
 	}
 	protected Control createDialogArea(Composite parent){
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setBackground(EccTreeControl.color);
 		Composite composite = (Composite) super.createDialogArea(parent);
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite.setBackground(EccTreeControl.color);
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		SashForm sashForm = new SashForm(composite, SWT.NONE);
-		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		sashForm.setBackground(EccTreeControl.color);
 		
 		Group grpEmail = new Group(sashForm, SWT.NONE);
-		grpEmail.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		grpEmail.setBackground(EccTreeControl.color);
 		if("短信模板设置".equals(name)){
 			grpEmail.setText("短信模板系列:");
 			grpEmail.setLayout(new FillLayout());
@@ -105,13 +106,13 @@ private Text text_3;
 		}
 			
 			SashForm sashForm_1 = new SashForm(sashForm, SWT.VERTICAL);
-			sashForm_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+			sashForm_1.setBackground(EccTreeControl.color);
 			
 			Group grpEmail_1 = new Group(sashForm_1, SWT.NONE);
-			grpEmail_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+			grpEmail_1.setBackground(EccTreeControl.color);
 			
 			Group group = new Group(sashForm_1, SWT.NONE);
-			group.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+			group.setBackground(EccTreeControl.color);
 			group.setLayout(new FillLayout(SWT.HORIZONTAL));
 			
 			sashForm_1.setWeights(new int[] {3, 2});
@@ -122,7 +123,7 @@ private Text text_3;
 				lblNewLabel.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
 				lblNewLabel.setBounds(42, 23, 83, 18);
 				lblNewLabel.setText("\u77ED\u4FE1\u6807\u9898*\uFF1A");
-				lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+				lblNewLabel.setBackground(EccTreeControl.color);
 				
 				text = new Text(grpEmail_1, SWT.BORDER);
 				text.setBounds(42, 48, 233, 18);
@@ -131,7 +132,7 @@ private Text text_3;
 				lblNewLabel_1.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
 				lblNewLabel_1.setBounds(42, 80, 83, 18);
 				lblNewLabel_1.setText("\u77ED\u4FE1\u5185\u5BB9:");
-				lblNewLabel_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+				lblNewLabel_1.setBackground(EccTreeControl.color);
 				
 				text_1 = new Text(grpEmail_1, SWT.BORDER | SWT.WRAP);
 				text_1.setBounds(42, 104, 233, 74);
@@ -140,7 +141,7 @@ private Text text_3;
 				lblNewLabel_2.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
 				lblNewLabel_2.setBounds(42, 196, 83, 18);
 				lblNewLabel_2.setText("\u6A21\u677F\u6807\u9898*:");
-				lblNewLabel_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+				lblNewLabel_2.setBackground(EccTreeControl.color);
 				
 				text_2 = new Text(grpEmail_1, SWT.BORDER);
 				text_2.setBounds(42, 220, 233, 18);
@@ -153,7 +154,7 @@ private Text text_3;
 						"@Status@监测器点的状态@AllGroup@ :监测点所在设备所在组名称" +
 						"@Group@监测点所在组下@Device@ :监测点所在设备的名称@Monitor@ :" +
 						"监测点名称@MonitorDstr@ :监测点报警描述，在监测点高级设置中设置@Time@ : 报警时间");
-				text_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+				text_3.setBackground(EccTreeControl.color);
 				text_3.setFont(SWTResourceManager.getFont("宋体", 10, SWT.NORMAL));
 				text_3.setEditable(false);
 				
@@ -164,7 +165,7 @@ private Text text_3;
 				lblNewLabel.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
 				lblNewLabel.setBounds(42, 23, 90, 18);
 				lblNewLabel.setText("Web发送模板*:");
-				lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+				lblNewLabel.setBackground(EccTreeControl.color);
 				
 				text = new Text(grpEmail_1, SWT.BORDER);
 				text.setBounds(42, 48, 233, 18);
@@ -173,7 +174,7 @@ private Text text_3;
 				lblNewLabel_1.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
 				lblNewLabel_1.setBounds(42, 80, 83, 18);
 				lblNewLabel_1.setText("短信内容:");
-				lblNewLabel_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+				lblNewLabel_1.setBackground(EccTreeControl.color);
 				
 				text_1 = new Text(grpEmail_1, SWT.BORDER);
 				text_1.setBounds(42, 104, 233, 74);
@@ -182,7 +183,7 @@ private Text text_3;
 				lblNewLabel_2.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
 				lblNewLabel_2.setBounds(42, 196, 83, 18);
 				lblNewLabel_2.setText("模板标题*:");
-				lblNewLabel_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+				lblNewLabel_2.setBackground(EccTreeControl.color);
 				
 				text_2 = new Text(grpEmail_1, SWT.BORDER);
 				text_2.setBounds(42, 220, 233, 18);
@@ -198,7 +199,7 @@ private Text text_3;
 						"@监测点所在组下@Device@ :监测点所在设备的名称@monitor@ :" +
 						"监测点名称@MonitorDes@ :监测点报警描述，在监测点高级设置中设置@Time@ : " +
 						"报警时间@Status@ :监测点状态 : 危险、正常、错误@Log@ :日志内容");
-				text_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+				text_3.setBackground(EccTreeControl.color);
 				text_3.setFont(SWTResourceManager.getFont("宋体", 10, SWT.NORMAL));
 				text_3.setEditable(false);
 			}
@@ -207,7 +208,7 @@ private Text text_3;
 		return composite;
 	}
 	protected void createButtonsForButtonBar(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setBackground(EccTreeControl.color);
 		Button subButton = createButton(parent, IDialogConstants.OK_ID, "添加",true);
 		Button cancelButton = createButton(parent, IDialogConstants.ABORT_ID,"删除", true);
 		Button cancelButton_1 = createButton(parent, IDialogConstants.BACK_ID,"更新", true);

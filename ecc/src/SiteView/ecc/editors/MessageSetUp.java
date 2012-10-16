@@ -56,6 +56,7 @@ import SiteView.ecc.dialog.AddSMSModleSet;
 import SiteView.ecc.dialog.AddSMS;
 import SiteView.ecc.dialog.ConnectSMS;
 import SiteView.ecc.tools.FileTools;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
@@ -126,13 +127,13 @@ public class MessageSetUp extends EditorPart {
 				list.add(sms);
 			}
 		}
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setBackground(EccTreeControl.color);
 		
 		SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
-		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		sashForm.setBackground(EccTreeControl.color);
 		
 		Composite composite = new Composite(sashForm, SWT.NONE);
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite.setBackground(EccTreeControl.color);
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		Label lblNewLabel = new Label(composite, SWT.NONE);
@@ -140,7 +141,7 @@ public class MessageSetUp extends EditorPart {
 		lblNewLabel.setText("\u77ED\u4FE1\u8BBE\u7F6E");
 		
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
-		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_1.setBackground(EccTreeControl.color);
 		composite_1.setLayout(null);
 		
 		Button addButton = new Button(composite_1, SWT.NONE);
@@ -226,7 +227,7 @@ public class MessageSetUp extends EditorPart {
 		helpButton.setText("帮助");
 		
 		Composite composite_2 = new Composite(sashForm, SWT.NONE);
-		composite_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_2.setBackground(EccTreeControl.color);
 		composite_2.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		Label label = new Label(composite_2, SWT.NONE);
@@ -235,7 +236,7 @@ public class MessageSetUp extends EditorPart {
 		
 		tableViewer = new TableViewer(sashForm, SWT.CHECK | SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.H_SCROLL);
 		table = tableViewer.getTable();
-		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		table.setBackground(EccTreeControl.color);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		table.addSelectionListener(new SelectionListener() {
@@ -281,18 +282,18 @@ public class MessageSetUp extends EditorPart {
 		tableColumn_2.setText("\u7F16\u8F91");
 		
 		TabFolder tabFolder = new TabFolder(sashForm, SWT.NONE);
-		tabFolder.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		tabFolder.setBackground(EccTreeControl.color);
 		
 		TabItem tabItem = new TabItem(tabFolder, SWT.NONE);
 		tabItem.setText("\u4EE5\u98DE\u4FE1\u65B9\u5F0F\u53D1\u9001\u77ED\u4FE1");
 		
 		Composite composite_3 = new Composite(tabFolder, SWT.NONE);
-		composite_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_3.setBackground(EccTreeControl.color);
 		tabItem.setControl(composite_3);
 		composite_3.setLayout(null);
 		
 		Label lblNewLabel_1 = new Label(composite_3, SWT.NONE);
-		lblNewLabel_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_1.setBackground(EccTreeControl.color);
 		lblNewLabel_1.setBounds(42, 30, 92, 18);
 		lblNewLabel_1.setText("\u624B\u673A\u53F7/\u98DE\u4FE1\u53F7*\uFF1A");
 		
@@ -301,7 +302,7 @@ public class MessageSetUp extends EditorPart {
 		text.setText(SMSsend.GetField("SMSUserName").get_NativeValue().toString());
 		
 		Label lblNewLabel_2 = new Label(composite_3, SWT.NONE);
-		lblNewLabel_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_2.setBackground(EccTreeControl.color);
 		lblNewLabel_2.setBounds(42, 60, 92, 18);
 		lblNewLabel_2.setText("\u5BC6\u7801*\uFF1A");
 		
@@ -310,7 +311,7 @@ public class MessageSetUp extends EditorPart {
 		text_1.setText(SMSsend.GetField("SMSPwd").get_NativeValue().toString());
 		
 		Label lblNewLabel_3 = new Label(composite_3, SWT.NONE);
-		lblNewLabel_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_3.setBackground(EccTreeControl.color);
 		lblNewLabel_3.setBounds(42, 90, 92, 18);
 		lblNewLabel_3.setText("\u4FE1\u606F\u957F\u5EA6*\uFF1A");
 		
@@ -366,7 +367,7 @@ public class MessageSetUp extends EditorPart {
 		
 		Label lblNewLabel_4 = new Label(composite_3, SWT.NONE);
 		lblNewLabel_4.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
-		lblNewLabel_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_4.setBackground(EccTreeControl.color);
 		lblNewLabel_4.setBounds(323, 90, 100, 18);
 		lblNewLabel_4.setText("\u77ED\u4FE1\u6700\u5927\u957F\u5EA6\u4E3A70");
 		
@@ -374,21 +375,21 @@ public class MessageSetUp extends EditorPart {
 		tabItem_1.setText("以串口方式发送短信");
 		
 		Composite composite_4 = new Composite(tabFolder, SWT.NONE);
-		composite_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_4.setBackground(EccTreeControl.color);
 		tabItem_1.setControl(composite_4);
 		
 		TabItem tabItem_2 = new TabItem(tabFolder, SWT.NONE);
 		tabItem_2.setText("调用动态库中的函数发送短信");
 		
 		Composite composite_5 = new Composite(tabFolder, SWT.NONE);
-		composite_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_5.setBackground(EccTreeControl.color);
 		tabItem_2.setControl(composite_5);
 		
 		TabItem tabItem_3 = new TabItem(tabFolder, SWT.NONE);
 		tabItem_3.setText("数据库存取");
 		
 		Composite composite_6 = new Composite(tabFolder, SWT.NONE);
-		composite_6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_6.setBackground(EccTreeControl.color);
 		tabItem_3.setControl(composite_6);
 		tableViewer.setContentProvider(new TableDutyContentProvider());
 		tableViewer.setLabelProvider(new TableDutyLabelProvider());

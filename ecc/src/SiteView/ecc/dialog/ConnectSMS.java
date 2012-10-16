@@ -14,6 +14,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
+import SiteView.ecc.view.EccTreeControl;
+
 import COM.dragonflow.Properties.Fetion;
 
 public class ConnectSMS extends Dialog {
@@ -35,24 +37,24 @@ public class ConnectSMS extends Dialog {
 	}
 	
 	protected Control createDialogArea(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setBackground(EccTreeControl.color);
 		Composite composite =(Composite)super.createDialogArea(parent);
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite.setBackground(EccTreeControl.color);
 		composite.setLayout(null);
 		
 		Label lblNewLabel = new Label(composite, SWT.NONE);
-		lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel.setBackground(EccTreeControl.color);
 		lblNewLabel.setBounds(10, 8, 160, 18);
 		lblNewLabel.setText("\u8F93\u5165\u63A5\u6536\u4FE1\u606F\u7684\u624B\u673A\u53F7\u7801\uFF1A");
 		
 		text = new Text(composite, SWT.BORDER);
-		text.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		text.setBackground(EccTreeControl.color);
 		text.setBounds(175, 8, 160, 18);
 		return composite;
 	}
 	
 	protected void createButtonsForButtonBar(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setBackground(EccTreeControl.color);
 		Button button = createButton(parent, IDialogConstants.OK_ID, "·¢ËÍ", true);
 		Button button1 = createButton(parent, IDialogConstants.CANCEL_ID, "¹Ø±Õ", true);
 	}

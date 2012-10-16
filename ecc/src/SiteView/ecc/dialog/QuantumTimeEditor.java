@@ -26,6 +26,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
 import SiteView.ecc.tools.FileTools;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
@@ -125,9 +126,9 @@ public class QuantumTimeEditor extends Dialog{
 		super.configureShell(newShell);
 	}
 	protected Control createDialogArea(Composite parent){
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setBackground(EccTreeControl.color);
 		Composite composite = (Composite) super.createDialogArea(parent);
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite.setBackground(EccTreeControl.color);
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		TabFolder tabFolder=new TabFolder(composite, SWT.NONE);
 		
@@ -135,16 +136,16 @@ public class QuantumTimeEditor extends Dialog{
 		basicItem.setText("基本");
 		
 		Composite composite_1 = new Composite(tabFolder, SWT.NONE);
-		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_1.setBackground(EccTreeControl.color);
 		basicItem.setControl(composite_1);
 		
 		SashForm sashForm = new SashForm(composite_1, SWT.VERTICAL);
-		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		sashForm.setBackground(EccTreeControl.color);
 		sashForm.setSize(436, 214);
 		sashForm.setLocation(0, 0);
 		
 		Composite composite_3 = new Composite(sashForm, SWT.NONE);
-		composite_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_3.setBackground(EccTreeControl.color);
 		
 		ICollection ico=FileTools.getBussCollection("TaskName",name, "EccTaskPlan");
 		IEnumerator ien=ico.GetEnumerator();
@@ -230,7 +231,7 @@ public class QuantumTimeEditor extends Dialog{
 		text_2.setEnabled(false);
 		
 		table = new Table(sashForm, SWT.BORDER | SWT.FULL_SELECTION);
-		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		table.setBackground(EccTreeControl.color);
 		table.setLinesVisible(false);
 		table.addListener(SWT.MeasureItem, new Listener() {
 			public void handleEvent(Event event) {
@@ -260,7 +261,7 @@ public class QuantumTimeEditor extends Dialog{
 		tableItem.setText(0,"星期日");
 		TableEditor editor = new TableEditor(table);
 		btnCheckButton = new Button(table, SWT.CHECK);
-		btnCheckButton.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		btnCheckButton.setBackground(EccTreeControl.color);
 		btnCheckButton.setBounds(113, 33, 45, 16);
 		btnCheckButton.setText("\u5141\u8BB8");
 		if(tableItem.getText(0).equals(date)&&permission.equals("允许")){
@@ -333,7 +334,7 @@ public class QuantumTimeEditor extends Dialog{
 		tableItem_1.setText(0,"星期一");
 		TableEditor editor_5 = new TableEditor(table);
 		btnCheckButton_1 = new Button(table, SWT.CHECK);
-		btnCheckButton_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		btnCheckButton_1.setBackground(EccTreeControl.color);
 		btnCheckButton_1.setBounds(113, 51, 45, 16);
 		btnCheckButton_1.setText("\u5141\u8BB8");
 		if(tableItem_1.getText(0).equals(date_1)&&permission_1.equals("允许")){
@@ -405,7 +406,7 @@ public class QuantumTimeEditor extends Dialog{
 		tableItem_2.setText(0,"星期二");
 		TableEditor editor_10 = new TableEditor(table);
 		btnCheckButton_2 = new Button(table, SWT.CHECK);
-		btnCheckButton_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		btnCheckButton_2.setBackground(EccTreeControl.color);
 		btnCheckButton_2.setBounds(113, 69, 45, 16);
 		btnCheckButton_2.setText("\u5141\u8BB8");
 		if(tableItem_2.getText(0).equals(date_2)&&permission_2.equals("允许")){
@@ -478,7 +479,7 @@ public class QuantumTimeEditor extends Dialog{
 		tableItem_3.setText(0,"星期三");
 		TableEditor editor_15 = new TableEditor(table);
 		btnCheckButton_3 = new Button(table, SWT.CHECK);
-		btnCheckButton_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		btnCheckButton_3.setBackground(EccTreeControl.color);
 		btnCheckButton_3.setBounds(113, 87, 45, 16);
 		btnCheckButton_3.setText("\u5141\u8BB8");
 		if(tableItem_3.getText(0).equals(date_3)&&permission_3.equals("允许")){
@@ -591,7 +592,7 @@ public class QuantumTimeEditor extends Dialog{
 		editor_22.setEditor(startTime_8, tableItem_4, 3); 
 		TableEditor editor_23 = new TableEditor(table);
 		Label lblNewLabel_19 = new Label(table, SWT.NONE);
-		lblNewLabel_19.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_19.setBackground(EccTreeControl.color);
 		lblNewLabel_19.setBounds(276, 107, 18, 12);
 		lblNewLabel_19.setText("\u5230");
 		editor_23.minimumWidth = lblNewLabel_19.getSize ().x;
@@ -625,7 +626,7 @@ public class QuantumTimeEditor extends Dialog{
 		tableItem_5.setText(0,"星期五");
 		TableEditor editor_25 = new TableEditor(table);
 		btnCheckButton_5 = new Button(table, SWT.CHECK);
-		btnCheckButton_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		btnCheckButton_5.setBackground(EccTreeControl.color);
 		btnCheckButton_5.setBounds(113, 123, 45, 16);
 		btnCheckButton_5.setText("\u5141\u8BB8");
 		if(tableItem_5.getText(0).equals(date_5)&&permission_5.equals("允许")){
@@ -637,7 +638,7 @@ public class QuantumTimeEditor extends Dialog{
 		editor_25.setEditor(btnCheckButton_5, tableItem_5, 1); 
 		TableEditor editor_26 = new TableEditor(table);
 		Label lblNewLabel_16 = new Label(table, SWT.NONE);
-		lblNewLabel_16.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_16.setBackground(EccTreeControl.color);
 		lblNewLabel_16.setBounds(172, 125, 18, 12);
 		lblNewLabel_16.setText("\u4ECE");
 		editor_26.minimumWidth = lblNewLabel_16.getSize ().x;
@@ -666,7 +667,7 @@ public class QuantumTimeEditor extends Dialog{
 		editor_27.setEditor(startTime_10, tableItem_5, 3); 
 		TableEditor editor_28 = new TableEditor(table);
 		Label lblNewLabel_20 = new Label(table, SWT.NONE);
-		lblNewLabel_20.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_20.setBackground(EccTreeControl.color);
 		lblNewLabel_20.setBounds(276, 125, 18, 12);
 		lblNewLabel_20.setText("\u5230");
 		editor_28.minimumWidth = lblNewLabel_20.getSize ().x;
@@ -698,7 +699,7 @@ public class QuantumTimeEditor extends Dialog{
 		tableItem_6.setText(0,"星期六");
 		TableEditor editor_30 = new TableEditor(table);
 		btnCheckButton_6 = new Button(table, SWT.CHECK);
-		btnCheckButton_6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		btnCheckButton_6.setBackground(EccTreeControl.color);
 		btnCheckButton_6.setBounds(113, 141, 45, 16);
 		btnCheckButton_6.setText("\u5141\u8BB8");
 		if(tableItem_6.getText(0).equals(date_6)&&permission_6.equals("允许")){
@@ -710,7 +711,7 @@ public class QuantumTimeEditor extends Dialog{
 		editor_30.setEditor(btnCheckButton_6, tableItem_6, 1); 
 		TableEditor editor_31 = new TableEditor(table);
 		Label lblNewLabel_17 = new Label(table, SWT.NONE);
-		lblNewLabel_17.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_17.setBackground(EccTreeControl.color);
 		lblNewLabel_17.setBounds(172, 143, 18, 12);
 		lblNewLabel_17.setText("\u4ECE");
 		editor_31.minimumWidth = lblNewLabel_17.getSize ().x;
@@ -739,7 +740,7 @@ public class QuantumTimeEditor extends Dialog{
 		 editor_32.setEditor(startTime_12, tableItem_6, 3);
 		 TableEditor editor_33 = new TableEditor(table);
 		 Label lblNewLabel_21 = new Label(table, SWT.NONE);
-		 lblNewLabel_21.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		 lblNewLabel_21.setBackground(EccTreeControl.color);
 		 lblNewLabel_21.setBounds(276, 143, 18, 12);
 		 lblNewLabel_21.setText("\u5230");
 		 editor_33.minimumWidth = lblNewLabel_21.getSize ().x;
@@ -789,7 +790,7 @@ public class QuantumTimeEditor extends Dialog{
 		return composite;
 	}
 	protected void createButtonsForButtonBar(Composite parent) {
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setBackground(EccTreeControl.color);
 		Button subButton = createButton(parent, IDialogConstants.OK_ID, "保存",
 				true);
 		Button cancelButton = createButton(parent, IDialogConstants.CANCEL_ID,

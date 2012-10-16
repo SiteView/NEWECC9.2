@@ -22,6 +22,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import SiteView.ecc.Control.TaskPlanContentProvider;
 import SiteView.ecc.Control.TaskPlanLabelProvider;
 import SiteView.ecc.data.TaskInfo;
+import SiteView.ecc.view.EccTreeControl;
 
 public class TaskPlan extends EditorPart {
 	public static final String ID="SiteView.ecc.editors.TaskPlan";
@@ -72,7 +73,7 @@ public class TaskPlan extends EditorPart {
 		SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
 		
 		Composite composite = new Composite(sashForm, SWT.NONE);
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite.setBackground(EccTreeControl.color);
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		Label label = new Label(composite, SWT.NONE);
@@ -80,12 +81,12 @@ public class TaskPlan extends EditorPart {
 		label.setText("\u4EFB\u52A1\u8BA1\u5212");
 		
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
-		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_1.setBackground(EccTreeControl.color);
 		composite_1.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		TableViewer tableViewer = new TableViewer(composite_1, SWT.MULTI | SWT.FULL_SELECTION);
 		table = tableViewer.getTable();
-		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		table.setBackground(EccTreeControl.color);
 		table.setHeaderVisible(true);
 		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.LEFT);

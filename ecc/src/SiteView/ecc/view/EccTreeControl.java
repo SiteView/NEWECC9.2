@@ -14,6 +14,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
@@ -26,7 +27,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.util.BundleUtility;
 import org.eclipse.ui.part.ViewPart;
-import org.eclipse.wb.swt.SWTResourceManager;
 
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
@@ -102,6 +102,7 @@ public class EccTreeControl extends ViewPart {
 	public static EccControlInput eee=new EccControlInput();
 	public static AbsoluteTimeInput ati = new AbsoluteTimeInput();
 	TrendReportInput tren=new TrendReportInput();
+	public static  Color color=new Color(null,255,255,255);
 	public static Object item;
 	public static TreeViewer treeViewer;
 	public static List<String> list;//组下面的监测器
@@ -133,6 +134,7 @@ public class EccTreeControl extends ViewPart {
 		list_2.add("Ecc.DiskSpace");
 		list_2.add("Ecc.Memory");
 		list_2.add("Ecc.Port");
+		list_2.add("Ecc.Memory");
 		list_2.add("Ecc.Service");
 	}
 	 
@@ -148,12 +150,10 @@ public class EccTreeControl extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		parent.setBackground(SWTResourceManager
-				.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		parent.setBackground(color);
 		treeViewer = new TreeViewer(parent);
 		Tree tree = treeViewer.getTree();
-		tree.setBackground(SWTResourceManager
-				.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		tree.setBackground(color);
 		treeViewer.setContentProvider(new EccTreeContentProvider());
 		treeViewer.setLabelProvider(new EccTreeLabelProvider());
 		SiteViewData s = new SiteViewData();
@@ -242,7 +242,7 @@ public class EccTreeControl extends ViewPart {
 				}else if(item instanceof MonitorSetUpModel){
 					 MonitorSetUp msu = new MonitorSetUp(null);
 					 msu.open();
-				}else if(item instanceof GroupModle||item instanceof MachineModle){
+				}else if(item instanceof GroupModle||item instanceof MachineModle || item instanceof SiteViewEcc){
 					 IWorkbenchPage page = Activator.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();  
 					 IEditorPart editor = page.findEditor(eee); 
 					 if(editor==null){
@@ -252,7 +252,8 @@ public class EccTreeControl extends ViewPart {
 							e1.printStackTrace();
 						}  
 					 }else{
-						((EccControl)editor).createTableItem();
+						 ((EccControl)editor).createTable();
+//						((EccControl)editor).createTableItem();
 						if(EccControl.item==null){
 							((EccControl)editor).tab(null);
 						}else{
@@ -289,13 +290,15 @@ public class EccTreeControl extends ViewPart {
 			}
 		});
 		createContextMenu(parent);
+		item=tree.getItem(0).getData();
+		try {
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(eee, EccControl.ID);
+		} catch (PartInitException e1) {
+			e1.printStackTrace();
+		}
 	}
-
-	@Override
 	public void setFocus() {
-
 	}
-
 	private void createContextMenu(Composite parent) {// 添加菜单
 		MenuManager mgr = new MenuManager();
 		mgr.setRemoveAllWhenShown(true);

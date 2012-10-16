@@ -45,6 +45,7 @@ import SiteView.ecc.dialog.AddEmail;
 import SiteView.ecc.dialog.ConnectMail;
 import SiteView.ecc.dialog.MailModleSetUp;
 import SiteView.ecc.tools.FileTools;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
@@ -104,13 +105,13 @@ public class EmailSetUp extends EditorPart {
 				list.add(m);
 			}
 		}
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		parent.setBackground(EccTreeControl.color);
 		
 		SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
-		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		sashForm.setBackground(EccTreeControl.color);
 		
 		Composite composite = new Composite(sashForm, SWT.NONE);
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite.setBackground(EccTreeControl.color);
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		Label lblNewLabel = new Label(composite, SWT.NONE);
@@ -118,7 +119,7 @@ public class EmailSetUp extends EditorPart {
 		lblNewLabel.setText("\u90AE\u4EF6\u8BBE\u7F6E");
 		
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
-		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_1.setBackground(EccTreeControl.color);
 		composite_1.setLayout(null);
 		
 		Button addButton = new Button(composite_1, SWT.NONE);
@@ -193,7 +194,7 @@ public class EmailSetUp extends EditorPart {
 		helpButton.setText("°ïÖú");
 		
 		Composite composite_2 = new Composite(sashForm, SWT.NONE);
-		composite_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_2.setBackground(EccTreeControl.color);
 		composite_2.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		Label label = new Label(composite_2, SWT.NONE);
@@ -202,7 +203,7 @@ public class EmailSetUp extends EditorPart {
 		
 		tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION |SWT.CHECK |SWT.V_SCROLL |SWT.H_SCROLL);
 		final Table table = tableViewer.getTable();
-		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		table.setBackground(EccTreeControl.color);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		table.addSelectionListener(new SelectionListener() {
@@ -248,7 +249,7 @@ public class EmailSetUp extends EditorPart {
 		
 		
 		Composite composite_3 = new Composite(sashForm, SWT.NONE);
-		composite_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_3.setBackground(EccTreeControl.color);
 		composite_3.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		Label label_1 = new Label(composite_3, SWT.NONE);
@@ -256,30 +257,30 @@ public class EmailSetUp extends EditorPart {
 		label_1.setText("\u57FA\u7840\u8BBE\u7F6E");
 		
 		Composite composite_4 = new Composite(sashForm, SWT.NONE);
-		composite_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_4.setBackground(EccTreeControl.color);
 		
 		Label lblNewLabel_1 = new Label(composite_4, SWT.NONE);
-		lblNewLabel_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_1.setBackground(EccTreeControl.color);
 		lblNewLabel_1.setBounds(40, 20, 96, 20);
 		lblNewLabel_1.setText("\u53D1\u9001\u670D\u52A1\u5668SMTP \uFF1A");
 		
 		Label lblNewLabel_2 = new Label(composite_4, SWT.NONE);
-		lblNewLabel_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_2.setBackground(EccTreeControl.color);
 		lblNewLabel_2.setBounds(40, 45, 96, 20);
 		lblNewLabel_2.setText("\u53D1\u9001\u65B9Email\u5730\u5740\uFF1A");
 		
 		Label lblNewLabel_3 = new Label(composite_4, SWT.NONE);
-		lblNewLabel_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_3.setBackground(EccTreeControl.color);
 		lblNewLabel_3.setBounds(40, 70, 96, 20);
 		lblNewLabel_3.setText("\u5907\u4EFD\u53D1\u9001\u670D\u52A1\u5668 \uFF1A");
 		
 		Label lblNewLabel_4 = new Label(composite_4, SWT.NONE);
-		lblNewLabel_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_4.setBackground(EccTreeControl.color);
 		lblNewLabel_4.setBounds(40, 95, 96, 20);
 		lblNewLabel_4.setText("\u8EAB\u4EFD\u9A8C\u8BC1\u7528\u6237\u540D \uFF1A");
 		
 		Label lblNewLabel_5 = new Label(composite_4, SWT.NONE);
-		lblNewLabel_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_5.setBackground(EccTreeControl.color);
 		lblNewLabel_5.setBounds(40, 120, 96, 20);
 		lblNewLabel_5.setText("\u8EAB\u4EFD\u9A8C\u8BC1\u5BC6\u7801   \uFF1A");
 		

@@ -36,6 +36,7 @@ import SiteView.ecc.Modle.UserModle;
 import SiteView.ecc.data.UserInfor;
 import SiteView.ecc.dialog.AddUserDig;
 import SiteView.ecc.dialog.TaxAuthority;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.Windows.Forms.ConnectionBroker;
 import Siteview.Xml.Scope;
 //import adminloader.forms.security.UserManagerDlg;
@@ -151,7 +152,7 @@ public class UserManager extends EditorPart {
 				| SWT.CHECK);
 
 		table = TableViewer.getTable();
-		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		table.setBackground(EccTreeControl.color);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		

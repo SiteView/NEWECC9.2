@@ -50,6 +50,7 @@ import SiteView.ecc.Modle.SMSModel;
 import SiteView.ecc.dialog.AddEmailAlarmRule;
 import SiteView.ecc.tab.views.MonitorLogTabView;
 import SiteView.ecc.tools.FileTools;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
@@ -108,10 +109,10 @@ public class AlarmRule extends EditorPart {
 		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
-		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		sashForm.setBackground(EccTreeControl.color);
 		
 		Composite composite = new Composite(sashForm, SWT.NONE);
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		composite.setBackground(EccTreeControl.color);
 		
 		Button button = new Button(composite, SWT.NONE);
 		button.setBounds(0, 10, 59, 22);
@@ -203,11 +204,11 @@ public class AlarmRule extends EditorPart {
 		lblNewLabel.setText("\u62A5\u8B66\u89C4\u5219\u5217\u8868");
 		
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
-		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		composite_1.setBackground(EccTreeControl.color);
 		composite_1.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		table = new Table(composite_1, SWT.BORDER | SWT.FULL_SELECTION | SWT.CHECK);
-		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		table.setBackground(EccTreeControl.color);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		table.addSelectionListener(new SelectionListener() {
@@ -269,11 +270,11 @@ public class AlarmRule extends EditorPart {
 		lblNewLabel_1.setText("\u62A5\u8B66\u65E5\u5FD7\u5217\u8868");
 		
 		Composite composite_2 = new Composite(sashForm, SWT.NONE);
-		composite_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		composite_2.setBackground(EccTreeControl.color);
 		composite_2.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		table_1 = new Table(composite_2, SWT.BORDER | SWT.FULL_SELECTION);
-		table_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		table_1.setBackground(EccTreeControl.color);
 		table_1.setHeaderVisible(true);
 		table_1.setLinesVisible(true);
 		

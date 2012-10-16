@@ -68,7 +68,6 @@ import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
 
-
 // Referenced classes of package COM.dragonflow.Properties:
 // LessEqualPropertyName, StringProperty, HashMapOrdered
 
@@ -374,30 +373,42 @@ public class FrameFile {
 			} else {
 				fileoutputstream = new FileOutputStream(file);
 				printwriter = FileUtils.MakeUTF8OutputWriter(fileoutputstream);
-				StringBuffer  st=stringbuffer;
-				String ss=st.toString();
-		        String sss="";
-		        String s0=ss.substring(0,st.indexOf("_remoteMachine"));
-		        String s2=ss.substring(st.lastIndexOf("_remoteNTMachine"));
-		        s2=s2.substring(s2.indexOf("\n")+1);
-		         if(file.getName().contains("master.config")&&ss.contains("_remoteNTMachine")){
-		            ss=ss.substring(ss.indexOf("_remoteNTMachine"));
-		            while(ss.contains("_remoteNTMachine")){
-		            	sss+=ss.substring(0,ss.indexOf("\n")+1);
-		            	ss=ss.substring(ss.indexOf("\n")+1);
-		            }
-		            st=st.delete(st.indexOf("_remoteNTMachine"),st.indexOf("_remoteNTMachine")+sss.length());
-		           }
-		           ss=st.toString();
-		           if(file.getName().contains("master.config")&&ss.contains("_remoteMachine")){
-		            ss=ss.substring(ss.indexOf("_remoteMachine"));
-		            while(ss.contains("_remoteMachine")){
-		            	sss+=ss.substring(0,ss.indexOf("\n")+1);
-		            	ss=ss.substring(ss.indexOf("\n")+1);
-		            }
-		             st=st.delete(st.indexOf("_remoteMachine"),st.indexOf("_remoteMachine")+sss.length());
-		           }
-				printwriter.print(s0+s2);
+				StringBuffer st = stringbuffer;
+				String ss = st.toString();
+				String sss = "";
+				String s0 = "";
+				String s2 = "";
+				if (st.indexOf("_remote") != -1) {
+					s0 = ss.substring(0, st.indexOf("_remote"));
+					s2 = ss.substring(st.lastIndexOf("_remote"));
+				}
+				s2 = s2.substring(s2.indexOf("\n") + 1);
+				if (file.getName().contains("master.config")
+						&& ss.contains("_remoteNTMachine")) {
+					ss = ss.substring(ss.indexOf("_remoteNTMachine"));
+					while (ss.contains("_remoteNTMachine")) {
+						sss += ss.substring(0, ss.indexOf("\n") + 1);
+						ss = ss.substring(ss.indexOf("\n") + 1);
+					}
+					st = st.delete(st.indexOf("_remoteNTMachine"),
+							st.indexOf("_remoteNTMachine") + sss.length());
+				}
+				ss = st.toString();
+				if (file.getName().contains("master.config")
+						&& ss.contains("_remoteMachine")) {
+					ss = ss.substring(ss.indexOf("_remoteMachine"));
+					while (ss.contains("_remoteMachine")) {
+						sss += ss.substring(0, ss.indexOf("\n") + 1);
+						ss = ss.substring(ss.indexOf("\n") + 1);
+					}
+					st = st.delete(st.indexOf("_remoteMachine"),
+							st.indexOf("_remoteMachine") + sss.length());
+				}
+				if ((s0 + s2).equals("")) {
+					printwriter.print(st);
+				} else {
+					printwriter.print(s0 + s2);
+				}
 				flag2 = printwriter.checkError();
 			}
 		} catch (IOException e) {
@@ -468,8 +479,8 @@ public class FrameFile {
 			while (enumeration1.hasMoreElements()) {
 				Object obj1 = enumeration1.nextElement();
 				boolean flag3 = true;
-				if (s1.equals("_name")||s1.equals("_class")){
-				}else if (flag2) {
+				if (s1.equals("_name") || s1.equals("_class")) {
+				} else if (flag2) {
 					flag3 = s1.startsWith(s);
 					if (!flag) {
 						flag3 = !flag3;
@@ -517,133 +528,142 @@ public class FrameFile {
 			}
 		}
 	}
-	//分解String
-	public static String format(String s,String s1,String s0){
-		s1=s1.trim();
-		String s2=s1.substring(s1.indexOf(s));
-		s1=s1.substring(0,s1.indexOf(s)).trim();
-		if(s2.contains("\n")){
-			s0=s2.substring(s2.indexOf("=")+1,s2.indexOf("\n"));
-			s1=s1+"\n"+s2.substring(s2.indexOf("\n")+1);
-		}else{
-			s0=s2.substring(s2.indexOf("=")+1);
+
+	// 分解String
+	public static String format(String s, String s1, String s0) {
+		s1 = s1.trim();
+		String s2 = s1.substring(s1.indexOf(s));
+		s1 = s1.substring(0, s1.indexOf(s)).trim();
+		if (s2.contains("\n")) {
+			s0 = s2.substring(s2.indexOf("=") + 1, s2.indexOf("\n"));
+			s1 = s1 + "\n" + s2.substring(s2.indexOf("\n") + 1);
+		} else {
+			s0 = s2.substring(s2.indexOf("=") + 1);
 		}
-		return s0+"*"+s1;
+		return s0 + "*" + s1;
 	}
 
-	private static String getParentGroupNameById(String groupId){
+	private static String getParentGroupNameById(String groupId) {
 		String parentId = "";
-		String sql = "select ParentGroupId from EccGroup where RecId = '"+groupId+"'";
+		String sql = "select ParentGroupId from EccGroup where RecId = '"
+				+ groupId + "'";
 		ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
 		try {
-			if(rs.next()){parentId = rs.getString("ParentGroupId");}
+			if (rs.next()) {
+				parentId = rs.getString("ParentGroupId");
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return parentId;
 	}
-	
-	private static String getGroupNameById(String groupId){
+
+	private static String getGroupNameById(String groupId) {
 		String groupName = "";
-		String sql = "select GroupName from EccGroup where RecId = '"+groupId+"'";
+		String sql = "select GroupName from EccGroup where RecId = '" + groupId
+				+ "'";
 		ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
 		try {
-			if(rs.next()){groupName = rs.getString("GroupName");}
+			if (rs.next()) {
+				groupName = rs.getString("GroupName");
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return groupName;
 	}
-	
-	private static String getAllParentGroupName(String groupId){
+
+	private static String getAllParentGroupName(String groupId) {
 		String s = getParentGroupNameById(groupId);
-		if("".equals(s)){
+		if ("".equals(s)) {
 			return getGroupNameById(groupId);
-		}else{
-			return getGroupNameById(groupId)+"-"+getAllParentGroupName(s);
+		} else {
+			return getGroupNameById(groupId) + "-" + getAllParentGroupName(s);
 		}
-	} 
-	
+	}
+
 	private static void savadyn(String s) {
 		String s1;
-		String category = null;//状态  时间   父组
+		String category = null;// 状态 时间 父组
 		String monitorid = null;//
-		String groupId=null;//
-		String monitorName=null;//monitor name
-		String type=null;
-		if(s.contains("category=")){
-			s1=format("category=",s,category);
-			category=s1.substring(0,s1.indexOf("*"));
-			s=s1.substring(s1.indexOf("*")+1);
+		String groupId = null;//
+		String monitorName = null;// monitor name
+		String type = null;
+		if (s.contains("category=")) {
+			s1 = format("category=", s, category);
+			category = s1.substring(0, s1.indexOf("*"));
+			s = s1.substring(s1.indexOf("*") + 1);
 		}
 		if (category == null && s.contains("lastCategory=")) {
-			s1=format("lastCategory=",s,category);
-			category=s1.substring(0,s1.indexOf("*"));
-			s=s1.substring(s1.indexOf("*")+1);
+			s1 = format("lastCategory=", s, category);
+			category = s1.substring(0, s1.indexOf("*"));
+			s = s1.substring(s1.indexOf("*") + 1);
 		}
 		if (s.contains("id=")) {
-			s1=format("id=",s,monitorid);
-			monitorid=s1.substring(0,s1.indexOf("*"));
-			s=s1.substring(s1.indexOf("*")+1);
+			s1 = format("id=", s, monitorid);
+			monitorid = s1.substring(0, s1.indexOf("*"));
+			s = s1.substring(s1.indexOf("*") + 1);
 		}
-		if(s.contains("_class=")){
-			s1=format("_class=",s,monitorid);
-			type=s1.substring(0,s1.indexOf("*"));
-			s=s1.substring(s1.indexOf("*")+1);
+		if (s.contains("_class=")) {
+			s1 = format("_class=", s, monitorid);
+			type = s1.substring(0, s1.indexOf("*"));
+			s = s1.substring(s1.indexOf("*") + 1);
 		}
-		if(s.contains("group=")){
-			s1=format("group=",s,groupId);
-			groupId=s1.substring(0,s1.indexOf("*"));
-			s=s1.substring(s1.indexOf("*")+1);
+		if (s.contains("group=")) {
+			s1 = format("group=", s, groupId);
+			groupId = s1.substring(0, s1.indexOf("*"));
+			s = s1.substring(s1.indexOf("*") + 1);
 		}
-		if(s.contains("_name=")){
-			s1=format("_name=",s,monitorName);
-			monitorName=s1.substring(0,s1.indexOf("*"));
-			s=s1.substring(s1.indexOf("*")+1);
+		if (s.contains("_name=")) {
+			s1 = format("_name=", s, monitorName);
+			monitorName = s1.substring(0, s1.indexOf("*"));
+			s = s1.substring(s1.indexOf("*") + 1);
 		}
 		String groupName = getGroupNameById(groupId);
-		String  parentGroupName = getAllParentGroupName(groupId);
-		monitorName=groupId+" ："+monitorName;
-		s=s.trim();
-		s = s.replaceAll("\n", "*");//日志
-		String department=MonitorGroup.groupnameip.get(groupId)+" "+monitorid;
-//		ICollection ico=getBussCollection("monitorid", monitorid, "EccDyn");
-//		IEnumerator ien=ico.GetEnumerator();
-		BusinessObject bo=null;
-//				bo=CreateBo("monitorid", monitorid, "EccDyn");
+		String parentGroupName = getAllParentGroupName(groupId);
+		monitorName = groupId + " ：" + monitorName;
+		s = s.trim();
+		s = s.replaceAll("\n", "*");// 日志
+		String department = MonitorGroup.groupnameip.get(groupId) + " "
+				+ monitorid;
+		// ICollection ico=getBussCollection("monitorid", monitorid, "EccDyn");
+		// IEnumerator ien=ico.GetEnumerator();
+		BusinessObject bo = null;
+		// bo=CreateBo("monitorid", monitorid, "EccDyn");
 		String RecId;
-//		if(bo!=null){
-//			RecId=bo.get_RecId();
-//			long time = System.currentTimeMillis();
-//			SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//			Timestamp LastModDateTime = new Timestamp(time);
-//			String status=bo.GetField("").get_NativeValue().toString();
-//			int statuscount=(Integer) bo.GetField("").get_NativeValue();
-//			if(status.equals(category)){
-//				statuscount++;
-//			}else{
-//				statuscount=0;
-//			}
-//			bo.GetField("category").SetValue(new SiteviewValue(category));
-//			bo.GetField("monitorDesc").SetValue(new SiteviewValue(s));
-//			bo.GetField("LastModDateTime").SetValue(new SiteviewValue(LastModDateTime));
-//			bo.GetField("groupid").SetValue(new SiteviewValue(groupName));
-//			bo.GetField("monitorName").SetValue(new SiteviewValue(name));
-//			bo.GetField("Department").SetValue(new SiteviewValue(department));
-//			bo.GetField("MonitorType").SetValue(new SiteviewValue(type));
-//			bo.GetField("StatusCount").SetValue(new SiteviewValue(statuscount));
-//			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), false, true);
-//		}
+		// if(bo!=null){
+		// RecId=bo.get_RecId();
+		// long time = System.currentTimeMillis();
+		// SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		// Timestamp LastModDateTime = new Timestamp(time);
+		// String status=bo.GetField("").get_NativeValue().toString();
+		// int statuscount=(Integer) bo.GetField("").get_NativeValue();
+		// if(status.equals(category)){
+		// statuscount++;
+		// }else{
+		// statuscount=0;
+		// }
+		// bo.GetField("category").SetValue(new SiteviewValue(category));
+		// bo.GetField("monitorDesc").SetValue(new SiteviewValue(s));
+		// bo.GetField("LastModDateTime").SetValue(new
+		// SiteviewValue(LastModDateTime));
+		// bo.GetField("groupid").SetValue(new SiteviewValue(groupName));
+		// bo.GetField("monitorName").SetValue(new SiteviewValue(name));
+		// bo.GetField("Department").SetValue(new SiteviewValue(department));
+		// bo.GetField("MonitorType").SetValue(new SiteviewValue(type));
+		// bo.GetField("StatusCount").SetValue(new SiteviewValue(statuscount));
+		// bo.SaveObject(ConnectionBroker.get_SiteviewApi(), false, true);
+		// }
 		ResultSet rs = JDBCForSQL
 				.sql_ConnectExecute_Select("select * from EccDyn where monitorid='"
 						+ monitorid + "'");
 		try {
-			int count=1;
+			int count = 1;
 			if (rs.next()) {
 				RecId = rs.getString("RecId");
 				long time = System.currentTimeMillis();
-				count=rs.getInt("StatusConut");
-				if(rs.getString("category").equals(category)){
+				count = rs.getInt("StatusConut");
+				if (rs.getString("category").equals(category)) {
 					count++;
 				}
 				SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -651,53 +671,86 @@ public class FrameFile {
 
 				String sql = "update EccDyn set category='" + category
 						+ "',monitorDesc='" + s + "',LastModDateTime='"
-						+ LastModDateTime  +"',StatusConut='"+count+"',groupid='" + groupId
-						+ "',monitorName='"+monitorName+"',Department='"+department+"',MonitorType='"+type+"' where RecId='" + RecId + "'";
+						+ LastModDateTime + "',StatusConut='" + count
+						+ "',groupid='" + groupId + "',monitorName='"
+						+ monitorName + "',Department='" + department
+						+ "',MonitorType='" + type + "' where RecId='" + RecId
+						+ "'";
 				JDBCForSQL.execute_Insert(sql);
-			} 
-		else {
+			} else {
 				long time = System.currentTimeMillis();
 				SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Timestamp CreatedDateTime = new Timestamp(time);
-//				bo=ConnectionBroker.get_SiteviewApi().get_BusObService().Create("EccDyn");
-//				bo.GetField("category").SetValue(new SiteviewValue(category));
-//				bo.GetField("monitorDesc").SetValue(new SiteviewValue(s));
-//				bo.GetField("monitorid").SetValue(new SiteviewValue(monitorid));
-//				bo.GetField("LastModDateTime").SetValue(new SiteviewValue(CreatedDateTime));
-//				bo.GetField("CreatedDateTime").SetValue(new SiteviewValue(CreatedDateTime));
-//				bo.GetField("groupid").SetValue(new SiteviewValue(groupName));
-//				bo.GetField("monitorName").SetValue(new SiteviewValue(name));
-//				bo.GetField("Department").SetValue(new SiteviewValue(department));
-//				bo.GetField("MonitorType").SetValue(new SiteviewValue(type));
-//				bo.GetField("StatusCount").SetValue(new SiteviewValue(0));
+				// bo=ConnectionBroker.get_SiteviewApi().get_BusObService().Create("EccDyn");
+				// bo.GetField("category").SetValue(new
+				// SiteviewValue(category));
+				// bo.GetField("monitorDesc").SetValue(new SiteviewValue(s));
+				// bo.GetField("monitorid").SetValue(new
+				// SiteviewValue(monitorid));
+				// bo.GetField("LastModDateTime").SetValue(new
+				// SiteviewValue(CreatedDateTime));
+				// bo.GetField("CreatedDateTime").SetValue(new
+				// SiteviewValue(CreatedDateTime));
+				// bo.GetField("groupid").SetValue(new
+				// SiteviewValue(groupName));
+				// bo.GetField("monitorName").SetValue(new SiteviewValue(name));
+				// bo.GetField("Department").SetValue(new
+				// SiteviewValue(department));
+				// bo.GetField("MonitorType").SetValue(new SiteviewValue(type));
+				// bo.GetField("StatusCount").SetValue(new SiteviewValue(0));
 				RecId = UUID.randomUUID().toString().replace("-", "");
 				String sql = "insert into EccDyn (RecId,category,monitorDesc,monitorid,LastModDateTime,CreatedDateTime,groupid,monitorName,Department,MonitorType,StatusConut)"
-						+ " values ('"+ RecId+ "','"+ category+ "','"+s+ "','"+ monitorid+ "','"+ CreatedDateTime+ "','"+ CreatedDateTime + "','" + groupId + "','"+monitorName+"','"
-						+department+"','"+type+"','1')";
+						+ " values ('"
+						+ RecId
+						+ "','"
+						+ category
+						+ "','"
+						+ s
+						+ "','"
+						+ monitorid
+						+ "','"
+						+ CreatedDateTime
+						+ "','"
+						+ CreatedDateTime
+						+ "','"
+						+ groupId
+						+ "','"
+						+ monitorName
+						+ "','"
+						+ department
+						+ "','"
+						+ type
+						+ "','1')";
 				JDBCForSQL.execute_Insert(sql);
 			}
-			//是否报警
-			ResultSet rule=JDBCForSQL.sql_ConnectExecute_Select("select * from EccAlarmRule where MonitorId='"+ monitorid + "'");
-			while(rule.next()){
-				Timestamp LastModDateTime = new Timestamp(System.currentTimeMillis());
-				Alarm(rule, parentGroupName, groupName, monitorName, category, LastModDateTime,s);
-				String alarmstatus=rule.getString("AlarmEvent");
-				if(!rule.getBoolean("RuleStatus")||!alarmstatus.equals(category)){
+			// 是否报警
+			ResultSet rule = JDBCForSQL
+					.sql_ConnectExecute_Select("select * from EccAlarmRule where MonitorId='"
+							+ monitorid + "'");
+			while (rule.next()) {
+				Timestamp LastModDateTime = new Timestamp(
+						System.currentTimeMillis());
+				Alarm(rule, parentGroupName, groupName, monitorName, category,
+						LastModDateTime, s);
+				String alarmstatus = rule.getString("AlarmEvent");
+				if (!rule.getBoolean("RuleStatus")
+						|| !alarmstatus.equals(category)) {
 					continue;
 				}
-				String alarmrule=rule.getString("AlarmRule");
-				int starttime=rule.getInt("StartCount");
-				if(alarmrule.equals("select")){
-					int repeatime=rule.getInt("RepeatCount");
-					if(count<starttime||(count-starttime)%(repeatime+1)!=0){
+				String alarmrule = rule.getString("AlarmRule");
+				int starttime = rule.getInt("StartCount");
+				if (alarmrule.equals("select")) {
+					int repeatime = rule.getInt("RepeatCount");
+					if (count < starttime
+							|| (count - starttime) % (repeatime + 1) != 0) {
 						continue;
 					}
-				}else if(alarmrule.equals("once")){
-					if(starttime!=count){
+				} else if (alarmrule.equals("once")) {
+					if (starttime != count) {
 						continue;
 					}
-				}else if(alarmrule.equals("continue")){
-					if(starttime<count){
+				} else if (alarmrule.equals("continue")) {
+					if (starttime < count) {
 						continue;
 					}
 				}
@@ -707,134 +760,219 @@ public class FrameFile {
 		}
 	}
 
-	private static void Alarm(ResultSet rule,String allGroup,String group,String monitor,String status,Timestamp LastModDateTime,String logFile) {
-		String alarmType="",address="",toAddress="",fromAddress="",mailServerHost="",userName="",password="",modleId="",content="";
+	private static void Alarm(ResultSet rule, String allGroup, String group,
+			String monitor, String status, Timestamp LastModDateTime,
+			String logFile) {
+		String alarmType = "", address = "", toAddress = "", fromAddress = "", mailServerHost = "", userName = "", password = "", modleId = "", content = "";
 		String ttime = LastModDateTime.toString().split("\\.")[0];
-		String mmonitor = monitor.substring(monitor.lastIndexOf("：")+1);
+		String mmonitor = monitor.substring(monitor.lastIndexOf("：") + 1);
 		try {
 			modleId = rule.getString("ModleId");
 			alarmType = rule.getString("AlarmType");
 			address = rule.getString("Address");
-			if(address.length()==32&&address.matches("\\w{32}")){
-				String sql = "select MailAddress from EccMail where RecId = '"+address+"'";
+			if (address.length() == 32 && address.matches("\\w{32}")) {
+				String sql = "select MailAddress from EccMail where RecId = '"
+						+ address + "'";
 				ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
-				if(rs.next()){toAddress=rs.getString("MailAddress");}
+				if (rs.next()) {
+					toAddress = rs.getString("MailAddress");
+				}
 				String sql2 = "select MailAddress,SendServer,MailUserName,MailPwd from EccMail where MailType = 'send'";
 				ResultSet rs2 = JDBCForSQL.sql_ConnectExecute_Select(sql2);
-				if(rs2.next()){
+				if (rs2.next()) {
 					fromAddress = rs2.getString("MailAddress");
 					mailServerHost = rs2.getString("SendServer");
 					userName = rs2.getString("MailUserName");
 					password = rs2.getString("MailPwd");
 				}
-				String sql3 = "select MailContent from EccMailModle where RecId = '"+modleId+"'";
+				String sql3 = "select MailContent from EccMailModle where RecId = '"
+						+ modleId + "'";
 				ResultSet rs3 = JDBCForSQL.sql_ConnectExecute_Select(sql3);
-				if(rs3.next()){
-					content = rs3.getString("MailContent").replaceAll("@AllGroup@", allGroup).replaceAll("@Group@", group).replaceAll("@monitor@", mmonitor).replaceAll("@Status@", status).replaceAll("@Time@", LastModDateTime.toString().split("\\.")[0]).replaceAll("@LogFile@",logFile );
+				if (rs3.next()) {
+					content = rs3
+							.getString("MailContent")
+							.replaceAll("@AllGroup@", allGroup)
+							.replaceAll("@Group@", group)
+							.replaceAll("@monitor@", mmonitor)
+							.replaceAll("@Status@", status)
+							.replaceAll("@Time@",
+									LastModDateTime.toString().split("\\.")[0])
+							.replaceAll("@LogFile@", logFile);
 				}
-			}else if(address.length()>2&&address.matches("\\w+")){
+			} else if (address.length() > 2 && address.matches("\\w+")) {
 				toAddress = address;
-			}else{
+			} else {
 				toAddress = rule.getString("Other");
 				modleId = rule.getString("ModleId");
-				String sql = "select MailContent from EccMailModle where RecId = '"+modleId+"'";
+				String sql = "select MailContent from EccMailModle where RecId = '"
+						+ modleId + "'";
 				ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
-				if(rs.next()){
-					content = rs.getString("MailContent").replaceAll("@AllGroup@", allGroup).replaceAll("@Group@", group).replaceAll("@monitor@", mmonitor).replaceAll("@Status@", status).replaceAll("@Time@", ttime).replaceAll("@LogFile@",logFile );
+				if (rs.next()) {
+					content = rs.getString("MailContent")
+							.replaceAll("@AllGroup@", allGroup)
+							.replaceAll("@Group@", group)
+							.replaceAll("@monitor@", mmonitor)
+							.replaceAll("@Status@", status)
+							.replaceAll("@Time@", ttime)
+							.replaceAll("@LogFile@", logFile);
 				}
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return;
 		}
 		String alarmName = "";
 		try {
-			 alarmName = rule.getString("AlarmName");
+			alarmName = rule.getString("AlarmName");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		String insertSQL = "insert into EccAlarmLog (RecId,CreatedDateTime,AlarmName,AlarmGroup,AlarmMonitor,AlarmType,ReceiverAddress,AlarmStatus)" +
-				" values('"+getRecId()+"','"+ttime+"','"+alarmName+"','"+group+"','"+mmonitor+"','"+alarmType+"','"+toAddress+"','"+status+"')";
+		String insertSQL = "insert into EccAlarmLog (RecId,CreatedDateTime,AlarmName,AlarmGroup,AlarmMonitor,AlarmType,ReceiverAddress,AlarmStatus)"
+				+ " values('"
+				+ getRecId()
+				+ "','"
+				+ ttime
+				+ "','"
+				+ alarmName
+				+ "','"
+				+ group
+				+ "','"
+				+ mmonitor
+				+ "','"
+				+ alarmType
+				+ "','"
+				+ toAddress + "','" + status + "')";
 		ArrayList<String> list = new ArrayList<String>();
-		list.add(ttime);list.add(alarmName);list.add(group);list.add(mmonitor);list.add(alarmType);list.add(toAddress);list.add(status);
-		if(alarmType.equals("email")){
-			sendEmail(mailServerHost,userName,password,fromAddress,toAddress,content);
+		list.add(ttime);
+		list.add(alarmName);
+		list.add(group);
+		list.add(mmonitor);
+		list.add(alarmType);
+		list.add(toAddress);
+		list.add(status);
+		if (alarmType.equals("email")) {
+			sendEmail(mailServerHost, userName, password, fromAddress,
+					toAddress, content);
 			JDBCForSQL.execute_Insert(insertSQL);
-		}else if(alarmType.equals("SMS")){
-			sendSMS(toAddress,content);
+		} else if (alarmType.equals("SMS")) {
+			sendSMS(toAddress, content);
 			JDBCForSQL.execute_Insert(insertSQL);
-		}else if(alarmType.equals("script")){
+		} else if (alarmType.equals("script")) {
 
-		}else if(alarmType.equals("sound")){
-			TestMusic sound=new TestMusic("sounds/1262.wav");
-			InputStream stream =new ByteArrayInputStream(sound.getSamples());
+		} else if (alarmType.equals("sound")) {
+			TestMusic sound = new TestMusic("sounds/1262.wav");
+			InputStream stream = new ByteArrayInputStream(sound.getSamples());
 			sound.play(stream);
 			System.out.println("声音播放了");
 		}
 		String dutyId = "";
-				try {
-					dutyId = rule.getString("DutyId");
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-		String sql = "select DutyTableType from EccDutyTable where RecId = '"+dutyId+"'";
+		try {
+			dutyId = rule.getString("DutyId");
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		String sql = "select DutyTableType from EccDutyTable where RecId = '"
+				+ dutyId + "'";
 		ResultSet rss = JDBCForSQL.sql_ConnectExecute_Select(sql);
 		String dutyType = "";
 		try {
-			if(rss.next()){
+			if (rss.next()) {
 				dutyType = rss.getString("DutyTableType");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Calendar ca =  Calendar.getInstance();
+		Calendar ca = Calendar.getInstance();
 		String currentTime = new SimpleDateFormat("HHmmss").format(new Date());
-		if("day of week".equals(dutyType)){
-			int dayOfWeek = ca.get(Calendar.DAY_OF_WEEK)-1;
-			String[] arr = {"星期日","星期一","星期二","星期三","星期四","星期五","星期六"};
+		if ("day of week".equals(dutyType)) {
+			int dayOfWeek = ca.get(Calendar.DAY_OF_WEEK) - 1;
+			String[] arr = { "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
 			String week = arr[dayOfWeek];
-			ResultSet rsss = getDutyDetail(dutyId,week);
-			DutyAlarm(list,insertSQL,rsss,currentTime,content,mailServerHost,userName,password,fromAddress);
-		}else if("day of month".equals(dutyType)){
+			ResultSet rsss = getDutyDetail(dutyId, week);
+			DutyAlarm(list, insertSQL, rsss, currentTime, content,
+					mailServerHost, userName, password, fromAddress);
+		} else if ("day of month".equals(dutyType)) {
 			int dayOfMonth = ca.get(Calendar.DAY_OF_MONTH);
-			String day = ""+dayOfMonth;
-			ResultSet rsss = getDutyDetail(dutyId,day);
-			DutyAlarm(list,insertSQL,rsss,currentTime,content,mailServerHost,userName,password,fromAddress);
-		}else if("day".equals(dutyType)){
-			ResultSet rsss = getDutyDetail(dutyId,"");
-			DutyAlarm(list,insertSQL,rsss,currentTime,content,mailServerHost,userName,password,fromAddress);
+			String day = "" + dayOfMonth;
+			ResultSet rsss = getDutyDetail(dutyId, day);
+			DutyAlarm(list, insertSQL, rsss, currentTime, content,
+					mailServerHost, userName, password, fromAddress);
+		} else if ("day".equals(dutyType)) {
+			ResultSet rsss = getDutyDetail(dutyId, "");
+			DutyAlarm(list, insertSQL, rsss, currentTime, content,
+					mailServerHost, userName, password, fromAddress);
 		}
 	}
-	public static String getRecId(){
+
+	public static String getRecId() {
 		String RecId = UUID.randomUUID().toString();
 		RecId = RecId.replaceAll("-", "").toUpperCase();
 		return RecId;
 	}
-	public static void DutyAlarm(ArrayList<String> list,String SQL,ResultSet rsss,String currentTime,String content,String mailServerHost,String userName,String password,String fromAddress){
+
+	public static void DutyAlarm(ArrayList<String> list, String SQL,
+			ResultSet rsss, String currentTime, String content,
+			String mailServerHost, String userName, String password,
+			String fromAddress) {
 		try {
-			while(rsss.next()){
+			while (rsss.next()) {
 				String startTime = rsss.getString("StartTime");
-				startTime = startTime.substring(startTime.indexOf(":")-2).replaceAll(":", "").split("\\.")[0];
+				startTime = startTime.substring(startTime.indexOf(":") - 2)
+						.replaceAll(":", "").split("\\.")[0];
 				String endTime = rsss.getString("EndTime");
-				endTime = endTime.substring(endTime.indexOf(":")-2).replaceAll(":", "").split("\\.")[0];
+				endTime = endTime.substring(endTime.indexOf(":") - 2)
+						.replaceAll(":", "").split("\\.")[0];
 				int start = Integer.parseInt(startTime);
 				int end = Integer.parseInt(endTime);
 				int time = Integer.parseInt(currentTime);
-				if(start<=time&&time<=end){
+				if (start <= time && time <= end) {
 					String receivePhone = rsss.getString("ReceiveAlarmpPhone");
 					String receiveEmail = rsss.getString("ReceiveAlarmEmail");
-					if(receivePhone!=null&&receivePhone.length()>0&&"SMS".equals(list.get(4))){
-						sendSMS(receivePhone,content);
-						String SQL1 = "insert into EccAlarmLog (RecId,CreatedDateTime,AlarmName,AlarmGroup,AlarmMonitor,AlarmType,ReceiverAddress,AlarmStatus)" +
-								" values('"+getRecId()+"','"+list.get(0)+"','"+list.get(1)+"','"+list.get(2)+"','"+list.get(3)+"','"+list.get(4)+"','"+receivePhone+"','"+list.get(6)+"')";
+					if (receivePhone != null && receivePhone.length() > 0
+							&& "SMS".equals(list.get(4))) {
+						sendSMS(receivePhone, content);
+						String SQL1 = "insert into EccAlarmLog (RecId,CreatedDateTime,AlarmName,AlarmGroup,AlarmMonitor,AlarmType,ReceiverAddress,AlarmStatus)"
+								+ " values('"
+								+ getRecId()
+								+ "','"
+								+ list.get(0)
+								+ "','"
+								+ list.get(1)
+								+ "','"
+								+ list.get(2)
+								+ "','"
+								+ list.get(3)
+								+ "','"
+								+ list.get(4)
+								+ "','"
+								+ receivePhone
+								+ "','"
+								+ list.get(6) + "')";
 						JDBCForSQL.execute_Insert(SQL1);
 					}
-                    if(receiveEmail!=null&&receiveEmail.length()>0&&"email".equals(list.get(4))){
-                    	sendEmail(mailServerHost,userName,password,fromAddress,receiveEmail,content);
-                    	String SQL2 = "insert into EccAlarmLog (RecId,CreatedDateTime,AlarmName,AlarmGroup,AlarmMonitor,AlarmType,ReceiverAddress,AlarmStatus)" +
-								" values('"+getRecId()+"','"+list.get(0)+"','"+list.get(1)+"','"+list.get(2)+"','"+list.get(3)+"','"+list.get(4)+"','"+receiveEmail+"','"+list.get(6)+"')";
-                    	JDBCForSQL.execute_Insert(SQL2);
+					if (receiveEmail != null && receiveEmail.length() > 0
+							&& "email".equals(list.get(4))) {
+						sendEmail(mailServerHost, userName, password,
+								fromAddress, receiveEmail, content);
+						String SQL2 = "insert into EccAlarmLog (RecId,CreatedDateTime,AlarmName,AlarmGroup,AlarmMonitor,AlarmType,ReceiverAddress,AlarmStatus)"
+								+ " values('"
+								+ getRecId()
+								+ "','"
+								+ list.get(0)
+								+ "','"
+								+ list.get(1)
+								+ "','"
+								+ list.get(2)
+								+ "','"
+								+ list.get(3)
+								+ "','"
+								+ list.get(4)
+								+ "','"
+								+ receiveEmail
+								+ "','"
+								+ list.get(6) + "')";
+						JDBCForSQL.execute_Insert(SQL2);
 					}
 				}
 			}
@@ -842,45 +980,52 @@ public class FrameFile {
 			e.printStackTrace();
 		}
 	}
-	public static void sendEmail(String mailServerHost,String userName,String password,String fromAddress,String receiveEmail,String content){
-		MailSenderInfo mailInfo = new MailSenderInfo();    
-		     mailInfo.setMailServerHost(mailServerHost);    
-		     mailInfo.setMailServerPort("25");    
-		     mailInfo.setValidate(true);    
-		     mailInfo.setUserName(userName);    
-		     mailInfo.setPassword(password);//您的邮箱密码    
-		     mailInfo.setFromAddress(fromAddress); 
-		     mailInfo.setToAddress(receiveEmail);    
-		     mailInfo.setSubject("Ecc报警");    
-		     mailInfo.setContent(content);    
-		        //这个类主要来发送邮件   
-		     SimpleMailSender sms = new SimpleMailSender();   
-		         //SimpleMailSender.sendTextMail(mailInfo);//发送文体格式    
-		     sms.sendHtmlMail(mailInfo);//发送html格式   
+
+	public static void sendEmail(String mailServerHost, String userName,
+			String password, String fromAddress, String receiveEmail,
+			String content) {
+		MailSenderInfo mailInfo = new MailSenderInfo();
+		mailInfo.setMailServerHost(mailServerHost);
+		mailInfo.setMailServerPort("25");
+		mailInfo.setValidate(true);
+		mailInfo.setUserName(userName);
+		mailInfo.setPassword(password);// 您的邮箱密码
+		mailInfo.setFromAddress(fromAddress);
+		mailInfo.setToAddress(receiveEmail);
+		mailInfo.setSubject("Ecc报警");
+		mailInfo.setContent(content);
+		// 这个类主要来发送邮件
+		SimpleMailSender sms = new SimpleMailSender();
+		// SimpleMailSender.sendTextMail(mailInfo);//发送文体格式
+		sms.sendHtmlMail(mailInfo);// 发送html格式
 	}
-	public static void sendSMS(String TO,String MSG){
+
+	public static void sendSMS(String TO, String MSG) {
 		ArrayList<String> list = getSendPhoneAndPWD();
 		String PHONE = list.get(0);
 		String PWD = list.get(1);
-//		String TO = receivePhone;
-//		String MSG = content;
+		// String TO = receivePhone;
+		// String MSG = content;
 		try {
-//			Fetion.sendMsg(PHONE, PWD, TO, MSG);
+			// Fetion.sendMsg(PHONE, PWD, TO, MSG);
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+		}
 	}
-	private static ResultSet getDutyDetail(String dutyId,String s){
-		String sql2 = "select * from DutyDetail where Week = '"+s+"' and DutyId ='"+dutyId+"'";
+
+	private static ResultSet getDutyDetail(String dutyId, String s) {
+		String sql2 = "select * from DutyDetail where Week = '" + s
+				+ "' and DutyId ='" + dutyId + "'";
 		ResultSet rss2 = JDBCForSQL.sql_ConnectExecute_Select(sql2);
 		return rss2;
 	}
-	private static ArrayList<String> getSendPhoneAndPWD(){
+
+	private static ArrayList<String> getSendPhoneAndPWD() {
 		ArrayList<String> list = new ArrayList<String>();
 		String sql = "select SMSUserName,SMSPwd from EccSMS where SMSType = 'send'";
 		ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
 		try {
-			if(rs.next()){
+			if (rs.next()) {
 				list.add(rs.getString("SMSUserName"));
 				list.add(rs.getString("SMSPwd"));
 			}
@@ -889,6 +1034,7 @@ public class FrameFile {
 		}
 		return list;
 	}
+
 	public static boolean forceMangleOnReading() throws IOException {
 		if (!forceMangleInited) {
 			String s = Platform.getRoot() + File.separator + "classes"
@@ -1181,12 +1327,13 @@ public class FrameFile {
 												.equals("once afterall log entries")) {
 									datavalue = "once";
 								}
-								if(parmName.equals("_cacheLife")){
+								if (parmName.equals("_cacheLife")) {
 									datavalue = "0";
 								}
-								if(parmName.equals("_remotescript")){
+								if (parmName.equals("_remotescript")) {
 									datavalue = "none";
 								}
+
 								if (parmName.equals("_resetFile")
 										&& (datavalue
 												.equals("Never First Time Only") || datavalue
@@ -1203,7 +1350,7 @@ public class FrameFile {
 											"itsm_siteview9.2.properties",
 											datavalue);
 								}
-								
+
 								// Windows Performance Counter过滤
 								if (parmName.equals("_pmcfile")
 										&& datavalue.equals("(Custom Object)")) {
@@ -1589,206 +1736,206 @@ public class FrameFile {
 	 * @param args
 	 * @throws Exception
 	 */
-//	public static void main(String args[]) throws Exception {
-//		if (args[0].indexOf("mangle") != -1) {
-//			boolean flag = true;
-//			int i = 0;
-//			if (args[0].equals("-demangle")) {
-//				flag = false;
-//			}
-//			StringBuffer stringbuffer = new StringBuffer();
-//			if (args.length == 2) {
-//				String s2 = args[1];
-//				Array array = readFromFile(s2, false);
-//				boolean flag6 = s2.endsWith(".config");
-//				printFrames(stringbuffer, array, null, false, flag6);
-//				if (flag) {
-//					stringbuffer = mangle(stringbuffer);
-//				}
-//			} else {
-//				try {
-//					setMangle(flag, stringbuffer);
-//				} catch (Exception exception) {
-//					System.out.println("error: " + exception);
-//					i = -1;
-//				}
-//			}
-//			System.out.print(stringbuffer);
-//			System.out.flush();
-//			System.exit(i);
-//		}
-//		if (args.length < 2) {
-//			System.out.println("unknown command");
-//			System.exit(-1);
-//		}
-//		if (args[0].startsWith("-test")) {
-//			File file = new File(args[1]);
-//			String args1[] = file.list();
-//			int j = 0;
-//			int k = 0;
-//			String s4 = args[1];
-//			String s6 = args[2];
-//			for (int i1 = 0; i1 < args1.length; i1++) {
-//				if (!args1[i1].endsWith(".mg")
-//						&& !args1[i1].endsWith(".config")) {
-//					continue;
-//				}
-//				Array array2 = readFromFile(s4 + "/" + args1[i1]);
-//				Array array3 = new Array();
-//				Enumeration enumeration = array2.elements();
-//				while (enumeration.hasMoreElements()) {
-//					HashMap hashmap = (HashMap) enumeration.nextElement();
-//					String s9 = TextUtils.getValue(hashmap, "_class");
-//					if (!s9.equals("SiteSeer2Monitor")) {
-//						hashmap.remove("_alertCondition");
-//						hashmap.remove("email");
-//						hashmap.remove("_mailServer");
-//						hashmap.remove("_mailServerBackup");
-//						hashmap.remove("_pagerPort");
-//						hashmap.remove("_pagerPortBackup");
-//						hashmap.remove("_errorFrequency");
-//						array3.add(hashmap);
-//					}
-//				}
-//				if (array3.size() > 0) {
-//					k++;
-//					System.out.println("writing " + s6 + "/" + args1[i1]);
-//					writeToFile(s6 + "/" + args1[i1], array3);
-//				}
-//			}
-//
-//			System.exit(0);
-//		}
-//		if (args[0].startsWith("-monitors")) {
-//			File file1 = new File(args[1]);
-//			boolean flag2 = args[0].equals("-monitorsGlobal");
-//			boolean flag3 = args[0].equals("-monitorsAndReports");
-//			boolean flag4 = args[0].equals("-monitorsTrans");
-//			boolean flag5 = args[0].equals("-monitorsAndFrame0");
-//			String args2[] = file1.list();
-//			int j1 = 0;
-//			int k1 = 0;
-//			String s7 = args[1];
-//			String s8 = args[2];
-//			for (int l1 = 0; l1 < args2.length; l1++) {
-//				if (!args2[l1].endsWith(".mg")) {
-//					continue;
-//				}
-//				Array array4 = readFromFile(s7 + "/" + args2[l1]);
-//				Array array5 = new Array();
-//				Enumeration enumeration1 = array4.elements();
-//				HashMap hashmap1 = new HashMap();
-//				if (enumeration1.hasMoreElements()) {
-//					hashmap1 = (HashMap) enumeration1.nextElement();
-//				}
-//				String s10 = TextUtils.getValue(hashmap1, "_disabled");
-//				if (s10.equals("true")) {
-//					continue;
-//				}
-//				while (enumeration1.hasMoreElements()) {
-//					HashMap hashmap2 = (HashMap) enumeration1.nextElement();
-//					if (Monitor.isReportFrame(hashmap2) && flag3) {
-//						hashmap2.remove("tabfile");
-//						hashmap2.remove("emailData");
-//						hashmap2.remove("xmlfile");
-//						hashmap2.remove("xmlEmailData");
-//						hashmap2.remove("email");
-//						hashmap2.remove("attachReport");
-//						array5.add(hashmap2);
-//					} else if (Monitor.isMonitorFrame(hashmap2)) {
-//						String s11 = TextUtils.getValue(hashmap2, "_class");
-//						if (!s11.equals("SiteSeer2Monitor")
-//								&& (!flag2 || s11.startsWith("URLRemote"))
-//								&& (!flag4 || s11.startsWith("URLSequence") || s11
-//										.startsWith("URLRemoteSequence"))) {
-//							if (s11.equals("FTPMonitor")) {
-//								hashmap2.put("_disabled", "checked");
-//							}
-//							if (TextUtils.getValue(hashmap2, "_disabled")
-//									.length() <= 0) {
-//								hashmap2.put("_frequency", "6000000");
-//								hashmap2.remove("_errorFrequency");
-//								hashmap2.remove("_alertCondition");
-//								hashmap2.remove("email");
-//								hashmap2.remove("_mailServer");
-//								hashmap2.remove("_mailServerBackup");
-//								hashmap2.remove("_pagerPort");
-//								hashmap2.remove("_pagerPortBackup");
-//								array5.add(hashmap2);
-//							}
-//						}
-//					}
-//				}
-//				if (array5.size() <= 0) {
-//					continue;
-//				}
-//				if (flag5) {
-//					hashmap1.remove("_alertCondition");
-//					array5.pushFront(hashmap1);
-//				} else {
-//					HashMap hashmap3 = new HashMap();
-//					hashmap3.put("_nextID", "10000");
-//					hashmap3.put("_disabled",
-//							TextUtils.getValue(hashmap1, "_disabled"));
-//					hashmap3.put("_name", TextUtils.getValue(hashmap1, "_name"));
-//					array5.pushFront(hashmap3);
-//				}
-//				k1++;
-//				System.out.println("writing " + s8 + "/" + args2[l1]);
-//				writeToFile(s8 + "/" + args2[l1], array5);
-//			}
-//
-//			System.out.println("------------------");
-//			System.out.println("groups: " + k1);
-//			System.out.println("monitors: " + j1);
-//			System.exit(0);
-//		}
-//		boolean flag1 = false;
-//		String s = "";
-//		String s1 = "";
-//		String s3 = "";
-//		String s5 = "";
-//		for (int l = 0; l < args.length; l++) {
-//			if (args[l].equals("-s")) {
-//				flag1 = true;
-//				continue;
-//			}
-//			if (s.length() == 0) {
-//				s = args[l];
-//				continue;
-//			}
-//			if (s1.length() == 0) {
-//				s1 = args[l];
-//				continue;
-//			}
-//			if (s3.length() == 0) {
-//				s3 = args[l];
-//				continue;
-//			}
-//			if (s5.length() == 0) {
-//				s5 = args[l];
-//			}
-//		}
-//
-//		if (s1.length() == 0) {
-//			s1 = s;
-//		}
-//		try {
-//			System.out.print("Reading " + s + "...");
-//			Array array1 = readFromFile(s);
-//			if (s3.length() > 0 && s5.length() > 0) {
-//				String args3[] = { s3, s5 };
-//				TextUtils.replaceInHashMapList(array1, args3, null);
-//			}
-//			System.out.println("done");
-//			System.out.println("Writing " + s1 + "...");
-//			writeToFile(s1, array1, flag1);
-//			System.out.println("done");
-//		} catch (Exception exception1) {
-//			System.out.println("Exception: " + exception1);
-//		}
-//		System.exit(0);
-//	}
+	// public static void main(String args[]) throws Exception {
+	// if (args[0].indexOf("mangle") != -1) {
+	// boolean flag = true;
+	// int i = 0;
+	// if (args[0].equals("-demangle")) {
+	// flag = false;
+	// }
+	// StringBuffer stringbuffer = new StringBuffer();
+	// if (args.length == 2) {
+	// String s2 = args[1];
+	// Array array = readFromFile(s2, false);
+	// boolean flag6 = s2.endsWith(".config");
+	// printFrames(stringbuffer, array, null, false, flag6);
+	// if (flag) {
+	// stringbuffer = mangle(stringbuffer);
+	// }
+	// } else {
+	// try {
+	// setMangle(flag, stringbuffer);
+	// } catch (Exception exception) {
+	// System.out.println("error: " + exception);
+	// i = -1;
+	// }
+	// }
+	// System.out.print(stringbuffer);
+	// System.out.flush();
+	// System.exit(i);
+	// }
+	// if (args.length < 2) {
+	// System.out.println("unknown command");
+	// System.exit(-1);
+	// }
+	// if (args[0].startsWith("-test")) {
+	// File file = new File(args[1]);
+	// String args1[] = file.list();
+	// int j = 0;
+	// int k = 0;
+	// String s4 = args[1];
+	// String s6 = args[2];
+	// for (int i1 = 0; i1 < args1.length; i1++) {
+	// if (!args1[i1].endsWith(".mg")
+	// && !args1[i1].endsWith(".config")) {
+	// continue;
+	// }
+	// Array array2 = readFromFile(s4 + "/" + args1[i1]);
+	// Array array3 = new Array();
+	// Enumeration enumeration = array2.elements();
+	// while (enumeration.hasMoreElements()) {
+	// HashMap hashmap = (HashMap) enumeration.nextElement();
+	// String s9 = TextUtils.getValue(hashmap, "_class");
+	// if (!s9.equals("SiteSeer2Monitor")) {
+	// hashmap.remove("_alertCondition");
+	// hashmap.remove("email");
+	// hashmap.remove("_mailServer");
+	// hashmap.remove("_mailServerBackup");
+	// hashmap.remove("_pagerPort");
+	// hashmap.remove("_pagerPortBackup");
+	// hashmap.remove("_errorFrequency");
+	// array3.add(hashmap);
+	// }
+	// }
+	// if (array3.size() > 0) {
+	// k++;
+	// System.out.println("writing " + s6 + "/" + args1[i1]);
+	// writeToFile(s6 + "/" + args1[i1], array3);
+	// }
+	// }
+	//
+	// System.exit(0);
+	// }
+	// if (args[0].startsWith("-monitors")) {
+	// File file1 = new File(args[1]);
+	// boolean flag2 = args[0].equals("-monitorsGlobal");
+	// boolean flag3 = args[0].equals("-monitorsAndReports");
+	// boolean flag4 = args[0].equals("-monitorsTrans");
+	// boolean flag5 = args[0].equals("-monitorsAndFrame0");
+	// String args2[] = file1.list();
+	// int j1 = 0;
+	// int k1 = 0;
+	// String s7 = args[1];
+	// String s8 = args[2];
+	// for (int l1 = 0; l1 < args2.length; l1++) {
+	// if (!args2[l1].endsWith(".mg")) {
+	// continue;
+	// }
+	// Array array4 = readFromFile(s7 + "/" + args2[l1]);
+	// Array array5 = new Array();
+	// Enumeration enumeration1 = array4.elements();
+	// HashMap hashmap1 = new HashMap();
+	// if (enumeration1.hasMoreElements()) {
+	// hashmap1 = (HashMap) enumeration1.nextElement();
+	// }
+	// String s10 = TextUtils.getValue(hashmap1, "_disabled");
+	// if (s10.equals("true")) {
+	// continue;
+	// }
+	// while (enumeration1.hasMoreElements()) {
+	// HashMap hashmap2 = (HashMap) enumeration1.nextElement();
+	// if (Monitor.isReportFrame(hashmap2) && flag3) {
+	// hashmap2.remove("tabfile");
+	// hashmap2.remove("emailData");
+	// hashmap2.remove("xmlfile");
+	// hashmap2.remove("xmlEmailData");
+	// hashmap2.remove("email");
+	// hashmap2.remove("attachReport");
+	// array5.add(hashmap2);
+	// } else if (Monitor.isMonitorFrame(hashmap2)) {
+	// String s11 = TextUtils.getValue(hashmap2, "_class");
+	// if (!s11.equals("SiteSeer2Monitor")
+	// && (!flag2 || s11.startsWith("URLRemote"))
+	// && (!flag4 || s11.startsWith("URLSequence") || s11
+	// .startsWith("URLRemoteSequence"))) {
+	// if (s11.equals("FTPMonitor")) {
+	// hashmap2.put("_disabled", "checked");
+	// }
+	// if (TextUtils.getValue(hashmap2, "_disabled")
+	// .length() <= 0) {
+	// hashmap2.put("_frequency", "6000000");
+	// hashmap2.remove("_errorFrequency");
+	// hashmap2.remove("_alertCondition");
+	// hashmap2.remove("email");
+	// hashmap2.remove("_mailServer");
+	// hashmap2.remove("_mailServerBackup");
+	// hashmap2.remove("_pagerPort");
+	// hashmap2.remove("_pagerPortBackup");
+	// array5.add(hashmap2);
+	// }
+	// }
+	// }
+	// }
+	// if (array5.size() <= 0) {
+	// continue;
+	// }
+	// if (flag5) {
+	// hashmap1.remove("_alertCondition");
+	// array5.pushFront(hashmap1);
+	// } else {
+	// HashMap hashmap3 = new HashMap();
+	// hashmap3.put("_nextID", "10000");
+	// hashmap3.put("_disabled",
+	// TextUtils.getValue(hashmap1, "_disabled"));
+	// hashmap3.put("_name", TextUtils.getValue(hashmap1, "_name"));
+	// array5.pushFront(hashmap3);
+	// }
+	// k1++;
+	// System.out.println("writing " + s8 + "/" + args2[l1]);
+	// writeToFile(s8 + "/" + args2[l1], array5);
+	// }
+	//
+	// System.out.println("------------------");
+	// System.out.println("groups: " + k1);
+	// System.out.println("monitors: " + j1);
+	// System.exit(0);
+	// }
+	// boolean flag1 = false;
+	// String s = "";
+	// String s1 = "";
+	// String s3 = "";
+	// String s5 = "";
+	// for (int l = 0; l < args.length; l++) {
+	// if (args[l].equals("-s")) {
+	// flag1 = true;
+	// continue;
+	// }
+	// if (s.length() == 0) {
+	// s = args[l];
+	// continue;
+	// }
+	// if (s1.length() == 0) {
+	// s1 = args[l];
+	// continue;
+	// }
+	// if (s3.length() == 0) {
+	// s3 = args[l];
+	// continue;
+	// }
+	// if (s5.length() == 0) {
+	// s5 = args[l];
+	// }
+	// }
+	//
+	// if (s1.length() == 0) {
+	// s1 = s;
+	// }
+	// try {
+	// System.out.print("Reading " + s + "...");
+	// Array array1 = readFromFile(s);
+	// if (s3.length() > 0 && s5.length() > 0) {
+	// String args3[] = { s3, s5 };
+	// TextUtils.replaceInHashMapList(array1, args3, null);
+	// }
+	// System.out.println("done");
+	// System.out.println("Writing " + s1 + "...");
+	// writeToFile(s1, array1, flag1);
+	// System.out.println("done");
+	// } catch (Exception exception1) {
+	// System.out.println("Exception: " + exception1);
+	// }
+	// System.exit(0);
+	// }
 	public static boolean isHave(String[] strs, String s) {
 		for (int i = 0; i < strs.length; i++) {
 			if (strs[i].indexOf(s) != -1) {
@@ -1797,44 +1944,50 @@ public class FrameFile {
 		}
 		return false;
 	}
-	public static  BusinessObject CreateBo(String key,String s,String s1) {
+
+	public static BusinessObject CreateBo(String key, String s, String s1) {
 		SiteviewQuery query = new SiteviewQuery();
 		query.AddBusObQuery(s1, QueryInfoToGet.All);
-		XmlElement xml ;
-		xml=query.get_CriteriaBuilder().FieldAndValueExpression(key,
+		XmlElement xml;
+		xml = query.get_CriteriaBuilder().FieldAndValueExpression(key,
 				Operators.Equals, s);
 		query.set_BusObSearchCriteria(xml);
-		ICollection iCollenction = ConnectionBroker.get_SiteviewApi().get_BusObService()
-				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);
-		BusinessObject bo=null;
+		ICollection iCollenction = ConnectionBroker.get_SiteviewApi()
+				.get_BusObService().get_SimpleQueryResolver()
+				.ResolveQueryToBusObList(query);
+		BusinessObject bo = null;
 		IEnumerator interfaceTableIEnum = iCollenction.GetEnumerator();
-		if(interfaceTableIEnum.MoveNext()){
-			bo = (BusinessObject) interfaceTableIEnum
-					.get_Current();
+		if (interfaceTableIEnum.MoveNext()) {
+			bo = (BusinessObject) interfaceTableIEnum.get_Current();
 		}
 		return bo;
 	}
-	public static void main(String[] args){
+
+	public static void main(String[] args) {
 		String path = "";
 		try {
-			path = Thread.currentThread().getContextClassLoader().getResource("1262.wav").toURI().toString();
-			String s = path.substring(path.indexOf("com."), path.indexOf(".core")+5);
+			path = Thread.currentThread().getContextClassLoader()
+					.getResource("1262.wav").toURI().toString();
+			String s = path.substring(path.indexOf("com."),
+					path.indexOf(".core") + 5);
 			System.out.println(s);
 			s = s.replaceAll("\\.", "/");
 			System.out.println(s);
 			path = path.replaceAll("com\\.siteview\\.kernel\\.core", s);
-//			path = path.substring(path.indexOf(":/")+2);
-			path = path.substring(10,path.indexOf("/lib")+1)+"sounds/1262.wav";
-//			path = path.replaceAll("\\.", "/");
+			// path = path.substring(path.indexOf(":/")+2);
+			path = path.substring(10, path.indexOf("/lib") + 1)
+					+ "sounds/1262.wav";
+			// path = path.replaceAll("\\.", "/");
 			System.out.println(path);
-//			path = FrameFile.class.getResource("../../../../sounds/1262.wav").toURI().toString();
+			// path =
+			// FrameFile.class.getResource("../../../../sounds/1262.wav").toURI().toString();
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-//		path=path.substring(path.indexOf("/")+1,path.length());
+		// path=path.substring(path.indexOf("/")+1,path.length());
 		System.out.println(path);
-		TestMusic sound=new TestMusic("sounds/1262.wav");
-		InputStream stream =new ByteArrayInputStream(sound.getSamples());
+		TestMusic sound = new TestMusic("sounds/1262.wav");
+		InputStream stream = new ByteArrayInputStream(sound.getSamples());
 		sound.play(stream);
 		System.out.println("声音播放了");
 	}

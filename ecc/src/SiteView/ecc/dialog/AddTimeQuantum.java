@@ -30,6 +30,7 @@ import system.Collections.IEnumerator;
 
 import SiteView.ecc.editors.AbsoluteTime;
 import SiteView.ecc.tools.FileTools;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
@@ -123,7 +124,7 @@ public class AddTimeQuantum extends Dialog{
 		composite_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		Label lblNewLabel = new Label(composite_3, SWT.NONE);
-		lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel.setBackground(EccTreeControl.color);
 		lblNewLabel.setFont(SWTResourceManager.getFont("宋体", 10, SWT.NORMAL));
 		lblNewLabel.setBounds(26, 0, 107, 15);
 		lblNewLabel.setText("\u4EFB\u52A1\u8BA1\u5212\u540D\u79F0*:");
@@ -169,7 +170,7 @@ public class AddTimeQuantum extends Dialog{
 		editor.setEditor(btnCheckButton, tableItem, 1);
 		TableEditor editor_1 = new TableEditor(table);
 		Label lblNewLabel_8 = new Label(table, SWT.NONE);
-		lblNewLabel_8.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_8.setBackground(EccTreeControl.color);
 		lblNewLabel_8.setBounds(172, 34, 18, 12);
 		lblNewLabel_8.setText("\u4ECE");
 		editor_1.minimumWidth = lblNewLabel_8.getSize ().x;
@@ -196,7 +197,7 @@ public class AddTimeQuantum extends Dialog{
 		editor_2.setEditor(startTime, tableItem, 3);
 		TableEditor editor_3 = new TableEditor(table);
 		Label lblNewLabel_9 = new Label(table, SWT.NONE);
-		lblNewLabel_9.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_9.setBackground(EccTreeControl.color);
 		lblNewLabel_9.setBounds(276, 34, 18, 12);
 		lblNewLabel_9.setText("\u5230");
 		editor_3.minimumWidth = lblNewLabel_9.getSize ().x;
@@ -231,7 +232,7 @@ public class AddTimeQuantum extends Dialog{
 		editor_5.setEditor(btnCheckButton_1, tableItem_1, 1);
 		TableEditor editor_6 = new TableEditor(table);
 		Label lblNewLabel_10 = new Label(table, SWT.NONE);
-		lblNewLabel_10.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_10.setBackground(EccTreeControl.color);
 		lblNewLabel_10.setBounds(172, 52, 18, 12);
 		lblNewLabel_10.setText("\u4ECE");
 		editor_6.minimumWidth = lblNewLabel_10.getSize ().x;
@@ -257,7 +258,7 @@ public class AddTimeQuantum extends Dialog{
 		 editor_7.setEditor(startTime_2, tableItem_1, 3);
 		TableEditor editor_8 = new TableEditor(table);
 		Label lblNewLabel_11 = new Label(table, SWT.NONE);
-		lblNewLabel_11.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_11.setBackground(EccTreeControl.color);
 		lblNewLabel_11.setBounds(276, 52, 18, 12);
 		lblNewLabel_11.setText("\u5230");
 		editor_8.minimumWidth = lblNewLabel_11.getSize ().x;
@@ -292,7 +293,7 @@ public class AddTimeQuantum extends Dialog{
 		editor_10.setEditor(btnCheckButton_2, tableItem_2, 1); 
 		TableEditor editor_11 = new TableEditor(table);	
 		Label lblNewLabel_12 = new Label(table, SWT.NONE);
-		lblNewLabel_12.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_12.setBackground(EccTreeControl.color);
 		lblNewLabel_12.setBounds(172, 70, 18, 12);
 		lblNewLabel_12.setText("\u4ECE");
 		editor_11.minimumWidth = lblNewLabel_12.getSize ().x;
@@ -318,7 +319,7 @@ public class AddTimeQuantum extends Dialog{
 		editor_12.setEditor(startTime_4, tableItem_2, 3); 
 		TableEditor editor_13 = new TableEditor(table);
 		Label lblNewLabel_13 = new Label(table, SWT.NONE);
-		lblNewLabel_13.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_13.setBackground(EccTreeControl.color);
 		lblNewLabel_13.setBounds(276, 71, 18, 12);
 		lblNewLabel_13.setText("\u5230");
 		editor_13.minimumWidth = lblNewLabel_13.getSize ().x;
@@ -354,7 +355,7 @@ public class AddTimeQuantum extends Dialog{
 		editor_15.setEditor(btnCheckButton_3, tableItem_3, 1); 
 		TableEditor editor_16 = new TableEditor(table);
 		Label lblNewLabel_14 = new Label(table, SWT.NONE);
-		lblNewLabel_14.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_14.setBackground(EccTreeControl.color);
 		lblNewLabel_14.setBounds(172, 88, 18, 12);
 		lblNewLabel_14.setText("\u4ECE");
 		editor_16.minimumWidth = lblNewLabel_14.getSize ().x;
@@ -379,7 +380,7 @@ public class AddTimeQuantum extends Dialog{
 		editor_17.setEditor(startTime_6, tableItem_3, 3); 
 		TableEditor editor_18 = new TableEditor(table);
 		Label lblNewLabel_18 = new Label(table, SWT.NONE);
-		lblNewLabel_18.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_18.setBackground(EccTreeControl.color);
 		lblNewLabel_18.setBounds(276, 89, 18, 12);
 		lblNewLabel_18.setText("\u5230");
 		editor_18.minimumWidth = lblNewLabel_18.getSize ().x;
@@ -409,14 +410,14 @@ public class AddTimeQuantum extends Dialog{
 		tableItem_4.setText(0,"星期四");
 		TableEditor editor_20 = new TableEditor(table);
 		btnCheckButton_4 = new Button(table, SWT.CHECK);
-		btnCheckButton_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		btnCheckButton_4.setBackground(EccTreeControl.color);
 		btnCheckButton_4.setBounds(113, 105, 45, 16);
 		btnCheckButton_4.setText("\u5141\u8BB8 ");
 		editor_20.minimumWidth = btnCheckButton_4.getSize ().x;
 		editor_20.setEditor(btnCheckButton_4, tableItem_4, 1); 
 		TableEditor editor_21 = new TableEditor(table);
 		Label lblNewLabel_15 = new Label(table, SWT.NONE);
-		lblNewLabel_15.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_15.setBackground(EccTreeControl.color);
 		lblNewLabel_15.setBounds(172, 107, 18, 12);
 		lblNewLabel_15.setText("\u4ECE");
 		editor_21.minimumWidth = lblNewLabel_15.getSize ().x;
@@ -598,11 +599,11 @@ public class AddTimeQuantum extends Dialog{
 		describeItem.setText("描述");
 		
 		Composite composite_2 = new Composite(tabFolder, SWT.NONE);
-		composite_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		composite_2.setBackground(EccTreeControl.color);
 		describeItem.setControl(composite_2);
 		
 		Label lblNewLabel_22 = new Label(composite_2, SWT.HORIZONTAL);
-		lblNewLabel_22.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_22.setBackground(EccTreeControl.color);
 		lblNewLabel_22.setFont(SWTResourceManager.getFont("宋体", 11, SWT.NORMAL));
 		lblNewLabel_22.setAlignment(SWT.CENTER);
 		lblNewLabel_22.setBounds(0, 0, 54, 199);

@@ -138,7 +138,7 @@ public class AddEmailAlarmRule extends Dialog {
 		group.setLayout(new FillLayout());
 		treeViewer = new TreeViewer(group,SWT.CHECK);
 		tree = treeViewer.getTree();
-		tree.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		tree.setBackground(EccTreeControl.color);
 		tree.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				TreeItem item=(TreeItem) e.item;
@@ -158,11 +158,11 @@ public class AddEmailAlarmRule extends Dialog {
 		});
 
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
-		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		composite_1.setBackground(EccTreeControl.color);
 		composite_1.setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		SashForm sashForm_1 = new SashForm(composite_1, SWT.VERTICAL);
-		sashForm_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		sashForm_1.setBackground(EccTreeControl.color);
 
 		if (name.equals("email")) {
 			createEmailGroup(sashForm_1);
@@ -224,17 +224,17 @@ public class AddEmailAlarmRule extends Dialog {
 		}
 
 		Label lblNewLabel = new Label(group_1, SWT.NONE);
-		lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel.setBackground(EccTreeControl.color);
 		lblNewLabel.setBounds(136, 74, 218, 12);
 		lblNewLabel.setText("\u6B21\u7B26\u5408\u62A5\u8B66\u53D1\u9001\u6761\u4EF6\u5F00\u59CB\u53D1\u9001\u62A5\u8B66 ");
 
 		button_1 = new Button(group_1, SWT.RADIO);
 		button_1.setBounds(10, 117, 213, 16);
 		button_1.setText("\u62A5\u8B66\u53EA\u53D1\u9001\u4E00\u6B21");
-		button_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		button_1.setBackground(EccTreeControl.color);
 
 		Label label_2 = new Label(group_1, SWT.NONE);
-		label_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		label_2.setBackground(EccTreeControl.color);
 		label_2.setBounds(10, 139, 86, 12);
 		label_2.setText("\u53D1\u9001\u4E00\u6B21\uFF0C\u5F53\u7B2C");
 
@@ -252,18 +252,18 @@ public class AddEmailAlarmRule extends Dialog {
 		}
 
 		Label label_3 = new Label(group_1, SWT.NONE);
-		label_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		label_3.setBackground(EccTreeControl.color);
 		label_3.setBounds(136, 139, 218, 12);
 		label_3.setText("\u6B21\u7B26\u5408\u62A5\u8B66\u53D1\u9001\u6761\u4EF6\u65F6\u53D1\u9001\u62A5\u8B66");
 
 		btnRadioButton = new Button(group_1, SWT.RADIO);
 		btnRadioButton.setBounds(10, 175, 213, 16);
 		btnRadioButton.setText("\u9009\u62E9\u6027\u53D1\u9001\u8B66\u62A5");
-		btnRadioButton.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		btnRadioButton.setBackground(EccTreeControl.color);
 		btnRadioButton.setSelection(true);
 
 		Label lblNewLabel_1 = new Label(group_1, SWT.NONE);
-		lblNewLabel_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		lblNewLabel_1.setBackground(EccTreeControl.color);
 		lblNewLabel_1.setBounds(10, 197, 30, 12);
 		lblNewLabel_1.setText("\u5F53\u7B2C ");
 
@@ -298,7 +298,7 @@ public class AddEmailAlarmRule extends Dialog {
 		}
 
 		Label label_5 = new Label(group_1, SWT.NONE);
-		label_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+		label_5.setBackground(EccTreeControl.color);
 		label_5.setBounds(354, 197, 127, 12);
 		label_5.setText("\u6B21\u65F6\u53D1\u9001\u62A5\u8B66");
 		sashForm_1.setWeights(new int[] { 130, 115 });

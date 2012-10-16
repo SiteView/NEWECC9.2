@@ -34,8 +34,10 @@ import org.eclipse.ui.part.EditorPart;
 
 import COM.dragonflow.Api.APIInterfaces;
 import COM.dragonflow.Api.ApiRmiServer;
+import COM.dragonflow.Api.SSAlertInstanceInfo;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MachineModle;
+import SiteView.ecc.Modle.SiteViewEcc;
 import SiteView.ecc.bundle.EditGroupBundle;
 import SiteView.ecc.data.MonitorServer;
 import SiteView.ecc.dialog.ParticularInfo;
@@ -68,19 +70,18 @@ import core.busobmaint.BusObMaintView;
 public class EccControl extends EditorPart {
 	public EccControl() {
 	}
-
 	public static final String ID = "SiteView.ecc.editors.EccControl";
 	public static TableItem item = null;
 	public BusinessObject bo1 = null;
 	public static Table toptable;
 	static TabFolder tabFolder;
-	public List<BusinessObject> list;
 	public Composite c_1;
 	public static Composite c1;
+	Label lable;
+	Composite c;
 	Color[] color;
-
+	
 	public void createPartControl(Composite parent) {
-		list=new  ArrayList<BusinessObject>();
 		if (parent.getChildren().length > 0) {
 			for (Control control : parent.getChildren()) {
 				control.dispose();
@@ -89,17 +90,31 @@ public class EccControl extends EditorPart {
 		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
 		final SashForm sashForm = new SashForm(parent, SWT.BORDER);
 		sashForm.setOrientation(SWT.VERTICAL);
-		Label lable = new Label(sashForm, SWT.NONE);
+		lable = new Label(sashForm, SWT.NONE);
 		lable.setBackground(SWTResourceManager
 				.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
-		lable.setText("监测器");
-		Composite c = new Composite(sashForm, SWT.NONE);
+		lable.setText("子组");
+		c = new Composite(sashForm, SWT.NONE);
 		c.setVisible(true);
 		c.setLayout(new FillLayout());
-		createTable(c);
+		createTable();
 		c1 = new Composite(sashForm, SWT.NONE);
 		c1.setLayout(new FillLayout());
 		tab(bo1);
+		sashForm.setWeights(new int[] { 10, 157, 289 });
+		parent.layout();
+	}
+
+	// 监测器列表
+	public void createTable() {
+		if(toptable != null && !toptable.isDisposed()) {
+			toptable.dispose();
+		}
+		toptable = new Table(c, SWT.FULL_SELECTION|SWT.CHECK);
+		toptable.setLinesVisible(true);
+		toptable.setHeaderVisible(true);
+		toptable.setBackground(new Color(null, 255, 255, 255));
+
 		toptable.addMouseListener(new MouseAdapter() {
 			public void mouseUp(MouseEvent e) {
 				item = toptable.getItem(new Point(e.x, e.y));
@@ -114,10 +129,18 @@ public class EccControl extends EditorPart {
 			public void widgetSelected(SelectionEvent e) {
 				if (item != e.item) {
 					item = (TableItem) e.item;
-					BusinessObject bo = (BusinessObject) item.getData();
-					item.setChecked(!item.getChecked());
-					if (bo != null) {
-						tab(bo);
+					if(item.getData() instanceof BusinessObject){
+						bo1 = (BusinessObject) item.getData();
+						item.setChecked(!item.getChecked());
+						EccTreeControl.item=item.getData();
+						if (bo1 != null) {
+							tab(bo1);
+						}
+					}else if(item.getData() instanceof MachineModle || item.getData() instanceof GroupModle){
+						EccTreeControl.item=item.getData();
+						lable.setText("监测器");
+						createTable();
+						tab(bo1);
 					}
 				}
 			}
@@ -125,42 +148,42 @@ public class EccControl extends EditorPart {
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
-		sashForm.setWeights(new int[] { 10, 157, 289 });
-		parent.layout();
-	}
-
-	// 监测器列表
-	public void createTable(Composite c) {
-		if (toptable != null && !toptable.isDisposed()) {
-			toptable.dispose();
-		}
-		toptable = new Table(c, SWT.FULL_SELECTION|SWT.CHECK);
-		toptable.setLinesVisible(true);
-		toptable.setHeaderVisible(true);
-		toptable.setBackground(new Color(null, 255, 255, 255));
-
-        
 		TableColumn tblclmnNewColumn = new TableColumn(toptable, SWT.NONE);
 		tblclmnNewColumn.setWidth(120);
 		tblclmnNewColumn.setText("是否禁止");
-
-		TableColumn newColumnTableColumn_top = new TableColumn(toptable,
-				SWT.NONE);
-		newColumnTableColumn_top.setWidth(120);
-		newColumnTableColumn_top.setText("状态");
+		
+		if(EccTreeControl.item instanceof MachineModle || EccTreeControl.item instanceof GroupModle){
+			TableColumn newColumnTableColumn_top = new TableColumn(toptable,
+					SWT.NONE);
+			newColumnTableColumn_top.setWidth(120);
+			newColumnTableColumn_top.setText("状态");
+		}
+		
 		TableColumn newColumnTableColumn_top2 = new TableColumn(toptable,
 				SWT.NONE);
 		newColumnTableColumn_top2.setWidth(120);
 		newColumnTableColumn_top2.setText("名称");
+		
+		if(EccTreeControl.item instanceof SiteViewEcc){
+			TableColumn newColumnTableColumn_1 = new TableColumn(toptable,
+					SWT.NONE);
+			newColumnTableColumn_1.setWidth(80);
+			newColumnTableColumn_1.setText("设备数");
+			TableColumn newColumnTableColumn_2 = new TableColumn(toptable,
+					SWT.NONE);
+			newColumnTableColumn_2.setWidth(80);
+			newColumnTableColumn_2.setText("监测器数");
+		}
 		TableColumn newColumnTableColumn_top3 =new TableColumn(toptable,
 				SWT.NONE);
-		newColumnTableColumn_top3.setWidth(200);
+		newColumnTableColumn_top3.setWidth(150);
 		newColumnTableColumn_top3.setText("描述");
 		TableColumn newColumnTableColumn_top4 = new TableColumn(toptable,
 				SWT.NONE);
 		newColumnTableColumn_top4.setWidth(120);
 		newColumnTableColumn_top4.setText("最后更新");
 		createTableItem();
+		c.layout();
 	}
 
 	public void createTableItem() {
@@ -189,6 +212,21 @@ public class EccControl extends EditorPart {
 			map.put("Machine", machineId);
 			icoll = FileTools.getBussCollection(map, "Ecc");
 			ienum = icoll.GetEnumerator();
+		}else if(EccTreeControl.item instanceof SiteViewEcc){
+			List<GroupModle> groups=((SiteViewEcc)EccTreeControl.item).getList();
+			for(GroupModle group:groups){
+				String[] data=new String[6];
+				TableItem tableItem = new TableItem(toptable, SWT.NONE);
+				tableItem.setData(group);
+				data[0]="";
+				data[1]=group.getBo().GetField("GroupName").get_NativeValue().toString();
+				data[2]=group.getMachines().size()+"";
+				data[3]=group.getMonitors().size()+"";
+				data[4]=group.getBo().GetField("Description").get_NativeValue().toString();
+				data[5]="2012/10/16 13:12:00";
+				tableItem.setText(data);
+			}
+			return ;
 		}
 		int i = 0;
 		if (ienum != null) {
@@ -203,7 +241,7 @@ public class EccControl extends EditorPart {
 				BusinessObject bodyn = EccTreeControl.CreateBo("monitorid",
 						bo.get_RecId(), "EccDyn");
 				String[] data = new String[5];
-				if (bo1 == null) {
+				if (bo1 == null||EccTreeControl.item instanceof MachineModle) {
 					bo1 = bo;
 				}
 				if (bodyn == null) {
@@ -240,7 +278,7 @@ public class EccControl extends EditorPart {
 				TableItem tableItem = new TableItem(toptable, SWT.NONE);
 				tableItem.setData(bo);
 				tableItem.setText(data);
-				if (i == 0) {
+				if (i == 0||EccTreeControl.item instanceof MachineModle) {
 					item = tableItem;
 				}
 				i++;
@@ -283,8 +321,12 @@ public class EccControl extends EditorPart {
 
 	// 建立下边tab页
 	public static void tab(BusinessObject bo) {
-		if (tabFolder != null && !tabFolder.isDisposed()) {
-			tabFolder.dispose();
+		for(Control c:c1.getChildren()){
+			c.dispose();
+		}
+		if(EccTreeControl.item instanceof GroupModle){
+			createTable_1();
+			return;
 		}
 		if (bo != null) {
 			tabFolder = new TabFolder(c1, SWT.FULL_SELECTION);
@@ -315,9 +357,82 @@ public class EccControl extends EditorPart {
 			molog.createView(c3);
 			comaTabItem_3.setControl(c3);
 		}else{
-			c1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
+			c1.setBackground(EccTreeControl.color);
 		}
 		c1.layout();
+	}
+
+	private static  void createTable_1() {
+		c1.setBackground(EccTreeControl.color);
+		c1.setLayout(new FillLayout());
+		SashForm sa=new SashForm(c1, SWT.VERTICAL);
+		sa.setLayout(new FillLayout());
+		Label label=new Label(sa, SWT.VERTICAL);
+		label.setText("设备");
+		label.setBackground(SWTResourceManager
+				.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
+		
+		Table table=new Table(sa, SWT.NONE);
+		table.setLinesVisible(true);
+		table.setHeaderVisible(true);
+		table.setBackground(EccTreeControl.color);
+		
+		table.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				if (item != e.item) {
+					item = (TableItem) e.item;
+					if(item.getData() instanceof MachineModle){
+						EccTreeControl.item=item.getData();
+					}else if(item.getData() instanceof MachineModle || item.getData() instanceof GroupModle){
+//						EccTreeControl.item=item.getData();
+//						lable.setText("监测器");
+//						createTable();
+//						tab(null);
+					}
+				}
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+		
+		TableColumn tableItem_1 = new TableColumn(table,SWT.NONE);
+		tableItem_1.setWidth(120);
+		tableItem_1.setText("状态");
+		
+		TableColumn tableItem_2 = new TableColumn(table,SWT.NONE);
+		tableItem_2.setWidth(120);
+		tableItem_2.setText("名称");
+		
+		TableColumn tableItem_3 = new TableColumn(table,SWT.NONE);
+		tableItem_3.setWidth(120);
+		tableItem_3.setText("ip地址");
+		
+		TableColumn tableItem_4 = new TableColumn(table,SWT.NONE);
+		tableItem_4.setWidth(120);
+		tableItem_4.setText("设备类型");
+		
+		TableColumn tableItem_5 = new TableColumn(table,SWT.NONE);
+		tableItem_5.setWidth(120);
+		tableItem_5.setText("监测器");
+		
+		createItem_1(table);
+		sa.setWeights(new int[]{1,20});
+		c1.layout();
+	}
+
+	private static void createItem_1(Table table) {
+		List<MachineModle> machines=((GroupModle) EccTreeControl.item).getMachines();
+		for(MachineModle machine:machines){
+			String[] data=new String[5];
+			TableItem tableItem = new TableItem(table, SWT.NONE);
+			tableItem.setData(machine);
+			data[0]=machine.getBo().GetField("Status").get_NativeValue().toString().contains("successful")?"good":"error";
+			data[1]=machine.getBo().GetField("title").get_NativeValue().toString();
+			data[2]=machine.getBo().GetField("ServerAddress").get_NativeValue().toString();
+			data[3]=machine.getBo().GetField("RemoteMachineType").get_NativeValue().toString().equals("RemoteNT")?"windows设备":"linux设备";
+			data[4]=machine.getMonitors().size()+"";
+			tableItem.setText(data);
+		}
 	}
 
 	public void doSave(IProgressMonitor arg0) {
