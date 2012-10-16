@@ -568,7 +568,7 @@ public class AbsoluteTimeEditor extends Dialog{
 			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,//将修改后的数据存储到数据库
 					true); 
 			
-			item.setText(1, text1.getText());
+			item.setText(1, text1.getText());//更新列表
 		}
 		this.close();
 	}

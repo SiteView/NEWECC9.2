@@ -17,6 +17,8 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Label;
@@ -212,6 +214,7 @@ public class AddRelativeTime extends Dialog {
     public TableItem item5;
     public TableItem item6;
     public TableItem item7;
+    public TableViewer tableViewer ;
 	public AddRelativeTime(Shell parentShell) {
 		super(parentShell);
 	}
@@ -243,10 +246,11 @@ public class AddRelativeTime extends Dialog {
 		text_1 = new Text(composite_1, SWT.BORDER);//任务计划名称
 		text_1.setBounds(115, 5, 150, 18);
 		
-		TableViewer tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION | SWT.CHECK);
+		tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION | SWT.CHECK);
 		table = tableViewer.getTable();
 		table.setHeaderVisible(true);
 		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+	
 		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn.setWidth(80);
@@ -256,6 +260,7 @@ public class AddRelativeTime extends Dialog {
 			TableColumn column = new TableColumn(table, SWT.NONE);
 			column.setWidth(30);
 			column.setText(i+"");
+			
 		}
 		
 		item1 = new TableItem(table, SWT.NONE);
@@ -263,7 +268,7 @@ public class AddRelativeTime extends Dialog {
 		Image image = new Image(null, 15, 30);
 		item1.setImage(image);
 		TableEditor editor_0 = new TableEditor(table);
-		Button check_0 = new Button(table, SWT.CHECK);
+		final Button check_0 = new Button(table, SWT.CHECK);
 		check_0.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		check_0.pack();
 		check_0.addSelectionListener(new SelectionAdapter() {
@@ -272,8 +277,17 @@ public class AddRelativeTime extends Dialog {
 			}
 		});
 		permission="false";
+		if(item1.getText(0).equals("星期日")){
+			tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+				public void selectionChanged(SelectionChangedEvent event) {
+					System.out.println("aaa");
+					check_0.setSelection(true);
+				}
+			});
+		}
 		editor_0.minimumWidth = check_0.getSize ().x;
 		editor_0.setEditor(check_0, item1, 1);
+		
 		
 		TableEditor editor_1 = new TableEditor(table);
 		Button check_1 = new Button(table, SWT.CHECK);
@@ -578,15 +592,24 @@ public class AddRelativeTime extends Dialog {
 		item2 = new TableItem(table, SWT.NONE);
 		item2.setText(0, "星期一");
 		TableEditor editor_a1 = new TableEditor(table);
-		Button check_a1 = new Button(table, SWT.CHECK);
+		final Button check_a1 = new Button(table, SWT.CHECK);
 		check_a1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		check_a1.pack();
 		check_a1.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e){
 				permission_24="true";
+				
 			}
 		});
 		permission_24="false";
+		if(item2.getText(0).equals("星期一")){
+			tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+				public void selectionChanged(SelectionChangedEvent event) {
+					System.out.println("bbb");
+					check_a1.setSelection(true);
+				}
+			});
+		}
 		editor_a1.minimumWidth = check_a1.getSize ().x;
 		editor_a1.setEditor(check_a1, item2, 1);
 		

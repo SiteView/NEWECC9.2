@@ -168,7 +168,14 @@ public class AbsoluteTime extends EditorPart {
         
 			tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION
 					| SWT.CHECK);
-			createTable();
+			
+			if ("absolute".equals(name)) {
+				createAbsoluteTable();
+			} else if ("quantum".equals(name)) {
+				createQuantumTable();
+			} else if ("ralative".equals(name)) {
+				createRelativeTable();
+			}
 			
 		sashForm.setWeights(new int[] { 1, 2, 34 });
 	}
@@ -185,8 +192,7 @@ public class AbsoluteTime extends EditorPart {
 			lblNewLabel.setText("相对时间任务计划");
 		}
 	}
-	public void createTable(){
-		if("absolute".equals(name)){
+	public void createAbsoluteTable(){
 			table = tableViewer.getTable();
 			table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 			table.setHeaderVisible(true);
@@ -267,7 +273,8 @@ public class AbsoluteTime extends EditorPart {
 						}
 					}
 				}
-		}else if("quantum".equals(name)){
+	}
+	public void createQuantumTable(){
 			table = tableViewer.getTable();
 			table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 			table.setHeaderVisible(true);
@@ -347,7 +354,8 @@ public class AbsoluteTime extends EditorPart {
 						}
 					}
 				}
-		}else if("ralative".equals(name)){
+	}
+	public void createRelativeTable(){
 			table = tableViewer.getTable();
 			table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 			table.setHeaderVisible(true);
@@ -379,7 +387,7 @@ public class AbsoluteTime extends EditorPart {
 					int column=cursor.getColumn();
 					if(column==2){//编辑
 						String name=tableItem.getText();
-                        RelativeTimeEditor relativeEditor=new RelativeTimeEditor(null,name);
+                        RelativeTimeEditor relativeEditor=new RelativeTimeEditor(null,name,tableItem);
                         relativeEditor.open();
 					}
 				}
@@ -422,7 +430,6 @@ public class AbsoluteTime extends EditorPart {
 						}
 					}
 				}
-		}
 	}
 public static void addAbsoluteData(){//添加数据后表单刷新
 	for(TableItem item:table.getItems()){
