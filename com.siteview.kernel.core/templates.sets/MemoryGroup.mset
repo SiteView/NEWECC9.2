@@ -1,0 +1,14 @@
+_monitorTemplateName=MEMORY Group monitor SET
+_monitorTemplateDescription=Creates a MEMORY  Group monitor using ip
+$ip$=_description=host_ip_to_memory _value=127.0.0.1
+$community$=_description=snmp_community _value=public
+
+#
+_class=MemoryMonitor
+_machine=$ip$
+_encoding=GBK
+_frequency=500
+_dependsCondition=good
+_name=memory$ip$
+_hostname=$ip$
+_community=$community$

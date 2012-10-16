@@ -1,0 +1,17 @@
+_monitorTemplateName=DISK Group monitor SET
+_monitorTemplateDescription=Creates a DISK  Group monitor using ip
+$ip$=_description=host_ip_to_ping _value=127.0.0.1
+$community$=_description=snmp_community _value=public
+$diskName$=_description=the_name_of_disk _value=C
+
+#
+_class=DiskSpaceMonitor
+_disk=$diskName$
+_machine=$ip$
+_encoding=GBK
+_packetSize=32
+_frequency=600
+_dependsCondition=good
+_name=DiskMonitor$diskName$
+_hostname=$ip$
+_community=$community$

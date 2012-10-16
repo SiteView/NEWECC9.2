@@ -1,0 +1,23 @@
+_monitorTemplateName=Mail Group monitor SET
+_monitorTemplateDescription=Creates a Mail  Group monitor using ip
+$community$=_description=snmp_community _value=public
+$sendServer$=_description=the_path_of_directory _value=
+$sendUser$=_description=the_path_of_directory _value=
+$sendPW$=_description=the_path_of_directory _value=
+$receiveServer$=_description=the_path_of_directory _value=
+$receiveUser$=_description=the_path_of_directory _value=
+
+#
+_class=MailMonitor
+_receiveOnly=receive
+_smtpServer=$directoryPath$
+_popServer=$sendUser$
+_popUser=$receiveUser$
+_popAccount=$sendUser$
+_popPassword=$sendPW$
+_encoding=GBK
+_dependsCondition=good
+_name=Mail$receiveServer$
+_community=$community$
+_checkTimeout=50
+_checkEvery=100

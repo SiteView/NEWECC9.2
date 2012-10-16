@@ -1,0 +1,12 @@
+_monitorTemplateName=DIRECTORY Group monitor SET
+_monitorTemplateDescription=Creates a DIRECTORY  Group monitor using ip
+$community$=_description=snmp_community _value=public
+$directoryPath$=_description=the_path_of_directory _value=
+
+#
+_class=DirectoryMonitor
+_path=$directoryPath$
+_encoding=GBK
+_dependsCondition=good
+_name=Directory$directoryPath$
+_community=$community$
