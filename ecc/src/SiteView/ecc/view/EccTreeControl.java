@@ -227,6 +227,7 @@ public class EccTreeControl extends ViewPart {
 							}
 						}
 					 }else{
+							page.activate(editor);
 						 if(item instanceof AbsoluteTimeModel){
 							 AbsoluteTime.name="absolute";
 							 ((AbsoluteTime)editor).createTable();
@@ -255,8 +256,8 @@ public class EccTreeControl extends ViewPart {
 							e1.printStackTrace();
 						}  
 					 }else{
+						 page.activate(editor);
 						 ((EccControl)editor).createTable(((EccControl)editor).c);
-//						((EccControl)editor).createTableItem();
 						if(EccControl.item==null){
 							((EccControl)editor).tab(null);
 						}else{
@@ -283,6 +284,8 @@ public class EccTreeControl extends ViewPart {
 								e1.printStackTrace();
 							} 
 					}else{
+						page.activate(editor);
+						editor.setFocus();
 						TrendReport.createComposite_1(((TrendReport)editor).composite_1);
 					}
 				}

@@ -5,6 +5,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.IEditorInput;
@@ -34,6 +35,7 @@ public class TrendReport extends EditorPart {
 	public static String type;
 	public static String ID="SiteView.ecc.editors.TrendReport";
 	public Composite composite_1 ;
+	public Label label;
 	public TrendReport() {
 		// TODO Auto-generated constructor stub
 	}
@@ -74,7 +76,7 @@ public class TrendReport extends EditorPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		parent.setBackground(EccTreeControl.color);
-		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
+		parent.setLayout(new FillLayout(SWT.VERTICAL));
 		
 		SashForm sashForm = new SashForm(parent, SWT.NONE);
 		sashForm.setBackground(EccTreeControl.color);
@@ -115,6 +117,16 @@ public class TrendReport extends EditorPart {
 		parent.layout();
 	}
 	public void setFocus() {
+		if(type.equals("趋势报告")){
+			this.setPartName("趋势报告");
+		}else if(type.equals("时段对比报告")){
+			this.setPartName("时段对比报告");
+		}else if(type.equals("对比报告")){
+			this.setPartName("对比报告");
+		}else if(type.equals("状态统计报告")){
+			this.setPartName("状态统计报告");
+		}
+		
 	}
 	public static void createComposite_1(Composite composite_1){
 		for(Control c:composite_1.getChildren()){

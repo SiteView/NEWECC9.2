@@ -23,7 +23,7 @@ import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
 
 public class SiteViewData {
-	public Siteview.User user;
+	public static Siteview.User user;
 	public boolean  hasSuperUser=false;
 	public static List<GroupModle> groups_0 = new ArrayList<GroupModle>();
 	public static Map<String, GroupModle> subgroups = new HashMap<String, GroupModle>();

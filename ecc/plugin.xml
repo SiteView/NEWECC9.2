@@ -19,6 +19,7 @@
        point="org.eclipse.ui.editors">
     <editor
           class="SiteView.ecc.editors.EccControl"
+          default="false"
           id="SiteView.ecc.editors.EccControl"
           name="Ecc">
     </editor>

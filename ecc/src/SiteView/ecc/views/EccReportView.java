@@ -1,5 +1,6 @@
 package SiteView.ecc.views;
 
+import java.rmi.RemoteException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -27,14 +28,17 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
+import COM.dragonflow.Api.APIInterfaces;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MachineModle;
 import SiteView.ecc.bundle.EditGroupBundle;
+import SiteView.ecc.data.SiteViewData;
 import SiteView.ecc.dialog.ParticularInfo;
 import SiteView.ecc.editors.EccControl;
 import SiteView.ecc.reportchart.EccReportChart;
 import SiteView.ecc.tab.views.TotalTabView;
 import SiteView.ecc.view.EccTreeControl;
+import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
 
@@ -112,19 +116,23 @@ public class EccReportView extends ViewPart {
 			@Override
 			public void handleEvent(Event event) {
 				// TODO Auto-generated method stub
-				if(SiteView.ecc.view.EccTreeControl.item instanceof GroupModle){
-					if(((GroupModle)SiteView.ecc.view.EccTreeControl.item).isEditmonitor()){
-						BusObMaintView.open(ConnectionBroker.get_SiteviewApi(),(BusinessObject)EccControl.item.getData());
-					}else{
-						MessageDialog.openQuestion(new Shell(), "警告", "您没有编辑权限");
-					}
-				}else if(SiteView.ecc.view.EccTreeControl.item instanceof MachineModle){
-					if(((MachineModle)SiteView.ecc.view.EccTreeControl.item).isEditMonitor()){
-						BusObMaintView.open(ConnectionBroker.get_SiteviewApi(),(BusinessObject)EccControl.item.getData());
-					}else{
-						MessageDialog.openQuestion(new Shell(), "警告", "您没有编辑权限");
+				BusinessObject bo=(BusinessObject) EccTreeControl.item;
+				if(SiteViewData.user.get_SecurityGroupName().equals("监测管理员")||SiteViewData.user.get_SecurityGroupName().equals("Administrators")){
+					BusObMaintView.open(ConnectionBroker.get_SiteviewApi(),bo);
+					return;
+				}
+				String machineId=bo.GetField("Machine").get_NativeValue().toString();
+				if(machineId==null||machineId.equals("")){
+					machineId=bo.GetField("Groups").get_NativeValue().toString();
+				}
+				if(SiteViewData.permissions.get(machineId)!=null){
+					BusinessObject b=SiteViewData.permissions.get(machineId);
+					if((Boolean)b.GetField("EditMonitor").get_NativeValue()){
+						BusObMaintView.open(ConnectionBroker.get_SiteviewApi(),bo);
+						return;
 					}
 				}
+				MessageDialog.openQuestion(new Shell(), "警告", "您没有编辑权限");
 			}
 		});
 		
@@ -143,13 +151,20 @@ public class EccReportView extends ViewPart {
 				TableItem itable=EccControl.item;
 				BusinessObject monitor=(BusinessObject) EccControl.item.getData();
 				String monitorid=monitor.get_RecId();
+				APIInterfaces rmiServer=EditGroupBundle.createAmiServer();
+				try {
+					rmiServer.Refresh(monitorid,monitor.GetField("Groups").get_NativeValue().toString());
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
 				BusinessObject bo=EccTreeControl.CreateBo("monitorid", monitorid, "EccDyn");
-				String [] s=new String[4];
-				s[0]=bo.GetField("category").get_NativeValue().toString();
-				s[1]=monitor.GetField("Title").get_NativeValue().toString();
+				String [] s=new String[5];
+				s[0]=(Boolean)monitor.GetField("disable").get_NativeValue()?"禁止":"允许";
+				s[1]=bo.GetField("category").get_NativeValue().toString();
+				s[2]=monitor.GetField("Title").get_NativeValue().toString();
 				String desc =bo.GetField("monitorDesc").get_NativeValue().toString();
-				s[2]=EccControl.format(desc,monitor.GetField("EccType").get_NativeValue().toString());
-				s[3] = bo.GetField("LastModDateTime").get_NativeValue().toString();
+				s[3]=EccControl.format(desc,monitor.GetField("EccType").get_NativeValue().toString());
+				s[4] = bo.GetField("LastModDateTime").get_NativeValue().toString();
 				itable.setText(s);
 				EccControl.tab((BusinessObject)EccControl.item.getData());
 			}
@@ -158,15 +173,30 @@ public class EccReportView extends ViewPart {
 			@Override
 			public void handleEvent(Event event) {
 				// TODO Auto-generated method stub
-				if(!((GroupModle)SiteView.ecc.view.EccTreeControl.item).isDeleteMonitor()){
+				BusinessObject bo=(BusinessObject) EccTreeControl.item;
+				String id=bo.GetField("Machine").get_NativeValue().toString();
+				boolean flage=false;
+				if(!SiteViewData.user.get_SecurityGroupName().equals("监测管理员")&&!SiteViewData.user.get_SecurityGroupName().equals("Administrators")){
+					if(id!=null && !id.equals("")){
+						if(SiteViewData.permissions.get(id)!=null){
+							flage=(Boolean)SiteViewData.permissions.get(id).GetField("DeleteMonitor").get_NativeValue();
+						}else{
+							flage=true;
+						}
+					}else{
+						id=bo.GetField("Groups").get_NativeValue().toString();
+						if(SiteViewData.permissions.get(id)!=null){
+							flage=(Boolean)SiteViewData.permissions.get(id).GetField("DeleteMonitor").get_NativeValue();
+						}else{
+							flage=true;
+						}
+					}
+				}
+				if(flage){
 					MessageDialog.openQuestion(new Shell(), "警告", "您没有删除监测器的权限");
 					return ;
 				}
-				BusinessObject bo=(BusinessObject)EccControl.item.getData();
-				bo.DeleteObject(ConnectionBroker.get_SiteviewApi());
 				String groupId=bo.GetFieldOrSubfield("Groups_valid").get_NativeValue().toString();
-				EditGroupBundle edit=new EditGroupBundle();
-				edit.updateGroup("GroupId="+groupId);
 				TableItem  tablei=EccControl.item;
 				Table toptable=tablei.getParent();
 				if(toptable.getItemCount()>1){
@@ -177,6 +207,9 @@ public class EccReportView extends ViewPart {
 					EccControl.c1.dispose();
 				}
 				tablei.dispose();
+				bo.DeleteObject(ConnectionBroker.get_SiteviewApi());
+				EditGroupBundle edit=new EditGroupBundle();
+				edit.updateGroup("GroupId="+groupId);
 			}
 		});
 		

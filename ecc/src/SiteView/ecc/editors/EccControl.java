@@ -85,6 +85,7 @@ public class EccControl extends EditorPart {
 	static Color[] color;
 	
 	public void createPartControl(Composite parent) {
+		bo1=null;
 		if (parent.getChildren().length > 0) {
 			for (Control control : parent.getChildren()) {
 				control.dispose();
@@ -120,8 +121,8 @@ public class EccControl extends EditorPart {
 
 		toptable.addMouseListener(new MouseAdapter() {
 			public void mouseUp(MouseEvent e) {
-				item = toptable.getItem(new Point(e.x, e.y));
 				if (e.button == 3) {
+					item = toptable.getItem(new Point(e.x, e.y));
 					final Menu menu = getMenu(toptable);
 					menu.setLocation(toptable.toDisplay(e.x, e.y));
 					menu.setVisible(true);
@@ -176,6 +177,8 @@ public class EccControl extends EditorPart {
 					SWT.NONE);
 			newColumnTableColumn_2.setWidth(80);
 			newColumnTableColumn_2.setText("监测器数");
+			
+			lable.setText("子组");
 		}
 		TableColumn newColumnTableColumn_top3 =new TableColumn(toptable,
 				SWT.NONE);
@@ -190,6 +193,7 @@ public class EccControl extends EditorPart {
 	}
 
 	public static void createTableItem() {
+		bo1=null;
 		item = null;
 		if (toptable.getItemCount() > 0) {
 			for (TableItem tableItem : toptable.getItems()) {
@@ -226,7 +230,7 @@ public class EccControl extends EditorPart {
 				data[2]=group.getMachines().size()+"";
 				data[3]=group.getMonitors().size()+"";
 				data[4]=group.getBo().GetField("Description").get_NativeValue().toString();
-				data[5]="2012/10/16 13:12:00";
+				data[5]=group.getBo().GetField("LastModDateTime").get_NativeValue().toString();
 				tableItem.setText(data);
 			}
 			return ;
@@ -281,7 +285,7 @@ public class EccControl extends EditorPart {
 				TableItem tableItem = new TableItem(toptable, SWT.NONE);
 				tableItem.setData(bo);
 				tableItem.setText(data);
-				if (i == 0||EccTreeControl.item instanceof MachineModle) {
+				if (i == 0&&EccTreeControl.item instanceof MachineModle) {
 					item = tableItem;
 				}
 				i++;
@@ -370,12 +374,76 @@ public class EccControl extends EditorPart {
 		c1.setLayout(new FillLayout());
 		SashForm sa=new SashForm(c1, SWT.VERTICAL);
 		sa.setLayout(new FillLayout());
+		
+		Label label_1=new Label(sa, SWT.VERTICAL);
+		label_1.setText("子组");
+		label_1.setBackground(SWTResourceManager
+				.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
+		
+		Table table_1=new Table(sa,SWT.FULL_SELECTION);
+		table_1.setLinesVisible(true);
+		table_1.setHeaderVisible(true);
+		table_1.setBackground(EccTreeControl.color);
+		
+		TableColumn tableColumn_1 = new TableColumn(table_1,
+				SWT.NONE);
+		tableColumn_1.setWidth(120);
+		tableColumn_1.setText("组名");
+		
+		TableColumn tableColumn_2 = new TableColumn(table_1,
+				SWT.NONE);
+		tableColumn_2.setWidth(120);
+		tableColumn_2.setText("设备数");
+		
+		TableColumn tableColumn_3 = new TableColumn(table_1,
+				SWT.NONE);
+		tableColumn_3.setWidth(120);
+		tableColumn_3.setText("子组数");
+		
+		TableColumn tableColumn_4 = new TableColumn(table_1,
+				SWT.NONE);
+		tableColumn_4.setWidth(120);
+		tableColumn_4.setText("描述信息");
+		
+		TableColumn tableColumn_5 = new TableColumn(table_1,
+				SWT.NONE);
+		tableColumn_5.setWidth(120);
+		tableColumn_5.setText("上次修改时间");
+		
+		table_1.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				item = (TableItem) e.item;
+				if(item.getData() instanceof GroupModle){
+					EccTreeControl.item=item.getData();
+					lable.setText("监测器");
+					IWorkbenchPage page = Activator.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();  
+					IEditorPart editor = page.findEditor(EccTreeControl.eee);
+					((EccControl)editor).createTable(((EccControl)editor).c);
+					tab(((EccControl)editor).bo1);
+				}
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+		
+		for(GroupModle group:((GroupModle)EccTreeControl.item).getGroups()){
+			TableItem t=new TableItem(table_1, SWT.NONE);
+			String [] data=new String[5];
+			data[0]=group.getBo().GetField("GroupName").get_NativeValue().toString();
+			data[1]=group.getMachines().size()+"";
+			data[2]=group.getGroups().size()+"";
+			data[3]=group.getBo().GetField("Description").get_NativeValue().toString();
+			data[4]=group.getBo().GetField("LastModDateTime").get_NativeValue().toString();
+			t.setData(group);
+			t.setText(data);
+		}
+		
 		Label label=new Label(sa, SWT.VERTICAL);
 		label.setText("设备");
 		label.setBackground(SWTResourceManager
 				.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		
-		Table table=new Table(sa,SWT.FULL_SELECTION|SWT.CHECK);
+		Table table=new Table(sa,SWT.FULL_SELECTION);
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setBackground(EccTreeControl.color);
@@ -391,7 +459,6 @@ public class EccControl extends EditorPart {
 					tab(((EccControl)editor).bo1);
 				}
 			}
-
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
@@ -417,7 +484,7 @@ public class EccControl extends EditorPart {
 		tableItem_5.setText("监测器");
 		
 		createItem_1(table);
-		sa.setWeights(new int[]{1,20});
+		sa.setWeights(new int[]{1,10,1,10});
 		c1.layout();
 	}
 
@@ -508,23 +575,16 @@ public class EccControl extends EditorPart {
 						monitorid, "EccDyn");
 				String[] s = new String[5];
 				if(bo!=null){
-					s[0] = "允许";
 					s[1] = bo.GetField("category").get_NativeValue().toString();
-					s[2] = monitor.GetField("Title").get_NativeValue().toString();
-					String desc = bo.GetField("monitorDesc").get_NativeValue()
-							.toString();
-					s[3] = format(desc, monitor.GetField("EccType")
-							.get_NativeValue().toString());
-					s[4] = bo.GetField("LastModDateTime").get_NativeValue()
-							.toString();
+					String desc = bo.GetField("monitorDesc").get_NativeValue().toString();
+					s[3] = format(desc, monitor.GetField("EccType").get_NativeValue().toString());
 				}else{
-					s[0] = "允许";
 					s[1] = "no data";
-					s[2] = monitor.GetField("title").get_NativeValue().toString();
 					s[3] = "has no logs";
-					s[4] = monitor.GetField("LastModDateTime").get_NativeValue()
-							.toString();
 				}
+				s[0] = (Boolean)bo.GetField("disable").get_NativeValue()?"禁止":"允许";
+				s[2] = monitor.GetField("title").get_NativeValue().toString();
+				s[4] = monitor.GetField("LastModDateTime").get_NativeValue().toString();
 				itable.setText(s);
 				tab((BusinessObject) item.getData());
 			}
