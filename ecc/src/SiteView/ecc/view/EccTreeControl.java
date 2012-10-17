@@ -229,12 +229,15 @@ public class EccTreeControl extends ViewPart {
 					 }else{
 						 if(item instanceof AbsoluteTimeModel){
 							 AbsoluteTime.name="absolute";
+							 ((AbsoluteTime)editor).createTable();
 							 ((AbsoluteTime)editor).createLabel();
 						 }else if(item instanceof TimeQuantumModel){
 							 AbsoluteTime.name="quantum";
+							 ((AbsoluteTime)editor).createTable();
 							 ((AbsoluteTime)editor).createLabel();
 						}else if(item instanceof RelativeTimeModel){
 							 AbsoluteTime.name="ralative";
+							 ((AbsoluteTime)editor).createTable();
 							 ((AbsoluteTime)editor).createLabel();
 						}
 					 }
