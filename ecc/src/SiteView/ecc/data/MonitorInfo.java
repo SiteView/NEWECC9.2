@@ -1,18 +1,6 @@
 package SiteView.ecc.data;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
-import SiteView.ecc.tools.Config;
-import SiteView.ecc.tools.FileTools;
-import SiteView.ecc.views.EccTreeControl;
-import Siteview.Api.BusinessObject;
-
-import system.Collections.ICollection;
-import system.Collections.IEnumerator;
 
 public class MonitorInfo {
 	private Long id;

@@ -34,6 +34,7 @@ import SiteView.ecc.dialog.ParticularInfo;
 import SiteView.ecc.editors.EccControl;
 import SiteView.ecc.reportchart.EccReportChart;
 import SiteView.ecc.tab.views.TotalTabView;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
 

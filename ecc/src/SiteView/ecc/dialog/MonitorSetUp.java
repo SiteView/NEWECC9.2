@@ -391,7 +391,7 @@ public class MonitorSetUp extends Dialog {
 	protected void buttonPressed(int buttonId) {
 		if (buttonId == IDialogConstants.OK_ID) {
 			BusinessObject bo = (BusinessObject) tableItem.getData();
-			bo = SiteView.ecc.views.EccTreeControl.CreateBo("RecId",
+			bo =FileTools.CreateBo("RecId",
 					bo.get_RecId(), "Ecc."
 							+ bo.GetField("EccType").get_NativeValue()
 									.toString());
@@ -414,7 +414,7 @@ public class MonitorSetUp extends Dialog {
 			this.close();
 		} else if (buttonId == IDialogConstants.FINISH_ID) {
 			BusinessObject bo = (BusinessObject) tableItem.getData();
-			bo = SiteView.ecc.views.EccTreeControl.CreateBo("RecId",
+			bo = FileTools.CreateBo("RecId",
 					bo.get_RecId(), "Ecc."
 							+ bo.GetField("EccType").get_NativeValue()
 									.toString());

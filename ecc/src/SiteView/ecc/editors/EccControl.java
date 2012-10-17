@@ -28,13 +28,16 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 
 import COM.dragonflow.Api.APIInterfaces;
 import COM.dragonflow.Api.ApiRmiServer;
 import COM.dragonflow.Api.SSAlertInstanceInfo;
+import SiteView.ecc.Activator;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MachineModle;
 import SiteView.ecc.Modle.SiteViewEcc;
@@ -72,14 +75,14 @@ public class EccControl extends EditorPart {
 	}
 	public static final String ID = "SiteView.ecc.editors.EccControl";
 	public static TableItem item = null;
-	public BusinessObject bo1 = null;
+	public static BusinessObject bo1 = null;
 	public static Table toptable;
 	static TabFolder tabFolder;
 	public Composite c_1;
 	public static Composite c1;
-	Label lable;
-	Composite c;
-	Color[] color;
+	static Label lable;
+	public Composite c;
+	static Color[] color;
 	
 	public void createPartControl(Composite parent) {
 		if (parent.getChildren().length > 0) {
@@ -97,7 +100,7 @@ public class EccControl extends EditorPart {
 		c = new Composite(sashForm, SWT.NONE);
 		c.setVisible(true);
 		c.setLayout(new FillLayout());
-		createTable();
+		createTable(c);
 		c1 = new Composite(sashForm, SWT.NONE);
 		c1.setLayout(new FillLayout());
 		tab(bo1);
@@ -106,7 +109,7 @@ public class EccControl extends EditorPart {
 	}
 
 	// ¼à²âÆ÷ÁÐ±í
-	public void createTable() {
+	public static void createTable(final Composite c) {
 		if(toptable != null && !toptable.isDisposed()) {
 			toptable.dispose();
 		}
@@ -130,7 +133,7 @@ public class EccControl extends EditorPart {
 				if (item != e.item) {
 					item = (TableItem) e.item;
 					if(item.getData() instanceof BusinessObject){
-						bo1 = (BusinessObject) item.getData();
+						bo1= (BusinessObject) item.getData();
 						item.setChecked(!item.getChecked());
 						EccTreeControl.item=item.getData();
 						if (bo1 != null) {
@@ -139,7 +142,7 @@ public class EccControl extends EditorPart {
 					}else if(item.getData() instanceof MachineModle || item.getData() instanceof GroupModle){
 						EccTreeControl.item=item.getData();
 						lable.setText("¼à²âÆ÷");
-						createTable();
+						createTable(c);
 						tab(bo1);
 					}
 				}
@@ -186,7 +189,7 @@ public class EccControl extends EditorPart {
 		c.layout();
 	}
 
-	public void createTableItem() {
+	public static void createTableItem() {
 		item = null;
 		if (toptable.getItemCount() > 0) {
 			for (TableItem tableItem : toptable.getItems()) {
@@ -241,7 +244,7 @@ public class EccControl extends EditorPart {
 				BusinessObject bodyn = EccTreeControl.CreateBo("monitorid",
 						bo.get_RecId(), "EccDyn");
 				String[] data = new String[5];
-				if (bo1 == null||EccTreeControl.item instanceof MachineModle) {
+				if (bo1 == null&&EccTreeControl.item instanceof MachineModle) {
 					bo1 = bo;
 				}
 				if (bodyn == null) {
@@ -372,25 +375,23 @@ public class EccControl extends EditorPart {
 		label.setBackground(SWTResourceManager
 				.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		
-		Table table=new Table(sa, SWT.NONE);
+		Table table=new Table(sa,SWT.FULL_SELECTION|SWT.CHECK);
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setBackground(EccTreeControl.color);
 		
 		table.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				if (item != e.item) {
-					item = (TableItem) e.item;
-					if(item.getData() instanceof MachineModle){
-						EccTreeControl.item=item.getData();
-					}else if(item.getData() instanceof MachineModle || item.getData() instanceof GroupModle){
-//						EccTreeControl.item=item.getData();
-//						lable.setText("¼à²âÆ÷");
-//						createTable();
-//						tab(null);
-					}
+				item = (TableItem) e.item;
+				if(item.getData() instanceof MachineModle){
+					EccTreeControl.item=item.getData();
+					IWorkbenchPage page = Activator.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();  
+					IEditorPart editor = page.findEditor(EccTreeControl.eee);
+					((EccControl)editor).createTable(((EccControl)editor).c);
+					tab(((EccControl)editor).bo1);
 				}
 			}
+
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
@@ -455,7 +456,7 @@ public class EccControl extends EditorPart {
 	}
 
 	// ±íÖÐ¼à²âÆ÷ÓÒ»÷Menu
-	public Menu getMenu(Table tableItem) {
+	public static Menu getMenu(Table tableItem) {
 		Menu menu = new Menu(tableItem);
 		MenuItem m1 = new MenuItem(menu, SWT.NONE);
 		m1.setText("±à¼­¼à²âÆ÷");

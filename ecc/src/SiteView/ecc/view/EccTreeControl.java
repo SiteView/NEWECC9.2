@@ -255,7 +255,7 @@ public class EccTreeControl extends ViewPart {
 							e1.printStackTrace();
 						}  
 					 }else{
-						 ((EccControl)editor).createTable();
+						 ((EccControl)editor).createTable(((EccControl)editor).c);
 //						((EccControl)editor).createTableItem();
 						if(EccControl.item==null){
 							((EccControl)editor).tab(null);

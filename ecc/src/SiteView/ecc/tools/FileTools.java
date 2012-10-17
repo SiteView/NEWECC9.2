@@ -13,7 +13,7 @@ import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
 import SiteView.ecc.Activator;
-import SiteView.ecc.views.EccTreeControl;
+import SiteView.ecc.view.EccTreeControl;
 import Siteview.Operators;
 import Siteview.QueryInfoToGet;
 import Siteview.SiteviewQuery;
