@@ -246,8 +246,7 @@ public class AddRelativeTime extends Dialog {
 		text_1 = new Text(composite_1, SWT.BORDER);//任务计划名称
 		text_1.setBounds(115, 5, 150, 18);
 		
-		tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION | SWT.CHECK);
-		table = tableViewer.getTable();
+		table = new Table(sashForm, SWT.BORDER|SWT.CHECK);
 		table.setHeaderVisible(true);
 		table.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 
@@ -4846,7 +4845,7 @@ public class AddRelativeTime extends Dialog {
 		Button button1 = createButton(parent, IDialogConstants.CANCEL_ID, "取消",true);
 	}
 	protected void buttonPressed(int buttonId) {
-	L1:	if(buttonId==IDialogConstants.OK_ID){
+		if(buttonId==IDialogConstants.OK_ID){
 			ICollection ico=FileTools.getBussCollection("EccTaskPlan");
 			IEnumerator ienum=ico.GetEnumerator();
 			while(ienum.MoveNext()){
@@ -4857,17 +4856,17 @@ public class AddRelativeTime extends Dialog {
 					if(text_1.getText().equals(taskName)&&"相对时间计划".equals(model)){
 						MessageBox messageBox=new MessageBox();
 						messageBox.Show("任务计划名称已存在!", "提示", SWT.OK);
-						break L1;
+						return;
 					}
 					if(text_1.getText().equals(taskName)){
 						MessageBox messageBox=new MessageBox();
 						messageBox.Show("该任务计划名称已在别的任务计划中存在!", "提示", SWT.OK);
-						break L1;
+						return;
 					}
 					if(text_1.getText().isEmpty()){
 						MessageBox messageBox=new MessageBox();
 						messageBox.Show("任务计划名称不能为空!", "提示", SWT.OK);
-						break L1;
+						return;
 					} 
 				}
 			}

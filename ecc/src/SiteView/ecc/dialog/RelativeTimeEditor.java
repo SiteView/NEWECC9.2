@@ -466,8 +466,7 @@ public class RelativeTimeEditor extends Dialog{
 		text_1.setText(TaskName);
 		text_1.setEnabled(false);
 		
-		TableViewer tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION | SWT.CHECK);
-		table = tableViewer.getTable();
+		table = new Table(sashForm, SWT.BORDER|SWT.CHECK);
 		table.setHeaderVisible(true);
 		table.setBackground(EccTreeControl.color);
 		

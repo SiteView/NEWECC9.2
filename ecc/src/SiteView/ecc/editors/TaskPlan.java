@@ -4,7 +4,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.EditorPart;
@@ -19,8 +21,12 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.wb.swt.SWTResourceManager;
 
+import SiteView.ecc.Activator;
 import SiteView.ecc.Control.TaskPlanContentProvider;
 import SiteView.ecc.Control.TaskPlanLabelProvider;
+import SiteView.ecc.Modle.AbsoluteTimeModel;
+import SiteView.ecc.Modle.RelativeTimeModel;
+import SiteView.ecc.Modle.TimeQuantumModel;
 import SiteView.ecc.data.TaskInfo;
 import SiteView.ecc.view.EccTreeControl;
 
@@ -28,7 +34,7 @@ public class TaskPlan extends EditorPart {
 	public static final String ID="SiteView.ecc.editors.TaskPlan";
 	private Table table;
 	private TableItem tableItem;
-	
+	public static AbsoluteTimeInput ati = new AbsoluteTimeInput();
 
 	public TaskPlan() {
 		// TODO Auto-generated constructor stub
@@ -88,6 +94,52 @@ public class TaskPlan extends EditorPart {
 		table = tableViewer.getTable();
 		table.setBackground(EccTreeControl.color);
 		table.setHeaderVisible(true);
+		table.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				TableItem tableItem=(TableItem)e.item;
+				IWorkbenchPage page = Activator.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();  
+				IEditorPart editor = page.findEditor(ati); 
+				if(editor==null){
+					if(tableItem.getText().equals("绝对时间任务计划")){
+						try {
+							page.openEditor(new AbsoluteTimeInput("absolute"), AbsoluteTime.absoluteID);
+						} catch (PartInitException e1) {
+							e1.printStackTrace();
+						}
+					}else if(tableItem.getText().equals("时间段任务计划")){
+						try {
+							page.openEditor(new AbsoluteTimeInput("quantum"),  AbsoluteTime.absoluteID);
+						} catch (PartInitException e1) {
+							e1.printStackTrace();
+						}
+					}else if(tableItem.getText().equals("相对时间任务计划")){
+						try {
+							page.openEditor(new AbsoluteTimeInput("ralative"),  AbsoluteTime.absoluteID);
+						} catch (PartInitException e1) {
+							e1.printStackTrace();
+						}
+					}
+				}else{
+					 if(tableItem.getText().equals("绝对时间任务计划")){
+						 AbsoluteTime.name="absolute";
+						 ((AbsoluteTime)editor).createTable();
+						 ((AbsoluteTime)editor).createLabel();
+					 }else if(tableItem.getText().equals("时间段任务计划")){
+						 AbsoluteTime.name="quantum";
+						 ((AbsoluteTime)editor).createTable();
+						 ((AbsoluteTime)editor).createLabel();
+					}else if(tableItem.getText().equals("相对时间任务计划")){
+						 AbsoluteTime.name="ralative";
+						 ((AbsoluteTime)editor).createTable();
+						 ((AbsoluteTime)editor).createLabel();
+					}
+				}
+				
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+				
+			}
+		});
 		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.LEFT);
 		tblclmnNewColumn.setText("\u540D\u79F0");
