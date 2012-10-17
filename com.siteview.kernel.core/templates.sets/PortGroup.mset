@@ -1,0 +1,16 @@
+_monitorTemplateName=PORT Group monitor SET
+_monitorTemplateDescription=Creates a PORT  Group monitor using ip
+$hostName$=_description=the_ip_of_monitor _value=
+$port$=_description=the_port_of_monitor _value=
+$community$=_description=snmp_community _value=public
+
+#
+_class=PortMonitor
+_hostname=$hostName$
+_port=$port$
+_encoding=GBK
+_frequency=500
+_timeout=5000
+_dependsCondition=good
+_name=Port:$hostName$:$port$
+_community=$community$

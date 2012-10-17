@@ -1,0 +1,13 @@
+_monitorTemplateName=FILE Group monitor SET
+_monitorTemplateDescription=Creates a FILE  Group monitor using ip
+$filename$=_description=the_name_of_file _value=
+$community$=_description=snmp_community _value=public
+
+#
+_class=FileMonitor
+_filename=$filename$
+_encoding=GBK
+_frequency=500
+_dependsCondition=good
+_name=File$filename$
+_community=$community$

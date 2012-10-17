@@ -1,0 +1,12 @@
+_monitorTemplateName=SQL Group monitor SET
+_monitorTemplateDescription=Creates a SQL  Group monitor using ip
+$community$=_description=snmp_community _value=public
+$ip$=_description=host_ip_to_sql _value=127.0.0.1
+
+#
+_class=SQLServerMonitor
+_machine=$ip$
+_encoding=GBK
+_dependsCondition=good
+_name=SQL$ip$
+_community=$community$

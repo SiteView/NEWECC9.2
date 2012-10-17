@@ -1,0 +1,15 @@
+_monitorTemplateName=URL Group monitor SET
+_monitorTemplateDescription=Creates a URL  Group monitor using ip
+$url$=_description=the_url_of_monitor _value=http://
+$community$=_description=snmp_community _value=public
+$content$=_description=content_of_url _value=
+
+#
+_class=URLMonitor
+_url=$url$
+_content=$content$
+_encoding=GBK
+_frequency=500
+_dependsCondition=good
+_name=URL$url$
+_community=$community$
