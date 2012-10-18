@@ -121,7 +121,7 @@ public class EccReportChart {
 				Minute m = new Minute(Integer.parseInt(mi),
 						Integer.parseInt(ho), Integer.parseInt(da),
 						Integer.parseInt(mo), Integer.parseInt(ye));
-				if (!x.equals("n/a")&&!x.equals("no data")&&!x.equals("failed")) {
+				if (!x.equals("n/a")&&!x.equals("no data")&&!x.equals("failed")&&!x.contains("unknown error (-1)")) {
 					if (x.equals("ok")) {
 						x="200";
 					}

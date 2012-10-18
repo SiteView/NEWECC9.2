@@ -41,7 +41,7 @@ public class RemoteMacheineBundle implements IAutoTaskExtension {
 		c=rmiServer.doTestMachine(remoteMachineInfo,hostname,bo.get_RecId());
 		String s=c.get(0)[0].replaceAll(" ", ".");
 		bo.GetField("Status").SetValue(new SiteviewValue(s));
-		bo.SaveObject(ConnectionBroker.get_SiteviewApi(), false, true);
+		//bo.SaveObject(ConnectionBroker.get_SiteviewApi(), false, true);
 		MessageDialog.openInformation(new Shell(), "link test", c.get(0)[0]);
 		BatchAddMachine b=new BatchAddMachine(null);
 		b.s=c;

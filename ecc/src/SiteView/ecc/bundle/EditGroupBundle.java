@@ -121,12 +121,13 @@ public class EditGroupBundle implements IAutoTaskExtension {
 		Registry registry;
 		String serverAddress ="localhost";
 		String serverPort = "3232";
-		APIInterfaces rmiServer=null;
+		APIInterfaces rmiServer;
 	
 			try {
 				registry = LocateRegistry.getRegistry(serverAddress, (new Integer(
 						serverPort)).intValue());
 				rmiServer = (APIInterfaces) (registry.lookup("kernelApiRmiServer"));
+				return rmiServer;
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -137,7 +138,7 @@ public class EditGroupBundle implements IAutoTaskExtension {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		return rmiServer;
+		return null;
 	}
 
 	@Override
