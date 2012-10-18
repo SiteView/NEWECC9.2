@@ -150,10 +150,8 @@ public class EccTreeControl extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		parent.setBackground(color);
 		treeViewer = new TreeViewer(parent);
 		Tree tree = treeViewer.getTree();
-		tree.setBackground(color);
 		treeViewer.setContentProvider(new EccTreeContentProvider());
 		treeViewer.setLabelProvider(new EccTreeLabelProvider());
 		SiteViewData s = new SiteViewData();

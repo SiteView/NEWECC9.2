@@ -87,21 +87,21 @@ public class SiteViewData {
 		groups_0.addAll(list);
 		siteview.setList(list);
 		site.add(siteview);
-		if(hasSuperUser){
-			site.add(new MonitorSetUpModel());
-			site.add(new AlarmModle());	
-			site.add(new StatementsModle());
-			site.add(new SetUpModle());
-		}
-		if(permissions.get("御少")!=null){
-			site.add(new AlarmModle());	
-		}
-		if(permissions.get("")!=null){
-			site.add(new StatementsModle());
-		}
-		if(permissions.get("userManage")!=null){
-			site.add(new SetUpModle());
-		}
+//		if(hasSuperUser){
+//			site.add(new MonitorSetUpModel());
+//			site.add(new AlarmModle());	
+//			site.add(new StatementsModle());
+//			site.add(new SetUpModle());
+//		}
+//		if(permissions.get("御少")!=null){
+//			site.add(new AlarmModle());	
+//		}
+//		if(permissions.get("")!=null){
+//			site.add(new StatementsModle());
+//		}
+//		if(permissions.get("userManage")!=null){
+//			site.add(new SetUpModle());
+//		}
 		return site;
 	}
 
