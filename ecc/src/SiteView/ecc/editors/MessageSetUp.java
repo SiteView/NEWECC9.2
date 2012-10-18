@@ -162,9 +162,11 @@ public class MessageSetUp extends EditorPart {
 		delButton.setText("É¾³ý");
 		delButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				SMSModel sms = (SMSModel) tableItem.getData();
-				sms.getBo().DeleteObject(ConnectionBroker.get_SiteviewApi());
-				tableItem.dispose();
+				if(!(tableItem.isDisposed())){
+					SMSModel sms = (SMSModel) tableItem.getData();
+					sms.getBo().DeleteObject(ConnectionBroker.get_SiteviewApi());
+					tableItem.dispose();
+				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}

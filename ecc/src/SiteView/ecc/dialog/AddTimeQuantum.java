@@ -129,12 +129,42 @@ public class AddTimeQuantum extends Dialog{
 		startTime.setLocation(179, 33);
 		startTime.setSize(79, 15);
 		startTime.setTime(00, 00, 00);
-		startTimeStr=startTime.getHours() + ":"
-				+ startTime.getMinutes() + ":" + startTime.getSeconds();
+//		startTimeStr=startTime.getHours() + ":"
+//				+ startTime.getMinutes() + ":" + startTime.getSeconds();
+		if(startTime.getHours()<10){
+			startTimeStr="0"+startTime.getHours()+":";
+		}else{
+			startTimeStr=startTime.getHours()+":";
+		}
+		if(startTime.getMinutes()<10){
+			startTimeStr+="0"+startTime.getMinutes()+":";
+		}else{
+			startTimeStr+=startTime.getMinutes()+":";
+		}
+		if(startTime.getSeconds()<10){
+			startTimeStr+="0"+startTime.getMinutes();
+		}else{
+			startTimeStr+=startTime.getMinutes()+"";
+		}
 		startTime.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-            startTimeStr=startTime.getHours() + ":"
-    				+ startTime.getMinutes() + ":" + startTime.getSeconds();
+//            startTimeStr=startTime.getHours() + ":"
+//    				+ startTime.getMinutes() + ":" + startTime.getSeconds();
+				if(startTime.getHours()<10){
+					startTimeStr="0"+startTime.getHours()+":";
+				}else{
+					startTimeStr=startTime.getHours()+":";
+				}
+				if(startTime.getMinutes()<10){
+					startTimeStr+="0"+startTime.getMinutes()+":";
+				}else{
+					startTimeStr+=startTime.getMinutes()+":";
+				}
+				if(startTime.getSeconds()<10){
+					startTimeStr+="0"+startTime.getMinutes();
+				}else{
+					startTimeStr+=startTime.getMinutes()+"";
+				}
 			}
 			
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -152,12 +182,42 @@ public class AddTimeQuantum extends Dialog{
 		startTime_1.setLocation(295, 33);
 		startTime_1.setSize(79, 15);
 		startTime_1.setTime(23, 59, 00);
-		startTimeStr_1=startTime_1.getHours() + ":"
-				+ startTime_1.getMinutes() + ":" + startTime_1.getSeconds();
+//		startTimeStr_1=startTime_1.getHours() + ":"
+//				+ startTime_1.getMinutes() + ":" + startTime_1.getSeconds();
+		if(startTime_1.getHours()<10){
+			startTimeStr_1="0"+startTime_1.getHours()+":";
+		}else{
+			startTimeStr_1=startTime_1.getHours()+":";
+		}
+		if(startTime_1.getMinutes()<10){
+			startTimeStr_1+="0"+startTime_1.getMinutes()+":";
+		}else{
+			startTimeStr_1+=startTime_1.getMinutes()+":";
+		}
+		if(startTime_1.getSeconds()<10){
+			startTimeStr_1+="0"+startTime_1.getMinutes();
+		}else{
+			startTimeStr_1+=startTime_1.getMinutes()+"";
+		}
 		startTime_1.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				startTimeStr_1=startTime_1.getHours() + ":"
-						+ startTime_1.getMinutes() + ":" + startTime_1.getSeconds();
+//				startTimeStr_1=startTime_1.getHours() + ":"
+//						+ startTime_1.getMinutes() + ":" + startTime_1.getSeconds();
+				if(startTime_1.getHours()<10){
+					startTimeStr_1="0"+startTime_1.getHours()+":";
+				}else{
+					startTimeStr_1=startTime_1.getHours()+":";
+				}
+				if(startTime_1.getMinutes()<10){
+					startTimeStr_1+="0"+startTime_1.getMinutes()+":";
+				}else{
+					startTimeStr_1+=startTime_1.getMinutes()+":";
+				}
+				if(startTime_1.getSeconds()<10){
+					startTimeStr_1+="0"+startTime_1.getMinutes();
+				}else{
+					startTimeStr_1+=startTime_1.getMinutes()+"";
+				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
@@ -183,12 +243,43 @@ public class AddTimeQuantum extends Dialog{
 		startTime_2.setLocation(179, 54);
 		startTime_2.setSize(79, 15);
 		startTime_2.setTime(00, 00, 00);
-		startTimeStr_2=startTime_2.getHours() + ":"
-				+ startTime_2.getMinutes() + ":" + startTime_2.getSeconds();
+//		startTimeStr_2=startTime_2.getHours() + ":"
+//				+ startTime_2.getMinutes() + ":" + startTime_2.getSeconds();
+		if(startTime_2.getHours()<10){
+			startTimeStr_2="0"+startTime_2.getHours()+":";
+		}else{
+			startTimeStr_2=startTime_2.getHours()+":";
+		}
+		if(startTime_2.getMinutes()<10){
+			startTimeStr_2+="0"+startTime_2.getMinutes()+":";
+		}else{
+			startTimeStr_2+=startTime_2.getMinutes()+":";
+		}
+		if(startTime_2.getSeconds()<10){
+			startTimeStr_2+="0"+startTime_2.getMinutes();
+		}else{
+			startTimeStr_2+=startTime_2.getMinutes()+"";
+		}
 		startTime_2.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				startTimeStr_2=startTime_2.getHours() + ":"
-						+ startTime_2.getMinutes() + ":" + startTime_2.getSeconds();
+//				startTimeStr_2=startTime_2.getHours() + ":"
+//						+ startTime_2.getMinutes() + ":" + startTime_2.getSeconds();
+				if(startTime_2.getHours()<10){
+					startTimeStr_2="0"+startTime_2.getHours()+":";
+				}else{
+					startTimeStr_2=startTime_2.getHours()+":";
+				}
+				if(startTime_2.getMinutes()<10){
+					startTimeStr_2+="0"+startTime_2.getMinutes()+":";
+				}else{
+					startTimeStr_2+=startTime_2.getMinutes()+":";
+				}
+				if(startTime_2.getSeconds()<10){
+					startTimeStr_2+="0"+startTime_2.getMinutes();
+				}else{
+					startTimeStr_2+=startTime_2.getMinutes()+"";
+				}	
+				
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 			
@@ -205,12 +296,42 @@ public class AddTimeQuantum extends Dialog{
 		startTime_3.setLocation(295, 54);
 		startTime_3.setSize(79, 15);
 		startTime_3.setTime(23, 59, 00);
-		startTimeStr_3=startTime_3.getHours() + ":"
-				+ startTime_3.getMinutes() + ":" + startTime_3.getSeconds();
+//		startTimeStr_3=startTime_3.getHours() + ":"
+//				+ startTime_3.getMinutes() + ":" + startTime_3.getSeconds();
+		if(startTime_3.getHours()<10){
+			startTimeStr_3="0"+startTime_3.getHours()+":";
+		}else{
+			startTimeStr_3=startTime_3.getHours()+":";
+		}
+		if(startTime_3.getMinutes()<10){
+			startTimeStr_3+="0"+startTime_3.getMinutes()+":";
+		}else{
+			startTimeStr_3+=startTime_3.getMinutes()+":";
+		}
+		if(startTime_3.getSeconds()<10){
+			startTimeStr_3+="0"+startTime_3.getMinutes();
+		}else{
+			startTimeStr_3+=startTime_3.getMinutes()+"";
+		}
 		startTime_3.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				startTimeStr_3=startTime_3.getHours() + ":"
-						+ startTime_3.getMinutes() + ":" + startTime_3.getSeconds();
+//				startTimeStr_3=startTime_3.getHours() + ":"
+//						+ startTime_3.getMinutes() + ":" + startTime_3.getSeconds();
+				if(startTime_3.getHours()<10){
+					startTimeStr_3="0"+startTime_3.getHours()+":";
+				}else{
+					startTimeStr_3=startTime_3.getHours()+":";
+				}
+				if(startTime_3.getMinutes()<10){
+					startTimeStr_3+="0"+startTime_3.getMinutes()+":";
+				}else{
+					startTimeStr_3+=startTime_3.getMinutes()+":";
+				}
+				if(startTime_3.getSeconds()<10){
+					startTimeStr_3+="0"+startTime_3.getMinutes();
+				}else{
+					startTimeStr_3+=startTime_3.getMinutes()+"";
+				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
@@ -236,12 +357,42 @@ public class AddTimeQuantum extends Dialog{
 		startTime_4.setLocation(179, 75);
 		startTime_4.setSize(79, 15);
 		startTime_4.setTime(00, 00, 00);
-		startTimeStr_4=startTime_4.getHours() + ":"
-				+ startTime_4.getMinutes() + ":" + startTime_4.getSeconds();
+//		startTimeStr_4=startTime_4.getHours() + ":"
+//				+ startTime_4.getMinutes() + ":" + startTime_4.getSeconds();
+		if(startTime_4.getHours()<10){
+			startTimeStr_4="0"+startTime_4.getHours()+":";
+		}else{
+			startTimeStr_4=startTime_4.getHours()+":";
+		}
+		if(startTime_4.getMinutes()<10){
+			startTimeStr_4+="0"+startTime_4.getMinutes()+":";
+		}else{
+			startTimeStr_4+=startTime_4.getMinutes()+":";
+		}
+		if(startTime_4.getSeconds()<10){
+			startTimeStr_4+="0"+startTime_4.getMinutes();
+		}else{
+			startTimeStr_4+=startTime_4.getMinutes()+"";
+		}
 		startTime_4.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				startTimeStr_4=startTime_4.getHours() + ":"
-						+ startTime_4.getMinutes() + ":" + startTime_4.getSeconds();
+//				startTimeStr_4=startTime_4.getHours() + ":"
+//						+ startTime_4.getMinutes() + ":" + startTime_4.getSeconds();
+				if(startTime_4.getHours()<10){
+					startTimeStr_4="0"+startTime_4.getHours()+":";
+				}else{
+					startTimeStr_4=startTime_4.getHours()+":";
+				}
+				if(startTime_4.getMinutes()<10){
+					startTimeStr_4+="0"+startTime_4.getMinutes()+":";
+				}else{
+					startTimeStr_4+=startTime_4.getMinutes()+":";
+				}
+				if(startTime_4.getSeconds()<10){
+					startTimeStr_4+="0"+startTime_4.getMinutes();
+				}else{
+					startTimeStr_4+=startTime_4.getMinutes()+"";
+				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 			
@@ -258,12 +409,42 @@ public class AddTimeQuantum extends Dialog{
 		startTime_5.setLocation(295, 75);
 		startTime_5.setSize(79, 15);
 		startTime_5.setTime(23, 59, 00);
-		startTimeStr_5=startTime_5.getHours() + ":"
-				+ startTime_5.getMinutes() + ":" + startTime_5.getSeconds();
+//		startTimeStr_5=startTime_5.getHours() + ":"
+//				+ startTime_5.getMinutes() + ":" + startTime_5.getSeconds();
+		if(startTime_5.getHours()<10){
+			startTimeStr_5="0"+startTime_5.getHours()+":";
+		}else{
+			startTimeStr_5=startTime_5.getHours()+":";
+		}
+		if(startTime_5.getMinutes()<10){
+			startTimeStr_5+="0"+startTime_5.getMinutes()+":";
+		}else{
+			startTimeStr_5+=startTime_5.getMinutes()+":";
+		}
+		if(startTime_5.getSeconds()<10){
+			startTimeStr_5+="0"+startTime_5.getMinutes();
+		}else{
+			startTimeStr_5+=startTime_5.getMinutes()+"";
+		}
 		startTime_5.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				startTimeStr_5=startTime_5.getHours() + ":"
-						+ startTime_5.getMinutes() + ":" + startTime_5.getSeconds();
+//				startTimeStr_5=startTime_5.getHours() + ":"
+//						+ startTime_5.getMinutes() + ":" + startTime_5.getSeconds();
+				if(startTime_5.getHours()<10){
+					startTimeStr_5="0"+startTime_5.getHours()+":";
+				}else{
+					startTimeStr_5=startTime_5.getHours()+":";
+				}
+				if(startTime_5.getMinutes()<10){
+					startTimeStr_5+="0"+startTime_5.getMinutes()+":";
+				}else{
+					startTimeStr_5+=startTime_5.getMinutes()+":";
+				}
+				if(startTime_5.getSeconds()<10){
+					startTimeStr_5+="0"+startTime_5.getMinutes();
+				}else{
+					startTimeStr_5+=startTime_5.getMinutes()+"";
+				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 				
@@ -290,12 +471,42 @@ public class AddTimeQuantum extends Dialog{
 		startTime_6.setLocation(179, 96);
 		startTime_6.setSize(79, 15);
 		startTime_6.setTime(00, 00, 00);
-		startTimeStr_6=startTime_6.getHours() + ":"
-				+ startTime_6.getMinutes() + ":" + startTime_6.getSeconds();
+//		startTimeStr_6=startTime_6.getHours() + ":"
+//				+ startTime_6.getMinutes() + ":" + startTime_6.getSeconds();
+		if(startTime_6.getHours()<10){
+			startTimeStr_6="0"+startTime_6.getHours()+":";
+		}else{
+			startTimeStr_6=startTime_6.getHours()+":";
+		}
+		if(startTime_6.getMinutes()<10){
+			startTimeStr_6+="0"+startTime_6.getMinutes()+":";
+		}else{
+			startTimeStr_6+=startTime_6.getMinutes()+":";
+		}
+		if(startTime_6.getSeconds()<10){
+			startTimeStr_6+="0"+startTime_6.getMinutes();
+		}else{
+			startTimeStr_6+=startTime_6.getMinutes()+"";
+		}
 		startTime_6.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				startTimeStr_6=startTime_6.getHours() + ":"
-						+ startTime_6.getMinutes() + ":" + startTime_6.getSeconds();
+//				startTimeStr_6=startTime_6.getHours() + ":"
+//						+ startTime_6.getMinutes() + ":" + startTime_6.getSeconds();
+				if(startTime_6.getHours()<10){
+					startTimeStr_6="0"+startTime_6.getHours()+":";
+				}else{
+					startTimeStr_6=startTime_6.getHours()+":";
+				}
+				if(startTime_6.getMinutes()<10){
+					startTimeStr_6+="0"+startTime_6.getMinutes()+":";
+				}else{
+					startTimeStr_6+=startTime_6.getMinutes()+":";
+				}
+				if(startTime_6.getSeconds()<10){
+					startTimeStr_6+="0"+startTime_6.getMinutes();
+				}else{
+					startTimeStr_6+=startTime_6.getMinutes()+"";
+				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
@@ -311,12 +522,42 @@ public class AddTimeQuantum extends Dialog{
 		startTime_7.setLocation(295, 96);
 		startTime_7.setSize(79, 15);
 		startTime_7.setTime(23, 59, 00);
-		startTimeStr_7=startTime_7.getHours() + ":"
-				+ startTime_7.getMinutes() + ":" + startTime_7.getSeconds();
+//		startTimeStr_7=startTime_7.getHours() + ":"
+//				+ startTime_7.getMinutes() + ":" + startTime_7.getSeconds();
+		if(startTime_7.getHours()<10){
+			startTimeStr_7="0"+startTime_7.getHours()+":";
+		}else{
+			startTimeStr_7=startTime_7.getHours()+":";
+		}
+		if(startTime_7.getMinutes()<10){
+			startTimeStr_7+="0"+startTime_7.getMinutes()+":";
+		}else{
+			startTimeStr_7+=startTime_7.getMinutes()+":";
+		}
+		if(startTime_7.getSeconds()<10){
+			startTimeStr_7+="0"+startTime_7.getMinutes();
+		}else{
+			startTimeStr_7=startTime_7.getMinutes()+"";
+		}
 		startTime_7.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				startTimeStr_7=startTime_7.getHours() + ":"
-						+ startTime_7.getMinutes() + ":" + startTime_7.getSeconds();
+//				startTimeStr_7=startTime_7.getHours() + ":"
+//						+ startTime_7.getMinutes() + ":" + startTime_7.getSeconds();
+				if(startTime_7.getHours()<10){
+					startTimeStr_7="0"+startTime_7.getHours()+":";
+				}else{
+					startTimeStr_7=startTime_7.getHours()+":";
+				}
+				if(startTime_7.getMinutes()<10){
+					startTimeStr_7+="0"+startTime_7.getMinutes()+":";
+				}else{
+					startTimeStr_7+=startTime_7.getMinutes()+":";
+				}
+				if(startTime_7.getSeconds()<10){
+					startTimeStr_7+="0"+startTime_7.getMinutes();
+				}else{
+					startTimeStr_7=startTime_7.getMinutes()+"";
+				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 				
@@ -343,12 +584,42 @@ public class AddTimeQuantum extends Dialog{
 		startTime_8.setLocation(179, 117);
 		startTime_8.setSize(79, 15);
 		startTime_8.setTime(00, 00, 00);
-		startTimeStr_8=startTime_8.getHours() + ":"
-				+ startTime_8.getMinutes() + ":" + startTime_8.getSeconds();
+//		startTimeStr_8=startTime_8.getHours() + ":"
+//				+ startTime_8.getMinutes() + ":" + startTime_8.getSeconds();
+		if(startTime_8.getHours()<10){
+			startTimeStr_8="0"+startTime_8.getHours()+":";
+		}else{
+			startTimeStr_8=startTime_8.getHours()+":";
+		}
+		if(startTime_8.getMinutes()<10){
+			startTimeStr_8+="0"+startTime_8.getMinutes()+":";
+		}else{
+			startTimeStr_8+=startTime_8.getMinutes()+":";
+		}
+		if(startTime_8.getSeconds()<10){
+			startTimeStr_8+="0"+startTime_8.getMinutes();
+		}else{
+			startTimeStr_8+=startTime_8.getMinutes()+"";
+		}
 		startTime_8.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				startTimeStr_8=startTime_8.getHours() + ":"
-						+ startTime_8.getMinutes() + ":" + startTime_8.getSeconds();
+//				startTimeStr_8=startTime_8.getHours() + ":"
+//						+ startTime_8.getMinutes() + ":" + startTime_8.getSeconds();
+				if(startTime_8.getHours()<10){
+					startTimeStr_8="0"+startTime_8.getHours()+":";
+				}else{
+					startTimeStr_8=startTime_8.getHours()+":";
+				}
+				if(startTime_8.getMinutes()<10){
+					startTimeStr_8+="0"+startTime_8.getMinutes()+":";
+				}else{
+					startTimeStr_8+=startTime_8.getMinutes()+":";
+				}
+				if(startTime_8.getSeconds()<10){
+					startTimeStr_8+="0"+startTime_8.getMinutes();
+				}else{
+					startTimeStr_8+=startTime_8.getMinutes()+"";
+				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
@@ -364,12 +635,42 @@ public class AddTimeQuantum extends Dialog{
 		startTime_9.setLocation(295, 117);
 		startTime_9.setSize(79, 15);
 		startTime_9.setTime(23, 59, 00);
-		startTimeStr_9=startTime_9.getHours() + ":"
-				+ startTime_9.getMinutes() + ":" + startTime_9.getSeconds();
+//		startTimeStr_9=startTime_9.getHours() + ":"
+//				+ startTime_9.getMinutes() + ":" + startTime_9.getSeconds();
+		if(startTime_9.getHours()<10){
+			startTimeStr_9="0"+startTime_9.getHours()+":";
+		}else{
+			startTimeStr_9=startTime_9.getHours()+":";
+		}
+		if(startTime_9.getMinutes()<10){
+			startTimeStr_9+="0"+startTime_9.getMinutes()+":";
+		}else{
+			startTimeStr_9+=startTime_9.getMinutes()+":";
+		}
+		if(startTime_9.getSeconds()<10){
+			startTimeStr_9+="0"+startTime_9.getMinutes();
+		}else{
+			startTimeStr_9=startTime_9.getMinutes()+"";
+		}
 		startTime_9.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				startTimeStr_9=startTime_9.getHours() + ":"
-						+ startTime_9.getMinutes() + ":" + startTime_9.getSeconds();
+//				startTimeStr_9=startTime_9.getHours() + ":"
+//						+ startTime_9.getMinutes() + ":" + startTime_9.getSeconds();
+				if(startTime_9.getHours()<10){
+					startTimeStr_9="0"+startTime_9.getHours()+":";
+				}else{
+					startTimeStr_9=startTime_9.getHours()+":";
+				}
+				if(startTime_9.getMinutes()<10){
+					startTimeStr_9+="0"+startTime_9.getMinutes()+":";
+				}else{
+					startTimeStr_9+=startTime_9.getMinutes()+":";
+				}
+				if(startTime_9.getSeconds()<10){
+					startTimeStr_9+="0"+startTime_9.getMinutes();
+				}else{
+					startTimeStr_9=startTime_9.getMinutes()+"";
+				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 			
@@ -396,12 +697,42 @@ public class AddTimeQuantum extends Dialog{
 		startTime_10.setLocation(179, 142);
 		startTime_10.setSize(79, 15);
 		startTime_10.setTime(00, 00, 00);
-		startTimeStr_10=startTime_10.getHours() + ":"
-				+ startTime_10.getMinutes() + ":" + startTime_10.getSeconds();
+//		startTimeStr_10=startTime_10.getHours() + ":"
+//				+ startTime_10.getMinutes() + ":" + startTime_10.getSeconds();
+		if(startTime_10.getHours()<10){
+			startTimeStr_10="0"+startTime_10.getHours()+":";
+		}else{
+			startTimeStr_10=startTime_10.getHours()+":";
+		}
+		if(startTime_10.getMinutes()<10){
+			startTimeStr_10+="0"+startTime_10.getMinutes()+":";
+		}else{
+			startTimeStr_10+=startTime_10.getMinutes()+":";
+		}
+		if(startTime_10.getSeconds()<10){
+			startTimeStr_10+="0"+startTime_10.getMinutes();
+		}else{
+			startTimeStr_10+=startTime_10.getMinutes()+"";
+		}
 		startTime_10.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				startTimeStr_10=startTime_10.getHours() + ":"
-						+ startTime_10.getMinutes() + ":" + startTime_10.getSeconds();
+//				startTimeStr_10=startTime_10.getHours() + ":"
+//						+ startTime_10.getMinutes() + ":" + startTime_10.getSeconds();
+				if(startTime_10.getHours()<10){
+					startTimeStr_10="0"+startTime_10.getHours()+":";
+				}else{
+					startTimeStr_10=startTime_10.getHours()+":";
+				}
+				if(startTime_10.getMinutes()<10){
+					startTimeStr_10+="0"+startTime_10.getMinutes()+":";
+				}else{
+					startTimeStr_10+=startTime_10.getMinutes()+":";
+				}
+				if(startTime_10.getSeconds()<10){
+					startTimeStr_10+="0"+startTime_10.getMinutes();
+				}else{
+					startTimeStr_10+=startTime_10.getMinutes()+"";
+				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 			
@@ -418,12 +749,42 @@ public class AddTimeQuantum extends Dialog{
 		startTime_11.setLocation(295, 164);
 		startTime_11.setSize(79, 15);
 		startTime_11.setTime(23, 59, 00);
-		startTimeStr_11=startTime_11.getHours() + ":"
-				+ startTime_11.getMinutes() + ":" + startTime_11.getSeconds();
+//		startTimeStr_11=startTime_11.getHours() + ":"
+//				+ startTime_11.getMinutes() + ":" + startTime_11.getSeconds();
+		if(startTime_11.getHours()<10){
+			startTimeStr_11="0"+startTime_11.getHours()+":";
+		}else{
+			startTimeStr_11=startTime_11.getHours()+":";
+		}
+		if(startTime_11.getMinutes()<10){
+			startTimeStr_11+="0"+startTime_11.getMinutes()+":";
+		}else{
+			startTimeStr_11+=startTime_11.getMinutes()+":";
+		}
+		if(startTime_11.getSeconds()<10){
+			startTimeStr_11+="0"+startTime_11.getMinutes();
+		}else{
+			startTimeStr_11=startTime_11.getMinutes()+"";
+		}
 		startTime_11.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				startTimeStr_11=startTime_11.getHours() + ":"
-						+ startTime_11.getMinutes() + ":" + startTime_11.getSeconds();
+//				startTimeStr_11=startTime_11.getHours() + ":"
+//						+ startTime_11.getMinutes() + ":" + startTime_11.getSeconds();
+				if(startTime_11.getHours()<10){
+					startTimeStr_11="0"+startTime_11.getHours()+":";
+				}else{
+					startTimeStr_11=startTime_11.getHours()+":";
+				}
+				if(startTime_11.getMinutes()<10){
+					startTimeStr_11+="0"+startTime_11.getMinutes()+":";
+				}else{
+					startTimeStr_11+=startTime_11.getMinutes()+":";
+				}
+				if(startTime_11.getSeconds()<10){
+					startTimeStr_11+="0"+startTime_11.getMinutes();
+				}else{
+					startTimeStr_11=startTime_11.getMinutes()+"";
+				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 			
@@ -450,12 +811,42 @@ public class AddTimeQuantum extends Dialog{
 		startTime_12.setLocation(179, 164);
 		startTime_12.setSize(79, 15);
 		startTime_12.setTime(00, 00, 00);
-		startTimeStr_12=startTime_12.getHours() + ":"
-				+ startTime_12.getMinutes() + ":" + startTime_12.getSeconds();
+//		startTimeStr_12=startTime_12.getHours() + ":"
+//				+ startTime_12.getMinutes() + ":" + startTime_12.getSeconds();
+		if(startTime_12.getHours()<10){
+			startTimeStr_12="0"+startTime_12.getHours()+":";
+		}else{
+			startTimeStr_12=startTime_12.getHours()+":";
+		}
+		if(startTime_12.getMinutes()<10){
+			startTimeStr_12+="0"+startTime_12.getMinutes()+":";
+		}else{
+			startTimeStr_12+=startTime_12.getMinutes()+":";
+		}
+		if(startTime_12.getSeconds()<10){
+			startTimeStr_12+="0"+startTime_12.getMinutes();
+		}else{
+			startTimeStr_12+=startTime_12.getMinutes()+"";
+		}
 		startTime_12.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				startTimeStr_12=startTime_12.getHours() + ":"
-						+ startTime_12.getMinutes() + ":" + startTime_12.getSeconds();
+//				startTimeStr_12=startTime_12.getHours() + ":"
+//						+ startTime_12.getMinutes() + ":" + startTime_12.getSeconds();
+				if(startTime_12.getHours()<10){
+					startTimeStr_12="0"+startTime_12.getHours()+":";
+				}else{
+					startTimeStr_12=startTime_12.getHours()+":";
+				}
+				if(startTime_12.getMinutes()<10){
+					startTimeStr_12+="0"+startTime_12.getMinutes()+":";
+				}else{
+					startTimeStr_12+=startTime_12.getMinutes()+":";
+				}
+				if(startTime_12.getSeconds()<10){
+					startTimeStr_12+="0"+startTime_12.getMinutes();
+				}else{
+					startTimeStr_12+=startTime_12.getMinutes()+"";
+				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 			
@@ -472,12 +863,42 @@ public class AddTimeQuantum extends Dialog{
 			startTime_13.setLocation(295, 142);
 			startTime_13.setSize(79, 15);
 			startTime_13.setTime(23, 59, 00);
-			startTimeStr_13=startTime_13.getHours() + ":"
-					+ startTime_13.getMinutes() + ":" + startTime_13.getSeconds();
+//			startTimeStr_13=startTime_13.getHours() + ":"
+//					+ startTime_13.getMinutes() + ":" + startTime_13.getSeconds();
+			if(startTime_13.getHours()<10){
+				startTimeStr_13="0"+startTime_13.getHours()+":";
+			}else{
+				startTimeStr_13=startTime_13.getHours()+":";
+			}
+			if(startTime_13.getMinutes()<10){
+				startTimeStr_13+="0"+startTime_13.getMinutes()+":";
+			}else{
+				startTimeStr_13+=startTime_13.getMinutes()+":";
+			}
+			if(startTime_13.getSeconds()<10){
+				startTimeStr_13+="0"+startTime_13.getMinutes();
+			}else{
+				startTimeStr_13=startTime_13.getMinutes()+"";
+			}
 			startTime_13.addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent e) {
-					startTimeStr_13=startTime_13.getHours() + ":"
-							+ startTime_13.getMinutes() + ":" + startTime_13.getSeconds();
+//					startTimeStr_13=startTime_13.getHours() + ":"
+//							+ startTime_13.getMinutes() + ":" + startTime_13.getSeconds();
+					if(startTime_13.getHours()<10){
+						startTimeStr_13="0"+startTime_13.getHours()+":";
+					}else{
+						startTimeStr_13=startTime_13.getHours()+":";
+					}
+					if(startTime_13.getMinutes()<10){
+						startTimeStr_13+="0"+startTime_13.getMinutes()+":";
+					}else{
+						startTimeStr_13+=startTime_13.getMinutes()+":";
+					}
+					if(startTime_13.getSeconds()<10){
+						startTimeStr_13+="0"+startTime_13.getMinutes();
+					}else{
+						startTimeStr_13=startTime_13.getMinutes()+"";
+					}
 				}
 				public void widgetDefaultSelected(SelectionEvent e) {
 				

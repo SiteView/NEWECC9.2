@@ -139,14 +139,17 @@ public class AlarmRule extends EditorPart {
 		button_1.setText("\u5220\u9664");
 		button_1.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				BusinessObject bo1 = (BusinessObject) tableItem.getData();
-				ICollection ic=FileTools.getBussCollection("AlarmName", bo1.GetField("AlarmName").get_NativeValue().toString(), "EccAlarmRule");
-				IEnumerator ien=ic.GetEnumerator();
-				while(ien.MoveNext()){
-					BusinessObject bo=(BusinessObject) ien.get_Current();
-					bo.DeleteObject(ConnectionBroker.get_SiteviewApi());
+				if(!(tableItem.isDisposed())){
+					BusinessObject bo1 = (BusinessObject) tableItem.getData();
+					ICollection ic=FileTools.getBussCollection("AlarmName", bo1.GetField("AlarmName").get_NativeValue().toString(), "EccAlarmRule");
+					IEnumerator ien=ic.GetEnumerator();
+					while(ien.MoveNext()){
+						BusinessObject bo=(BusinessObject) ien.get_Current();
+						bo.DeleteObject(ConnectionBroker.get_SiteviewApi());
+					}
+					tableItem.dispose();
 				}
-				tableItem.dispose();
+				
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 				

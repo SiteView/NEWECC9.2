@@ -137,9 +137,12 @@ public class EmailSetUp extends EditorPart {
 		delButton.setText("É¾³ý");
 		delButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				EmailModle email = (EmailModle) tableItem.getData();
-				email.getBo().DeleteObject(ConnectionBroker.get_SiteviewApi());
-				tableItem.dispose();
+				if(!(tableItem.isDisposed())){
+					EmailModle email = (EmailModle) tableItem.getData();
+					email.getBo().DeleteObject(ConnectionBroker.get_SiteviewApi());
+					tableItem.dispose();
+				}
+				
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}

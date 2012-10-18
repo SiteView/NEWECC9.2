@@ -121,12 +121,39 @@ public class AddAbsoluteTime extends Dialog{
 		| SWT.SHORT);
         startTime.setLocation(205, 10);
         startTime.setSize(79, 15);
-        startTimeStr=startTime.getHours() + ":"
-		+ startTime.getMinutes() + ":" + startTime.getSeconds();
+        if(startTime.getHours()<10){
+			startTimeStr="0"+startTime.getHours()+":";
+		}else{
+			startTimeStr=startTime.getHours()+":";
+		}
+		if(startTime.getMinutes()<10){
+			startTimeStr+="0"+startTime.getMinutes()+":";
+		}else{
+			startTimeStr+=startTime.getMinutes()+":";
+		}
+		if(startTime.getSeconds()<10){
+			startTimeStr+="0"+startTime.getMinutes();
+		}else{
+			startTimeStr+=startTime.getMinutes()+"";
+		}
+		
           startTime.addSelectionListener(new SelectionListener() {
 	    public void widgetSelected(SelectionEvent e) {
-		   startTimeStr=startTime.getHours() + ":"
-				      + startTime.getMinutes() + ":" + startTime.getSeconds();
+	    	if(startTime.getHours()<10){
+				startTimeStr="0"+startTime.getHours()+":";
+			}else{
+				startTimeStr=startTime.getHours()+":";
+			}
+			if(startTime.getMinutes()<10){
+				startTimeStr+="0"+startTime.getMinutes()+":";
+			}else{
+				startTimeStr+=startTime.getMinutes()+":";
+			}
+			if(startTime.getSeconds()<10){
+				startTimeStr+="0"+startTime.getMinutes();
+			}else{
+				startTimeStr+=startTime.getMinutes()+"";
+			}
 	           }
 	   public void widgetDefaultSelected(SelectionEvent e) {
 		
@@ -148,12 +175,38 @@ public class AddAbsoluteTime extends Dialog{
 				| SWT.SHORT);
 	  startTime_1.setLocation(205, 31);
 	  startTime_1.setSize(79, 15);
-	  startTimeStr_1=startTime_1.getHours() + ":"
-				+ startTime_1.getMinutes() + ":" + startTime_1.getSeconds();
+	  if(startTime_1.getHours()<10){
+		  startTimeStr_1="0"+startTime_1.getHours()+":";
+		}else{
+			startTimeStr_1=startTime_1.getHours()+":";
+		}
+		if(startTime_1.getMinutes()<10){
+			startTimeStr_1+="0"+startTime_1.getMinutes()+":";
+		}else{
+			startTimeStr_1+=startTime_1.getMinutes()+":";
+		}
+		if(startTime_1.getSeconds()<10){
+			startTimeStr_1+="0"+startTime_1.getMinutes();
+		}else{
+			startTimeStr_1+=startTime_1.getMinutes()+"";
+		}
 	  startTime_1.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				startTimeStr_1=startTime_1.getHours() + ":"
-						+ startTime_1.getMinutes() + ":" + startTime_1.getSeconds();
+				 if(startTime_1.getHours()<10){
+					  startTimeStr_1="0"+startTime_1.getHours()+":";
+					}else{
+						startTimeStr_1=startTime_1.getHours()+":";
+					}
+					if(startTime_1.getMinutes()<10){
+						startTimeStr_1+="0"+startTime_1.getMinutes()+":";
+					}else{
+						startTimeStr_1+=startTime_1.getMinutes()+":";
+					}
+					if(startTime_1.getSeconds()<10){
+						startTimeStr_1+="0"+startTime_1.getMinutes();
+					}else{
+						startTimeStr_1+=startTime_1.getMinutes()+"";
+					}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 				

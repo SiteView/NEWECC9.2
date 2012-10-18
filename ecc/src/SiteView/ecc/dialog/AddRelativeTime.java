@@ -281,10 +281,12 @@ public class AddRelativeTime extends Dialog {
 				TableItem tableItem=(TableItem)e.item;
 				if(tableItem.getChecked()){
 					if(tableItem.getText(0).equals("星期日")){
-                        check_0.setSelection(true);
+						check_0.setSelection(true);
 					}
 				}else{
-					 check_0.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_0.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -312,7 +314,9 @@ public class AddRelativeTime extends Dialog {
                         check_1.setSelection(true);
 					}
 				}else{
-					check_1.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_1.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -339,7 +343,9 @@ public class AddRelativeTime extends Dialog {
                         check_2.setSelection(true);
 					}
 				}else{
-					check_2.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_2.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -366,7 +372,9 @@ public class AddRelativeTime extends Dialog {
                         check_3.setSelection(true);
 					}
 				}else{
-					check_3.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_3.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -393,7 +401,9 @@ public class AddRelativeTime extends Dialog {
                         check_4.setSelection(true);
 					}
 				}else{
-					check_4.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_4.setSelection(false);
+					}	
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -420,7 +430,9 @@ public class AddRelativeTime extends Dialog {
                         check_5.setSelection(true);
 					}
 				}else{
-					check_5.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_5.setSelection(false);
+					}	
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -447,7 +459,9 @@ public class AddRelativeTime extends Dialog {
                         check_6.setSelection(true);
 					}
 				}else{
-					check_6.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_6.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -474,7 +488,9 @@ public class AddRelativeTime extends Dialog {
                         check_7.setSelection(true);
 					}
 				}else{
-					check_7.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_7.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -501,7 +517,9 @@ public class AddRelativeTime extends Dialog {
                         check_8.setSelection(true);
 					}
 				}else{
-					check_8.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_8.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -528,7 +546,9 @@ public class AddRelativeTime extends Dialog {
                         check_9.setSelection(true);
 					}
 				}else{
-					check_9.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_9.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -555,7 +575,9 @@ public class AddRelativeTime extends Dialog {
                         check_10.setSelection(true);
 					}
 				}else{
-					check_10.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_10.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -582,7 +604,9 @@ public class AddRelativeTime extends Dialog {
                         check_11.setSelection(true);
 					}
 				}else{
-					check_11.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_11.setSelection(false);
+					}	
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -609,7 +633,9 @@ public class AddRelativeTime extends Dialog {
                         check_12.setSelection(true);
 					}
 				}else{
-					check_12.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_12.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -636,7 +662,9 @@ public class AddRelativeTime extends Dialog {
                         check_13.setSelection(true);
 					}
 				}else{
-					check_13.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_13.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -663,7 +691,9 @@ public class AddRelativeTime extends Dialog {
                         check_14.setSelection(true);
 					}
 				}else{
-					check_14.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_14.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -690,7 +720,9 @@ public class AddRelativeTime extends Dialog {
                         check_15.setSelection(true);
 					}
 				}else{
-					check_15.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_15.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -717,7 +749,9 @@ public class AddRelativeTime extends Dialog {
                         check_16.setSelection(true);
 					}
 				}else{
-					check_16.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_16.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -744,7 +778,9 @@ public class AddRelativeTime extends Dialog {
                         check_17.setSelection(true);
 					}
 				}else{
-					check_17.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_17.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -771,7 +807,9 @@ public class AddRelativeTime extends Dialog {
                         check_18.setSelection(true);
 					}
 				}else{
-					check_18.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_18.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -798,7 +836,9 @@ public class AddRelativeTime extends Dialog {
                         check_19.setSelection(true);
 					}
 				}else{
-					check_19.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_19.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -825,7 +865,9 @@ public class AddRelativeTime extends Dialog {
                         check_20.setSelection(true);
 					}
 				}else{
-					check_20.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_20.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -852,7 +894,9 @@ public class AddRelativeTime extends Dialog {
                         check_21.setSelection(true);
 					}
 				}else{
-					check_21.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_21.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -879,7 +923,9 @@ public class AddRelativeTime extends Dialog {
                         check_22.setSelection(true);
 					}
 				}else{
-					check_22.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_22.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -906,7 +952,9 @@ public class AddRelativeTime extends Dialog {
                         check_23.setSelection(true);
 					}
 				}else{
-					check_23.setSelection(false);
+					if(tableItem.getText(0).equals("星期日")){
+						check_23.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -937,7 +985,9 @@ public class AddRelativeTime extends Dialog {
 						check_a1.setSelection(true);
 					}
 				}else{
-					check_a1.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a1.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -965,7 +1015,9 @@ public class AddRelativeTime extends Dialog {
 						check_a2.setSelection(true);
 					}
 				}else{
-					check_a2.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a2.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -992,7 +1044,9 @@ public class AddRelativeTime extends Dialog {
 						check_a3.setSelection(true);
 					}
 				}else{
-					check_a3.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a3.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1019,7 +1073,9 @@ public class AddRelativeTime extends Dialog {
 						check_a4.setSelection(true);
 					}
 				}else{
-					check_a4.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a4.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1046,7 +1102,9 @@ public class AddRelativeTime extends Dialog {
 						check_a5.setSelection(true);
 					}
 				}else{
-					check_a5.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a5.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1073,7 +1131,9 @@ public class AddRelativeTime extends Dialog {
 						check_a6.setSelection(true);
 					}
 				}else{
-					check_a6.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a6.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1100,7 +1160,9 @@ public class AddRelativeTime extends Dialog {
 						check_a7.setSelection(true);
 					}
 				}else{
-					check_a7.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a7.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1127,7 +1189,9 @@ public class AddRelativeTime extends Dialog {
 						check_a8.setSelection(true);
 					}
 				}else{
-					check_a8.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a8.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1154,7 +1218,9 @@ public class AddRelativeTime extends Dialog {
 						check_a9.setSelection(true);
 					}
 				}else{
-					check_a9.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a9.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1181,7 +1247,9 @@ public class AddRelativeTime extends Dialog {
 						check_a10.setSelection(true);
 					}
 				}else{
-					check_a10.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a10.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1208,7 +1276,9 @@ public class AddRelativeTime extends Dialog {
 						check_a11.setSelection(true);
 					}
 				}else{
-					check_a11.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a11.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1235,7 +1305,9 @@ public class AddRelativeTime extends Dialog {
 						check_a12.setSelection(true);
 					}
 				}else{
-					check_a12.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a12.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1262,7 +1334,9 @@ public class AddRelativeTime extends Dialog {
 						check_a13.setSelection(true);
 					}
 				}else{
-					check_a13.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a13.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1289,7 +1363,9 @@ public class AddRelativeTime extends Dialog {
 						check_a14.setSelection(true);
 					}
 				}else{
-					check_a14.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a14.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1316,7 +1392,9 @@ public class AddRelativeTime extends Dialog {
 						check_a15.setSelection(true);
 					}
 				}else{
-					check_a15.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a15.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1343,7 +1421,9 @@ public class AddRelativeTime extends Dialog {
 						check_a16.setSelection(true);
 					}
 				}else{
-					check_a16.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a16.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1370,7 +1450,9 @@ public class AddRelativeTime extends Dialog {
 						check_a17.setSelection(true);
 					}
 				}else{
-					check_a17.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a17.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1397,7 +1479,9 @@ public class AddRelativeTime extends Dialog {
 						check_a18.setSelection(true);
 					}
 				}else{
-					check_a18.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a18.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1424,7 +1508,9 @@ public class AddRelativeTime extends Dialog {
 						check_a19.setSelection(true);
 					}
 				}else{
-					check_a19.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a19.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1451,7 +1537,9 @@ public class AddRelativeTime extends Dialog {
 						check_a20.setSelection(true);
 					}
 				}else{
-					check_a20.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a20.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1478,7 +1566,9 @@ public class AddRelativeTime extends Dialog {
 						check_a21.setSelection(true);
 					}
 				}else{
-					check_a21.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a21.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1505,7 +1595,9 @@ public class AddRelativeTime extends Dialog {
 						check_a22.setSelection(true);
 					}
 				}else{
-					check_a22.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a22.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1532,7 +1624,9 @@ public class AddRelativeTime extends Dialog {
 						check_a23.setSelection(true);
 					}
 				}else{
-					check_a23.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a23.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1559,7 +1653,9 @@ public class AddRelativeTime extends Dialog {
 						check_a24.setSelection(true);
 					}
 				}else{
-					check_a24.setSelection(false);
+					if(tableItem.getText(0).equals("星期一")){
+						check_a24.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1589,7 +1685,9 @@ public class AddRelativeTime extends Dialog {
 						check_b1.setSelection(true);
 					}
 				}else{
-					check_b1.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b1.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1616,7 +1714,9 @@ public class AddRelativeTime extends Dialog {
 						check_b2.setSelection(true);
 					}
 				}else{
-					check_b2.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b2.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1643,7 +1743,9 @@ public class AddRelativeTime extends Dialog {
 						check_b3.setSelection(true);
 					}
 				}else{
-					check_b3.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b3.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1670,7 +1772,9 @@ public class AddRelativeTime extends Dialog {
 						check_b4.setSelection(true);
 					}
 				}else{
-					check_b4.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b4.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1697,7 +1801,9 @@ public class AddRelativeTime extends Dialog {
 						check_b5.setSelection(true);
 					}
 				}else{
-					check_b5.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b5.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1724,7 +1830,9 @@ public class AddRelativeTime extends Dialog {
 						check_b6.setSelection(true);
 					}
 				}else{
-					check_b6.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b6.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1751,7 +1859,9 @@ public class AddRelativeTime extends Dialog {
 						check_b7.setSelection(true);
 					}
 				}else{
-					check_b7.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b7.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1778,7 +1888,9 @@ public class AddRelativeTime extends Dialog {
 						check_b8.setSelection(true);
 					}
 				}else{
-					check_b8.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b8.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1805,7 +1917,9 @@ public class AddRelativeTime extends Dialog {
 						check_b9.setSelection(true);
 					}
 				}else{
-					check_b9.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b9.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1832,7 +1946,9 @@ public class AddRelativeTime extends Dialog {
 						check_b10.setSelection(true);
 					}
 				}else{
-					check_b10.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b10.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1859,7 +1975,9 @@ public class AddRelativeTime extends Dialog {
 						check_b11.setSelection(true);
 					}
 				}else{
-					check_b11.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b11.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1886,7 +2004,9 @@ public class AddRelativeTime extends Dialog {
 						check_b12.setSelection(true);
 					}
 				}else{
-					check_b12.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b12.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1913,7 +2033,9 @@ public class AddRelativeTime extends Dialog {
 						check_b13.setSelection(true);
 					}
 				}else{
-					check_b13.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b13.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1940,7 +2062,9 @@ public class AddRelativeTime extends Dialog {
 						check_b14.setSelection(true);
 					}
 				}else{
-					check_b14.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b14.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1967,7 +2091,9 @@ public class AddRelativeTime extends Dialog {
 						check_b15.setSelection(true);
 					}
 				}else{
-					check_b15.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b15.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -1994,7 +2120,9 @@ public class AddRelativeTime extends Dialog {
 						check_b16.setSelection(true);
 					}
 				}else{
-					check_b16.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b16.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2021,7 +2149,9 @@ public class AddRelativeTime extends Dialog {
 						check_b17.setSelection(true);
 					}
 				}else{
-					check_b17.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b17.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2048,7 +2178,9 @@ public class AddRelativeTime extends Dialog {
 						check_b18.setSelection(true);
 					}
 				}else{
-					check_b18.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b18.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2075,7 +2207,9 @@ public class AddRelativeTime extends Dialog {
 						check_b19.setSelection(true);
 					}
 				}else{
-					check_b19.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b19.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2102,7 +2236,9 @@ public class AddRelativeTime extends Dialog {
 						check_b20.setSelection(true);
 					}
 				}else{
-					check_b20.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b20.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2129,7 +2265,9 @@ public class AddRelativeTime extends Dialog {
 						check_b21.setSelection(true);
 					}
 				}else{
-					check_b21.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b21.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2156,7 +2294,9 @@ public class AddRelativeTime extends Dialog {
 						check_b22.setSelection(true);
 					}
 				}else{
-					check_b22.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b22.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2183,7 +2323,9 @@ public class AddRelativeTime extends Dialog {
 						check_b23.setSelection(true);
 					}
 				}else{
-					check_b23.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b23.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2210,7 +2352,9 @@ public class AddRelativeTime extends Dialog {
 						check_b24.setSelection(true);
 					}
 				}else{
-					check_b24.setSelection(false);
+					if(tableItem.getText(0).equals("星期二")){
+						check_b24.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2240,7 +2384,9 @@ public class AddRelativeTime extends Dialog {
 						check_c1.setSelection(true);
 					}
 				}else{
-					check_c1.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c1.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2267,7 +2413,9 @@ public class AddRelativeTime extends Dialog {
 						check_c2.setSelection(true);
 					}
 				}else{
-					check_c2.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c2.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2294,7 +2442,9 @@ public class AddRelativeTime extends Dialog {
 						check_c3.setSelection(true);
 					}
 				}else{
-					check_c3.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c3.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2321,7 +2471,9 @@ public class AddRelativeTime extends Dialog {
 						check_c4.setSelection(true);
 					}
 				}else{
-					check_c4.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c4.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2348,7 +2500,9 @@ public class AddRelativeTime extends Dialog {
 						check_c5.setSelection(true);
 					}
 				}else{
-					check_c5.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c5.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2375,7 +2529,9 @@ public class AddRelativeTime extends Dialog {
 						check_c6.setSelection(true);
 					}
 				}else{
-					check_c6.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c6.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2402,7 +2558,9 @@ public class AddRelativeTime extends Dialog {
 						check_c7.setSelection(true);
 					}
 				}else{
-					check_c7.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c7.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2429,7 +2587,9 @@ public class AddRelativeTime extends Dialog {
 						check_c8.setSelection(true);
 					}
 				}else{
-					check_c8.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c8.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2456,7 +2616,9 @@ public class AddRelativeTime extends Dialog {
 						check_c9.setSelection(true);
 					}
 				}else{
-					check_c9.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c9.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2483,7 +2645,9 @@ public class AddRelativeTime extends Dialog {
 						check_c10.setSelection(true);
 					}
 				}else{
-					check_c10.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c10.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2510,7 +2674,9 @@ public class AddRelativeTime extends Dialog {
 						check_c11.setSelection(true);
 					}
 				}else{
-					check_c11.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c11.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2537,7 +2703,10 @@ public class AddRelativeTime extends Dialog {
 						check_c12.setSelection(true);
 					}
 				}else{
-					check_c12.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c12.setSelection(false);
+					}
+					
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2564,7 +2733,9 @@ public class AddRelativeTime extends Dialog {
 						check_c13.setSelection(true);
 					}
 				}else{
-					check_c13.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c13.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2591,7 +2762,9 @@ public class AddRelativeTime extends Dialog {
 						check_c14.setSelection(true);
 					}
 				}else{
-					check_c14.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c14.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2618,7 +2791,9 @@ public class AddRelativeTime extends Dialog {
 						check_c15.setSelection(true);
 					}
 				}else{
-					check_c15.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c15.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2645,7 +2820,9 @@ public class AddRelativeTime extends Dialog {
 						check_c16.setSelection(true);
 					}
 				}else{
-					check_c16.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c16.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2672,7 +2849,10 @@ public class AddRelativeTime extends Dialog {
 						check_c17.setSelection(true);
 					}
 				}else{
-					check_c17.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c17.setSelection(false);
+					}
+					
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2699,7 +2879,10 @@ public class AddRelativeTime extends Dialog {
 						check_c18.setSelection(true);
 					}
 				}else{
-					check_c18.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c18.setSelection(false);
+					}
+					
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2726,7 +2909,9 @@ public class AddRelativeTime extends Dialog {
 						check_c19.setSelection(true);
 					}
 				}else{
-					check_c19.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c19.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2753,7 +2938,9 @@ public class AddRelativeTime extends Dialog {
 						check_c20.setSelection(true);
 					}
 				}else{
-					check_c20.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c20.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2780,7 +2967,9 @@ public class AddRelativeTime extends Dialog {
 						check_c21.setSelection(true);
 					}
 				}else{
-					check_c21.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c21.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2807,7 +2996,9 @@ public class AddRelativeTime extends Dialog {
 						check_c22.setSelection(true);
 					}
 				}else{
-					check_c22.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c22.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2834,7 +3025,9 @@ public class AddRelativeTime extends Dialog {
 						check_c23.setSelection(true);
 					}
 				}else{
-					check_c23.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c23.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2861,7 +3054,9 @@ public class AddRelativeTime extends Dialog {
 						check_c24.setSelection(true);
 					}
 				}else{
-					check_c24.setSelection(false);
+					if(tableItem.getText(0).equals("星期三")){
+						check_c24.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2891,7 +3086,9 @@ public class AddRelativeTime extends Dialog {
 						check_d1.setSelection(true);
 					}
 				}else{
-					check_d1.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d1.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2918,7 +3115,9 @@ public class AddRelativeTime extends Dialog {
 						check_d2.setSelection(true);
 					}
 				}else{
-					check_d2.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d2.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2945,7 +3144,10 @@ public class AddRelativeTime extends Dialog {
 						check_d3.setSelection(true);
 					}
 				}else{
-					check_d3.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d3.setSelection(false);
+					}
+					
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2972,7 +3174,10 @@ public class AddRelativeTime extends Dialog {
 						check_d4.setSelection(true);
 					}
 				}else{
-					check_d4.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d4.setSelection(false);
+					}
+					
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -2999,7 +3204,9 @@ public class AddRelativeTime extends Dialog {
 						check_d5.setSelection(true);
 					}
 				}else{
-					check_d5.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d5.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3026,7 +3233,9 @@ public class AddRelativeTime extends Dialog {
 						check_d6.setSelection(true);
 					}
 				}else{
-					check_d6.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d6.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3053,7 +3262,9 @@ public class AddRelativeTime extends Dialog {
 						check_d7.setSelection(true);
 					}
 				}else{
-					check_d7.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d7.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3080,7 +3291,9 @@ public class AddRelativeTime extends Dialog {
 						check_d8.setSelection(true);
 					}
 				}else{
-					check_d8.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d8.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3107,7 +3320,9 @@ public class AddRelativeTime extends Dialog {
 						check_d9.setSelection(true);
 					}
 				}else{
-					check_d9.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d9.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3134,7 +3349,9 @@ public class AddRelativeTime extends Dialog {
 						check_d10.setSelection(true);
 					}
 				}else{
-					check_d10.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d10.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3161,7 +3378,9 @@ public class AddRelativeTime extends Dialog {
 						check_d11.setSelection(true);
 					}
 				}else{
-					check_d11.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d11.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3188,7 +3407,9 @@ public class AddRelativeTime extends Dialog {
 						check_d12.setSelection(true);
 					}
 				}else{
-					check_d12.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d12.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3215,7 +3436,9 @@ public class AddRelativeTime extends Dialog {
 						check_d13.setSelection(true);
 					}
 				}else{
-					check_d13.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d13.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3242,7 +3465,9 @@ public class AddRelativeTime extends Dialog {
 						check_d14.setSelection(true);
 					}
 				}else{
-					check_d14.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d14.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3269,7 +3494,9 @@ public class AddRelativeTime extends Dialog {
 						check_d15.setSelection(true);
 					}
 				}else{
-					check_d15.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d15.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3296,7 +3523,9 @@ public class AddRelativeTime extends Dialog {
 						check_d16.setSelection(true);
 					}
 				}else{
-					check_d16.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d16.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3323,7 +3552,9 @@ public class AddRelativeTime extends Dialog {
 						check_d17.setSelection(true);
 					}
 				}else{
-					check_d17.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d17.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3350,7 +3581,9 @@ public class AddRelativeTime extends Dialog {
 						check_d18.setSelection(true);
 					}
 				}else{
-					check_d18.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d18.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3377,7 +3610,9 @@ public class AddRelativeTime extends Dialog {
 						check_d19.setSelection(true);
 					}
 				}else{
-					check_d19.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d19.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3404,7 +3639,9 @@ public class AddRelativeTime extends Dialog {
 						check_d20.setSelection(true);
 					}
 				}else{
-					check_d20.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d20.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3431,7 +3668,10 @@ public class AddRelativeTime extends Dialog {
 						check_d21.setSelection(true);
 					}
 				}else{
-					check_d21.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d21.setSelection(false);
+					}
+					
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3458,7 +3698,9 @@ public class AddRelativeTime extends Dialog {
 						check_d22.setSelection(true);
 					}
 				}else{
-					check_d22.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d22.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3485,7 +3727,9 @@ public class AddRelativeTime extends Dialog {
 						check_d23.setSelection(true);
 					}
 				}else{
-					check_d23.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d23.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3512,7 +3756,9 @@ public class AddRelativeTime extends Dialog {
 						check_d24.setSelection(true);
 					}
 				}else{
-					check_d24.setSelection(false);
+					if(tableItem.getText(0).equals("星期四")){
+						check_d24.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3543,7 +3789,10 @@ public class AddRelativeTime extends Dialog {
 						check_e1.setSelection(true);
 					}
 				}else{
-					check_e1.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e1.setSelection(false);
+					}
+					
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3570,7 +3819,10 @@ public class AddRelativeTime extends Dialog {
 						check_e2.setSelection(true);
 					}
 				}else{
-					check_e2.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e2.setSelection(false);
+					}
+					
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3597,7 +3849,10 @@ public class AddRelativeTime extends Dialog {
 						check_e3.setSelection(true);
 					}
 				}else{
-					check_e3.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e3.setSelection(false);
+					}
+					
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3624,7 +3879,9 @@ public class AddRelativeTime extends Dialog {
 						check_e4.setSelection(true);
 					}
 				}else{
-					check_e4.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e4.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3651,7 +3908,9 @@ public class AddRelativeTime extends Dialog {
 						check_e5.setSelection(true);
 					}
 				}else{
-					check_e5.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e5.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3678,7 +3937,10 @@ public class AddRelativeTime extends Dialog {
 						check_e6.setSelection(true);
 					}
 				}else{
-					check_e6.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e6.setSelection(false);
+					}
+					
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3705,7 +3967,10 @@ public class AddRelativeTime extends Dialog {
 						check_e7.setSelection(true);
 					}
 				}else{
-					check_e7.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e7.setSelection(false);
+					}
+					
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3732,7 +3997,10 @@ public class AddRelativeTime extends Dialog {
 						check_e8.setSelection(true);
 					}
 				}else{
-					check_e8.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e8.setSelection(false);
+					}
+					
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3759,7 +4027,9 @@ public class AddRelativeTime extends Dialog {
 						check_e9.setSelection(true);
 					}
 				}else{
-					check_e9.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e9.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3786,7 +4056,9 @@ public class AddRelativeTime extends Dialog {
 						check_e10.setSelection(true);
 					}
 				}else{
-					check_e10.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e10.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3813,7 +4085,9 @@ public class AddRelativeTime extends Dialog {
 						check_e11.setSelection(true);
 					}
 				}else{
-					check_e11.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e11.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3840,7 +4114,9 @@ public class AddRelativeTime extends Dialog {
 						check_e12.setSelection(true);
 					}
 				}else{
-					check_e12.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e12.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3867,7 +4143,9 @@ public class AddRelativeTime extends Dialog {
 						check_e13.setSelection(true);
 					}
 				}else{
-					check_e13.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e13.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3894,7 +4172,10 @@ public class AddRelativeTime extends Dialog {
 						check_e14.setSelection(true);
 					}
 				}else{
-					check_e14.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e14.setSelection(false);
+					}
+					
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3921,7 +4202,9 @@ public class AddRelativeTime extends Dialog {
 						check_e15.setSelection(true);
 					}
 				}else{
-					check_e15.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e15.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3948,7 +4231,9 @@ public class AddRelativeTime extends Dialog {
 						check_e16.setSelection(true);
 					}
 				}else{
-					check_e16.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e16.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -3975,7 +4260,9 @@ public class AddRelativeTime extends Dialog {
 						check_e17.setSelection(true);
 					}
 				}else{
-					check_e17.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e17.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4002,7 +4289,9 @@ public class AddRelativeTime extends Dialog {
 						check_e18.setSelection(true);
 					}
 				}else{
-					check_e18.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e18.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4029,7 +4318,9 @@ public class AddRelativeTime extends Dialog {
 						check_e19.setSelection(true);
 					}
 				}else{
-					check_e19.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e19.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4056,7 +4347,9 @@ public class AddRelativeTime extends Dialog {
 						check_e20.setSelection(true);
 					}
 				}else{
-					check_e20.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e20.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4083,7 +4376,9 @@ public class AddRelativeTime extends Dialog {
 						check_e21.setSelection(true);
 					}
 				}else{
-					check_e21.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e21.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4110,7 +4405,9 @@ public class AddRelativeTime extends Dialog {
 						check_e22.setSelection(true);
 					}
 				}else{
-					check_e22.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e22.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4137,7 +4434,9 @@ public class AddRelativeTime extends Dialog {
 						check_e23.setSelection(true);
 					}
 				}else{
-					check_e23.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e23.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4164,7 +4463,9 @@ public class AddRelativeTime extends Dialog {
 						check_e24.setSelection(true);
 					}
 				}else{
-					check_e24.setSelection(false);
+					if(tableItem.getText(0).equals("星期五")){
+						check_e24.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4194,7 +4495,9 @@ public class AddRelativeTime extends Dialog {
 						check_f1.setSelection(true);
 					}
 				}else{
-					check_f1.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f1.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4221,7 +4524,9 @@ public class AddRelativeTime extends Dialog {
 						check_f2.setSelection(true);
 					}
 				}else{
-					check_f2.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f2.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4248,7 +4553,9 @@ public class AddRelativeTime extends Dialog {
 						check_f3.setSelection(true);
 					}
 				}else{
-					check_f3.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f3.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4275,7 +4582,9 @@ public class AddRelativeTime extends Dialog {
 						check_f4.setSelection(true);
 					}
 				}else{
-					check_f4.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f4.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4302,7 +4611,9 @@ public class AddRelativeTime extends Dialog {
 						check_f5.setSelection(true);
 					}
 				}else{
-					check_f5.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f5.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4329,7 +4640,9 @@ public class AddRelativeTime extends Dialog {
 						check_f6.setSelection(true);
 					}
 				}else{
-					check_f6.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f6.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4356,7 +4669,9 @@ public class AddRelativeTime extends Dialog {
 						check_f7.setSelection(true);
 					}
 				}else{
-					check_f7.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f7.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4383,7 +4698,9 @@ public class AddRelativeTime extends Dialog {
 						check_f8.setSelection(true);
 					}
 				}else{
-					check_f8.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f8.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4410,7 +4727,9 @@ public class AddRelativeTime extends Dialog {
 						check_f9.setSelection(true);
 					}
 				}else{
-					check_f9.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f9.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4437,7 +4756,9 @@ public class AddRelativeTime extends Dialog {
 						check_f10.setSelection(true);
 					}
 				}else{
-					check_f10.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f10.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4464,7 +4785,9 @@ public class AddRelativeTime extends Dialog {
 						check_f11.setSelection(true);
 					}
 				}else{
-					check_f11.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f11.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4491,7 +4814,9 @@ public class AddRelativeTime extends Dialog {
 						check_f12.setSelection(true);
 					}
 				}else{
-					check_f12.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f12.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4518,7 +4843,9 @@ public class AddRelativeTime extends Dialog {
 						check_f13.setSelection(true);
 					}
 				}else{
-					check_f13.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f13.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4545,7 +4872,9 @@ public class AddRelativeTime extends Dialog {
 						check_f14.setSelection(true);
 					}
 				}else{
-					check_f14.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f14.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4572,7 +4901,9 @@ public class AddRelativeTime extends Dialog {
 						check_f15.setSelection(true);
 					}
 				}else{
-					check_f15.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f15.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4599,7 +4930,9 @@ public class AddRelativeTime extends Dialog {
 						check_f16.setSelection(true);
 					}
 				}else{
-					check_f16.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f16.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4626,7 +4959,9 @@ public class AddRelativeTime extends Dialog {
 						check_f17.setSelection(true);
 					}
 				}else{
-					check_f17.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f17.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4653,7 +4988,9 @@ public class AddRelativeTime extends Dialog {
 						check_f18.setSelection(true);
 					}
 				}else{
-					check_f18.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f18.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4680,7 +5017,9 @@ public class AddRelativeTime extends Dialog {
 						check_f19.setSelection(true);
 					}
 				}else{
-					check_f19.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f19.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4707,7 +5046,9 @@ public class AddRelativeTime extends Dialog {
 						check_f20.setSelection(true);
 					}
 				}else{
-					check_f20.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f20.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4734,7 +5075,9 @@ public class AddRelativeTime extends Dialog {
 						check_f21.setSelection(true);
 					}
 				}else{
-					check_f21.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f21.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4761,7 +5104,9 @@ public class AddRelativeTime extends Dialog {
 						check_f22.setSelection(true);
 					}
 				}else{
-					check_f22.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f22.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4788,7 +5133,9 @@ public class AddRelativeTime extends Dialog {
 						check_f23.setSelection(true);
 					}
 				}else{
-					check_f23.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f23.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -4815,7 +5162,9 @@ public class AddRelativeTime extends Dialog {
 						check_f24.setSelection(true);
 					}
 				}else{
-					check_f24.setSelection(false);
+					if(tableItem.getText(0).equals("星期六")){
+						check_f24.setSelection(false);
+					}
 				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {

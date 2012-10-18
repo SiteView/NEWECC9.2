@@ -118,21 +118,23 @@ public class TableDuty extends EditorPart{
 					MessageBox messageBox=new MessageBox();
 					messageBox.Show("你还没有选定想删除的项!", "提示", SWT.OK);
 				}else{
-					TableModle tm=(TableModle) tableItem.getData();
-					BusinessObject bo=tm.getBo();
-					ICollection ico=FileTools.getBussCollection("DutyId", bo.get_RecId(), "DutyDetail");
-					IEnumerator ien=ico.GetEnumerator();
-					while(ien.MoveNext()){
-						((BusinessObject)ien.get_Current()).DeleteObject(ConnectionBroker.get_SiteviewApi());
+					if(!(tableItem.isDisposed())){
+						TableModle tm=(TableModle) tableItem.getData();
+						BusinessObject bo=tm.getBo();
+						ICollection ico=FileTools.getBussCollection("DutyId", bo.get_RecId(), "DutyDetail");
+						IEnumerator ien=ico.GetEnumerator();
+						while(ien.MoveNext()){
+							((BusinessObject)ien.get_Current()).DeleteObject(ConnectionBroker.get_SiteviewApi());
+						}
+						bo.DeleteObject(ConnectionBroker.get_SiteviewApi());//将数据库的数据删除
+						TableDutyInfor.list.remove(tm);//将表单里的数据删除
+						TableViewer.setInput(TableDutyInfor.list);
+						TableViewer.refresh();
+						DutyDetailInfor.list.clear();//将表单里的数据删除
+						TableViewer1.setInput(DutyDetailInfor.list);
+						TableViewer1.refresh();
+						btnNewButton_1.setEnabled(false);
 					}
-					bo.DeleteObject(ConnectionBroker.get_SiteviewApi());//将数据库的数据删除
-					TableDutyInfor.list.remove(tm);//将表单里的数据删除
-					TableViewer.setInput(TableDutyInfor.list);
-					TableViewer.refresh();
-					DutyDetailInfor.list.clear();//将表单里的数据删除
-					TableViewer1.setInput(DutyDetailInfor.list);
-					TableViewer1.refresh();
-					btnNewButton_1.setEnabled(false);
 				}
 			}
 		});

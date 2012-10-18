@@ -137,19 +137,21 @@ public class AbsoluteTime extends EditorPart {
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (tableItem == null) {
+				if (tableItem==null) {
 					MessageBox messageBox = new MessageBox();
 					messageBox.Show("你还没有选定想删除的项!", "提示", SWT.OK);
-				} else {
-					ICollection ico = FileTools.getBussCollection("TaskName",
-							tableItem.getText(0), "EccTaskPlan");
-					IEnumerator ien = ico.GetEnumerator();
-					while (ien.MoveNext()) {
-						((BusinessObject) ien.get_Current())
-								.DeleteObject(ConnectionBroker
-										.get_SiteviewApi());// 删除数据库数据
+				}else{
+					if(!(tableItem.isDisposed())){
+						ICollection ico = FileTools.getBussCollection("TaskName",
+								tableItem.getText(0), "EccTaskPlan");
+						IEnumerator ien = ico.GetEnumerator();
+						while (ien.MoveNext()) {
+							((BusinessObject) ien.get_Current())
+									.DeleteObject(ConnectionBroker
+											.get_SiteviewApi());// 删除数据库数据
+							tableItem.dispose();// 删除表单数据	
 					}
-					tableItem.dispose();// 删除表单数据
+					}
 				}
 			}
 		});
