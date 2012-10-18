@@ -1,0 +1,20 @@
+_monitorTemplateName=FTP Group monitor SET
+_monitorTemplateDescription=Creates a FTP  Group monitor using ip
+$serverip$=_description=host_ip_to_dns _value=127.0.0.1
+$community$=_description=snmp_community _value=public
+$filename$=_description=file_name _value=
+$username$=_description=user_name _value=
+$password$=_description=pass_word _value=
+
+#
+_class=FTPMonitor
+_server=$serverip$
+_filename=$filename$
+_encoding=GBK
+_frequency=500
+_dependsCondition=good
+_name=FTP:$serverip$
+_community=$community$
+_username=$username$
+_password=$password$
+_timeout=5000

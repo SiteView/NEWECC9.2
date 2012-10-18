@@ -1,0 +1,15 @@
+_monitorTemplateName=DNS Group monitor SET
+_monitorTemplateDescription=Creates a DNS  Group monitor using ip
+$serverip$=_description=host_ip_to_dns _value=127.0.0.1
+$community$=_description=snmp_community _value=public
+$hostname$=_description=the_dns_hostnamme _value=
+
+#
+_class=DNSMonitor
+_server=$serverip$
+_encoding=GBK
+_frequency=500
+_dependsCondition=good
+_name=DNS$serverip$
+_hostname=$hostname$
+_community=$community$
