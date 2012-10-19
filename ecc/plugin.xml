@@ -95,6 +95,12 @@
           id="SiteView.ecc.editors.AlarmLog"
           name="报警日志">
     </editor>
+    <editor
+          class="SiteView.ecc.editors.MonitorBrowse"
+          default="false"
+          id="SiteView.ecc.editors.MonitorBrowse"
+          name="监测器游览">
+    </editor>
  </extension>
  <extension
        point="Siteview.Forms.Common.LayoutExtension">
@@ -360,6 +366,16 @@
           id="ecc.ContrastReport"
           name="对比报告">
     </command>
+    <command
+          defaultHandler="SiteView.ecc.commands.MonitorBrowseCommands"
+          id="ecc.MonitorBrowse"
+          name="监测器游览">
+    </command>
+    <command
+          defaultHandler="SiteView.ecc.commands.MonitorSetUpCommands"
+          id="ecc.MonitorSetUp"
+          name="监测器设置">
+    </command>
  </extension>
  <extension
        point="org.eclipse.ui.menus">
@@ -424,8 +440,22 @@
              </visibleWhen>
           </command>
           <command
-                commandId="ecc.MonitorSee"
+                commandId="ecc.MonitorSetUp"
                 icon="icons/ico/1.ico"
+                label="监测器设置"
+                style="push">
+             <visibleWhen>
+                <with
+                      variable="activeWorkbenchWindow.activePerspective">
+                   <equals
+                         value="SiteView.ecc.perspective">
+                   </equals>
+                </with>
+             </visibleWhen>
+          </command>
+          <command
+                commandId="ecc.MonitorBrowse"
+                icon="icons/ico/entity_ok.JPG"
                 label="监测器游览"
                 style="push">
              <visibleWhen>
