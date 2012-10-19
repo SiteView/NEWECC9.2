@@ -98,11 +98,11 @@ public class MonitorSetUp extends Dialog {
 
 	private Button btnCheckButton;
 	
-	private Text text_2;
+	public static Text text_2;
 	
-	private Text text_3;
+	public static Text text_3;
 	
-	private Text text_4;
+	public static Text text_4;
 
 	public MonitorSetUp(Shell parentShell) {
 		super(parentShell);
@@ -139,7 +139,21 @@ public class MonitorSetUp extends Dialog {
 						SelectChild(item);
 						Set<String> set = new HashSet<String>();
 						Set<String> set3 = selectAllId(item,set);
-						createTableItem(set3);
+						TableItem[] item1=table.getItems();
+						if(item1.length!=0){
+							for (String str : set3) {
+								for(int i=0;i<item1.length;i++){
+									if(((BusinessObject)item1[i].getData()).get_RecId().equals(str)){
+										break;
+									}
+									if(i==item1.length-1){
+										createOne(str);
+									}
+								}
+							}
+						}else{
+							createTableItem(set3);
+						}
 						Set<String> set1 = new HashSet<String>();
 						Set<String> set4 = selectAllType(item,set1);
 						for (String string : set4) {
@@ -151,10 +165,12 @@ public class MonitorSetUp extends Dialog {
 									}
 									if(i==string2.length-1){
 										combo_2.add(string);
+										combo_2.setEnabled(true);
 									}
 								}
 							}else{
 								combo_2.add(string);
+								combo_2.setEnabled(true);
 							}
 						}
 					}else{
@@ -311,7 +327,7 @@ public class MonitorSetUp extends Dialog {
 		label_3.setBounds(20, 35, 70, 18);
 		label_3.setText("\u9519\u8BEF\uFF1A");
 		
-		text_2 = new Text(composite_3, SWT.WRAP | SWT.BORDER);
+		text_2 = new Text(composite_3, SWT.WRAP | SWT.BORDER |SWT.V_SCROLL);
 		text_2.setBounds(100, 35, 200, 45);
 		
 		Button button1=new Button(composite_3, SWT.NONE);
@@ -336,7 +352,7 @@ public class MonitorSetUp extends Dialog {
 		label_4.setBounds(20, 85, 70, 18);
 		label_4.setText("\u8B66\u544A\uFF1A");
 		
-		text_3 = new Text(composite_3, SWT.WRAP | SWT.BORDER);
+		text_3 = new Text(composite_3, SWT.WRAP | SWT.BORDER |SWT.V_SCROLL);
 		text_3.setBounds(100, 85, 200, 45);
 		
 		Button button2=new Button(composite_3, SWT.NONE);
@@ -361,7 +377,7 @@ public class MonitorSetUp extends Dialog {
 		lblNewLabel.setBounds(20, 135, 70, 18);
 		lblNewLabel.setText("\u6B63\u5E38\uFF1A");
 		
-		text_4 = new Text(composite_3, SWT.WRAP | SWT.BORDER);
+		text_4 = new Text(composite_3, SWT.WRAP | SWT.BORDER |SWT.V_SCROLL);
 		text_4.setBounds(100, 135, 200, 45);
 		
 		Button button3=new Button(composite_3, SWT.NONE);
@@ -520,6 +536,42 @@ public class MonitorSetUp extends Dialog {
 			tableItem.setData(bo1);
 			tableItem.setText(data);
 		}
+	}
+	
+	//对表格添加一行数据
+	public void createOne(String s1){
+		BusinessObject bo1 = EccTreeControl.CreateBo("RecId",s1, "Ecc");
+		BusinessObject bodyn = EccTreeControl.CreateBo("monitorid",s1, "EccDyn");
+		String[] data = new String[4];
+		if (bodyn == null) {
+			data[0] = bo1.GetField("title").get_NativeValue()
+					.toString();
+			String frequency = bo1.GetField("frequency")
+					.get_NativeValue().toString();
+			frequency = frequency.substring(0,
+					frequency.lastIndexOf("."));
+			String timeUnitSelf = bo1.GetField("timeUnitSelf")
+				.get_NativeValue().toString();
+			data[1] = frequency + " " + timeUnitSelf;
+			data[2] = "測試條件";
+			data[3] = "no data";
+		} else {
+			data[0] = bo1.GetField("title").get_NativeValue()
+					.toString();
+			String frequency = bo1.GetField("frequency")
+					.get_NativeValue().toString();
+			frequency = frequency.substring(0,
+					frequency.lastIndexOf("."));
+			String timeUnitSelf = bo1.GetField("timeUnitSelf")
+					.get_NativeValue().toString();
+			data[1] = frequency + " " + timeUnitSelf;
+			data[2] = "測試條件";
+			data[3] = bodyn.GetField("category").get_NativeValue()
+					.toString();
+		}
+		TableItem tableItem = new TableItem(table, SWT.NONE);
+		tableItem.setData(bo1);
+		tableItem.setText(data);
 	}
 
 	

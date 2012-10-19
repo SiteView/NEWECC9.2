@@ -5,10 +5,12 @@ import java.util.List;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.SWT;
 
@@ -19,6 +21,10 @@ import Siteview.Api.BusinessObject;
 
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Label;
@@ -33,6 +39,7 @@ public class WarningCondition extends Dialog {
 	public String string;
 	public String select;
 	private Table table;
+	public TableItem item;
 	private Text text;
 	public List<String> list = new ArrayList<String>();
 
@@ -81,14 +88,13 @@ public class WarningCondition extends Dialog {
 		label.setBounds(10, 10, 54, 20);
 		label.setText("\u6761\u4EF6");
 		
-		Combo combo = new Combo(composite_1, SWT.NONE);
+		final Combo combo = new Combo(composite_1, SWT.NONE);
 		combo.setBounds(75, 10, 170, 20);
 		for (String str1 : list) {
 			combo.add(str1);
 		}
-		combo.select(0);
 		
-		Combo combo_1 = new Combo(composite_1, SWT.READ_ONLY);
+		final Combo combo_1 = new Combo(composite_1, SWT.READ_ONLY);
 		combo_1.setBounds(250, 10, 90, 20);
 		combo_1.add("==");
 		combo_1.add("!=");
@@ -101,13 +107,19 @@ public class WarningCondition extends Dialog {
 		
 		text = new Text(composite_1, SWT.BORDER);
 		text.setBounds(345, 10, 70, 20);
+		text.addVerifyListener(new VerifyListener() {
+			public void verifyText(VerifyEvent e) {
+				boolean b = ("0123456789".indexOf(e.text) >= 0);
+				e.doit = b;
+			}
+		});
 		
-		Button button = new Button(composite_1, SWT.RADIO);
+		final Button button = new Button(composite_1, SWT.RADIO);
 		button.setBounds(20, 36, 30, 16);
 		button.setText("\u4E0E");
 		button.setBackground(EccTreeControl.color);
 		
-		Button button_1 = new Button(composite_1, SWT.RADIO);
+		final Button button_1 = new Button(composite_1, SWT.RADIO);
 		button_1.setBounds(55, 36, 30, 16);
 		button_1.setText("\u6216");
 		button_1.setBackground(EccTreeControl.color);
@@ -116,10 +128,42 @@ public class WarningCondition extends Dialog {
 		button_2.setBounds(350, 34, 72, 22);
 		button_2.setText("\u6DFB\u52A0");
 		button_2.setBackground(EccTreeControl.color);
+		button_2.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				if(combo.getText().equals("")||combo_1.getText().equals("")||text.getText().equals("")){
+					MessageDialog.openInformation(new Shell(), "提示", "项目表达式不能为空！");
+					return;
+				}
+				TableItem[] item1=table.getItems();
+				TableItem item=new TableItem(table, SWT.NONE);
+				String date[]=new String[4];
+				if(item1.length==0){
+					date[0]=combo.getText();
+					date[1]=combo_1.getText();
+					date[2]=text.getText();
+					date[3]="";
+				}else{
+					date[0]=combo.getText();
+					date[1]=combo_1.getText();
+					date[2]=text.getText();
+					if(button.getSelection()){
+						date[3]=button.getText();						
+					}else if(button_1.getSelection()){
+						date[3]=button_1.getText();
+					}
+				}
+				item.setText(date);
+			}
+		});
 		
 		TableViewer tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.H_SCROLL);
 		table = tableViewer.getTable();
 		table.setHeaderVisible(true);
+		table.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				item=(TableItem)e.item;
+			}
+		});
 		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn.setWidth(100);
@@ -145,5 +189,28 @@ public class WarningCondition extends Dialog {
 		Button buttondel=createButton(parent, IDialogConstants.DETAILS_ID, "删除", true);
 		Button buttoncancel=createButton(parent, IDialogConstants.CANCEL_ID, "取消", true);
 		Button buttonok=createButton(parent, IDialogConstants.OK_ID, "确定", true);
+	}
+	
+	protected void buttonPressed(int buttonId) {
+		if(buttonId==IDialogConstants.OK_ID){
+			TableItem[] item=table.getItems();
+			String str="";
+			for (int i=item.length-1;i>=0;i--) {
+				str=str+"["+item[i].getText(0)+item[i].getText(1)+item[i].getText(2)+"]"+item[i].getText(3);
+			}
+			MonitorSetUp.text_2.setText(str);
+			MonitorSetUp.combo_2.setEnabled(false);
+			this.close();
+		}else if(buttonId==IDialogConstants.DETAILS_ID){
+			if(item==null||item.isDisposed()){
+				MessageDialog.openInformation(new Shell(), "提示", "请选择需要删除的项！");
+				return;
+			}
+			if(!item.isDisposed()){
+				item.dispose();
+			}
+		}else{
+			this.close();
+		}
 	}
 }

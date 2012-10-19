@@ -37,6 +37,7 @@ public class PingTypeAction extends Action {
 			}
 		}
 		combo.add(eccType);
+		combo.setEnabled(true);
 		TableItem[] item=table.getItems();
 		if(item.length!=0){			
 			for (int i=0;i<item.length;i++) {
