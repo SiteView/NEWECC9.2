@@ -1,25 +1,26 @@
 package SiteView.ecc.editors;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.wb.swt.SWTResourceManager;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Slider;
-import org.eclipse.swt.widgets.Text;
+
+import SiteView.ecc.dialog.CreateFilterCondition;
 
 public class MonitorBrowse extends EditorPart {
 	public static String ID = "SiteView.ecc.editors.MonitorBrowse";
@@ -44,8 +45,9 @@ public class MonitorBrowse extends EditorPart {
 	@Override
 	public void init(IEditorSite site, IEditorInput input)
 			throws PartInitException {
-		// TODO Auto-generated method stub
-
+		this.setSite(site);
+		this.setInput(input);
+		this.setPartName(input.getName());
 	}
 
 	@Override
@@ -67,11 +69,26 @@ public class MonitorBrowse extends EditorPart {
 		SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
 		
 		Composite composite = new Composite(sashForm, SWT.NONE);
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
 		
 		Button btnNewButton = new Button(composite, SWT.NONE);
 		btnNewButton.setBounds(0, 0, 82, 32);
 		btnNewButton.setText("创建筛选条件");
+		btnNewButton.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseUp(MouseEvent e) {
+				CreateFilterCondition cfc = new CreateFilterCondition(null);
+				cfc.open();
+			}
+			@Override
+			public void mouseDown(MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+		});
 		
 		Button btnNewButton_1 = new Button(composite, SWT.NONE);
 		btnNewButton_1.setBounds(90, 0, 72, 32);
@@ -142,7 +159,7 @@ public class MonitorBrowse extends EditorPart {
 		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		Label lblNewLabel = new Label(composite_1, SWT.NONE);
-		lblNewLabel.setBounds(0, 0, 594, 27);
+		lblNewLabel.setBounds(0, 0, 1894, 27);
 		lblNewLabel.setText("浏览次数最多的监测器");
 		
 		TableViewer tableViewer_1 = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION);

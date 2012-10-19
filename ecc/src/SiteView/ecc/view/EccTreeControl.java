@@ -11,15 +11,11 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
@@ -56,6 +52,7 @@ import SiteView.ecc.Modle.EmailSetUpModel;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MachineModle;
 import SiteView.ecc.Modle.MessageSetUpModel;
+import SiteView.ecc.Modle.MonitorBrowseModle;
 import SiteView.ecc.Modle.MonitorSetUpModel;
 import SiteView.ecc.Modle.RelativeTimeModel;
 import SiteView.ecc.Modle.SiteViewEcc;
@@ -78,6 +75,8 @@ import SiteView.ecc.editors.EmailSetUp;
 import SiteView.ecc.editors.EmailSetUpInput;
 import SiteView.ecc.editors.MessageSetUp;
 import SiteView.ecc.editors.MessageSetUpInput;
+import SiteView.ecc.editors.MonitorBrowse;
+import SiteView.ecc.editors.MonitorBrowseInput;
 import SiteView.ecc.editors.TableDuty;
 import SiteView.ecc.editors.TableDutyInput;
 import SiteView.ecc.editors.TaskPlan;
@@ -88,10 +87,7 @@ import SiteView.ecc.editors.UserManager;
 import SiteView.ecc.editors.UserManagerInput;
 import SiteView.ecc.reportchart.StatusCTIReport;
 import SiteView.ecc.reportchart.TimeContrastReport;
-import SiteView.ecc.tab.views.ContrastReportTabView;
 import SiteView.ecc.tab.views.TotalTabView;
-import SiteView.ecc.views.ContrastReportView;
-import SiteView.ecc.views.TrendReportView;
 import Siteview.Operators;
 import Siteview.QueryInfoToGet;
 import Siteview.SiteviewQuery;
@@ -174,6 +170,12 @@ public class EccTreeControl extends ViewPart {
 				}else if(item instanceof EmailSetUpModel){
 					 try {
 							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new EmailSetUpInput(), EmailSetUp.ID);
+						} catch (PartInitException e1) {
+							e1.printStackTrace();
+						}
+				}else if(item instanceof MonitorBrowseModle){
+					 try {
+							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new MonitorBrowseInput(), MonitorBrowse.ID);
 						} catch (PartInitException e1) {
 							e1.printStackTrace();
 						}
