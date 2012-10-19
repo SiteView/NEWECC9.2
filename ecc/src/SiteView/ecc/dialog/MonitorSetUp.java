@@ -157,7 +157,6 @@ public class MonitorSetUp extends Dialog {
 								combo_2.add(string);
 							}
 						}
-						combo_2.select(0);
 					}else{
 						DeletChild(item);
 						if (!item.getText().equals("SiteViewEcc9.2")) {
@@ -185,13 +184,17 @@ public class MonitorSetUp extends Dialog {
 							String[] str=combo_2.getItems();
 							for (String string : str) {
 								TableItem[] ti = table.getItems();
-								for (int i=0;i<ti.length;i++) {
-									if(((BusinessObject)ti[i].getData()).GetField("EccType").get_NativeValue().toString().equals(string)){
-										break;
+								if(ti.length!=0){									
+									for (int i=0;i<ti.length;i++) {
+										if(((BusinessObject)ti[i].getData()).GetField("EccType").get_NativeValue().toString().equals(string)){
+											break;
+										}
+										if(i==ti.length-1){
+											combo_2.remove(string);
+										}
 									}
-									if(i==ti.length-1){
-										combo_2.remove(string);
-									}
+								}else{
+									combo_2.removeAll();
 								}
 							}
 						}

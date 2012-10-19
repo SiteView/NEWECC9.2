@@ -6,11 +6,13 @@ import java.util.Set;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import SiteView.ecc.Modle.MonitorModle;
 import SiteView.ecc.dialog.MonitorSetUp;
 import SiteView.ecc.view.EccTreeControl;
+import Siteview.Api.BusinessObject;
 
 public class PingTypeAction extends Action {
 	public TreeItem item;
@@ -35,8 +37,19 @@ public class PingTypeAction extends Action {
 			}
 		}
 		combo.add(eccType);
-		combo.select(0);
-		MonitorSetUp.createTableItem(setId);
+		TableItem[] item=table.getItems();
+		if(item.length!=0){			
+			for (int i=0;i<item.length;i++) {
+				if(setId.iterator().next().equals(((BusinessObject)item[i].getData()).get_RecId())){
+					break;
+				}
+				if(i==item.length-1){				
+					MonitorSetUp.createTableItem(setId);
+				}
+			}
+		}else{
+			MonitorSetUp.createTableItem(setId);
+		}
 	}
 	
 	public void select(TreeItem[] item,String string){
