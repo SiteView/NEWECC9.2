@@ -1,7 +1,9 @@
 package SiteView.ecc.dialog;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -54,6 +56,7 @@ import SiteView.ecc.Modle.MachineModle;
 import SiteView.ecc.Modle.MonitorModle;
 import SiteView.ecc.Modle.SiteViewEcc;
 import SiteView.ecc.data.SiteViewData;
+import SiteView.ecc.tools.Config;
 import SiteView.ecc.tools.FileTools;
 import SiteView.ecc.view.EccTreeControl;
 import Siteview.SiteviewValue;
@@ -103,6 +106,16 @@ public class MonitorSetUp extends Dialog {
 	public static Text text_3;
 	
 	public static Text text_4;
+	
+	public TabFolder tabFolder;
+	
+	public static List list;
+	
+	public static List list1;
+	
+	public static List list2;
+	
+	Button subButton ;
 
 	public MonitorSetUp(Shell parentShell) {
 		super(parentShell);
@@ -268,7 +281,7 @@ public class MonitorSetUp extends Dialog {
 		tableState.setWidth(160);
 		tableState.setText("\u72B6\u6001");
 
-		TabFolder tabFolder = new TabFolder(sashForm_1, SWT.NONE);
+		tabFolder = new TabFolder(sashForm_1, SWT.NONE);
 
 		TabItem tbtmNewItem = new TabItem(tabFolder, SWT.NONE);
 		tbtmNewItem.setText("\u57FA\u7840\u4FE1\u606F");
@@ -329,6 +342,7 @@ public class MonitorSetUp extends Dialog {
 		
 		text_2 = new Text(composite_3, SWT.WRAP | SWT.BORDER |SWT.V_SCROLL);
 		text_2.setBounds(100, 35, 200, 45);
+		text_2.setEditable(false);
 		
 		Button button1=new Button(composite_3, SWT.NONE);
 		button1.setBounds(305, 55, 25, 25);
@@ -354,6 +368,7 @@ public class MonitorSetUp extends Dialog {
 		
 		text_3 = new Text(composite_3, SWT.WRAP | SWT.BORDER |SWT.V_SCROLL);
 		text_3.setBounds(100, 85, 200, 45);
+		text_3.setEditable(false);
 		
 		Button button2=new Button(composite_3, SWT.NONE);
 		button2.setBounds(305, 105, 25, 25);
@@ -379,6 +394,7 @@ public class MonitorSetUp extends Dialog {
 		
 		text_4 = new Text(composite_3, SWT.WRAP | SWT.BORDER |SWT.V_SCROLL);
 		text_4.setBounds(100, 135, 200, 45);
+		text_4.setEditable(false);
 		
 		Button button3=new Button(composite_3, SWT.NONE);
 		button3.setBounds(305, 155, 25, 25);
@@ -646,7 +662,7 @@ public class MonitorSetUp extends Dialog {
 
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
-		Button subButton = createButton(parent, IDialogConstants.OK_ID, "确定",
+		subButton = createButton(parent, IDialogConstants.OK_ID, "确定",
 				true);
 		Button cancelButton = createButton(parent, IDialogConstants.CANCEL_ID,
 				"取消", true);
@@ -659,19 +675,110 @@ public class MonitorSetUp extends Dialog {
 	@Override
 	protected void buttonPressed(int buttonId) {
 		if (buttonId == IDialogConstants.OK_ID) {
-			BusinessObject bo = (BusinessObject) tableItem.getData();
-			bo =FileTools.CreateBo("RecId",
-					bo.get_RecId(), "Ecc."
-							+ bo.GetField("EccType").get_NativeValue()
-									.toString());
-			if (text.getText() != "") {
+			if(tabFolder.getSelectionIndex()==0){
+				if(tableItem==null){
+					MessageDialog.openInformation(new Shell(), "提示", "没有选择修改项或者没有选择监测器！");
+					return;
+				}
+				if(text.getText().equals("")){
+					MessageDialog.openInformation(new Shell(), "提示","修改值不能为空");
+					return;
+				}
+				BusinessObject bo = (BusinessObject) tableItem.getData();
+				bo =FileTools.CreateBo("RecId",
+						bo.get_RecId(), "Ecc."
+								+ bo.GetField("EccType").get_NativeValue().toString());
 				bo.GetField("frequency").SetValue(
 						new SiteviewValue(text.getText()));
 				bo.GetField("timeUnitSelf").SetValue(
 						new SiteviewValue(combo.getText()));
 				bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
-			}
-			if (text_1.getText() != "") {
+			}else if(tabFolder.getSelectionIndex()==1){
+				if(text_2.getText().equals("")&&text_3.getText().equals("")&&text_4.getText().equals("")){
+					MessageDialog.openInformation(new Shell(), "提示", "阀值没有进行修改！");
+					return;
+				}
+				subButton.setEnabled(false);
+				TableItem[] item=table.getItems();
+				if(!text_2.getText().equals("")){
+					for (TableItem tableItem : item) {
+						if(((BusinessObject)tableItem.getData()).GetField("EccType").get_NativeValue().toString().equals(combo_2.getText())){
+							for (int i=0;i<list.size();i++) {
+								String[] str=(String[]) list.get(i);
+								BusinessObject bo=((BusinessObject)tableItem.getData()).GetRelationship(combo_2.getText()+"ContainsAlarm").CreateNewObject(true);
+								bo.GetField("AlarmStatus").SetValue(new SiteviewValue("error"));
+								bo.GetField("Operator").SetValue(new SiteviewValue(str[1]));
+								bo.GetField("AlramValue").SetValue(new SiteviewValue(str[2]));
+								if(str[3].equals("与")){									
+									bo.GetField("isAnd").SetValue(new SiteviewValue(true));
+								}else{
+									bo.GetField("isAnd").SetValue(new SiteviewValue(false));
+								}
+								String path = FileTools.getRealPath("\\files\\MonitorReturnValveReference.properties");
+								String name = Config.getReturnStr(path, "Ecc."+combo_2.getText());
+								bo.GetField(name).SetValue(new SiteviewValue(WarningCondition.map.get(str[0])));
+								bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+							}
+						}
+					}
+				}
+				if(!text_3.getText().equals("")){
+					for (TableItem tableItem : item) {
+						if(((BusinessObject)tableItem.getData()).GetField("EccType").get_NativeValue().toString().equals(combo_2.getText())){
+							for (int i=0;i<list1.size();i++) {
+								String[] str=(String[]) list1.get(i);
+								BusinessObject bo=((BusinessObject)tableItem.getData()).GetRelationship(combo_2.getText()+"ContainsAlarm").CreateNewObject(true);
+								bo.GetField("AlarmStatus").SetValue(new SiteviewValue("warning"));
+								bo.GetField("Operator").SetValue(new SiteviewValue(str[1]));
+								bo.GetField("AlramValue").SetValue(new SiteviewValue(str[2]));
+								if(str[3].equals("与")){									
+									bo.GetField("isAnd").SetValue(new SiteviewValue(true));
+								}else{
+									bo.GetField("isAnd").SetValue(new SiteviewValue(false));
+								}
+								String path = FileTools.getRealPath("\\files\\MonitorReturnValveReference.properties");
+								String name = Config.getReturnStr(path, "Ecc."+combo_2.getText());
+								bo.GetField(name).SetValue(new SiteviewValue(WarningCondition.map.get(str[0])));
+								bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+							}
+						}
+					}
+				}
+				if(!text_4.getText().equals("")){
+					for (TableItem tableItem : item) {
+						if(((BusinessObject)tableItem.getData()).GetField("EccType").get_NativeValue().toString().equals(combo_2.getText())){
+							for (int i=0;i<list2.size();i++) {
+								String[] str=(String[]) list2.get(i);
+								BusinessObject bo=((BusinessObject)tableItem.getData()).GetRelationship(combo_2.getText()+"ContainsAlarm").CreateNewObject(true);
+								bo.GetField("AlarmStatus").SetValue(new SiteviewValue("good"));
+								bo.GetField("Operator").SetValue(new SiteviewValue(str[1]));
+								bo.GetField("AlramValue").SetValue(new SiteviewValue(str[2]));
+								if(str[3].equals("与")){									
+									bo.GetField("isAnd").SetValue(new SiteviewValue(true));
+								}else{
+									bo.GetField("isAnd").SetValue(new SiteviewValue(false));
+								}
+								String path = FileTools.getRealPath("\\files\\MonitorReturnValveReference.properties");
+								String name = Config.getReturnStr(path, "Ecc."+combo_2.getText());
+								bo.GetField(name).SetValue(new SiteviewValue(WarningCondition.map.get(str[0])));
+								bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
+							}
+						}
+					}
+				}
+			}else if(tabFolder.getSelectionIndex()==2){
+				if(tableItem==null){
+					MessageDialog.openInformation(new Shell(), "提示", "没有选择修改项或者没有选择监测器！");
+					return;
+				}
+				if(text.getText().equals("")){
+					MessageDialog.openInformation(new Shell(), "提示","修改值不能为空");
+					return;
+				}
+				BusinessObject bo = (BusinessObject) tableItem.getData();
+				bo =FileTools.CreateBo("RecId",
+						bo.get_RecId(), "Ecc."
+								+ bo.GetField("EccType").get_NativeValue().toString());
 				bo.GetField("verifyerror").SetValue(
 						new SiteviewValue(btnCheckButton.getSelection()));
 				bo.GetField("verifyErrorFrequency").SetValue(
@@ -680,7 +787,8 @@ public class MonitorSetUp extends Dialog {
 						new SiteviewValue(combo_1.getText()));
 				bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
 			}
-			this.close();
+			subButton.setEnabled(true);
+		this.close();
 		} else if (buttonId == IDialogConstants.FINISH_ID) {
 			BusinessObject bo = (BusinessObject) tableItem.getData();
 			bo = FileTools.CreateBo("RecId",

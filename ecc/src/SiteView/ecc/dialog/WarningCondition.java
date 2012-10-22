@@ -1,7 +1,9 @@
 package SiteView.ecc.dialog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -42,6 +44,7 @@ public class WarningCondition extends Dialog {
 	public TableItem item;
 	private Text text;
 	public List<String> list = new ArrayList<String>();
+	public static Map<String, String> map=new HashMap<String, String>();
 
 	public WarningCondition(Shell parentShell,String string,String select) {
 		super(parentShell);
@@ -71,6 +74,7 @@ public class WarningCondition extends Dialog {
 		while(ien.MoveNext()){
 			BusinessObject bo=(BusinessObject) ien.get_Current();
 			list.add(bo.GetField("Item").get_NativeValue().toString());
+			map.put(bo.GetField("Item").get_NativeValue().toString(), bo.GetField("SaveItem").get_NativeValue().toString());
 		}
 		Composite composite = (Composite)super.createDialogArea(parent);
 		composite.setBackground(EccTreeControl.color);
@@ -181,6 +185,28 @@ public class WarningCondition extends Dialog {
 		tableColumn_1.setWidth(100);
 		tableColumn_1.setText("\u5173\u7CFB");
 		sashForm.setWeights(new int[] {1, 2});
+		if(string.equals("error")){
+			if(MonitorSetUp.list!=null&&(!MonitorSetUp.text_2.getText().equals(""))){
+				for (int i=0;i<MonitorSetUp.list.size();i++) {
+					TableItem item = new TableItem(table, SWT.NONE);
+					item.setText((String[])MonitorSetUp.list.get(i));
+				}
+			}
+		}else if(string.equals("alarm")){
+			if(MonitorSetUp.list1!=null&&(!MonitorSetUp.text_3.getText().equals(""))){
+				for (int i=0;i<MonitorSetUp.list1.size();i++) {
+					TableItem item = new TableItem(table, SWT.NONE);
+					item.setText((String[])MonitorSetUp.list1.get(i));
+				}
+			}
+		}else if(string.equals("normal")){
+			if(MonitorSetUp.list2!=null&&(!MonitorSetUp.text_4.getText().equals(""))){
+				for (int i=0;i<MonitorSetUp.list2.size();i++) {
+					TableItem item = new TableItem(table, SWT.NONE);
+					item.setText((String[])MonitorSetUp.list2.get(i));
+				}
+			}
+		}
 		return composite;
 	}
 	
@@ -193,13 +219,53 @@ public class WarningCondition extends Dialog {
 	
 	protected void buttonPressed(int buttonId) {
 		if(buttonId==IDialogConstants.OK_ID){
-			TableItem[] item=table.getItems();
-			String str="";
-			for (int i=item.length-1;i>=0;i--) {
-				str=str+"["+item[i].getText(0)+item[i].getText(1)+item[i].getText(2)+"]"+item[i].getText(3);
+			if(string.equals("error")){
+				MonitorSetUp.list=new ArrayList();
+				TableItem[] item=table.getItems();
+				String str="";
+				for (int i=item.length-1;i>=0;i--) {
+					str=str+"["+item[i].getText(0)+item[i].getText(1)+item[i].getText(2)+"]"+item[i].getText(3);
+					String[] array=new String[4];
+					array[0]=item[i].getText(0);
+					array[1]=item[i].getText(1);
+					array[2]=item[i].getText(2);
+					array[3]=item[i].getText(3);
+					MonitorSetUp.list.add(array);
+				}
+				MonitorSetUp.text_2.setText(str);
+				MonitorSetUp.combo_2.setEnabled(false);
+			}else if(string.equals("alarm")){
+				MonitorSetUp.list1=new ArrayList();
+				TableItem[] item=table.getItems();
+				String str="";
+				for (int i=item.length-1;i>=0;i--) {
+					str=str+"["+item[i].getText(0)+item[i].getText(1)+item[i].getText(2)+"]"+item[i].getText(3);
+					String[] array=new String[4];
+					array[0]=item[i].getText(0);
+					array[1]=item[i].getText(1);
+					array[2]=item[i].getText(2);
+					array[3]=item[i].getText(3);
+					MonitorSetUp.list1.add(array);
+				}
+				MonitorSetUp.text_3.setText(str);
+				MonitorSetUp.combo_2.setEnabled(false);
+			}else if(string.equals("normal")){
+				MonitorSetUp.list2=new ArrayList();
+				TableItem[] item=table.getItems();
+				String str="";
+				for (int i=item.length-1;i>=0;i--) {
+					str=str+"["+item[i].getText(0)+item[i].getText(1)+item[i].getText(2)+"]"+item[i].getText(3);
+					String[] array=new String[4];
+					array[0]=item[i].getText(0);
+					array[1]=item[i].getText(1);
+					array[2]=item[i].getText(2);
+					array[3]=item[i].getText(3);
+					MonitorSetUp.list2.add(array);
+				}
+				MonitorSetUp.text_4.setText(str);
+				MonitorSetUp.combo_2.setEnabled(false);
 			}
-			MonitorSetUp.text_2.setText(str);
-			MonitorSetUp.combo_2.setEnabled(false);
+			
 			this.close();
 		}else if(buttonId==IDialogConstants.DETAILS_ID){
 			if(item==null||item.isDisposed()){
