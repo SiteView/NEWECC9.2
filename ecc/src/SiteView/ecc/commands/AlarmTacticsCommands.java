@@ -4,6 +4,10 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.commands.IHandlerListener;
+import org.eclipse.swt.widgets.Shell;
+
+import SiteView.ecc.dialog.AlarmTactics;
+
 
 public class AlarmTacticsCommands implements IHandler {
 
@@ -20,7 +24,8 @@ public class AlarmTacticsCommands implements IHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		// TODO Auto-generated method stub
+		AlarmTactics alarmTactics=new AlarmTactics(null);
+		alarmTactics.open();
 		return null;
 	}
 

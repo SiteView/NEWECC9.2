@@ -30,12 +30,6 @@
           name="用户管理">
     </editor>
     <editor
-          class="SiteView.ecc.editors.AlarmEditor"
-          default="false"
-          id="SiteView.ecc.editors.Alarm"
-          name="报警规则">
-    </editor>
-    <editor
           class="SiteView.ecc.editors.TableDuty"
           default="false"
           id="SiteView.ecc.editors.TableDuty"
@@ -196,7 +190,7 @@
     <perspective
           class="SiteView.ecc.perspective"
           id="SiteView.ecc.perspective"
-          name="Ecc监测器">
+          name="监测运维">
     </perspective>
  </extension>
  <extension
@@ -382,7 +376,7 @@
     <menuContribution
           locationURI="toolbar:org.eclipse.ui.main.toolbar">
        <toolbar
-             id="ecc.toolbar">
+             id="core.apploader.mainToolbar">
           <command
                 commandId="ecc.EMail"
                 icon="icons/ico/mail.ico"

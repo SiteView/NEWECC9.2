@@ -92,7 +92,7 @@ public class EccControl extends EditorPart {
 			}
 		}
 		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
-		final SashForm sashForm = new SashForm(parent, SWT.BORDER);
+		final SashForm sashForm = new SashForm(parent, SWT.NONE);
 		sashForm.setOrientation(SWT.VERTICAL);
 		lable = new Label(sashForm, SWT.NONE);
 		lable.setBackground(SWTResourceManager
@@ -114,7 +114,7 @@ public class EccControl extends EditorPart {
 		if(toptable != null && !toptable.isDisposed()) {
 			toptable.dispose();
 		}
-		toptable = new Table(c, SWT.FULL_SELECTION|SWT.CHECK);
+		toptable = new Table(c, SWT.CHECK | SWT.FULL_SELECTION);
 		toptable.setLinesVisible(true);
 		toptable.setHeaderVisible(true);
 		toptable.setBackground(new Color(null, 255, 255, 255));
@@ -575,7 +575,6 @@ public class EccControl extends EditorPart {
 						monitorid, "EccDyn");
 				String[] s = new String[5];
 				if(bo!=null){
-					
 					s[1] = bo.GetField("category").get_NativeValue().toString();
 					String desc = bo.GetField("monitorDesc").get_NativeValue().toString();
 					s[3] = format(desc, monitor.GetField("EccType").get_NativeValue().toString());
@@ -587,7 +586,17 @@ public class EccControl extends EditorPart {
 				}
 				s[0] = (Boolean)monitor.GetField("disable").get_NativeValue()?"½ûÖ¹":"ÔÊÐí";
 				s[2] = monitor.GetField("title").get_NativeValue().toString();
-				
+				if (s[1].equals("good")) {
+					itable.setBackground(color[3]);
+				} else if (s[1].equals("error")) {
+					itable.setBackground(color[1]);
+				} else if (s[1].equals("warning")) {
+					itable.setBackground(color[2]);
+				} else if (s[1].equals("disable")) {
+					itable.setBackground(color[4]);
+				} else {
+					itable.setBackground(color[0]);
+				}
 				itable.setText(s);
 				tab((BusinessObject) item.getData());
 			}
