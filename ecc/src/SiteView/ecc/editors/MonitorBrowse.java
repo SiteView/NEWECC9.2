@@ -5,6 +5,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -74,19 +75,12 @@ public class MonitorBrowse extends EditorPart {
 		Button btnNewButton = new Button(composite, SWT.NONE);
 		btnNewButton.setBounds(0, 0, 82, 32);
 		btnNewButton.setText("创建筛选条件");
-		btnNewButton.addMouseListener(new MouseListener() {
+		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseUp(MouseEvent e) {
-				CreateFilterCondition cfc = new CreateFilterCondition(null);
+				String name = ((Button)e.getSource()).getText();
+				CreateFilterCondition cfc = new CreateFilterCondition(null,name);
 				cfc.open();
-			}
-			@Override
-			public void mouseDown(MouseEvent e) {
-				// TODO Auto-generated method stub
-			}
-			@Override
-			public void mouseDoubleClick(MouseEvent e) {
-				// TODO Auto-generated method stub
 			}
 		});
 		
@@ -233,7 +227,6 @@ public class MonitorBrowse extends EditorPart {
 		button_3.setBounds(273, 10, 54, 22);
 		button_3.setText("\u5C3E\u9875");
 		sashForm.setWeights(new int[] {33, 67, 16, 309, 37});
-		// TODO Auto-generated method stub
 
 	}
 
