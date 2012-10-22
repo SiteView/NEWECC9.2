@@ -42,7 +42,7 @@ public class AlarmTactics extends Dialog{
 		
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
 		composite_1.setBackground(EccTreeControl.color);
-		Button button = new Button(composite_1, SWT.NONE);
+		Button button = new Button(composite_1, SWT.NONE);//Ìí¼Ó
 		button.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				AddAlarmTactics addAlarm=new AddAlarmTactics(new Shell());
@@ -52,8 +52,8 @@ public class AlarmTactics extends Dialog{
 		button.setBounds(0, 0, 72, 22);
 		button.setText("\u6DFB\u52A0");
 		
-		//
-		Button button_1 = new Button(composite_1, SWT.NONE);
+		
+		Button button_1 = new Button(composite_1, SWT.NONE);//±à¼­
 		button_1.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 			}
@@ -61,7 +61,7 @@ public class AlarmTactics extends Dialog{
 		button_1.setBounds(81, 0, 72, 22);
 		button_1.setText("\u7F16\u8F91");
 		
-		Button button_2 = new Button(composite_1, SWT.NONE);
+		Button button_2 = new Button(composite_1, SWT.NONE);//É¾³ý
 		button_2.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 			}
@@ -69,7 +69,7 @@ public class AlarmTactics extends Dialog{
 		button_2.setBounds(159, 0, 72, 22);
 		button_2.setText("\u5220\u9664");
 		
-		Button button_3 = new Button(composite_1, SWT.NONE);
+		Button button_3 = new Button(composite_1, SWT.NONE);//Ë¢ÐÂ
 		button_3.setBounds(241, 0, 72, 22);
 		button_3.setText("\u5237\u65B0");
 		
