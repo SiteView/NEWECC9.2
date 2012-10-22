@@ -127,6 +127,7 @@ public class EccTreeControl extends ViewPart {
 		list_1.add("Ecc.WinMediaServer");
 		list_1.add("Ecc.WindowsDialup");
 		list_1.add("Ecc.WindowsEventLog");
+		list_1.add("Ecc.SQLServerMonitor");
 		list_2.add("Ecc.DiskSpace");
 		list_2.add("Ecc.Memory");
 		list_2.add("Ecc.Port");

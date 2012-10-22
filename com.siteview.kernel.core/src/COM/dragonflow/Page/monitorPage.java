@@ -472,7 +472,39 @@ label0:
         }
         return s1;
     }
-
+    public  String getC(AtomicMonitor atomicmonitor){
+    	String s2 = "";
+        String s3 = "";
+        System.out.println(atomicmonitor.getProperty("_machine"));
+        String s4 = COM.dragonflow.Utils.I18N.UnicodeToString("", COM.dragonflow.Utils.I18N.nullEncoding());
+        s4 = COM.dragonflow.Utils.I18N.StringToUnicode(s4, "");
+        String s5 = COM.dragonflow.HTTP.HTTPRequest.encodeString(s4);
+        AtomicMonitor _tmp = atomicmonitor;
+        String s6 = atomicmonitor.getProperty(AtomicMonitor.pName);
+        String s7 = "";
+        String s8 = (String)atomicmonitor.getClassProperty("title");
+        String s10 = "";
+        if(atomicmonitor.getClassPropertyString("applicationType").equals("NTCounter"))
+        {
+            String s12 = atomicmonitor.getProperty(ServerMonitor.pMachineName);
+            String s15 = "";
+            s2 = "";
+            boolean flag = true;
+                s2 = ((NTCounterBase)atomicmonitor).getCountersContent();
+                if(s2.length() == 0)
+                {
+                    jgl.Array array1 = ((NTCounterBase)atomicmonitor).getAvailableCounters();
+                    if(array1.size() > 0)
+                    {
+                        s2 = ((NTCounterBase)atomicmonitor).getDefaultCounters();
+                    } else
+                    {
+                        flag = false;
+                    }
+                }
+            }
+        return s2;
+    }
     void printForm(String s, String s1, AtomicMonitor atomicmonitor, jgl.HashMap hashmap, jgl.Array array)
         throws java.io.IOException
     {
@@ -494,6 +526,7 @@ label0:
                 {
                     s9 = "";
                 }
+                System.out.println(((IServerPropMonitor)atomicmonitor).getServerProperty());
                 atomicmonitor.setProperty(((IServerPropMonitor)atomicmonitor).getServerProperty(), s9);
             } else
             if(s.equals("Add"))

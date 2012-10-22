@@ -280,8 +280,7 @@ public abstract class NTCounterBase extends ServerMonitor implements
             array.add(as[i]);
         }
 
-        return getPerfCounters(getProperty(pMachineName), array, stringbuffer,
-                "");
+        return getPerfCounters(getProperty(pMachineName), array, stringbuffer, "");
     }
 
     public void setCountersPropertyValue(AtomicMonitor atomicmonitor, String s) {

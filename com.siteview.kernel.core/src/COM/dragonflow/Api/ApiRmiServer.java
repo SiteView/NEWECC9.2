@@ -35,6 +35,7 @@ import org.xml.sax.InputSource;
 
 import COM.dragonflow.Page.WmiService;
 import COM.dragonflow.Page.machinePage;
+import COM.dragonflow.Page.monitorPage;
 import COM.dragonflow.Page.ntmachinePage;
 import COM.dragonflow.Properties.FrameFile;
 import COM.dragonflow.SiteView.AtomicMonitor;
@@ -42,12 +43,16 @@ import COM.dragonflow.SiteView.IServerPropMonitor;
 import COM.dragonflow.SiteView.Machine;
 import COM.dragonflow.SiteView.Monitor;
 import COM.dragonflow.SiteView.MonitorGroup;
+import COM.dragonflow.SiteView.MonitorProxy;
 import COM.dragonflow.SiteView.NTCounterBase;
 import COM.dragonflow.SiteView.Platform;
+import COM.dragonflow.SiteView.ServerMonitor;
 import COM.dragonflow.SiteView.SiteViewGroup;
 import COM.dragonflow.SiteViewException.SiteViewException;
 import COM.dragonflow.StandardMonitor.SNMPCPUMonitor;
 import COM.dragonflow.Utils.MachineUtil;
+import COM.dragonflow.Utils.PerfCounter;
+import COM.dragonflow.Utils.TextUtils;
 import COM.dragonflow.itsm.data.JDBCForSQL;
 
 public class ApiRmiServer extends java.rmi.server.UnicastRemoteObject implements
@@ -361,20 +366,49 @@ public class ApiRmiServer extends java.rmi.server.UnicastRemoteObject implements
 				e.printStackTrace();
 			}
 			if (isHave(NTCounterGroups, parmsmap.get("monitortype").toString())) {// NTCounterGroups
-				atomicmonitor.setProperty(((IServerPropMonitor) atomicmonitor)
-						.getServerProperty(), hostname);
-				monitorcounters = ((NTCounterBase) atomicmonitor)
-						.getCountersContent();
-				if (monitorcounters.length() == 0) {
-					jgl.Array array1 = ((NTCounterBase) atomicmonitor)
-							.getAvailableCounters();
-					if (array1.size() > 0) {
-						monitorcounters = ((NTCounterBase) atomicmonitor)
-								.getDefaultCounters();
-					} else {
-						flag = false;
-					}
-				}
+//				Array array_1=new Array();
+//				String as[]=TextUtils.split("SQLServer:Access Methods, SQLServer:Backup Device, SQLServer:Buffer Manager, SQLServer:Buffer Partition, SQLServer:Cache Manager, SQLServer:Databases, SQLServer:General Statistics, SQLServer:Latches, SQLServer:Locks, SQLServer:Memory Manager, SQLServer:Replication Agents, SQLServer:Replication Dist., SQLServer:Replication Logreader, SQLServer:Replicaton Merge, SQLServer:Replication Snapshot, SQLServer:SQL Statistics, SQLServer:User Settable", ",");
+//				  for (int i = 0; i < as.length; i++) {
+//			            array_1.add(as[i]);
+//			        }
+//				Array array=NTCounterBase.getPerfCounters(parmsmap.get("hostname").toString(), array_1, stringbuffer, "");
+//				String s="";
+//				int i = 0;
+//				for (int j = 0; j < array.size(); j++) {
+//					if (!((PerfCounter) array.at(j)).instance.equals("_Total")) {
+//						continue;
+//					}
+//					if (i >= nMaxCounters) {
+//						break;
+//					}
+//					if (!flag) {
+//						s = s + ",";
+//					} else {
+//						flag = false;
+//					}
+//					s = s + ((PerfCounter) array.at(j)).object + " -- ";
+//					s = s + ((PerfCounter) array.at(j)).counterName;
+//					if (((PerfCounter) array.at(j)).instance.length() > 0) {
+//						s = s + " -- " + ((PerfCounter) array.at(j)).instance;
+//					}
+//					i++;
+//				}
+//				System.out.println(s);
+				monitorPage m=new monitorPage();
+				  atomicmonitor.setProperty("_machine", parmsmap.get("hostname").toString());
+				monitorcounters=m.getC(atomicmonitor);
+//				monitorcounters = ((NTCounterBase) atomicmonitor)
+//						.getCountersContent();
+//				if (monitorcounters.length() == 0) {
+//					jgl.Array array1 = ((NTCounterBase) atomicmonitor)
+//							.getAvailableCounters();
+//					if (array1.size() > 0) {
+//						monitorcounters = ((NTCounterBase) atomicmonitor)
+//								.getDefaultCounters();
+//					} else {
+//						flag = false;
+//					}
+//				}
 			} else if (isHave(BrowsableBaseCounterGroups,
 					parmsmap.get("monitortype").toString())) {// BrowsableBaseCounterGroups
 				if (parmsmap.get("monitortype").toString()
