@@ -1,19 +1,26 @@
 package SiteView.ecc.editors;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
@@ -21,13 +28,21 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.wb.swt.SWTResourceManager;
 
+import system.Collections.ICollection;
+import system.Collections.IEnumerator;
 import SiteView.ecc.dialog.CreateFilterCondition;
+import SiteView.ecc.tools.FileTools;
+import Siteview.SiteviewValue;
+import Siteview.Api.BusinessObject;
+import Siteview.Windows.Forms.ConnectionBroker;
 
 public class MonitorBrowse extends EditorPart {
 	public static String ID = "SiteView.ecc.editors.MonitorBrowse";
 	private Table table;
 	private Table table_1;
 	private Text text;
+	private TableViewer tableViewer;
+	private List<BusinessObject> boList = new ArrayList<BusinessObject>();
 	public MonitorBrowse() {
 	}
 
@@ -62,6 +77,10 @@ public class MonitorBrowse extends EditorPart {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	private CreateFilterCondition createCreateFilterCondition(String name){
+		return new CreateFilterCondition(null,name,this);
+	}
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -79,7 +98,7 @@ public class MonitorBrowse extends EditorPart {
 			@Override
 			public void mouseUp(MouseEvent e) {
 				String name = ((Button)e.getSource()).getText();
-				CreateFilterCondition cfc = new CreateFilterCondition(null,name);
+				CreateFilterCondition cfc = createCreateFilterCondition(name);
 				cfc.open();
 			}
 		});
@@ -95,6 +114,24 @@ public class MonitorBrowse extends EditorPart {
 		Button btnNewButton_3 = new Button(composite, SWT.NONE);
 		btnNewButton_3.setBounds(252, 0, 72, 32);
 		btnNewButton_3.setText("删除");
+		btnNewButton_3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseUp(MouseEvent e) {
+				Boolean flag = MessageDialog.openConfirm(Display.getCurrent().getActiveShell(), "确认框", "你真的要删除此项吗?");
+				if(flag){
+					TableItem[] arr = table.getSelection();
+					String recId = arr[0].getText(8);
+					for(int i=0;i<boList.size();i++){
+						String rec = boList.get(i).GetField("RecId").get_NativeValue().toString();
+						if(rec.equals(recId)){
+							boList.get(i).DeleteObject(ConnectionBroker.get_SiteviewApi());
+							boList.remove(i);
+							tableViewerRefresh();
+						}
+					}
+				}
+			}
+		});
 		
 		Button btnNewButton_4 = new Button(composite, SWT.NONE);
 		btnNewButton_4.setBounds(334, 0, 72, 32);
@@ -104,7 +141,7 @@ public class MonitorBrowse extends EditorPart {
 		btnNewButton_5.setBounds(415, 0, 82, 32);
 		btnNewButton_5.setText("设置显示条目");
 		
-		TableViewer tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION);
+		tableViewer = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION);
 		table = tableViewer.getTable();
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
@@ -127,7 +164,7 @@ public class MonitorBrowse extends EditorPart {
 		TableViewerColumn tableViewerColumn_5 = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tblclmnNewColumn_5 = tableViewerColumn_5.getColumn();
 		tblclmnNewColumn_5.setWidth(100);
-		tblclmnNewColumn_5.setText("名称");
+		tblclmnNewColumn_5.setText("监测器名称");
 		
 		TableViewerColumn tableViewerColumn_4 = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tblclmnNewColumn_4 = tableViewerColumn_4.getColumn();
@@ -149,12 +186,24 @@ public class MonitorBrowse extends EditorPart {
 		tblclmnNewColumn_1.setWidth(100);
 		tblclmnNewColumn_1.setText("排序");
 		
+		TableViewerColumn tableViewerColumn_16 = new TableViewerColumn(tableViewer, SWT.Hide);
+		TableColumn tableColumn = tableViewerColumn_16.getColumn();
+		tableColumn.setWidth(0);
+		tableColumn.setText("RecId");
+		tableColumn.setResizable(false);
+		
 		Composite composite_1 = new Composite(sashForm, SWT.NONE);
 		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		Label lblNewLabel = new Label(composite_1, SWT.NONE);
 		lblNewLabel.setBounds(0, 0, 1894, 27);
 		lblNewLabel.setText("浏览次数最多的监测器");
+		TableItem item0 = new TableItem(table,SWT.NONE);
+		item0.setText(0, "浏览次数最多的监测器");
+		item0.setText(4, "所有类型");
+		item0.setText(5, "显示所有");
+		item0.setText(7, "状态");
+		initTableViewer();
 		
 		TableViewer tableViewer_1 = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION);
 		table_1 = tableViewer_1.getTable();
@@ -229,6 +278,104 @@ public class MonitorBrowse extends EditorPart {
 		sashForm.setWeights(new int[] {33, 67, 16, 309, 37});
 
 	}
+	
+	private void tableViewerRefresh(){
+		for(int i=0;i<boList.size();i++){
+			TableItem item = new TableItem(table, SWT.NONE);
+			BusinessObject bo = boList.get(i);
+			item.setText(0, bo.GetField("ConditionName").get_NativeValue().toString());
+			String grid = bo.GetField("GroupId").get_NativeValue().toString();
+			String grname = getGroupNameById(grid);
+			item.setText(1, grname);
+			String maid = bo.GetField("MachineId").get_NativeValue().toString();
+			String maname = getMachineNameById(maid);
+			item.setText(2, maname);
+			String moid = bo.GetField("MonitorId").get_NativeValue().toString();
+			String moname = getMonitorNameById(moid);
+			item.setText(3, moname);
+			item.setText(4, bo.GetField("MonitorType").get_NativeValue().toString());
+			item.setText(5, bo.GetField("IsVisivble").get_NativeValue().toString());
+			item.setText(6, bo.GetField("Description").get_NativeValue().toString());
+			item.setText(7, bo.GetField("SortMethod").get_NativeValue().toString());
+			item.setText(8, bo.GetField("RecId").get_NativeValue().toString());
+		}
+	}
+	
+	public void initTableViewer(){
+		ICollection ic = FileTools.getBussCollection("EccFilter");
+		IEnumerator ieable = ic.GetEnumerator();
+		while(ieable.MoveNext()){
+			TableItem item = new TableItem(table, SWT.NONE);
+			BusinessObject bo = (BusinessObject)ieable.get_Current();
+			item.setText(0, bo.GetField("ConditionName").get_NativeValue().toString());
+			String grid = bo.GetField("GroupId").get_NativeValue().toString();
+			String grname = getGroupNameById(grid);
+			item.setText(1, grname);
+			String maid = bo.GetField("MachineId").get_NativeValue().toString();
+			String maname = getMachineNameById(maid);
+			item.setText(2, maname);
+			String moid = bo.GetField("MonitorId").get_NativeValue().toString();
+			String moname = getMonitorNameById(moid);
+			item.setText(3, moname);
+			item.setText(4, bo.GetField("MonitorType").get_NativeValue().toString());
+			item.setText(5, bo.GetField("IsVisivble").get_NativeValue().toString());
+			item.setText(6, bo.GetField("Description").get_NativeValue().toString());
+			item.setText(7, bo.GetField("SortMethod").get_NativeValue().toString());
+			item.setText(8, bo.GetField("RecId").get_NativeValue().toString());
+			boList.add(bo);
+		}
+	}
+
+	private String getMonitorNameById(String moid) {
+		List<String> set = new ArrayList<String>();
+		String[] gd = moid.split(";");
+		for(int i=0;i<gd.length;i++){
+			ICollection ico=FileTools.getBussCollection("RecId",gd[i],"Ecc");
+			IEnumerator ien=ico.GetEnumerator();
+			while(ien.MoveNext()){
+				BusinessObject bo = (BusinessObject)ien.get_Current();
+				set.add(bo.GetField("title").get_NativeValue().toString());
+			}
+		}
+		String[] a = new String[set.size()];
+		String s = Arrays.toString(set.toArray(a)).replaceAll(",", ";");
+		s = s.substring(1, s.length()-1);
+		return s;
+	}
+
+	private String getMachineNameById(String maid) {
+		List<String> set = new ArrayList<String>();
+		String[] gd = maid.split(";");
+		for(int i=0;i<gd.length;i++){
+			ICollection ico=FileTools.getBussCollection("RecId",gd[i],"RemoteMachine");
+			IEnumerator ien=ico.GetEnumerator();
+			while(ien.MoveNext()){
+				BusinessObject bo = (BusinessObject)ien.get_Current();
+				set.add(bo.GetField("ServerAddress").get_NativeValue().toString());
+			}
+		}
+		String[] a = new String[set.size()];
+		String s = Arrays.toString(set.toArray(a)).replaceAll(",", ";");
+		s = s.substring(1, s.length()-1);
+		return s;
+	}
+
+	private String getGroupNameById(String grid) {
+		List<String> set = new ArrayList<String>();
+		String[] gd = grid.split(";");
+		for(int i=0;i<gd.length;i++){
+			ICollection ico=FileTools.getBussCollection("RecId",gd[i],"EccGroup");
+			IEnumerator ien=ico.GetEnumerator();
+			while(ien.MoveNext()){
+				BusinessObject bo = (BusinessObject)ien.get_Current();
+				set.add(bo.GetField("GroupName").get_NativeValue().toString());
+			}
+		}
+		String[] a = new String[set.size()];
+		String s = Arrays.toString(set.toArray(a)).replaceAll(",", ";");
+		s = s.substring(1, s.length()-1);
+		return s;
+	}
 
 	@Override
 	public void setFocus() {
@@ -236,3 +383,4 @@ public class MonitorBrowse extends EditorPart {
 
 	}
 }
+

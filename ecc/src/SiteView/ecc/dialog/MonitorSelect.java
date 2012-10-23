@@ -137,9 +137,15 @@ public class MonitorSelect extends Dialog {
 					recIdSb.append(";");
 				}
 				String s1 = nameSb.toString();
-				cfc.getText_1().setText(s1.substring(0,s1.length()-1));
+				if(s1.matches("\\s*")){
+					cfc.getText_1().setText("");
+				}else{
+					cfc.getText_1().setText(s1.substring(0,s1.length()-1));	
+				}
 				String s2 = recIdSb.toString();
-				cfc.setMonitorId(s2.substring(0,s2.length()-1));
+				if(!s2.matches("\\s*")){
+					cfc.setMonitorId(s2.substring(0,s2.length()-1));
+				}
 				this.close();
 			}else if("设备选择器".equals(butName)){
 				StringBuffer nameSb = new StringBuffer();
@@ -153,9 +159,14 @@ public class MonitorSelect extends Dialog {
 					recIdSb.append(";");
 				}
 				String s1 = nameSb.toString();
-				cfc.getText_2().setText(s1.substring(0,s1.length()-1));
+				if(!s1.matches("\\s*")){
+					cfc.getText_2().setText(s1.substring(0,s1.length()-1));
+				}
 				String s2 = recIdSb.toString();
-				cfc.setMachineId(s2.substring(0,s2.length()-1));
+				if(!s2.matches("\\s*")){
+					cfc.setMachineId(s2.substring(0,s2.length()-1));
+				}
+				
 				this.close();
 			}else if("组选择器".equals(butName)){
 				StringBuffer nameSb = new StringBuffer();
@@ -169,9 +180,13 @@ public class MonitorSelect extends Dialog {
 					recIdSb.append(";");
 				}
 				String s1 = nameSb.toString();
-				cfc.getText_3().setText(s1.substring(0,s1.length()-1));
+				if(!s1.matches("\\s*")){
+					cfc.getText_3().setText(s1.substring(0,s1.length()-1));
+				}
 				String s2 = recIdSb.toString();
-				cfc.setGroupId(s2.substring(0,s2.length()-1));
+				if(!s2.matches("\\s*")){
+					cfc.setGroupId(s2.substring(0,s2.length()-1));
+				}
 				this.close();
 			}
 		}else{

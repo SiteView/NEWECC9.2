@@ -2,6 +2,7 @@ package SiteView.ecc.dialog;
 
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,6 +10,7 @@ import java.util.UUID;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.MouseAdapter;
@@ -20,6 +22,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -28,7 +31,9 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
+import SiteView.ecc.editors.MonitorBrowse;
 import SiteView.ecc.tools.FileTools;
+import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
 
@@ -54,7 +59,14 @@ public class CreateFilterCondition extends Dialog {
 	private String groupId="";
 	private String monitorType;
 	private String dialogTitle;
+	private MonitorBrowse mb;
 	
+	public MonitorBrowse getMb() {
+		return mb;
+	}
+	public void setMb(MonitorBrowse mb) {
+		this.mb = mb;
+	}
 	protected void configureShell(Shell newShell) {
 		newShell.setSize(480, 480);
 		newShell.setLocation(200, 175);
@@ -109,13 +121,14 @@ public class CreateFilterCondition extends Dialog {
 	public void setMonitorType(String monitorType) {
 		this.monitorType = monitorType;
 	}
-	public CreateFilterCondition(Shell parentShell,String name) {
+	public CreateFilterCondition(Shell parentShell,String name,MonitorBrowse mb) {
 		super(parentShell);
 		this.parentShell=parentShell;
 		if("编辑".equals(name)){
 			name = name + "筛选条件";
 		}
 		this.dialogTitle = name;
+		this.mb = mb;
 	}
 	private MonitorSelect createMonitorSelect(String name){
 		return new MonitorSelect(null,name,this);
@@ -329,12 +342,67 @@ public class CreateFilterCondition extends Dialog {
 			String monitorType = combo_1.getItem(combo_1.getSelectionIndex());
 			String isVisible = combo.getItem(combo.getSelectionIndex());
 			String description = text_4.getText().trim();
-			String sortMethod = combo_3.getItem(combo_3.getSelectionIndex());
-			
+			String sortMethod = combo_2.getItem(combo_2.getSelectionIndex());
+			if(conditionName==null||conditionName.matches("\\s*")){
+				Shell sh = Display.getCurrent().getActiveShell();
+				MessageDialog.openError(sh,"提示框" ,"请输入筛选名称!" );
+				return;
+			}
+			if(MonitorId.length()<1){
+				if(MachineId.length()>0){
+					MonitorId = getMonitorIdByMachineId(MachineId);
+				}else{
+					MonitorId = getMonitorIdByGroupId(GroupId);
+				}
+			}
 			BusinessObject bo=ConnectionBroker.get_SiteviewApi().get_BusObService().Create("EccFilter");
-//			bo.s
+			bo.GetField("RecId").SetValue(new SiteviewValue(recId));
+			bo.GetField("CreatedDateTime").SetValue(new SiteviewValue(createDateTime));
+			bo.GetField("ConditionName").SetValue(new SiteviewValue(conditionName));
+			bo.GetField("GroupId").SetValue(new SiteviewValue(GroupId));
+			bo.GetField("MachineId").SetValue(new SiteviewValue(MachineId));
+			bo.GetField("MonitorId").SetValue(new SiteviewValue(MonitorId));
+			bo.GetField("MonitorType").SetValue(new SiteviewValue(monitorType));
+			bo.GetField("IsVisivble").SetValue(new SiteviewValue(isVisible));
+			bo.GetField("Description").SetValue(new SiteviewValue(description));
+			bo.GetField("SortMethod").SetValue(new SiteviewValue(sortMethod));
+			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), false, true);
+			
+			this.close();
 		}else{
 			this.close();
 		}
+	}
+	private String getMonitorIdByGroupId(String groupId2) {
+		Set<String> set = new HashSet<String>();
+		String[] gd = groupId2.split(";");
+		for(int i=0;i<gd.length;i++){
+			ICollection ico=FileTools.getBussCollection("Groups",gd[i],"Ecc");
+			IEnumerator ien=ico.GetEnumerator();
+			while(ien.MoveNext()){
+				BusinessObject bo = (BusinessObject)ien.get_Current();
+				set.add(bo.GetField("RecId").get_NativeValue().toString());
+			}
+		}
+		String[] a = new String[set.size()];
+		String s = Arrays.toString(set.toArray(a)).replaceAll(",", ";");
+		s = s.substring(1, s.length()-1);
+		return s;
+	}
+	private String getMonitorIdByMachineId(String machineId2) {
+		Set<String> set = new HashSet<String>();
+		String[] gd = machineId2.split(";");
+		for(int i=0;i<gd.length;i++){
+			ICollection ico=FileTools.getBussCollection("Machine",gd[i],"Ecc");
+			IEnumerator ien=ico.GetEnumerator();
+			while(ien.MoveNext()){
+				BusinessObject bo = (BusinessObject)ien.get_Current();
+				set.add(bo.GetField("RecId").get_NativeValue().toString());
+			}
+		}
+		String[] a = new String[set.size()];
+		String s = Arrays.toString(set.toArray(a)).replaceAll(",", ";");
+		s = s.substring(1, s.length()-1);
+		return s;
 	}
 }
