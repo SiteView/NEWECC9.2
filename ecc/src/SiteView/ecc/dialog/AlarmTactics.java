@@ -1,25 +1,39 @@
 package SiteView.ecc.dialog;
 
+import java.util.HashSet;
+import java.util.Set;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-
+import org.eclipse.swt.widgets.TableItem;
+import SiteView.ecc.tools.FileTools;
 import SiteView.ecc.view.EccTreeControl;
+import Siteview.Api.BusinessObject;
+import Siteview.Windows.Forms.ConnectionBroker;
+import Siteview.Windows.Forms.MessageBox;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.TableCursor;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import system.Collections.ICollection;
+import system.Collections.IEnumerator;
 
 public class AlarmTactics extends Dialog{
-	private Table table;
-
+	public static Table table;
+    public TableItem tableItem;
+  //  public static Set<String> set=new HashSet<String>();
+    public static String TacticName;
 	public AlarmTactics(Shell parentShell) {
 		super(parentShell);
 	}
@@ -56,6 +70,15 @@ public class AlarmTactics extends Dialog{
 		Button button_1 = new Button(composite_1, SWT.NONE);//编辑
 		button_1.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
+				if (tableItem==null) {
+					MessageBox messageBox = new MessageBox();
+					messageBox.Show("请选择要编辑的策略!", "提示", SWT.OK);
+				}else{
+					String name=tableItem.getText(0);
+					System.out.println("name:"+name);
+					AddAlarmTactics addAlarm=new AddAlarmTactics(new Shell(),name);
+					addAlarm.open();
+				}
 			}
 		});
 		button_1.setBounds(81, 0, 72, 22);
@@ -64,6 +87,22 @@ public class AlarmTactics extends Dialog{
 		Button button_2 = new Button(composite_1, SWT.NONE);//删除
 		button_2.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
+				if (tableItem==null) {
+					MessageBox messageBox = new MessageBox();
+					messageBox.Show("你还没有选定想删除的策略名称!", "提示", SWT.OK);
+				}else{
+					if(!(tableItem.isDisposed())){
+						ICollection ico = FileTools.getBussCollection("TacticName",
+								tableItem.getText(0), "EccAlarmTactic");
+						IEnumerator ien = ico.GetEnumerator();
+						while (ien.MoveNext()) {
+							((BusinessObject) ien.get_Current())
+									.DeleteObject(ConnectionBroker
+											.get_SiteviewApi());// 删除数据库数据
+							tableItem.dispose();// 删除表单数据	
+					}
+					}
+				}
 			}
 		});
 		button_2.setBounds(159, 0, 72, 22);
@@ -72,22 +111,78 @@ public class AlarmTactics extends Dialog{
 		Button button_3 = new Button(composite_1, SWT.NONE);//刷新
 		button_3.setBounds(241, 0, 72, 22);
 		button_3.setText("\u5237\u65B0");
+		button_3.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e){
+				table.update();
+			}
+		});
 		
 		Label lblNewLabel_1 = new Label(sashForm, SWT.NONE);
 		lblNewLabel_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		lblNewLabel_1.setText("\u544A\u8B66\u7B56\u7565\u5217\u8868");
 		
-		table = new Table(sashForm, SWT.FULL_SELECTION|SWT.CENTER);
-//		table.setHeaderVisible(true);
-//		table.setLinesVisible(true);
+		table = new Table(sashForm, SWT.FULL_SELECTION|SWT.CENTER|SWT.CHECK);
+		table.addSelectionListener(new SelectionListener(){ 
+			public void widgetSelected(SelectionEvent e) {
+				tableItem = (TableItem) e.item;
+				tableItem.setChecked(true);
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+				tableItem.setChecked(false);
+			}
+		});
+		
+		final TableCursor cursor = new TableCursor(table, SWT.NONE);
+		cursor.addMouseListener(new MouseListener() {
+			public void mouseUp(MouseEvent e) {
+				for (TableItem ta : table.getItems()) {
+					if (!ta.equals(tableItem)) {
+						ta.setChecked(false);
+					}
+				}
+			}
+			
+			public void mouseDown(MouseEvent e) {
+				
+			}
+			
+			public void mouseDoubleClick(MouseEvent e) {
+				
+			}
+		});
 		
 		TableColumn tableColumn = new TableColumn(table, SWT.CENTER);
 		tableColumn.setWidth(437);
 		tableColumn.setText("\u540D\u79F0");
 		
+		createTable();
+		
 		Composite composite_2 = new Composite(sashForm, SWT.NONE);
 		composite_2.setBackground(EccTreeControl.color);
 		sashForm.setWeights(new int[] {5, 8, 5, 78, 94});
 		return composite;
+	}
+	public static void createTable(){//创建表格信息
+		for (TableItem item : table.getItems()) {
+			item.dispose();
+		}
+		ICollection icoll = FileTools.getBussCollection("EccAlarmTactic");
+		IEnumerator ienum = icoll.GetEnumerator();
+		if (ienum != null){
+			while(ienum.MoveNext()){
+				BusinessObject bo = (BusinessObject) ienum.get_Current();
+				if(bo!=null){
+				TacticName = bo.GetField("TacticName").get_NativeValue()
+							.toString();
+				//set.add(TacticName);
+				TableItem tableItem_1 = new TableItem(table, SWT.NONE);
+				tableItem_1.setText(0, TacticName);
+					}
+				}
+			}
+//		for(String a:set){
+//			TableItem tableItem_1 = new TableItem(table, SWT.NONE);
+//			tableItem_1.setText(0, a);
+//		}
 	}
 }
