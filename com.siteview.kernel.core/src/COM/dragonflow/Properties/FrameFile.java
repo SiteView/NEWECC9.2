@@ -1,5 +1,5 @@
 /*
- * 
+ *
  * Created on 2005-2-28 6:56:56
  *
  * FrameFile.java
@@ -11,11 +11,11 @@ package COM.dragonflow.Properties;
 
 /**
  * Comment for <code>FrameFile</code>
- * 
+ *
  * @author
  * @version 0.0
- * 
- * 
+ *
+ *
  */
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -49,7 +49,6 @@ import org.apache.commons.httpclient.HttpException;
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
 import system.Xml.XmlElement;
-
 
 import COM.dragonflow.Log.LogManager;
 import COM.dragonflow.SiteView.DetectConfigurationChange;
@@ -534,6 +533,9 @@ public class FrameFile {
 	// 分解String
 	public static String format(String s, String s1, String s0) {
 		s1 = s1.trim();
+		if(!s1.contains(s)){
+			return null;
+		}
 		String s2 = s1.substring(s1.indexOf(s));
 		s1 = s1.substring(0, s1.indexOf(s)).trim();
 		if (s2.contains("\n")) {
@@ -621,18 +623,34 @@ public class FrameFile {
 			monitorName = s1.substring(0, s1.indexOf("*"));
 			s = s1.substring(s1.indexOf("*") + 1);
 		}
+		type=Config.getReturnStr("siteview9.2_itsm.properties",type);
+		String need = Config.getReturnStr("MonitorLogTabView.properties","Ecc."+type);
+		String so="";
+		if(need!=null){
+			String [] str=need.split(",");
+			for(String sss:str){
+				s1 = format(sss.substring(sss.indexOf(":")+1)+"=", s, null);
+				if(s1==null){
+					continue;
+				}
+				so+=sss.substring(0,sss.indexOf(":"))+"="+s1.substring(0,s1.indexOf("*")+1);
+				s=s1.substring(s1.indexOf("*")+1);
+			}
+		}
 		String groupName = getGroupNameById(groupId);
 		String parentGroupName = getAllParentGroupName(groupId);
 		monitorName = groupId + " ：" + monitorName;
 		s = s.trim();
 		s = s.replaceAll("\n", "*");// 日志
+		
+		
 		String department = MonitorGroup.groupnameip.get(groupId) + " "
 				+ monitorid;
+		BusinessObject bo = null;
+		String RecId;
 		// ICollection ico=getBussCollection("monitorid", monitorid, "EccDyn");
 		// IEnumerator ien=ico.GetEnumerator();
-		BusinessObject bo = null;
 		// bo=CreateBo("monitorid", monitorid, "EccDyn");
-		String RecId;
 		// if(bo!=null){
 		// RecId=bo.get_RecId();
 		// long time = System.currentTimeMillis();
@@ -672,7 +690,7 @@ public class FrameFile {
 				Timestamp LastModDateTime = new Timestamp(time);
 
 				String sql = "update EccDyn set category='" + category
-						+ "',monitorDesc='" + s + "',LastModDateTime='"
+						+ "',monitorDesc='" + so + "',LastModDateTime='"
 						+ LastModDateTime + "',StatusConut='" + count
 						+ "',groupid='" + groupId + "',monitorName='"
 						+ monitorName + "',Department='" + department
@@ -707,7 +725,7 @@ public class FrameFile {
 						+ "','"
 						+ category
 						+ "','"
-						+ s
+						+ so
 						+ "','"
 						+ monitorid
 						+ "','"
@@ -1203,9 +1221,9 @@ public class FrameFile {
 				Map maps = new java.util.HashMap();
 				for (int i = 1; i < colum; i++) {
 					String columName = metaData.getColumnName(i);// Get colum
-																	// name
+					// name
 					String datavalue = eccrs.getString(columName);// Get data
-																	// value
+					// value
 					if (datavalue != null) {
 						if (!datavalue.equals(" ")) {
 							String parmName = Config.getReturnStr(
@@ -1416,37 +1434,32 @@ public class FrameFile {
 								}
 								stringBuffer.append(parmName + "=" + datavalue
 										+ ";");
-								if (isHave(MonitorCounterGroups, datavalue)) {// the
-																				// monitor
-																				// have
-																				// counter.
-									String query_counter_sql = "SELECT * FROM MonitorCounter WHERE ParentLink_RecID ='"
-											+ eccrs.getString("RecId") + "'";
-									ResultSet counterrs = JDBCForSQL
-											.sql_ConnectExecute_Select(query_counter_sql);
-									while (counterrs.next()) {
-										if (!stringBuffer.toString().contains(
-												"_counters=")) {
-											stringBuffer.append("_counters=");
-											stringBuffer.append(counterrs
-													.getString("Name") + ",");
-										} else {
-											stringBuffer.append(counterrs
-													.getString("Name") + ",");
-										}
-									}
-									if (stringBuffer.toString().contains(
-											"_counters=")) {
-										stringBuffer.deleteCharAt(stringBuffer
-												.length() - 1);
-										stringBuffer.append(";");
-									}
-								}
+//								if (isHave(MonitorCounterGroups, datavalue)) {// the monitor have counter
+//									String query_counter_sql = "SELECT * FROM MonitorCounter WHERE ParentLink_RecID ='"
+//											+ eccrs.getString("RecId") + "'";
+//									ResultSet counterrs = JDBCForSQL
+//											.sql_ConnectExecute_Select(query_counter_sql);
+//									while (counterrs.next()) {
+//										if (!stringBuffer.toString().contains(
+//												"_counters=")) {
+//											stringBuffer.append("_counters=");
+//											stringBuffer.append(counterrs
+//													.getString("Name") + ",");
+//										} else {
+//											stringBuffer.append(counterrs
+//													.getString("Name") + ",");
+//										}
+//									}
+//									if (stringBuffer.toString().contains(
+//											"_counters=")) {
+//										stringBuffer.deleteCharAt(stringBuffer
+//												.length() - 1);
+//										stringBuffer.append(";");
+//									}
+//								}
 							}
 						}
 
-					} else {
-						continue;
 					}
 				}
 				// linkCheck
@@ -1470,6 +1483,26 @@ public class FrameFile {
 						&& maps.get("_scale") != null) {
 					stringBuffer.append("_scale=");
 					stringBuffer.append(maps.get("_scale"));
+					stringBuffer.append(";");
+				}
+				//取计数器
+				String  sql_count="select * from MonitorCounter where ParentLink_RecID='"+eccrs.getString("RecId") + "'";
+				ResultSet coutrs = JDBCForSQL.sql_ConnectExecute_Select(sql_count);
+				int i=0;
+				while(coutrs.next()){
+					String counter=coutrs.getString("Name");
+					if(counter.contains("Default")){
+						counter=counter.substring(0,counter.lastIndexOf("--")+2)+"Total";
+					}
+					if(i==0){
+						stringBuffer.append("_counters=");
+						stringBuffer.append(counter);
+					}else{
+						stringBuffer.append(","+counter);
+					}
+					i++;
+				}
+				if(i>0){
 					stringBuffer.append(";");
 				}
 
@@ -1722,7 +1755,7 @@ public class FrameFile {
 
 	static String gv(HashMap hashmap, String s) {
 		String s1 = TextUtils.getValue(hashmap, s);
-		s1 = TextUtils.replaceString(s1, "   ", "\\n");
+		s1 = TextUtils.replaceString(s1, " ", "\\n");
 		s1 = s1.trim();
 		s1 = s1.replace(',', ' ');
 		return s1;
