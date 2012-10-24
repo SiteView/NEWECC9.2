@@ -44,5 +44,7 @@
 	<classpathentry kind="lib" path="lib/j2ee.jar"/>
 	<classpathentry kind="lib" path="lib/jcifs-1.2.19.jar"/>
 	<classpathentry kind="lib" path="lib/snmp4j-2.0.3.jar"/>
+	<classpathentry kind="lib" path="lib/my.util.sound.jar"/>
+	<classpathentry kind="lib" path="lib/mail/my.mail.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

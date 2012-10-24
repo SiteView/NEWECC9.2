@@ -1371,21 +1371,21 @@ public class FileUtils {
 									datavalue = String.valueOf(timehs);
 								}
 								stringBuffer.append(parmName + "=" + datavalue+ ";");
-								if (isHave(MonitorCounterGroups, datavalue)) {//the monitor have counter.
-									String query_counter_sql = "SELECT * FROM MonitorCounter WHERE ParentLink_RecID ='"+ eccrs.getString("RecId") + "'";
-									ResultSet counterrs = JDBCForSQL.sql_ConnectExecute_Select(query_counter_sql);
-									while (counterrs.next()) {
-										if (!stringBuffer.toString().contains("_counters=")) {
-											stringBuffer.append("_counters=");
-											stringBuffer.append(counterrs.getString("Name")+",");
-										}else{
-											stringBuffer.append(counterrs.getString("Name")+",");
-										}
-									}	if (stringBuffer.toString().contains("_counters=")) {
-										stringBuffer.deleteCharAt(stringBuffer.length() - 1);
-										stringBuffer.append(";");
-									}	
-								}
+//								if (isHave(MonitorCounterGroups, datavalue)) {//the monitor have counter.
+//									String query_counter_sql = "SELECT * FROM MonitorCounter WHERE ParentLink_RecID ='"+ eccrs.getString("RecId") + "'";
+//									ResultSet counterrs = JDBCForSQL.sql_ConnectExecute_Select(query_counter_sql);
+//									while (counterrs.next()) {
+//										if (!stringBuffer.toString().contains("_counters=")) {
+//											stringBuffer.append("_counters=");
+//											stringBuffer.append(counterrs.getString("Name")+",");
+//										}else{
+//											stringBuffer.append(counterrs.getString("Name")+",");
+//										}
+//									}	if (stringBuffer.toString().contains("_counters=")) {
+//										stringBuffer.deleteCharAt(stringBuffer.length() - 1);
+//										stringBuffer.append(";");
+//									}	
+//								}
 							}
 						}
 
@@ -1413,6 +1413,27 @@ public class FileUtils {
 					stringBuffer.append(maps.get("_scale"));
 					stringBuffer.append("\n");
 				}
+				//È¡¼ÆÊýÆ÷
+				String  sql_count="select * from MonitorCounter where ParentLink_RecID='"+eccrs.getString("RecId") + "'";
+				ResultSet coutrs = JDBCForSQL.sql_ConnectExecute_Select(sql_count);
+				int i=0;
+				while(coutrs.next()){
+					String counter=coutrs.getString("Name");
+					if(counter.contains("Default")){
+						counter=counter.substring(0,counter.lastIndexOf("--")+2)+"Total";
+					}
+					if(i==0){
+						stringBuffer.append("_counters=");
+						stringBuffer.append(counter);
+					}else{
+						stringBuffer.append(","+counter);
+					}
+					i++;
+				}
+				if(i>0){
+					stringBuffer.append(";");
+				}
+				
 				 sql= "select * from Alarm where ParentLink_RecID='"
 							+ eccrs.getString("RecId") + "'";
 					ResultSet rsAlarm = JDBCForSQL.sql_ConnectExecute_Select(sql);
@@ -1438,12 +1459,12 @@ public class FileUtils {
 		}
 		return stringBuffer;
 	}
-	public static boolean isHave(String[] strs, String s) {
-		for (int i = 0; i < strs.length; i++) {
-			if (strs[i].indexOf(s) != -1) {
-				return true;
-			}
-		}
-		return false;
-	}
+//	public static boolean isHave(String[] strs, String s) {
+//		for (int i = 0; i < strs.length; i++) {
+//			if (strs[i].indexOf(s) != -1) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 }
