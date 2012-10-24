@@ -55,12 +55,14 @@ public class AddAlarmTactics extends Dialog{
     private String name;
     private String groupId;
     private String machineId;
+    public TableItem tableItem;
 	public AddAlarmTactics(Shell parentShell) {
 		super(parentShell);
 	}
-	public AddAlarmTactics(Shell parentShell,String name) {
+	public AddAlarmTactics(Shell parentShell,String name,TableItem tableItem) {
 		super(parentShell);
 		this.name=name;
+		this.tableItem=tableItem;
 	}
 	protected void configureShell(Shell newShell) {
 		newShell.setSize(500, 500);
@@ -107,7 +109,7 @@ public class AddAlarmTactics extends Dialog{
 					GroupModle gm = (GroupModle) element;
 					BusinessObject object=gm.getBo();
 					groupId=object.get_RecId();
-					System.out.println(groupId);
+					//System.out.println(groupId);
 					list.add(groupId);
 					list.add("group");
 					SiteViewEccMonitorType(set);
@@ -115,7 +117,7 @@ public class AddAlarmTactics extends Dialog{
 						ICollection ico=FileTools.getBussCollection("TacticName",name, "EccAlarmTactic");
 						IEnumerator ien=ico.GetEnumerator();
 						while(ien.MoveNext()){
-							BusinessObject	bo=(BusinessObject)ien.get_Current();
+							bo=(BusinessObject)ien.get_Current();
 							if(bo!=null){
 								String TacticId=bo.GetField("TacticId").get_NativeValue()
 										.toString();
@@ -125,13 +127,14 @@ public class AddAlarmTactics extends Dialog{
 									String TacticMonitorType=bo.GetField("TacticMonitorType").get_NativeValue()
 									.toString();
 									String a=TacticMonitorType.substring(1, TacticMonitorType.indexOf("]"));
-									String[]b=a.split(",");
+									String[]b=a.split(", ");
 									for(int j=0;j<b.length;j++){
 										for (TableItem tableItem : table.getItems()) {
-											System.out.println(b[j]+"----"+b[j].equals(tableItem.getText()));
 											if(b[j].equals(tableItem.getText())){
-												System.out.println("yiyang");
 												tableItem.setChecked(true);
+												if(tableItem.getChecked()){
+													list.add(tableItem.getText());
+												}
 											}
 										}
 									}
@@ -144,17 +147,75 @@ public class AddAlarmTactics extends Dialog{
 					MachineModle machine = (MachineModle) element;
 					BusinessObject bb=machine.getBo();
 					machineId=bb.get_RecId();
-					System.out.println(machineId);
+					//System.out.println(machineId);
 					list.add(machineId);
 					list.add("machine");
 					MachineModleMonitorType(machineId,set1);
+					if(name!=null){
+						ICollection ico=FileTools.getBussCollection("TacticName",name, "EccAlarmTactic");
+						IEnumerator ien=ico.GetEnumerator();
+						while(ien.MoveNext()){
+							bo=(BusinessObject)ien.get_Current();
+							if(bo!=null){
+								String TacticId=bo.GetField("TacticId").get_NativeValue()
+										.toString();
+								String TacticType=bo.GetField("TacticType").get_NativeValue()
+										.toString();
+								if(TacticId.equals(machineId)&&TacticType.equals("machine")){
+									String TacticMonitorType=bo.GetField("TacticMonitorType").get_NativeValue()
+									.toString();
+									String a=TacticMonitorType.substring(1, TacticMonitorType.indexOf("]"));
+									String[]b=a.split(", ");
+									for(int j=0;j<b.length;j++){
+										for (TableItem tableItem : table.getItems()) {
+											if(b[j].equals(tableItem.getText())){
+												tableItem.setChecked(true);
+												if(tableItem.getChecked()){
+													list.add(tableItem.getText());
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
 				}else if(element instanceof SiteViewEcc){
 					list=new ArrayList<String>();
 					SiteViewEcc ecc=(SiteViewEcc)element;
-					String name=ecc.getName();
-					list.add(name);
+					String eccName=ecc.getName();
+					list.add(eccName);
 					list.add("ecc");
 					SiteViewEccMonitorType(set);
+					if(name!=null){
+						ICollection ico=FileTools.getBussCollection("TacticName",name, "EccAlarmTactic");
+						IEnumerator ien=ico.GetEnumerator();
+						while(ien.MoveNext()){
+							bo=(BusinessObject)ien.get_Current();
+							if(bo!=null){
+								String TacticId=bo.GetField("TacticId").get_NativeValue()
+										.toString();
+								String TacticType=bo.GetField("TacticType").get_NativeValue()
+										.toString();
+								if(TacticId.equals(eccName)&&TacticType.equals("ecc")){
+									String TacticMonitorType=bo.GetField("TacticMonitorType").get_NativeValue()
+									.toString();
+									String a=TacticMonitorType.substring(1, TacticMonitorType.indexOf("]"));
+									String[]b=a.split(", ");
+									for(int j=0;j<b.length;j++){
+										for (TableItem tableItem : table.getItems()) {
+											if(b[j].equals(tableItem.getText())){
+												tableItem.setChecked(true);
+												if(tableItem.getChecked()){
+													list.add(tableItem.getText());
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
 				}
 			}
 		});
@@ -170,11 +231,23 @@ public class AddAlarmTactics extends Dialog{
 				item=(TableItem)e.item;
 				if(item.getChecked()){
 					String MonitorType=item.getText();
-					System.out.println(MonitorType);
+					//System.out.println(MonitorType);
 					list.add(MonitorType);
-					System.out.println("list:"+list);
+					//System.out.println("list:"+list);
+					
 //					list2.add(list);
 //					System.out.println("list2:"+list2);
+				}else{
+					//System.out.println("取消前的list:"+list);
+					String MonitorType=item.getText();
+					//System.out.println("取消的选项:"+MonitorType);
+					for(int i=0;i<list.size();i++){
+						if(MonitorType.equals(list.get(i))){
+							//System.out.println(list.indexOf(list.get(i)));
+							list.remove(list.indexOf(list.get(i)));
+						}
+					}
+					//System.out.println("取消后的list:"+list);
 				}
 			}
 			
@@ -185,7 +258,7 @@ public class AddAlarmTactics extends Dialog{
 		sashForm_1.setWeights(new int[] {1, 1});
 		sashForm.setWeights(new int[] {22, 206});
 
-		System.out.println(name);
+		//System.out.println(name);
 		if(name!=null){
 			ICollection ico=FileTools.getBussCollection("TacticName",name, "EccAlarmTactic");
 			IEnumerator ien=ico.GetEnumerator();
@@ -196,9 +269,6 @@ public class AddAlarmTactics extends Dialog{
 					.toString().equals("group")){
 						text.setText(bo.GetField("TacticName").get_NativeValue()
 								.toString());
-//						String TacticMonitorType=bo.GetField("TacticMonitorType").get_NativeValue()
-//								.toString();
-//						System.out.println("TacticMonitorType:"+TacticMonitorType);
 					} else if(bo.GetField("TacticType").get_NativeValue()
 					.toString().equals("machine")){
 						text.setText(bo.GetField("TacticName").get_NativeValue()
@@ -208,20 +278,6 @@ public class AddAlarmTactics extends Dialog{
 							.toString().equals("SiteViewEcc9.2")){
 						text.setText(bo.GetField("TacticName").get_NativeValue()
 								.toString());
-//						String TacticMonitorType=bo.GetField("TacticMonitorType").get_NativeValue()
-//								.toString();
-//						String a=TacticMonitorType.substring(1, TacticMonitorType.indexOf("]"));
-//						String[]b=a.split(",");
-//						for(int j=0;j<b.length;j++){
-//							System.out.println("b:"+b[j]);
-//							for(String string:set){
-//								System.out.println("string:"+string);
-//								if(b[j].equals(string)){
-//									System.out.println("yiyang");
-//								}
-//							}
-//						}
-						
 					}
 				}
 			}
@@ -326,48 +382,58 @@ public class AddAlarmTactics extends Dialog{
 //				}
 //				bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,
 //				true);//将数据存储到数据		
-//			}
-			
+//			}			
 //			AlarmTactics.createTable();//保存后刷新表单数据
 			
-			bo=ConnectionBroker.get_SiteviewApi()//得到数据库表
-			.get_BusObService().Create("EccAlarmTactic");
-			bo.GetField("TacticName").SetValue(
-			new SiteviewValue(text.getText()));
-			bo.GetField("TacticId").SetValue(
-					new SiteviewValue(list.get(0)));
-			bo.GetField("TacticType").SetValue(
-					new SiteviewValue(list.get(1)));
-			List<String> listA=new ArrayList<String>();
-			for(int i=2;i<list.size();i++){
-				listA.add(list.get(i));
-				System.out.println("listA:"+listA);
-				bo.GetField("TacticMonitorType").SetValue(
-				new SiteviewValue(listA));	
-			}
-			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,
-			true);//将数据存储到数据		
-			AlarmTactics.createTable();//保存后刷新表单数据
-			
 			if(name!=null){
-				bo=ConnectionBroker.get_SiteviewApi()//得到数据库表
+				ICollection icollection = FileTools.getBussCollection("TacticName",
+						name, "EccAlarmTactic");
+				IEnumerator ien = icollection.GetEnumerator();
+				while (ien.MoveNext()) {
+					((BusinessObject) ien.get_Current())
+							.DeleteObject(ConnectionBroker
+									.get_SiteviewApi());// 删除数据库数据
+					tableItem.dispose();// 删除表单数据	
+			}
+				BusinessObject bo=ConnectionBroker.get_SiteviewApi()//得到数据库表
 						.get_BusObService().Create("EccAlarmTactic");
 						bo.GetField("TacticName").SetValue(
-						new SiteviewValue(text.getText()));
+								new SiteviewValue(text.getText()));
 						bo.GetField("TacticId").SetValue(
-								new SiteviewValue(list.get(0)));
+										new SiteviewValue(list.get(0)));
 						bo.GetField("TacticType").SetValue(
-								new SiteviewValue(list.get(1)));
+										new SiteviewValue(list.get(1)));
 						List<String> listB=new ArrayList<String>();
 						for(int i=2;i<list.size();i++){
-							listB.add(list.get(i));
-							System.out.println("listB:"+listB);
-							bo.GetField("TacticMonitorType").SetValue(
-							new SiteviewValue(listA));	
-						}
+								listB.add(list.get(i));
+								//System.out.println("listB:"+listB);
+								bo.GetField("TacticMonitorType").SetValue(
+								new SiteviewValue(listB));	
+								}	
 						bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,
-						true);//将数据存储到数据		
+								true);//将数据存储到数据		
+				        AlarmTactics.createTable();//保存后刷新表单数据	
+			}else{
+				BusinessObject bo=ConnectionBroker.get_SiteviewApi()//得到数据库表
+				.get_BusObService().Create("EccAlarmTactic");
+				bo.GetField("TacticName").SetValue(
+				new SiteviewValue(text.getText()));
+				bo.GetField("TacticId").SetValue(
+						new SiteviewValue(list.get(0)));
+				bo.GetField("TacticType").SetValue(
+						new SiteviewValue(list.get(1)));
+				List<String> listA=new ArrayList<String>();
+				for(int i=2;i<list.size();i++){
+					listA.add(list.get(i));
+					//System.out.println("listA:"+listA);
+					bo.GetField("TacticMonitorType").SetValue(
+					new SiteviewValue(listA));	
+				}
+				bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true,
+				true);//将数据存储到数据		
+				AlarmTactics.createTable();//保存后刷新表单数据
 			}
+			
 		}
 		this.close();
 	}

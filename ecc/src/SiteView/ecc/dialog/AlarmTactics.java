@@ -3,6 +3,7 @@ package SiteView.ecc.dialog;
 import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
@@ -45,6 +46,7 @@ public class AlarmTactics extends Dialog{
 	}
 	
 	protected Control createDialogArea(Composite parent) {
+		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		Composite composite = (Composite) super.createDialogArea(parent);
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
@@ -75,8 +77,8 @@ public class AlarmTactics extends Dialog{
 					messageBox.Show("请选择要编辑的策略!", "提示", SWT.OK);
 				}else{
 					String name=tableItem.getText(0);
-					System.out.println("name:"+name);
-					AddAlarmTactics addAlarm=new AddAlarmTactics(new Shell(),name);
+					//System.out.println("name:"+name);
+					AddAlarmTactics addAlarm=new AddAlarmTactics(new Shell(),name,tableItem);
 					addAlarm.open();
 				}
 			}
@@ -96,9 +98,7 @@ public class AlarmTactics extends Dialog{
 								tableItem.getText(0), "EccAlarmTactic");
 						IEnumerator ien = ico.GetEnumerator();
 						while (ien.MoveNext()) {
-							((BusinessObject) ien.get_Current())
-									.DeleteObject(ConnectionBroker
-											.get_SiteviewApi());// 删除数据库数据
+							((BusinessObject) ien.get_Current()).DeleteObject(ConnectionBroker.get_SiteviewApi());// 删除数据库数据
 							tableItem.dispose();// 删除表单数据	
 					}
 					}
@@ -122,6 +122,7 @@ public class AlarmTactics extends Dialog{
 		lblNewLabel_1.setText("\u544A\u8B66\u7B56\u7565\u5217\u8868");
 		
 		table = new Table(sashForm, SWT.FULL_SELECTION|SWT.CENTER|SWT.CHECK);
+		table.setHeaderVisible(true);
 		table.addSelectionListener(new SelectionListener(){ 
 			public void widgetSelected(SelectionEvent e) {
 				tableItem = (TableItem) e.item;
@@ -152,15 +153,22 @@ public class AlarmTactics extends Dialog{
 		});
 		
 		TableColumn tableColumn = new TableColumn(table, SWT.CENTER);
-		tableColumn.setWidth(437);
-		tableColumn.setText("\u540D\u79F0");
+		tableColumn.setWidth(443);
+		tableColumn.setText("名称");
 		
 		createTable();
 		
 		Composite composite_2 = new Composite(sashForm, SWT.NONE);
 		composite_2.setBackground(EccTreeControl.color);
-		sashForm.setWeights(new int[] {5, 8, 5, 78, 94});
+		sashForm.setWeights(new int[] {3, 6, 5, 144, 54});
 		return composite;
+	}
+	protected void createButtonsForButtonBar(Composite parent) {
+		parent.setBackground(EccTreeControl.color);
+		Button subButton = createButton(parent, IDialogConstants.OK_ID, "保存",
+				true);
+		Button cancelButton = createButton(parent, IDialogConstants.CANCEL_ID,
+				"取消", true);
 	}
 	public static void createTable(){//创建表格信息
 		for (TableItem item : table.getItems()) {
