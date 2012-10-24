@@ -40,21 +40,34 @@ public class MonitorBrowse extends EditorPart {
 	public static String ID = "SiteView.ecc.editors.MonitorBrowse";
 	private Table table;
 	private Table table_1;
+	private Button button;
+	private Button button_1;
+	private Button button_2;
+	private Button button_3;
+	private Button btnNewButton_1;
+	private Button btnNewButton_3;
+	private Label lblNewLabel_1;
 	private Text text;
 	private TableViewer tableViewer;
+	private int currentSelectIndex = -1;//标志位，记录table中当前被选中的行索引
+	private double pageSize = 3;//每一页显示的记录条数
+	private double currentPage = 1;//当前页码数
+	private double count = 0;//总记录数
+	private double pageCount = 0;
+//	private double begin = (currentPage-1)*pageSize+1;
+//	private double end = currentPage*pageSize;
 	private List<BusinessObject> boList = new ArrayList<BusinessObject>();
+	private List<List<String>> list = null;
 	public MonitorBrowse() {
 	}
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void doSaveAs() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -68,13 +81,11 @@ public class MonitorBrowse extends EditorPart {
 
 	@Override
 	public boolean isDirty() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isSaveAsAllowed() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
@@ -103,7 +114,7 @@ public class MonitorBrowse extends EditorPart {
 			}
 		});
 		
-		Button btnNewButton_1 = new Button(composite, SWT.NONE);
+		btnNewButton_1 = new Button(composite, SWT.NONE);
 		btnNewButton_1.setBounds(90, 0, 72, 32);
 		btnNewButton_1.setText("编辑");
 		
@@ -111,22 +122,32 @@ public class MonitorBrowse extends EditorPart {
 		btnNewButton_2.setBounds(171, 0, 72, 32);
 		btnNewButton_2.setText("刷新");
 		
-		Button btnNewButton_3 = new Button(composite, SWT.NONE);
+		btnNewButton_3 = new Button(composite, SWT.NONE);
 		btnNewButton_3.setBounds(252, 0, 72, 32);
 		btnNewButton_3.setText("删除");
 		btnNewButton_3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseUp(MouseEvent e) {
+				TableItem[] arr = table.getSelection();
+				int a = table.getSelectionIndex();
+				if(arr.length<1){
+					MessageDialog.openConfirm(Display.getCurrent().getActiveShell(), "提示", "你未选中任何行!");
+					return;
+				}
 				Boolean flag = MessageDialog.openConfirm(Display.getCurrent().getActiveShell(), "确认框", "你真的要删除此项吗?");
 				if(flag){
-					TableItem[] arr = table.getSelection();
 					String recId = arr[0].getText(8);
 					for(int i=0;i<boList.size();i++){
 						String rec = boList.get(i).GetField("RecId").get_NativeValue().toString();
 						if(rec.equals(recId)){
 							boList.get(i).DeleteObject(ConnectionBroker.get_SiteviewApi());
 							boList.remove(i);
-							tableViewerRefresh();
+							table.remove(a);
+							if(currentSelectIndex == a){
+								table_1.removeAll();
+							}
+							currentSelectIndex = -1;
+							break;
 						}
 					}
 				}
@@ -145,6 +166,53 @@ public class MonitorBrowse extends EditorPart {
 		table = tableViewer.getTable();
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseUp(MouseEvent e) {
+				int a = table.getSelectionIndex();
+				if(a == currentSelectIndex){
+					return;
+				}
+				currentSelectIndex = a;
+				if(a==0){
+					btnNewButton_1.setEnabled(false);
+					btnNewButton_3.setEnabled(false);
+				}else{
+					btnNewButton_1.setEnabled(true);
+					btnNewButton_3.setEnabled(true);
+				}
+		
+				String s = "";
+				if(a==0){
+					ICollection ic = FileTools.getBussCollection("Ecc");
+					IEnumerator ieable = ic.GetEnumerator();
+					while(ieable.MoveNext()){
+						BusinessObject bo = (BusinessObject)ieable.get_Current();
+						s = s+bo.GetField("RecId").get_NativeValue().toString();
+						s = s + ";";
+					}
+					s = s.substring(0, s.length()-1);
+				}else{
+					String recId = table.getItem(a).getText(8);
+					ICollection ic = FileTools.getBussCollection("RecId",recId,"EccFilter");
+					IEnumerator ieable = ic.GetEnumerator();
+					if(ieable.MoveNext()){
+						BusinessObject bo = (BusinessObject)ieable.get_Current();
+						s = bo.GetField("MonitorId").get_NativeValue().toString();
+					}
+				}
+				list = getTable_1Items(s);
+				int n = list.size();
+				count = n;
+				pageCount = Math.ceil(count/pageSize);//总页数
+				if(pageCount==1){
+					button_2.setEnabled(false);
+				}
+				show(table_1,list);
+				text.setText(""+(int)currentPage);
+				lblNewLabel_1.setText("/"+(int)pageCount);
+			}
+		});
 		
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tblclmnNewColumn = tableViewerColumn.getColumn();
@@ -215,10 +283,10 @@ public class MonitorBrowse extends EditorPart {
 		tblclmnNewColumn_8.setWidth(100);
 		tblclmnNewColumn_8.setText("状态");
 		
-		TableViewerColumn tableViewerColumn_15 = new TableViewerColumn(tableViewer_1, SWT.NONE);
-		TableColumn tblclmnNewColumn_15 = tableViewerColumn_15.getColumn();
-		tblclmnNewColumn_15.setWidth(100);
-		tblclmnNewColumn_15.setText("组");
+//		TableViewerColumn tableViewerColumn_15 = new TableViewerColumn(tableViewer_1, SWT.NONE);
+//		TableColumn tblclmnNewColumn_15 = tableViewerColumn_15.getColumn();
+//		tblclmnNewColumn_15.setWidth(100);
+//		tblclmnNewColumn_15.setText("组");
 		
 		TableViewerColumn tableViewerColumn_14 = new TableViewerColumn(tableViewer_1, SWT.NONE);
 		TableColumn tblclmnNewColumn_14 = tableViewerColumn_14.getColumn();
@@ -228,7 +296,7 @@ public class MonitorBrowse extends EditorPart {
 		TableViewerColumn tableViewerColumn_13 = new TableViewerColumn(tableViewer_1, SWT.NONE);
 		TableColumn tblclmnNewColumn_13 = tableViewerColumn_13.getColumn();
 		tblclmnNewColumn_13.setWidth(100);
-		tblclmnNewColumn_13.setText("名称");
+		tblclmnNewColumn_13.setText("监测器名称");
 		
 		TableViewerColumn tableViewerColumn_12 = new TableViewerColumn(tableViewer_1, SWT.NONE);
 		TableColumn tblclmnNewColumn_12 = tableViewerColumn_12.getColumn();
@@ -253,33 +321,165 @@ public class MonitorBrowse extends EditorPart {
 		Composite composite_2 = new Composite(sashForm, SWT.NONE);
 		composite_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
 		
-		Button button = new Button(composite_2, SWT.NONE);
+		button = new Button(composite_2, SWT.NONE);
 		button.setBounds(0, 10, 43, 22);
 		button.setText("\u9996\u9875");
+		button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseUp(MouseEvent e) {
+				showFirst();
+			}
+		});
 		
-		Button button_1 = new Button(composite_2, SWT.NONE);
+		button_1 = new Button(composite_2, SWT.NONE);
 		button_1.setBounds(49, 10, 57, 22);
 		button_1.setText("\u4E0A\u4E00\u9875");
+		button_1.setEnabled(false);
+		button_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseUp(MouseEvent e) {
+				showUp();
+			}
+		});
 		
 		text = new Text(composite_2, SWT.BORDER);
 		text.setBounds(112, 10, 37, 22);
 		
-		Label lblNewLabel_1 = new Label(composite_2, SWT.SHADOW_NONE);
+		lblNewLabel_1 = new Label(composite_2, SWT.SHADOW_NONE);
 		lblNewLabel_1.setBounds(150, 15, 54, 18);
 		lblNewLabel_1.setText("New Label");
 		
-		Button button_2 = new Button(composite_2, SWT.NONE);
+		button_2 = new Button(composite_2, SWT.NONE);
 		button_2.setBounds(210, 10, 57, 22);
 		button_2.setText("\u4E0B\u4E00\u9875");
+		button_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseUp(MouseEvent e) {
+				showNext();
+			}
+		});
 		
-		Button button_3 = new Button(composite_2, SWT.NONE);
+		button_3 = new Button(composite_2, SWT.NONE);
 		button_3.setBounds(273, 10, 54, 22);
 		button_3.setText("\u5C3E\u9875");
+		button_3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseUp(MouseEvent e) {
+				showLast();
+			}
+		});
 		sashForm.setWeights(new int[] {33, 67, 16, 309, 37});
 
 	}
+	private void show(Table table,List<List<String>> list){
+		clearItems(0,table);//table 赋值之前清空
+		double begin = (currentPage-1)*pageSize+1;
+		double end = currentPage*pageSize;
+		for(double i=begin-1;i<=end-1;i++){
+			int j = (int)i;
+			TableItem item = new TableItem(table_1, SWT.NONE);
+			if(j>list.size()-1)break;
+			List<String> ll =list.get(j);
+			item.setText(0, ll.get(0));
+			item.setText(1, ll.get(1));
+			item.setText(2, ll.get(2));
+			item.setText(3, ll.get(3));
+			item.setText(4, ll.get(4));
+			item.setText(5, ll.get(5));
+			item.setText(6, ll.get(6));
+//			item.setText(7, ll.get(7));
+		}
+	}
+	private void showFirst(){
+		currentPage = 1;
+		button_2.setEnabled(true);
+		button_1.setEnabled(false);
+		show(table_1,list);
+		text.setText(""+(int)currentPage);
+	}
+	private void showNext(){
+		currentPage++;
+		if(currentPage==pageCount){
+			button_2.setEnabled(false);
+		}else{
+			button_1.setEnabled(true);
+		}
+		show(table_1,list);
+		text.setText(""+(int)currentPage);
+	}
+	private void showUp(){
+		currentPage--;
+		if(currentPage==1){
+			button_1.setEnabled(false);
+		}else{
+			button_2.setEnabled(true);
+		}
+		show(table_1,list);
+		text.setText(""+(int)currentPage);
+	}
+	private void showLast(){
+		currentPage = pageCount;
+		button_1.setEnabled(true);
+		button_2.setEnabled(false);
+		show(table_1,list);
+		text.setText(""+(int)currentPage);
+	}
+	
+	private List<List<String>>getTable_1Items(String s){
+		List<List<String>> list1 = new ArrayList<List<String>>();
+		String[] monitorId = s.split(";");
+		for(int i=0;i<monitorId.length;i++){
+			List<String> list = new ArrayList<String>();
+			String status = "";
+//			String groupName = "";
+			String machineName = "";
+			String monitorName = "";
+			String edit = "编辑";
+			String refresh = "刷新";
+			String updateTime = "";
+			String description = "";
+			
+			ICollection ic1 = FileTools.getBussCollection("RecId",monitorId[i].trim(),"Ecc");
+			IEnumerator ieable1 = ic1.GetEnumerator();
+			String machineId = "";
+			if(ieable1.MoveNext()){
+				machineId = ((BusinessObject)ieable1.get_Current()).GetField("Machine").get_NativeValue().toString();
+				monitorName = ((BusinessObject)ieable1.get_Current()).GetField("title").get_NativeValue().toString();
+				ICollection ic3 = FileTools.getBussCollection("RecId",machineId,"RemoteMachine");
+				IEnumerator ieable3 = ic3.GetEnumerator();
+				if(ieable3.MoveNext()){
+					machineName = ((BusinessObject)ieable3.get_Current()).GetField("ServerAddress").get_NativeValue().toString();
+				}
+			}
+			ICollection ic2 = FileTools.getBussCollection("monitorid",monitorId[i].trim(),"EccDyn");
+			IEnumerator ieable2 = ic2.GetEnumerator();
+			if(ieable2.MoveNext()){
+				BusinessObject bo = (BusinessObject)ieable2.get_Current();
+				status = bo.GetField("category").get_NativeValue().toString();
+//				String groupId = bo.GetField("groupid").get_NativeValue().toString();
+//				ICollection ic4 = FileTools.getBussCollection("RecId",groupId,"EccGroup");
+//				IEnumerator ieable4 = ic4.GetEnumerator();
+//				if(ieable4.MoveNext()){
+//					groupName = ((BusinessObject)ieable4.get_Current()).GetField("GroupName").get_NativeValue().toString();
+//				}
+				updateTime = bo.GetField("LastModDateTime").get_NativeValue().toString();
+				description = bo.GetField("monitorDesc").get_NativeValue().toString();
+			}
+			list.add(status);
+//			list.add(groupName);
+			list.add(machineName);
+			list.add(monitorName);
+			list.add(edit);
+			list.add(refresh);
+			list.add(updateTime);
+			list.add(description);
+			list1.add(list);
+		}
+		return list1;
+	}
 	
 	private void tableViewerRefresh(){
+		clearItems(1,table);
 		for(int i=0;i<boList.size();i++){
 			TableItem item = new TableItem(table, SWT.NONE);
 			BusinessObject bo = boList.get(i);
@@ -300,8 +500,15 @@ public class MonitorBrowse extends EditorPart {
 			item.setText(8, bo.GetField("RecId").get_NativeValue().toString());
 		}
 	}
+	private void clearItems(int a,Table table){
+		TableItem[] itemArr = table.getItems();
+		for(int i=a;i<itemArr.length;i++){
+			itemArr[i].dispose();
+		}
+	}
 	
 	public void initTableViewer(){
+		clearItems(1,table);
 		ICollection ic = FileTools.getBussCollection("EccFilter");
 		IEnumerator ieable = ic.GetEnumerator();
 		while(ieable.MoveNext()){
@@ -325,7 +532,7 @@ public class MonitorBrowse extends EditorPart {
 			boList.add(bo);
 		}
 	}
-
+	
 	private String getMonitorNameById(String moid) {
 		List<String> set = new ArrayList<String>();
 		String[] gd = moid.split(";");
@@ -379,7 +586,6 @@ public class MonitorBrowse extends EditorPart {
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
 
 	}
 }

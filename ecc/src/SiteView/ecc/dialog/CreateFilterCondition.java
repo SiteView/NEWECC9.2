@@ -196,6 +196,7 @@ public class CreateFilterCondition extends Dialog {
 			public void verifyText(VerifyEvent e) {
 				String s = e.text;
 				if(s!=""&&s!=null){
+					button_2.setEnabled(false);
 					button_4.setEnabled(false);
 				}
 			}
@@ -209,6 +210,16 @@ public class CreateFilterCondition extends Dialog {
 		text_3 = new Text(group_1, SWT.BORDER);
 		text_3.setBounds(136, 85, 212, 20);
 		text_3.setEditable(false);
+		text_3.addVerifyListener(new VerifyListener() {
+			@Override
+			public void verifyText(VerifyEvent e) {
+				String s = e.text;
+				if(s!=""&&s!=null){
+					button_2.setEnabled(false);
+					button_3.setEnabled(false);
+				}
+			}
+		});
 		
 		Label label_4 = new Label(group_1, SWT.NONE);
 		label_4.setFont(SWTResourceManager.getFont("ËÎÌו", 10, SWT.NORMAL));
@@ -367,7 +378,7 @@ public class CreateFilterCondition extends Dialog {
 			bo.GetField("Description").SetValue(new SiteviewValue(description));
 			bo.GetField("SortMethod").SetValue(new SiteviewValue(sortMethod));
 			bo.SaveObject(ConnectionBroker.get_SiteviewApi(), false, true);
-			
+			mb.initTableViewer();
 			this.close();
 		}else{
 			this.close();
