@@ -129,28 +129,35 @@ public class ConfigFileMonitor extends ServerMonitor {
 		}
 		File file = new File(configName);
 		if (file.listFiles() == null) {
-				try {
-					ConfigCopy.testClone();
-				} catch (InvalidRemoteException e) {
-					e.printStackTrace();
-				} catch (TransportException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (GitAPIException e) {
-					e.printStackTrace();
-				}
-				
-			} else {
-					try {
-						ConfigCopy.testpull();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+			try {
+				ConfigCopy.testClone();
+			} catch (InvalidRemoteException e) {
+				e.printStackTrace();
+			} catch (TransportException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (GitAPIException e) {
+				e.printStackTrace();
 			}
 
-		
+		} else {
+			try {
+				ConfigCopy.testpull();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 
+//		System.out.println("host=" + host);
+//		System.out.println("configName=" + configName);
+//		System.out.println("pwd=" + pwd);
+//		System.out.println("superName=" + superName);
+//		System.out.println("superPwd=" + superPwd);
+//		System.out.println("command=" + command);
+//		System.out.println("groupName=" + groupName);
+//		System.out.println("serviceName=" + serviceName);
+		
 		if ("cisco".equals(serviceName)) {
 			flag = ConfigCopy.ConfigCisco(host, configName, pwd, superName,
 					superPwd, command, groupName, serviceName);
@@ -163,7 +170,7 @@ public class ConfigFileMonitor extends ServerMonitor {
 		if (flag) {
 
 			File file2 = new File(configName + "/" + groupName + "/"
-					+ serviceName + "/" + host + "/"+"config.txt");
+					+ serviceName + "/" + host + "/" + "config.txt");
 			FileInputStream in = null;
 			long filesize = 0;
 			try {
@@ -179,12 +186,12 @@ public class ConfigFileMonitor extends ServerMonitor {
 
 			// long file2Size = file2.getFreeSpace();
 			String RecId = UUID.randomUUID().toString().replace("-", "");
-			 SimpleDateFormat dateFormat = new SimpleDateFormat(
-			 "yyyy-MM-dd HH:mm:ss");
+			SimpleDateFormat dateFormat = new SimpleDateFormat(
+					"yyyy-MM-dd HH:mm:ss");
 			Date date = new Date();
-			 String date1 = dateFormat.format(date);
-//			String date1 = date.toString();
-//			System.out.println(date1);
+			String date1 = dateFormat.format(date);
+			// String date1 = date.toString();
+			// System.out.println(date1);
 			StringBuilder addsql = new StringBuilder(
 					"insert into dbo.ConfigFileManagemant(RecId,Groups,GroupName,EquipmentType,EquipmentAddress,ConfigName,ConfigFileSize,updateTime) values(");
 			addsql.append("'");
@@ -204,14 +211,14 @@ public class ConfigFileMonitor extends ServerMonitor {
 			addsql.append("','");
 			addsql.append(date1);
 			addsql.append("')");
-//			System.out.println(addsql);
+			// System.out.println(addsql);
 			try {
 				int a = st.executeUpdate(addsql.toString());
 				if (a > 0) {
-					 System.out.println("本地库跟新");
+					System.out.println("本地库跟新");
 					try {
 						ConfigCopy.testpush();
-						 System.out.println("提交到服务器成功");
+						System.out.println("提交到服务器成功");
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -236,9 +243,9 @@ public class ConfigFileMonitor extends ServerMonitor {
 		currentStatus = "ConfigPingMonitor analyzing results...";
 		if (stillActive()) {
 			synchronized (this) {
-				if (flag == false) {
-					packetReceived = -1;
-				}
+//				if (flag == false) {
+//					packetReceived = -1;
+//				}
 				if (packetReceived > 0) {
 					setProperty(pStatus, "ok");
 					float f = (float) j1 / (float) packetReceived;
