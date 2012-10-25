@@ -103,6 +103,8 @@ public class EccTreeLabelProvider extends LabelProvider {
 			String type=bo.GetField("RemoteMachineType").get_NativeValue().toString();
 			if(type.equals("RemoteNT")){
 				type="(windows)";
+			}else if(type.equals("RemoteEquipment")){
+				type="(Remote)";
 			}else{
 				type="(Unix)";
 			}
