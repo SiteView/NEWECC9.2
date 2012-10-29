@@ -98,7 +98,7 @@ public class ConfigFileMonitor extends ServerMonitor {
 		String host = getProperty(pHost);
 
 		// String configName = getProperty(pConfigName);
-		String configName = "F:/CfrConfigFile";
+		String configName = "C:/CfrConfigFile";
 		String pwd = getProperty(pPwd);
 		String superName = getProperty(pSuperName);
 		String superPwd = getProperty(pSuperPwd);

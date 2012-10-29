@@ -62,7 +62,7 @@ public class ConfigCopy {
 	private static Git git;
 	private static String remotePath;
 	static {
-		localPath = "F:/CfrConfigFile";
+		localPath = "C:/CfrConfigFile";
 		try {
 			localRepo = new FileRepository(localPath + "/.git");
 		} catch (IOException e) {
@@ -833,59 +833,4 @@ public class ConfigCopy {
 		// rollBackFile(localPath, revision);
 	}
 
-	// /**
-	// * 获取历史信息
-	// *
-	// * @param gitRoot
-	// * @param revision
-	// * @return
-	// * @throws Exception
-	// */
-	// public static List<DiffEntry> rollBackFile(String gitRoot, String
-	// revision)
-	// throws Exception {
-	// Git git = Git.open(new File(gitRoot));
-	// Repository repository = git.getRepository();
-	//
-	// ObjectId objId = repository.resolve(revision);
-	//
-	// Iterable<RevCommit> allCommitsLater = git.log().add(objId).call();
-	// Iterator<RevCommit> iter = allCommitsLater.iterator();
-	// RevCommit commit = iter.next();
-	// TreeWalk tw = new TreeWalk(repository);
-	//
-	// tw.addTree(commit.getTree());
-	// commit = iter.next();
-	// if (commit != null) {
-	// tw.addTree(commit.getTree());
-	// } else {
-	// throw new Exception("当前库只有一个版本，不能获取变更记录");
-	// }
-	// System.out.println("tw=" + tw);
-	// tw.setRecursive(true); // tw 不为空 取不到值
-	// System.out.println("--------tw---1---" + tw.getTreeCount());
-	// RenameDetector rd = new RenameDetector(repository);
-	// System.out.println("-----rd------2----" + rd);
-	// System.out.println("DiffEntry.scan(tw)=" + DiffEntry.scan(tw));
-	// rd.addAll(DiffEntry.scan(tw));
-	// List<DiffEntry> diffEntries = rd.compute();
-	// System.out.println("diffEntries=" + diffEntries);// 值为空？？？
-	// if (diffEntries == null || diffEntries.size() == 0) {
-	// System.out.println("-----------5----");
-	// return diffEntries;
-	// }
-	// Iterator<DiffEntry> iterator = new ArrayList<DiffEntry>(diffEntries)
-	// .iterator();
-	// DiffEntry diffEntry = null;
-	// while (iterator.hasNext()) {
-	// diffEntry = iterator.next();
-	// System.out.println("newPath:" + diffEntry.getNewPath()
-	// + "    oldPath:" + diffEntry.getOldPath()
-	// + "   changeType:" + diffEntry.getChangeType());
-	// if (diffEntry.getChangeType() == ChangeType.DELETE) {
-	// iterator.remove();
-	// }
-	// }
-	// return diffEntries;
-	// }
 }
