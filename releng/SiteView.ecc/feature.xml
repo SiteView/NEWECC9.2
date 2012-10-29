@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="SiteView.ecc"
+      label="Ecc"
+      version="1.0.0.qualifier"
+      provider-name="SiteView"
+      plugin="ecc"
+      os="win32"
+      ws="win32"
+      nl="zh_CN"
+      arch="x86">
+
+   <description url="http://updates.siteview.com">
+      SiteView IT Service Management
+   </description>
+
+   <copyright url="http://www.siteview.com/copyright">
+      (c) Copyright SiteView 2000, 2012.  All rights reserved.
+   </copyright>
+
+   <license url="http://www.siteview.com/license">
+      http://www.siteview.com
+   </license>
+
+   <url>
+      <update label="Ecc" url="http://updates.siteview.com"/>
+   </url>
+
+   <plugin
+         id="ecc"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.siteview.kernel.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="core.monitor.counter"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

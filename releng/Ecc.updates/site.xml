@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/SiteView.ecc_1.0.0.201210261937.jar" id="SiteView.ecc" version="1.0.0.201210261937" os="win32" ws="win32" nl="zh_CN" arch="x86">
+      <category name="Ecc"/>
+   </feature>
+   <category-def name="Ecc" label="Ecc">
+      <description>
+         Ecc9.2
+      </description>
+   </category-def>
+</site>
