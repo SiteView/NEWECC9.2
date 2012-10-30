@@ -28,12 +28,19 @@ import java.util.Vector;
 
 import org.eclipse.swt.widgets.DateTime;
 
+import Siteview.SiteviewValue;
+import Siteview.Api.BusinessObject;
+
+import system.Collections.ICollection;
+import system.Collections.IEnumerator;
+
 import COM.dragonflow.Properties.FrameFile;
 import COM.dragonflow.Properties.HashMapOrdered;
 import COM.dragonflow.Properties.PropertiedObject;
 import COM.dragonflow.SiteView.AtomicMonitor;
 import COM.dragonflow.SiteView.Monitor;
 import COM.dragonflow.SiteView.SiteViewGroup;
+import COM.dragonflow.Utils.FileTools;
 import COM.dragonflow.itsm.data.Config;
 import COM.dragonflow.itsm.data.JDBCForSQL;
 
@@ -164,21 +171,33 @@ public abstract class Logger {
 		long time = System.currentTimeMillis();
 		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Timestamp CreatedDateTime = new Timestamp(time);
-		String sql = "";
-		String queryMonitorTypeSql = "select EccType from Ecc where RecId ='"+MonitorId+"'";
-		ResultSet monitorTypeRS = JDBCForSQL.sql_ConnectExecute_Select(queryMonitorTypeSql);
+		ICollection collection=FileTools.getBussCollection("RecId", MonitorId, "Ecc");
+		IEnumerator ienum=collection.GetEnumerator();
 		String monitorType = "";
-		try {
-			while (monitorTypeRS.next()) {
-				 monitorType = monitorTypeRS.getString("EccType");
-				 monitorType = Config.getReturnStr(
-							"itsm_siteview9.2.properties",
-							monitorType);
+		while(ienum.MoveNext()){
+			BusinessObject bo=(BusinessObject)ienum.get_Current();
+			if(bo!=null){
+				monitorType=bo.GetField("EccType").get_NativeValue().toString();
+				monitorType = Config.getReturnStr(
+						"itsm_siteview9.2.properties",
+						monitorType);
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+//		String sql = "";
+//		String queryMonitorTypeSql = "select EccType from Ecc where RecId ='"+MonitorId+"'";
+//		ResultSet monitorTypeRS = JDBCForSQL.sql_ConnectExecute_Select(queryMonitorTypeSql);
+//		String monitorType = "";
+//		try {
+//			while (monitorTypeRS.next()) {
+//				 monitorType = monitorTypeRS.getString("EccType");
+//				 monitorType = Config.getReturnStr(
+//							"itsm_siteview9.2.properties",
+//							monitorType);
+//			}
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		if (FrameFile.isHave(FrameFile.MonitorCounterGroups, monitorType)) {
 			String state = counterMonitorStr.substring(counterMonitorStr.indexOf("stateString=")+12, counterMonitorStr.indexOf("_id"));
 			String[] stateArray = state.split(",");
@@ -190,39 +209,71 @@ public abstract class Logger {
 				counterMonitorStateString = indexStateKey+"="+indexStateValue+"\t";
 				counterSbf.append(counterMonitorStateString);
 			}
-			sql = "insert into MonitorLog(RecId,ownerID,MonitorStatus,MonitorName,MonitorId,MonitorMassage,CreatedDateTime)"
-					+ "values('"
-					+ RecId
-					+ "','"
-					+ ownerID
-					+ "','"
-					+ category
-					+ "','"
-					+ MonitorName
-					+ "','"
-					+ MonitorId
-					+ "','"
-					+ counterSbf.toString()
-					+ "','"
-					+ Timestamp.valueOf(f.format(CreatedDateTime)) + "')";
+			BusinessObject bb=FileTools.api.get_BusObService().Create("MonitorLog");
+			bb.GetField("RecId").SetValue(new
+					 SiteviewValue(RecId));
+			bb.GetField("ownerID").SetValue(new
+					 SiteviewValue(ownerID));
+			bb.GetField("MonitorStatus").SetValue(new
+					 SiteviewValue(category));
+			bb.GetField("MonitorName").SetValue(new
+					 SiteviewValue(MonitorName));
+			bb.GetField("MonitorId").SetValue(new
+					 SiteviewValue(MonitorId));
+			bb.GetField("MonitorMassage").SetValue(new
+					 SiteviewValue(counterSbf.toString()));
+			bb.GetField("CreatedDateTime").SetValue(new
+					 SiteviewValue(Timestamp.valueOf(f.format(CreatedDateTime))));
+			bb.SaveObject(FileTools.api, false, true);
+//			sql = "insert into MonitorLog(RecId,ownerID,MonitorStatus,MonitorName,MonitorId,MonitorMassage,CreatedDateTime)"
+//					+ "values('"
+//					+ RecId
+//					+ "','"
+//					+ ownerID
+//					+ "','"
+//					+ category
+//					+ "','"
+//					+ MonitorName
+//					+ "','"
+//					+ MonitorId
+//					+ "','"
+//					+ counterSbf.toString()
+//					+ "','"
+//					+ Timestamp.valueOf(f.format(CreatedDateTime)) + "')";
 		} else {
-			sql = "insert into MonitorLog(RecId,ownerID,MonitorStatus,MonitorName,MonitorId,MonitorMassage,CreatedDateTime)"
-					+ "values('"
-					+ RecId
-					+ "','"
-					+ ownerID
-					+ "','"
-					+ category
-					+ "','"
-					+ MonitorName
-					+ "','"
-					+ MonitorId
-					+ "','"
-					+ stateString
-					+ "','"
-					+ Timestamp.valueOf(f.format(CreatedDateTime)) + "')";
+			BusinessObject bb=FileTools.api.get_BusObService().Create("MonitorLog");
+			bb.GetField("RecId").SetValue(new
+					 SiteviewValue(RecId));
+			bb.GetField("ownerID").SetValue(new
+					 SiteviewValue(ownerID));
+			bb.GetField("MonitorStatus").SetValue(new
+					 SiteviewValue(category));
+			bb.GetField("MonitorName").SetValue(new
+					 SiteviewValue(MonitorName));
+			bb.GetField("MonitorId").SetValue(new
+					 SiteviewValue(MonitorId));
+			bb.GetField("MonitorMassage").SetValue(new
+					 SiteviewValue(stateString));
+			bb.GetField("CreatedDateTime").SetValue(new
+					 SiteviewValue(Timestamp.valueOf(f.format(CreatedDateTime))));
+			bb.SaveObject(FileTools.api, false, true);
+//			sql = "insert into MonitorLog(RecId,ownerID,MonitorStatus,MonitorName,MonitorId,MonitorMassage,CreatedDateTime)"
+//					+ "values('"
+//					+ RecId
+//					+ "','"
+//					+ ownerID
+//					+ "','"
+//					+ category
+//					+ "','"
+//					+ MonitorName
+//					+ "','"
+//					+ MonitorId
+//					+ "','"
+//					+ stateString
+//					+ "','"
+//					+ Timestamp.valueOf(f.format(CreatedDateTime)) + "')";
 		}
-		JDBCForSQL.execute_Insert(sql);
+//		JDBCForSQL.execute_Insert(sql);
 	}
 
 	public void close() {

@@ -56,6 +56,7 @@ import COM.dragonflow.SiteView.MonitorGroup;
 import COM.dragonflow.SiteView.Platform;
 import COM.dragonflow.SiteView.PlatformNew;
 import COM.dragonflow.SiteView.SiteViewGroup;
+import COM.dragonflow.Utils.FileTools;
 import COM.dragonflow.Utils.FileUtils;
 import COM.dragonflow.Utils.I18N;
 import COM.dragonflow.Utils.TempFileManager;
@@ -66,6 +67,7 @@ import COM.dragonflow.itsm.data.JDBCForSQL;
 import Siteview.Operators;
 import Siteview.QueryInfoToGet;
 import Siteview.SiteviewQuery;
+import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
 
@@ -648,221 +650,300 @@ public class FrameFile {
 				+ monitorid;
 		BusinessObject bo = null;
 		String RecId;
-		// ICollection ico=getBussCollection("monitorid", monitorid, "EccDyn");
-		// IEnumerator ien=ico.GetEnumerator();
-		// bo=CreateBo("monitorid", monitorid, "EccDyn");
-		// if(bo!=null){
-		// RecId=bo.get_RecId();
-		// long time = System.currentTimeMillis();
-		// SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		// Timestamp LastModDateTime = new Timestamp(time);
-		// String status=bo.GetField("").get_NativeValue().toString();
-		// int statuscount=(Integer) bo.GetField("").get_NativeValue();
-		// if(status.equals(category)){
-		// statuscount++;
-		// }else{
-		// statuscount=0;
-		// }
-		// bo.GetField("category").SetValue(new SiteviewValue(category));
-		// bo.GetField("monitorDesc").SetValue(new SiteviewValue(s));
-		// bo.GetField("LastModDateTime").SetValue(new
-		// SiteviewValue(LastModDateTime));
-		// bo.GetField("groupid").SetValue(new SiteviewValue(groupName));
-		// bo.GetField("monitorName").SetValue(new SiteviewValue(name));
-		// bo.GetField("Department").SetValue(new SiteviewValue(department));
-		// bo.GetField("MonitorType").SetValue(new SiteviewValue(type));
-		// bo.GetField("StatusCount").SetValue(new SiteviewValue(statuscount));
-		// bo.SaveObject(ConnectionBroker.get_SiteviewApi(), false, true);
-		// }
-		ResultSet rs = JDBCForSQL
-				.sql_ConnectExecute_Select("select * from EccDyn where monitorid='"
-						+ monitorid + "'");
-		try {
-			int count = 1;
-			if (rs.next()) {
-				RecId = rs.getString("RecId");
-				long time = System.currentTimeMillis();
-				count = rs.getInt("StatusConut");
-				if (rs.getString("category").equals(category)) {
-					count++;
-				}
-				SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				Timestamp LastModDateTime = new Timestamp(time);
-
-				String sql = "update EccDyn set category='" + category
-						+ "',monitorDesc='" + so + "',LastModDateTime='"
-						+ LastModDateTime + "',StatusConut='" + count
-						+ "',groupid='" + groupId + "',monitorName='"
-						+ monitorName + "',Department='" + department
-						+ "',MonitorType='" + type + "' where RecId='" + RecId
-						+ "'";
-				JDBCForSQL.execute_Insert(sql);
+		 bo =FileTools.CreateBo("monitorid", monitorid, "EccDyn");
+		 int statuscount=0;
+		 if(bo!=null){
+		 RecId=bo.get_RecId();
+		 long time = System.currentTimeMillis();
+		 SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		 Timestamp LastModDateTime = new Timestamp(time);
+		 String status=bo.GetField("category").get_NativeValue().toString();
+		 statuscount=(Integer) Integer.parseInt(bo.GetField("StatusCount").get_NativeValue().toString());
+		 if(status.equals(category)){
+		 statuscount++;
+		 }else{
+		 statuscount=0;
+		 }
+		 bo.GetField("category").SetValue(new SiteviewValue(category));
+		 bo.GetField("monitorDesc").SetValue(new SiteviewValue(so));
+		 bo.GetField("LastModDateTime").SetValue(new SiteviewValue(LastModDateTime));
+		 bo.GetField("groupid").SetValue(new SiteviewValue(groupName));
+		 bo.GetField("monitorName").SetValue(new SiteviewValue(monitorName));
+		 bo.GetField("Department").SetValue(new SiteviewValue(department));
+		 bo.GetField("MonitorType").SetValue(new SiteviewValue(type));
+		 bo.GetField("StatusConut").SetValue(new SiteviewValue(statuscount));
+		 bo.SaveObject(FileTools.api, false, true);
+//		 }
+//		ResultSet rs = JDBCForSQL
+//				.sql_ConnectExecute_Select("select * from EccDyn where monitorid='"
+//						+ monitorid + "'");
+//		try {
+//			int count = 1;
+//			if (rs.next()) {
+//				RecId = rs.getString("RecId");
+//				long time = System.currentTimeMillis();
+//				count = rs.getInt("StatusConut");
+//				if (rs.getString("category").equals(category)) {
+//					count++;
+//				}
+//				SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//				Timestamp LastModDateTime = new Timestamp(time);
+//
+//				String sql = "update EccDyn set category='" + category
+//						+ "',monitorDesc='" + so + "',LastModDateTime='"
+//						+ LastModDateTime + "',StatusConut='" + count
+//						+ "',groupid='" + groupId + "',monitorName='"
+//						+ monitorName + "',Department='" + department
+//						+ "',MonitorType='" + type + "' where RecId='" + RecId
+//						+ "'";
+//				JDBCForSQL.execute_Insert(sql);
 			} else {
 				long time = System.currentTimeMillis();
 				SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Timestamp CreatedDateTime = new Timestamp(time);
-				// bo=ConnectionBroker.get_SiteviewApi().get_BusObService().Create("EccDyn");
-				// bo.GetField("category").SetValue(new
-				// SiteviewValue(category));
-				// bo.GetField("monitorDesc").SetValue(new SiteviewValue(s));
-				// bo.GetField("monitorid").SetValue(new
-				// SiteviewValue(monitorid));
-				// bo.GetField("LastModDateTime").SetValue(new
-				// SiteviewValue(CreatedDateTime));
-				// bo.GetField("CreatedDateTime").SetValue(new
-				// SiteviewValue(CreatedDateTime));
-				// bo.GetField("groupid").SetValue(new
-				// SiteviewValue(groupName));
-				// bo.GetField("monitorName").SetValue(new SiteviewValue(name));
-				// bo.GetField("Department").SetValue(new
-				// SiteviewValue(department));
-				// bo.GetField("MonitorType").SetValue(new SiteviewValue(type));
-				// bo.GetField("StatusCount").SetValue(new SiteviewValue(0));
-				RecId = UUID.randomUUID().toString().replace("-", "");
-				String sql = "insert into EccDyn (RecId,category,monitorDesc,monitorid,LastModDateTime,CreatedDateTime,groupid,monitorName,Department,MonitorType,StatusConut)"
-						+ " values ('"
-						+ RecId
-						+ "','"
-						+ category
-						+ "','"
-						+ so
-						+ "','"
-						+ monitorid
-						+ "','"
-						+ CreatedDateTime
-						+ "','"
-						+ CreatedDateTime
-						+ "','"
-						+ groupId
-						+ "','"
-						+ monitorName
-						+ "','"
-						+ department
-						+ "','"
-						+ type
-						+ "','1')";
-				JDBCForSQL.execute_Insert(sql);
+				 bo=FileTools.api.get_BusObService().Create("EccDyn");
+				 bo.GetField("category").SetValue(new
+				 SiteviewValue(category));
+				 bo.GetField("monitorDesc").SetValue(new SiteviewValue(s));
+				 bo.GetField("monitorid").SetValue(new
+				 SiteviewValue(monitorid));
+				 bo.GetField("LastModDateTime").SetValue(new
+				 SiteviewValue(CreatedDateTime));
+				 bo.GetField("CreatedDateTime").SetValue(new
+				 SiteviewValue(CreatedDateTime));
+				 bo.GetField("groupid").SetValue(new
+				 SiteviewValue(groupName));
+				 bo.GetField("monitorName").SetValue(new SiteviewValue(monitorName));
+				 bo.GetField("Department").SetValue(new
+				 SiteviewValue(department));
+				 bo.GetField("MonitorType").SetValue(new SiteviewValue(type));
+				 bo.GetField("StatusCount").SetValue(new SiteviewValue(0));
+				 bo.SaveObject(FileTools.api, true, true);
+//				RecId = UUID.randomUUID().toString().replace("-", "");
+//				String sql = "insert into EccDyn (RecId,category,monitorDesc,monitorid,LastModDateTime,CreatedDateTime,groupid,monitorName,Department,MonitorType,StatusConut)"
+//						+ " values ('"+ RecId+ "','"+ category+ "','"+ so+ "','"+ monitorid+ "','"+ CreatedDateTime
+//						+ "','"+ CreatedDateTime+ "','"+ groupId+ "','"+ monitorName+ "','"+ department+ "','"+ type+ "','1')";
+//				JDBCForSQL.execute_Insert(sql);
 			}
 			// 是否报警
-			ResultSet rule = JDBCForSQL
-					.sql_ConnectExecute_Select("select * from EccAlarmRule where MonitorId='"
-							+ monitorid + "'");
-			while (rule.next()) {
-				Timestamp LastModDateTime = new Timestamp(
-						System.currentTimeMillis());
-				Alarm(rule, parentGroupName, groupName, monitorName, category,
-						LastModDateTime, s);
-				String alarmstatus = rule.getString("AlarmEvent");
-				if (!rule.getBoolean("RuleStatus")
-						|| !alarmstatus.equals(category)) {
-					continue;
-				}
-				String alarmrule = rule.getString("AlarmRule");
-				int starttime = rule.getInt("StartCount");
-				if (alarmrule.equals("select")) {
-					int repeatime = rule.getInt("RepeatCount");
-					if (count < starttime
-							|| (count - starttime) % (repeatime + 1) != 0) {
+		 BusinessObject bb = null;
+		 ICollection ico=FileTools.getBussCollection("monitorid", monitorid, "EccAlarmRule");
+		 IEnumerator ien=ico.GetEnumerator();
+		 while(ien.MoveNext()){
+			 bb=(BusinessObject)ien.get_Current();
+			 if(bb!=null){
+					long time = System.currentTimeMillis();
+					SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					Timestamp LastModDateTime = new Timestamp(time);
+					Alarm(bb, parentGroupName, groupName, monitorName, category,
+							LastModDateTime, s);
+					String alarmstatus=bb.GetField("AlarmEvent").get_NativeValue().toString();
+					if (!(bb.GetField("RuleStatus").get_NativeValue().toString().endsWith("true"))
+							|| !alarmstatus.equals(category)) {
 						continue;
 					}
-				} else if (alarmrule.equals("once")) {
-					if (starttime != count) {
-						continue;
+					String alarmrule = bb.GetField("AlarmRule").get_NativeValue().toString();
+					int starttime = Integer.parseInt(bb.GetField("StartCount").get_NativeValue().toString());
+					if(alarmrule.equals("select")){
+						int repeatime = Integer.parseInt(bb.GetField("RepeatCount").get_NativeValue().toString());	
+						if (statuscount < starttime
+								|| (statuscount - starttime) % (repeatime + 1) != 0) {
+							continue;
+						}
+					}else if(alarmrule.equals("once")){
+						if (starttime != statuscount) {
+							continue;
+						}
+					}else if (alarmrule.equals("continue")) {
+						if (starttime < statuscount) {
+							continue;
+						}
 					}
-				} else if (alarmrule.equals("continue")) {
-					if (starttime < count) {
-						continue;
-					}
-				}
-				System.out.println("报警条件已经符合，开始报警了");
-			}
-		} catch (Exception e) {
-		}
+					System.out.println("报警条件已经符合，开始报警了");
+				 }
+		 }
+		 
+//			ResultSet rule = JDBCForSQL
+//					.sql_ConnectExecute_Select("select * from EccAlarmRule where MonitorId='"
+//							+ monitorid + "'");
+//			try {
+//				while (rule.next()) {
+//					Timestamp LastModDateTime = new Timestamp(
+//							System.currentTimeMillis());
+//					Alarm(rule, parentGroupName, groupName, monitorName, category,
+//							LastModDateTime, s);
+//					String alarmstatus = rule.getString("AlarmEvent");
+//					if (!rule.getBoolean("RuleStatus")
+//							|| !alarmstatus.equals(category)) {
+//						continue;
+//					}
+//					String alarmrule = rule.getString("AlarmRule");
+//					int starttime = rule.getInt("StartCount");
+//					if (alarmrule.equals("select")) {
+//						int repeatime = rule.getInt("RepeatCount");
+//						if (statuscount < starttime
+//								|| (statuscount - starttime) % (repeatime + 1) != 0) {
+//							continue;
+//						}
+//					} else if (alarmrule.equals("once")) {
+//						if (starttime != statuscount) {
+//							continue;
+//						}
+//					} else if (alarmrule.equals("continue")) {
+//						if (starttime < statuscount) {
+//							continue;
+//						}
+//					}
+//					System.out.println("报警条件已经符合，开始报警了");
+//				}
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		} catch (Exception e) {
+//		}
 	}
 
-	private static void Alarm(ResultSet rule, String allGroup, String group,
+	private static void Alarm(BusinessObject bo, String allGroup, String group,
 			String monitor, String status, Timestamp LastModDateTime,
 			String logFile) {
 		String alarmType = "", address = "", toAddress = "", fromAddress = "", mailServerHost = "", userName = "", password = "", modleId = "", content = "";
 		String ttime = LastModDateTime.toString().split("\\.")[0];
 		String mmonitor = monitor.substring(monitor.lastIndexOf("：") + 1);
-		try {
-			modleId = rule.getString("ModleId");
-			alarmType = rule.getString("AlarmType");
-			address = rule.getString("Address");
+//		try {
+			modleId=bo.GetField("ModleId").get_NativeValue().toString();
+			alarmType=bo.GetField("AlarmType").get_NativeValue().toString();
+			address=bo.GetField("Address").get_NativeValue().toString();
+			//modleId = rule.getString("ModleId");
+			//alarmType = rule.getString("AlarmType");
+			//address = rule.getString("Address");
 			if (address.length() == 32 && address.matches("\\w{32}")) {
-				String sql = "select MailAddress from EccMail where RecId = '"
-						+ address + "'";
-				ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
-				if (rs.next()) {
-					toAddress = rs.getString("MailAddress");
-				}
-				String sql2 = "select MailAddress,SendServer,MailUserName,MailPwd from EccMail where MailType = 'send'";
-				ResultSet rs2 = JDBCForSQL.sql_ConnectExecute_Select(sql2);
-				if (rs2.next()) {
-					fromAddress = rs2.getString("MailAddress");
-					mailServerHost = rs2.getString("SendServer");
-					userName = rs2.getString("MailUserName");
-					password = rs2.getString("MailPwd");
-				}
-				String sql3 = "select MailContent from EccMailModle where RecId = '"
-						+ modleId + "'";
-				ResultSet rs3 = JDBCForSQL.sql_ConnectExecute_Select(sql3);
-				if (rs3.next()) {
-					content = rs3
-							.getString("MailContent")
-							.replaceAll("@AllGroup@", allGroup)
-							.replaceAll("@Group@", group)
-							.replaceAll("@monitor@", mmonitor)
-							.replaceAll("@Status@", status)
-							.replaceAll("@Time@",
-									LastModDateTime.toString().split("\\.")[0])
-							.replaceAll("@LogFile@", logFile);
-				}
+				BusinessObject object=FileTools.CreateBo("RecId", address, "EccMail");
+					if(object!=null){
+						toAddress=object.GetField("MailAddress").get_NativeValue().toString();
+					}
+			
+//				String sql = "select MailAddress from EccMail where RecId = '"
+//						+ address + "'";
+//				ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
+//				if (rs.next()) {
+//					toAddress = rs.getString("MailAddress");
+//				}
+				BusinessObject businessObject=FileTools.CreateBo("MailType", "send", "EccMail");
+				if(businessObject!=null){
+						fromAddress=businessObject.GetField("MailAddress").get_NativeValue().toString();
+						mailServerHost=businessObject.GetField("SendServer").get_NativeValue().toString();
+						userName=businessObject.GetField("MailUserName").get_NativeValue().toString();
+						password=businessObject.GetField("MailPwd").get_NativeValue().toString();
+					}
+				
+//				String sql2 = "select MailAddress,SendServer,MailUserName,MailPwd from EccMail where MailType = 'send'";
+//				ResultSet rs2 = JDBCForSQL.sql_ConnectExecute_Select(sql2);
+//				if (rs2.next()) {
+//					fromAddress = rs2.getString("MailAddress");
+//					mailServerHost = rs2.getString("SendServer");
+//					userName = rs2.getString("MailUserName");
+//					password = rs2.getString("MailPwd");
+//				}
+				BusinessObject busObj=FileTools.CreateBo("RecId", modleId, "EccMailModle");
+				if(busObj!=null){
+						content=busObj.GetField("MailContent").get_NativeValue().toString().replaceAll("@AllGroup@", allGroup)
+								                                                           .replaceAll("@Group@", group)
+								                                                           .replaceAll("@monitor@", mmonitor)
+								                                                           .replaceAll("@Status@", status)
+								                                                           .replaceAll("@Time@", LastModDateTime.toString().split("\\.")[0])
+								                                                           .replaceAll("@LogFile@", logFile);
+					}
+			
+//				String sql3 = "select MailContent from EccMailModle where RecId = '"
+//						+ modleId + "'";
+//				ResultSet rs3 = JDBCForSQL.sql_ConnectExecute_Select(sql3);
+//				if (rs3.next()) {
+//					content = rs3
+//							.getString("MailContent")
+//							.replaceAll("@AllGroup@", allGroup)
+//							.replaceAll("@Group@", group)
+//							.replaceAll("@monitor@", mmonitor)
+//							.replaceAll("@Status@", status)
+//							.replaceAll("@Time@",
+//									LastModDateTime.toString().split("\\.")[0])
+//							.replaceAll("@LogFile@", logFile);
+//				}
 			} else if (address.length() > 2 && address.matches("\\w+")) {
 				toAddress = address;
 			} else {
-				toAddress = rule.getString("Other");
-				modleId = rule.getString("ModleId");
-				String sql = "select MailContent from EccMailModle where RecId = '"
-						+ modleId + "'";
-				ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
-				if (rs.next()) {
-					content = rs.getString("MailContent")
-							.replaceAll("@AllGroup@", allGroup)
-							.replaceAll("@Group@", group)
-							.replaceAll("@monitor@", mmonitor)
-							.replaceAll("@Status@", status)
-							.replaceAll("@Time@", ttime)
-							.replaceAll("@LogFile@", logFile);
-				}
+				toAddress=bo.GetField("Other").get_NativeValue().toString();
+				modleId=bo.GetField("Other").get_NativeValue().toString();
+//				toAddress = rule.getString("Other");
+//				modleId = rule.getString("Other");
+				BusinessObject BObject=FileTools.CreateBo("RecId", modleId, "EccMailModle");
+				if(BObject!=null){
+						content=BObject.GetField("MailContent").get_NativeValue().toString().replaceAll("@AllGroup@", allGroup)
+								                                                            .replaceAll("@Group@", group)
+								                                                            .replaceAll("@monitor@", mmonitor)
+								                                                            .replaceAll("@Status@", status)
+								                                                            .replaceAll("@Time@", ttime)
+								                                                            .replaceAll("@LogFile@", logFile);
+					}
+			
+//				String sql = "select MailContent from EccMailModle where RecId = '"
+//						+ modleId + "'";
+//				ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
+//				if (rs.next()) {
+//					content = rs.getString("MailContent")
+//							.replaceAll("@AllGroup@", allGroup)
+//							.replaceAll("@Group@", group)
+//							.replaceAll("@monitor@", mmonitor)
+//							.replaceAll("@Status@", status)
+//							.replaceAll("@Time@", ttime)
+//							.replaceAll("@LogFile@", logFile);
+//				}
 			}
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return;
-		}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			return;
+//		}
 		String alarmName = "";
-		try {
-			alarmName = rule.getString("AlarmName");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		String insertSQL = "insert into EccAlarmLog (RecId,CreatedDateTime,AlarmName,AlarmGroup,AlarmMonitor,AlarmType,ReceiverAddress,AlarmStatus)"
-				+ " values('"
-				+ getRecId()
-				+ "','"
-				+ ttime
-				+ "','"
-				+ alarmName
-				+ "','"
-				+ group
-				+ "','"
-				+ mmonitor
-				+ "','"
-				+ alarmType
-				+ "','"
-				+ toAddress + "','" + status + "')";
+		//try {
+			alarmName=bo.GetField("AlarmName").get_NativeValue().toString();
+//			alarmName = rule.getString("AlarmName");
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+			BusinessObject bb=FileTools.api.get_BusObService().Create("EccDyn");
+			bb.GetField("RecId").SetValue(new
+					 SiteviewValue(getRecId()));
+			bb.GetField("CreatedDateTime").SetValue(new
+					 SiteviewValue(ttime));
+			bb.GetField("AlarmName").SetValue(new
+					 SiteviewValue(alarmName));
+			bb.GetField("AlarmGroup").SetValue(new
+					 SiteviewValue(group));
+			bb.GetField("AlarmMonitor").SetValue(new
+					 SiteviewValue(mmonitor));
+			bb.GetField("AlarmType").SetValue(new
+					 SiteviewValue(alarmType));
+			bb.GetField("ReceiverAddress").SetValue(new
+					 SiteviewValue(toAddress));
+			bb.GetField("AlarmStatus").SetValue(new
+					 SiteviewValue(status));
+			bb.SaveObject(FileTools.api, false, true);
+//		String insertSQL = "insert into EccAlarmLog (RecId,CreatedDateTime,AlarmName,AlarmGroup,AlarmMonitor,AlarmType,ReceiverAddress,AlarmStatus)"
+//				+ " values('"
+//				+ getRecId()
+//				+ "','"
+//				+ ttime
+//				+ "','"
+//				+ alarmName
+//				+ "','"
+//				+ group
+//				+ "','"
+//				+ mmonitor
+//				+ "','"
+//				+ alarmType
+//				+ "','"
+//				+ toAddress + "','" + status + "')";
 		ArrayList<String> list = new ArrayList<String>();
 		list.add(ttime);
 		list.add(alarmName);
@@ -874,10 +955,10 @@ public class FrameFile {
 		if (alarmType.equals("email")) {
 			sendEmail(mailServerHost, userName, password, fromAddress,
 					toAddress, content);
-			JDBCForSQL.execute_Insert(insertSQL);
+			//JDBCForSQL.execute_Insert(insertSQL);
 		} else if (alarmType.equals("SMS")) {
 			sendSMS(toAddress, content);
-			JDBCForSQL.execute_Insert(insertSQL);
+			//JDBCForSQL.execute_Insert(insertSQL);
 		} else if (alarmType.equals("script")) {
 
 		} else if (alarmType.equals("sound")) {
@@ -887,40 +968,47 @@ public class FrameFile {
 			System.out.println("声音播放了");
 		}
 		String dutyId = "";
-		try {
-			dutyId = rule.getString("DutyId");
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		String sql = "select DutyTableType from EccDutyTable where RecId = '"
-				+ dutyId + "'";
-		ResultSet rss = JDBCForSQL.sql_ConnectExecute_Select(sql);
-		String dutyType = "";
-		try {
-			if (rss.next()) {
-				dutyType = rss.getString("DutyTableType");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+			dutyId=bo.GetField("DutyId").get_NativeValue().toString();
+//			dutyId = rule.getString("DutyId");
+//		} catch (SQLException e1) {
+//			e1.printStackTrace();
+//		}
+			BusinessObject buObject=FileTools.CreateBo("RecId", dutyId, "EccDutyTable");
+			String dutyType="";				
+			if(buObject!=null){
+				dutyType = buObject.GetField("DutyTableType").get_NativeValue().toString();
+				}
+			
+//		String sql = "select DutyTableType from EccDutyTable where RecId = '"
+//				+ dutyId + "'";
+//		ResultSet rss = JDBCForSQL.sql_ConnectExecute_Select(sql);
+//		String dutyType = "";
+//		try {
+//			if (rss.next()) {
+//				dutyType = rss.getString("DutyTableType");
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		Calendar ca = Calendar.getInstance();
 		String currentTime = new SimpleDateFormat("HHmmss").format(new Date());
 		if ("day of week".equals(dutyType)) {
 			int dayOfWeek = ca.get(Calendar.DAY_OF_WEEK) - 1;
 			String[] arr = { "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
 			String week = arr[dayOfWeek];
-			ResultSet rsss = getDutyDetail(dutyId, week);
-			DutyAlarm(list, insertSQL, rsss, currentTime, content,
+			BusinessObject rsss = getDutyDetail(dutyId, week);
+			DutyAlarm(list, rsss, currentTime, content,
 					mailServerHost, userName, password, fromAddress);
 		} else if ("day of month".equals(dutyType)) {
 			int dayOfMonth = ca.get(Calendar.DAY_OF_MONTH);
 			String day = "" + dayOfMonth;
-			ResultSet rsss = getDutyDetail(dutyId, day);
-			DutyAlarm(list, insertSQL, rsss, currentTime, content,
+			BusinessObject rsss = getDutyDetail(dutyId, day);
+			DutyAlarm(list, rsss, currentTime, content,
 					mailServerHost, userName, password, fromAddress);
 		} else if ("day".equals(dutyType)) {
-			ResultSet rsss = getDutyDetail(dutyId, "");
-			DutyAlarm(list, insertSQL, rsss, currentTime, content,
+			BusinessObject rsss = getDutyDetail(dutyId, "");
+			DutyAlarm(list, rsss, currentTime, content,
 					mailServerHost, userName, password, fromAddress);
 		}
 	}
@@ -931,74 +1019,169 @@ public class FrameFile {
 		return RecId;
 	}
 
-	public static void DutyAlarm(ArrayList<String> list, String SQL,
-			ResultSet rsss, String currentTime, String content,
+	public static void DutyAlarm(ArrayList<String> list,BusinessObject rsss, String currentTime, String content,
 			String mailServerHost, String userName, String password,
 			String fromAddress) {
-		try {
-			while (rsss.next()) {
-				String startTime = rsss.getString("StartTime");
-				startTime = startTime.substring(startTime.indexOf(":") - 2)
-						.replaceAll(":", "").split("\\.")[0];
-				String endTime = rsss.getString("EndTime");
-				endTime = endTime.substring(endTime.indexOf(":") - 2)
-						.replaceAll(":", "").split("\\.")[0];
-				int start = Integer.parseInt(startTime);
-				int end = Integer.parseInt(endTime);
-				int time = Integer.parseInt(currentTime);
-				if (start <= time && time <= end) {
-					String receivePhone = rsss.getString("ReceiveAlarmpPhone");
-					String receiveEmail = rsss.getString("ReceiveAlarmEmail");
-					if (receivePhone != null && receivePhone.length() > 0
-							&& "SMS".equals(list.get(4))) {
-						sendSMS(receivePhone, content);
-						String SQL1 = "insert into EccAlarmLog (RecId,CreatedDateTime,AlarmName,AlarmGroup,AlarmMonitor,AlarmType,ReceiverAddress,AlarmStatus)"
-								+ " values('"
-								+ getRecId()
-								+ "','"
-								+ list.get(0)
-								+ "','"
-								+ list.get(1)
-								+ "','"
-								+ list.get(2)
-								+ "','"
-								+ list.get(3)
-								+ "','"
-								+ list.get(4)
-								+ "','"
-								+ receivePhone
-								+ "','"
-								+ list.get(6) + "')";
-						JDBCForSQL.execute_Insert(SQL1);
-					}
-					if (receiveEmail != null && receiveEmail.length() > 0
-							&& "email".equals(list.get(4))) {
-						sendEmail(mailServerHost, userName, password,
-								fromAddress, receiveEmail, content);
-						String SQL2 = "insert into EccAlarmLog (RecId,CreatedDateTime,AlarmName,AlarmGroup,AlarmMonitor,AlarmType,ReceiverAddress,AlarmStatus)"
-								+ " values('"
-								+ getRecId()
-								+ "','"
-								+ list.get(0)
-								+ "','"
-								+ list.get(1)
-								+ "','"
-								+ list.get(2)
-								+ "','"
-								+ list.get(3)
-								+ "','"
-								+ list.get(4)
-								+ "','"
-								+ receiveEmail
-								+ "','"
-								+ list.get(6) + "')";
-						JDBCForSQL.execute_Insert(SQL2);
-					}
+		if(rsss!=null){
+			String startTime = rsss.GetField("StartTime").get_NativeValue().toString();
+			startTime = startTime.substring(startTime.indexOf(":") - 2)
+					.replaceAll(":", "").split("\\.")[0];
+			String endTime = rsss.GetField("EndTime").get_NativeValue().toString();
+			endTime = endTime.substring(endTime.indexOf(":") - 2)
+					.replaceAll(":", "").split("\\.")[0];
+			int start = Integer.parseInt(startTime);
+			int end = Integer.parseInt(endTime);
+			int time = Integer.parseInt(currentTime);
+			if (start <= time && time <= end) {
+				String receivePhone = rsss.GetField("ReceiveAlarmpPhone").get_NativeValue().toString();
+				String receiveEmail = rsss.GetField("ReceiveAlarmEmail").get_NativeValue().toString();
+				if (receivePhone != null && receivePhone.length() > 0
+						&& "SMS".equals(list.get(4))) {
+					sendSMS(receivePhone, content);
+					BusinessObject bb=FileTools.api.get_BusObService().Create("EccAlarmLog");
+					bb.GetField("RecId").SetValue(new
+							 SiteviewValue(getRecId()));
+					bb.GetField("CreatedDateTime").SetValue(new
+							 SiteviewValue(list.get(0)));
+					bb.GetField("AlarmName").SetValue(new
+							 SiteviewValue(list.get(1)));
+					bb.GetField("AlarmGroup").SetValue(new
+							 SiteviewValue(list.get(2)));
+					bb.GetField("AlarmMonitor").SetValue(new
+							 SiteviewValue(list.get(3)));
+					bb.GetField("AlarmType").SetValue(new
+							 SiteviewValue(list.get(4)));
+					bb.GetField("ReceiverAddress").SetValue(new
+							 SiteviewValue(receivePhone));
+					bb.GetField("AlarmStatus").SetValue(new
+							 SiteviewValue(list.get(6)));
+					bb.SaveObject(FileTools.api, false, true);
+				}
+				if (receiveEmail != null && receiveEmail.length() > 0
+						&& "email".equals(list.get(4))) {
+					sendEmail(mailServerHost, userName, password,
+							fromAddress, receiveEmail, content);
+					BusinessObject bb=FileTools.api.get_BusObService().Create("EccAlarmLog");
+					bb.GetField("RecId").SetValue(new
+							 SiteviewValue(getRecId()));
+					bb.GetField("CreatedDateTime").SetValue(new
+							 SiteviewValue(list.get(0)));
+					bb.GetField("AlarmName").SetValue(new
+							 SiteviewValue(list.get(1)));
+					bb.GetField("AlarmGroup").SetValue(new
+							 SiteviewValue(list.get(2)));
+					bb.GetField("AlarmMonitor").SetValue(new
+							 SiteviewValue(list.get(3)));
+					bb.GetField("AlarmType").SetValue(new
+							 SiteviewValue(list.get(4)));
+					bb.GetField("ReceiverAddress").SetValue(new
+							 SiteviewValue(receiveEmail));
+					bb.GetField("AlarmStatus").SetValue(new
+							 SiteviewValue(list.get(6)));
+					bb.SaveObject(FileTools.api, false, true);
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
+//		try {
+//			while (rsss.next()) {
+//				String startTime = rsss.getString("StartTime");
+//				startTime = startTime.substring(startTime.indexOf(":") - 2)
+//						.replaceAll(":", "").split("\\.")[0];
+//				String endTime = rsss.getString("EndTime");
+//				endTime = endTime.substring(endTime.indexOf(":") - 2)
+//						.replaceAll(":", "").split("\\.")[0];
+//				int start = Integer.parseInt(startTime);
+//				int end = Integer.parseInt(endTime);
+//				int time = Integer.parseInt(currentTime);
+//				if (start <= time && time <= end) {
+//					String receivePhone = rsss.getString("ReceiveAlarmpPhone");
+//					String receiveEmail = rsss.getString("ReceiveAlarmEmail");
+//					if (receivePhone != null && receivePhone.length() > 0
+//							&& "SMS".equals(list.get(4))) {
+//						sendSMS(receivePhone, content);
+//						BusinessObject bb=FileTools.api.get_BusObService().Create("EccAlarmLog");
+//						bb.GetField("RecId").SetValue(new
+//								 SiteviewValue(getRecId()));
+//						bb.GetField("CreatedDateTime").SetValue(new
+//								 SiteviewValue(list.get(0)));
+//						bb.GetField("AlarmName").SetValue(new
+//								 SiteviewValue(list.get(1)));
+//						bb.GetField("AlarmGroup").SetValue(new
+//								 SiteviewValue(list.get(2)));
+//						bb.GetField("AlarmMonitor").SetValue(new
+//								 SiteviewValue(list.get(3)));
+//						bb.GetField("AlarmType").SetValue(new
+//								 SiteviewValue(list.get(4)));
+//						bb.GetField("ReceiverAddress").SetValue(new
+//								 SiteviewValue(receivePhone));
+//						bb.GetField("AlarmStatus").SetValue(new
+//								 SiteviewValue(list.get(6)));
+//						bb.SaveObject(FileTools.api, false, true);
+//						String SQL1 = "insert into EccAlarmLog (RecId,CreatedDateTime,AlarmName,AlarmGroup,AlarmMonitor,AlarmType,ReceiverAddress,AlarmStatus)"
+//								+ " values('"
+//								+ getRecId()
+//								+ "','"
+//								+ list.get(0)
+//								+ "','"
+//								+ list.get(1)
+//								+ "','"
+//								+ list.get(2)
+//								+ "','"
+//								+ list.get(3)
+//								+ "','"
+//								+ list.get(4)
+//								+ "','"
+//								+ receivePhone
+//								+ "','"
+//								+ list.get(6) + "')";
+//						JDBCForSQL.execute_Insert(SQL1);
+//					}
+//					if (receiveEmail != null && receiveEmail.length() > 0
+//							&& "email".equals(list.get(4))) {
+//						sendEmail(mailServerHost, userName, password,
+//								fromAddress, receiveEmail, content);
+//						BusinessObject bb=FileTools.api.get_BusObService().Create("EccAlarmLog");
+//						bb.GetField("RecId").SetValue(new
+//								 SiteviewValue(getRecId()));
+//						bb.GetField("CreatedDateTime").SetValue(new
+//								 SiteviewValue(list.get(0)));
+//						bb.GetField("AlarmName").SetValue(new
+//								 SiteviewValue(list.get(1)));
+//						bb.GetField("AlarmGroup").SetValue(new
+//								 SiteviewValue(list.get(2)));
+//						bb.GetField("AlarmMonitor").SetValue(new
+//								 SiteviewValue(list.get(3)));
+//						bb.GetField("AlarmType").SetValue(new
+//								 SiteviewValue(list.get(4)));
+//						bb.GetField("ReceiverAddress").SetValue(new
+//								 SiteviewValue(receiveEmail));
+//						bb.GetField("AlarmStatus").SetValue(new
+//								 SiteviewValue(list.get(6)));
+//						bb.SaveObject(FileTools.api, false, true);
+//						String SQL2 = "insert into EccAlarmLog (RecId,CreatedDateTime,AlarmName,AlarmGroup,AlarmMonitor,AlarmType,ReceiverAddress,AlarmStatus)"
+//								+ " values('"
+//								+ getRecId()
+//								+ "','"
+//								+ list.get(0)
+//								+ "','"
+//								+ list.get(1)
+//								+ "','"
+//								+ list.get(2)
+//								+ "','"
+//								+ list.get(3)
+//								+ "','"
+//								+ list.get(4)
+//								+ "','"
+//								+ receiveEmail
+//								+ "','"
+//								+ list.get(6) + "')";
+//						JDBCForSQL.execute_Insert(SQL2);
+//					}
+//				}
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	public static void sendEmail(String mailServerHost, String userName,
@@ -1033,25 +1216,41 @@ public class FrameFile {
 		}
 	}
 
-	private static ResultSet getDutyDetail(String dutyId, String s) {
-		String sql2 = "select * from DutyDetail where Week = '" + s
-				+ "' and DutyId ='" + dutyId + "'";
-		ResultSet rss2 = JDBCForSQL.sql_ConnectExecute_Select(sql2);
-		return rss2;
+	private static BusinessObject getDutyDetail(String dutyId, String s) {
+		java.util.HashMap<String,String> map=new java.util.HashMap<String, String>();
+		map.put("Week", s);
+		map.put("DutyId", dutyId);
+		ICollection collection=FileTools.getBussCollection(map, "DutyDetail");
+		IEnumerator ienum=collection.GetEnumerator();
+		BusinessObject businessObj=null;
+		while(ienum.MoveNext()){
+		businessObj=(BusinessObject)ienum.get_Current();
+		}
+//		String sql2 = "select * from DutyDetail where Week = '" + s
+//				+ "' and DutyId ='" + dutyId + "'";
+//		ResultSet rss2 = JDBCForSQL.sql_ConnectExecute_Select(sql2);
+//		return rss2;
+		return businessObj;
 	}
 
 	private static ArrayList<String> getSendPhoneAndPWD() {
+		BusinessObject businessObj=FileTools.CreateBo("SMSType","send", "EccSMS");
 		ArrayList<String> list = new ArrayList<String>();
-		String sql = "select SMSUserName,SMSPwd from EccSMS where SMSType = 'send'";
-		ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
-		try {
-			if (rs.next()) {
-				list.add(rs.getString("SMSUserName"));
-				list.add(rs.getString("SMSPwd"));
+			if(businessObj!=null){
+				list.add(businessObj.GetField("SMSUserName").get_NativeValue().toString());
+				list.add(businessObj.GetField("SMSPwd").get_NativeValue().toString());
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+//		ArrayList<String> list = new ArrayList<String>();
+//		String sql = "select SMSUserName,SMSPwd from EccSMS where SMSType = 'send'";
+//		ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
+//		try {
+//			if (rs.next()) {
+//				list.add(rs.getString("SMSUserName"));
+//				list.add(rs.getString("SMSPwd"));
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
 		return list;
 	}
 
@@ -1978,24 +2177,6 @@ public class FrameFile {
 			}
 		}
 		return false;
-	}
-
-	public static BusinessObject CreateBo(String key, String s, String s1) {
-		SiteviewQuery query = new SiteviewQuery();
-		query.AddBusObQuery(s1, QueryInfoToGet.All);
-		XmlElement xml;
-		xml = query.get_CriteriaBuilder().FieldAndValueExpression(key,
-				Operators.Equals, s);
-		query.set_BusObSearchCriteria(xml);
-		ICollection iCollenction = ConnectionBroker.get_SiteviewApi()
-				.get_BusObService().get_SimpleQueryResolver()
-				.ResolveQueryToBusObList(query);
-		BusinessObject bo = null;
-		IEnumerator interfaceTableIEnum = iCollenction.GetEnumerator();
-		if (interfaceTableIEnum.MoveNext()) {
-			bo = (BusinessObject) interfaceTableIEnum.get_Current();
-		}
-		return bo;
 	}
 
 	public static void main(String[] args) {
