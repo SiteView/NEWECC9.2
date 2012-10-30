@@ -43,13 +43,10 @@ import jgl.Sorting;
 import my.util.email.MailSenderInfo;
 import my.util.email.SimpleMailSender;
 import my.util.sound.TestMusic;
-
 import org.apache.commons.httpclient.HttpException;
-
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
 import system.Xml.XmlElement;
-
 import COM.dragonflow.Log.LogManager;
 import COM.dragonflow.SiteView.DetectConfigurationChange;
 import COM.dragonflow.SiteView.MonitorGroup;
@@ -63,7 +60,6 @@ import COM.dragonflow.Utils.TempFileManager;
 import COM.dragonflow.Utils.TextUtils;
 import COM.dragonflow.itsm.data.Config;
 import COM.dragonflow.itsm.data.JDBCForSQL;
-
 import Siteview.Operators;
 import Siteview.QueryInfoToGet;
 import Siteview.SiteviewQuery;
@@ -551,31 +547,40 @@ public class FrameFile {
 
 	private static String getParentGroupNameById(String groupId) {
 		String parentId = "";
-		String sql = "select ParentGroupId from EccGroup where RecId = '"
-				+ groupId + "'";
-		ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
-		try {
-			if (rs.next()) {
-				parentId = rs.getString("ParentGroupId");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		BusinessObject bo=FileTools.CreateBo("RecId", groupId, "EccGroup");
+		if(bo!=null){
+			parentId=bo.GetField("ParentGroupId").get_NativeValue().toString();
 		}
+		
+//		String sql = "select ParentGroupId from EccGroup where RecId = '"
+//				+ groupId + "'";
+//		ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
+//		try {
+//			if (rs.next()) {
+//				parentId = rs.getString("ParentGroupId");
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
 		return parentId;
 	}
 
 	private static String getGroupNameById(String groupId) {
 		String groupName = "";
-		String sql = "select GroupName from EccGroup where RecId = '" + groupId
-				+ "'";
-		ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
-		try {
-			if (rs.next()) {
-				groupName = rs.getString("GroupName");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		BusinessObject bb=FileTools.CreateBo("RecId", groupId, "EccGroup");
+		if(bb!=null){
+			groupName=bb.GetField("GroupName").get_NativeValue().toString();
 		}
+//		String sql = "select GroupName from EccGroup where RecId = '" + groupId
+//				+ "'";
+//		ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
+//		try {
+//			if (rs.next()) {
+//				groupName = rs.getString("GroupName");
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
 		return groupName;
 	}
 

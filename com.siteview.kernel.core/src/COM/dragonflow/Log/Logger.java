@@ -25,15 +25,11 @@ import java.text.SimpleDateFormat;
 import java.util.Enumeration;
 import java.util.UUID;
 import java.util.Vector;
-
 import org.eclipse.swt.widgets.DateTime;
-
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
-
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
-
 import COM.dragonflow.Properties.FrameFile;
 import COM.dragonflow.Properties.HashMapOrdered;
 import COM.dragonflow.Properties.PropertiedObject;
@@ -171,18 +167,15 @@ public abstract class Logger {
 		long time = System.currentTimeMillis();
 		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Timestamp CreatedDateTime = new Timestamp(time);
-		ICollection collection=FileTools.getBussCollection("RecId", MonitorId, "Ecc");
-		IEnumerator ienum=collection.GetEnumerator();
+		BusinessObject bo=FileTools.CreateBo("RecId", MonitorId, "Ecc");
 		String monitorType = "";
-		while(ienum.MoveNext()){
-			BusinessObject bo=(BusinessObject)ienum.get_Current();
-			if(bo!=null){
+		if(bo!=null){
 				monitorType=bo.GetField("EccType").get_NativeValue().toString();
 				monitorType = Config.getReturnStr(
 						"itsm_siteview9.2.properties",
 						monitorType);
 			}
-		}
+	
 //		String sql = "";
 //		String queryMonitorTypeSql = "select EccType from Ecc where RecId ='"+MonitorId+"'";
 //		ResultSet monitorTypeRS = JDBCForSQL.sql_ConnectExecute_Select(queryMonitorTypeSql);
