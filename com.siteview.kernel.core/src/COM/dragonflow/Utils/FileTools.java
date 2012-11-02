@@ -33,19 +33,21 @@ import system.Xml.XmlElement;
  */
 public class FileTools {
 	public static ISiteviewApi api=getApi();
+	//public static ISiteviewApi api=ConnectionBroker.get_SiteviewApi();
 	public FileTools(){
 		api=getApi();
+		
 	}
 	public static ISiteviewApi getApi(){
 		SiteviewConnection currentAPI=SiteviewConnection
-    			.GetInstance("{Common}EccSieView", "admin", "manage");
+    			.GetInstance("{Common}EccSiteView", "admin", "manage");
 		return currentAPI.GetAPIHandle();
 	}
 	public static ICollection getBussCollection(String s){
 		SiteviewQuery query = new SiteviewQuery();
 		query.AddBusObQuery(s, QueryInfoToGet.All);
 		XmlElement xml=null;
-        xml=query.get_CriteriaBuilder().FieldAndValueExpression("RecId",Operators.NotNull);
+       // xml=query.get_CriteriaBuilder().FieldAndValueExpression("RecId",Operators.NotNull);
 		query.set_BusObSearchCriteria(xml);
 		ICollection iCollenction = api.get_BusObService()
 				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);

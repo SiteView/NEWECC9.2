@@ -57,6 +57,7 @@ import COM.dragonflow.SiteViewException.SiteViewException;
 import COM.dragonflow.SiteViewException.SiteViewOperationalException;
 import COM.dragonflow.StandardAction.UpdateMonitor;
 import COM.dragonflow.Utils.CounterLock;
+import COM.dragonflow.Utils.FileTools;
 import COM.dragonflow.Utils.FileUtils;
 import COM.dragonflow.Utils.I18N;
 import COM.dragonflow.Utils.MailUtils;
@@ -64,6 +65,8 @@ import COM.dragonflow.Utils.TextUtils;
 import COM.dragonflow.Utils.ThreadPool;
 import COM.dragonflow.itsm.data.JDBCForSQL;
 import SiteViewMain.SiteViewSupport;
+import Siteview.SiteviewValue;
+import Siteview.Api.BusinessObject;
 
 //import com.dragonflow.infra.xdr_utils.Variant;
 
@@ -1832,8 +1835,24 @@ public  class AtomicMonitor extends Monitor implements Runnable,
 	    	long time=System.currentTimeMillis();		
 	    	SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	    	Timestamp CreatedDateTime=new Timestamp(time);
-	    	String sql="insert into MonitorLog(RecId,ownerID,MonitorStatus,MonitorName,MonitorId,MonitorMassage,CreatedDateTime)" +
-	    			"values('"+RecId+"','"+ownerID+"','"+category+"','"+MonitorName+"','"+MonitorId+"','"+stateString+"','"+Timestamp.valueOf(f.format(CreatedDateTime))+"')";
-	    	JDBCForSQL.execute_Insert(sql);	
+	    	BusinessObject bo=FileTools.api.get_BusObService().Create("MonitorLog");
+	    	bo.GetField("RecId").SetValue(new
+					 SiteviewValue(RecId));
+	    	bo.GetField("ownerID").SetValue(new
+					 SiteviewValue(ownerID));
+	    	bo.GetField("MonitorStatus").SetValue(new
+					 SiteviewValue(category));
+	    	bo.GetField("MonitorName").SetValue(new
+					 SiteviewValue(MonitorName));
+	    	bo.GetField("MonitorId").SetValue(new
+					 SiteviewValue(MonitorId));
+	    	bo.GetField("MonitorMassage").SetValue(new
+					 SiteviewValue(stateString));
+	    	bo.GetField("CreatedDateTime").SetValue(new
+					 SiteviewValue(Timestamp.valueOf(f.format(CreatedDateTime))));
+	    	bo.SaveObject(FileTools.api, true, true);
+//	    	String sql="insert into MonitorLog(RecId,ownerID,MonitorStatus,MonitorName,MonitorId,MonitorMassage,CreatedDateTime)" +
+//	    			"values('"+RecId+"','"+ownerID+"','"+category+"','"+MonitorName+"','"+MonitorId+"','"+stateString+"','"+Timestamp.valueOf(f.format(CreatedDateTime))+"')";
+//	    	JDBCForSQL.execute_Insert(sql);	
 		}
 }

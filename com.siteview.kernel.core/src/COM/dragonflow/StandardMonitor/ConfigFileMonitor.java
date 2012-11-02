@@ -36,13 +36,18 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
 
+import system.Collections.ICollection;
+import system.Collections.IEnumerator;
+
 import SiteViewMain.SiteViewSupport;
+import Siteview.Api.BusinessObject;
 
 import COM.dragonflow.HTTP.HTTPRequest;
 import COM.dragonflow.Page.CGI;
 import COM.dragonflow.Properties.*;
 import COM.dragonflow.SiteView.*;
 import COM.dragonflow.SiteViewException.SiteViewException;
+import COM.dragonflow.Utils.FileTools;
 import COM.dragonflow.Utils.I18N;
 import COM.dragonflow.Utils.TextUtils;
 import COM.dragonflow.itsm.data.JDBCForSQL;
@@ -106,27 +111,41 @@ public class ConfigFileMonitor extends ServerMonitor {
 		String command = getProperty(pCommand);
 		String group = "";
 		String groupName = "";
+		String groups="";
 		// JDBC 查询数据
-		Connection conn = JDBCForSQL.getConnection();
-		Statement st = null;
-		ResultSet rs = null;
+		//Connection conn = JDBCForSQL.getConnection();
+		BusinessObject businessObj=FileTools.CreateBo("ServerAddress", host, "dbo.RemoteMachine");
+			if(businessObj!=null){
+				group = businessObj.GetField("Groups").get_NativeValue().toString();
+				serviceName = businessObj.GetField("EpuipmentsTypes").get_NativeValue().toString();
+				pwd = businessObj.GetField("PasswordMachine").get_NativeValue().toString();
+				superName = businessObj.GetField("AuthorityName").get_NativeValue().toString();
+				superPwd = businessObj.GetField("AuthorityPwd").get_NativeValue().toString();
+				groups = businessObj.GetField("Groups").get_NativeValue().toString();
+			}
+			BusinessObject Obj=FileTools.CreateBo("RecId", groupName, "dbo.EccGroup");
+			if(Obj!=null){
+				groupName = businessObj.GetField("GroupName").get_NativeValue().toString();
+			}
+//		Statement st = null;
+//		ResultSet rs = null;
 		String sql = "select r.* , e.GroupName from dbo.RemoteMachine as r , dbo.EccGroup as e where ServerAddress='"
 				+ host + "'  and e.RecId=r.groups";
-
-		try {
-			st = conn.createStatement();
-			rs = st.executeQuery(sql);
-			while (rs.next()) {
-				group = rs.getString("Groups");
-				serviceName = rs.getString("EpuipmentsTypes");
-				pwd = rs.getString("PasswordMachine");
-				superName = rs.getString("AuthorityName");
-				superPwd = rs.getString("AuthorityPwd");
-				groupName = rs.getString("Groupname");
-			}
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
+//
+//		try {
+//			st = conn.createStatement();
+//			rs = st.executeQuery(sql);
+//			while (rs.next()) {
+//				group = rs.getString("Groups");
+//				serviceName = rs.getString("EpuipmentsTypes");
+//				pwd = rs.getString("PasswordMachine");
+//				superName = rs.getString("AuthorityName");
+//				superPwd = rs.getString("AuthorityPwd");
+//				groupName = rs.getString("Groupname");
+//			}
+//		} catch (SQLException e1) {
+//			e1.printStackTrace();
+//		}
 		File file = new File(configName);
 		if (file.listFiles() == null) {
 			try {
@@ -212,20 +231,20 @@ public class ConfigFileMonitor extends ServerMonitor {
 			addsql.append(date1);
 			addsql.append("')");
 			// System.out.println(addsql);
-			try {
-				int a = st.executeUpdate(addsql.toString());
-				if (a > 0) {
-					System.out.println("本地库跟新");
-					try {
-						ConfigCopy.testpush();
-						System.out.println("提交到服务器成功");
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+//			try {
+//				int a = st.executeUpdate(addsql.toString());
+//				if (a > 0) {
+//					System.out.println("本地库跟新");
+//					try {
+//						ConfigCopy.testpush();
+//						System.out.println("提交到服务器成功");
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
+//				}
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
 		}
 		int timeout = getPropertyAsInteger(pTimeout);
 		int size = getPropertyAsInteger(pSize);

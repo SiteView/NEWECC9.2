@@ -39,6 +39,11 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import Siteview.Api.BusinessObject;
+
+import system.Collections.ICollection;
+import system.Collections.IEnumerator;
+
 import COM.dragonflow.Properties.FrameFile;
 import COM.dragonflow.Properties.PropertiedObject;
 import COM.dragonflow.itsm.data.Config;
@@ -592,6 +597,17 @@ public class FileUtils {
 			}
 		}
 		if(s.endsWith("master.config")){
+//			ICollection icollecton=FileTools.getBussCollection("RemoteMachine");
+//			 IEnumerator ien=icollecton.GetEnumerator();
+//			 while(ien.MoveNext()){
+//				 BusinessObject  bo=(BusinessObject)ien.get_Current();
+//				 if(bo!=null){
+//					 String s0="";
+//			         jgl.Array array1=new jgl.Array();
+//			         s0=PropertiedObject.;
+//			         stringbuffer.append("\n"+s0); 
+//				 }
+//			 }
 			ResultSet machines = JDBCForSQL.sql_ConnectExecute_Select("SELECT * FROM RemoteMachine");
 	        try {
 	        	String s0="";
@@ -1147,88 +1163,137 @@ public class FileUtils {
 	public static StringBuffer readFromFile(String substring) {
 		String s = substring.substring(substring.lastIndexOf("\\") + 1,
 				substring.lastIndexOf("."));
-		// String sql;
-		// ResultSet rs;
-		String sql = "select top 1 CreatedDateTime from EccDyn where groupid='"
-				+ s + "' order by CreatedDateTime";
-		ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
-		long d = System.currentTimeMillis();
-		try {
-			if (rs.next()) {
-				d = rs.getDate("CreatedDateTime").getTime();
-			}
-		} catch (Exception e) {
-		}
+		BusinessObject bo=FileTools.CreateBo("groupid",s , "EccDyn");
 		StringBuffer stringBuffer = new StringBuffer();
-		stringBuffer.append("lastSaved=");
-		stringBuffer.append(d);
-		stringBuffer.append("\n");
-		stringBuffer.append("id=-1");
-		stringBuffer.append("\n");
-		sql = "select top 1 LastModDateTime from EccDyn where groupid='" + s
-				+ "' order by LastModDateTime desc";
-		rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
-		try {
-			if (rs.next()) {
-				d = rs.getDate("LastModDateTime").getTime();
-			} else {
-				d = -1;
-			}
-		} catch (Exception e) {
-		}
-		stringBuffer.append("last=");
-		stringBuffer.append(d);
-		sql = "select * from EccDyn where groupid='" + s + "'";
-		rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
-		try {
-			while (rs.next()) {
-				s = rs.getString("monitorDesc");
+		long d = System.currentTimeMillis();
+		if(bo!=null){
+			s = bo.GetField("monitorDesc").get_NativeValue().toString();
+			d = Integer.parseInt(bo.GetField("LastModDateTime").get_NativeValue().toString());
+			stringBuffer.append("\n");
+			stringBuffer.append("#");
+			stringBuffer.append("\n");
+			while (s.length() > 1) {
+				s = s.substring(1);
+				stringBuffer.append(s.substring(0, s.indexOf("*")));
 				stringBuffer.append("\n");
-				stringBuffer.append("#");
-				stringBuffer.append("\n");
-				while (s.length() > 1) {
-					s = s.substring(1);
-					stringBuffer.append(s.substring(0, s.indexOf("*")));
-					stringBuffer.append("\n");
-					s = s.substring(s.indexOf("*"));
-				}
-				stringBuffer.append("id=" + rs.getString("monitorid"));
+				s = s.substring(s.indexOf("*"));
 			}
-		} catch (Exception e) {
+			stringBuffer.append("lastSaved=");
+			stringBuffer.append(d);
+			stringBuffer.append("\n");
+			stringBuffer.append("id=-1");
+			stringBuffer.append("\n");
+			
+			stringBuffer.append("id=" + bo.GetField("monitorid").get_NativeValue().toString());
 		}
+		
+//		String sql = "select top 1 CreatedDateTime from EccDyn where groupid='"
+//				+ s + "' order by CreatedDateTime";
+//		ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
+//		long d = System.currentTimeMillis();
+//		try {
+//			if (rs.next()) {
+//				d = rs.getDate("CreatedDateTime").getTime();
+//			}
+//		} catch (Exception e) {
+//		}
+//		//StringBuffer stringBuffer = new StringBuffer();
+//		stringBuffer.append("lastSaved=");
+//		stringBuffer.append(d);
+//		stringBuffer.append("\n");
+//		stringBuffer.append("id=-1");
+//		stringBuffer.append("\n");
+//		sql = "select top 1 LastModDateTime from EccDyn where groupid='" + s
+//				+ "' order by LastModDateTime desc";
+//		rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
+//		try {
+//			if (rs.next()) {
+//				d = rs.getDate("LastModDateTime").getTime();
+//			} else {
+//				d = -1;
+//			}
+//		} catch (Exception e) {
+//		}
+//		stringBuffer.append("last=");
+//		stringBuffer.append(d);
+//		sql = "select * from EccDyn where groupid='" + s + "'";
+//		rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
+//		try {
+//			while (rs.next()) {
+//				s = rs.getString("monitorDesc");
+//				stringBuffer.append("\n");
+//				stringBuffer.append("#");
+//				stringBuffer.append("\n");
+//				while (s.length() > 1) {
+//					s = s.substring(1);
+//					stringBuffer.append(s.substring(0, s.indexOf("*")));
+//					stringBuffer.append("\n");
+//					s = s.substring(s.indexOf("*"));
+//				}
+//				stringBuffer.append("id=" + rs.getString("monitorid"));
+//			}
+//		} catch (Exception e) {
+//		}
 		return stringBuffer;
 	}
 
 	public static StringBuffer readFromDataBase(String groupid) {
-		String sql = "select * from EccGroup where RecId='" + groupid + "'";
-		ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
+		BusinessObject bo=FileTools.CreateBo("RecId", groupid, "EccGroup");
 		StringBuffer stringBuffer = new StringBuffer();
 		String s1 = "";
-		try {
-			while (rs.next()) {
-				s1 = "_encoding=GBK;_dependsCondition="
-						+ rs.getString("DependsCondition")
-						+ ";_fileEncoding=UTF-8;_name="
-						+ rs.getString("GroupName");
-				if (rs.getString("DependsOn")!=null&&!rs.getString("DependsOn").equals("")) {
-					s1 = s1 + ";_dependsOn=" + rs.getString("DependsOn");
-				}
-				if (rs.getString("Description")!=null&&!rs.getString("Description").equals("")) {
-					s1 = s1 + ";_description=" + rs.getString("Description");
-				}
-				if (rs.getString("RefreshGroup")!=null&&!rs.getString("RefreshGroup").equals("")) {
-					int i = rs.getInt("RefreshGroup");
-					if (rs.getString("RefreshGroupUtil").equals("Minute")) {
-						i = i * 60;
-					} else if (rs.getString("RefreshGroupUtil").equals("Hour")) {
-						i = i * 3600;
-					} else if (rs.getString("RefreshGroupUtil").equals("Day")) {
-						i = i * 86400;
-					}
-					s1 = s1 + ";_frequency=" + i;
-				}
-				s1 = s1 + ";#;";
+		if(bo!=null){
+			s1 = "_encoding=GBK;_dependsCondition="
+					+ bo.GetField("DependsCondition").get_NativeValue().toString()
+					+ ";_fileEncoding=UTF-8;_name="
+					+ bo.GetField("GroupName").get_NativeValue().toString();
+			if (bo.GetField("DependsOn").get_NativeValue().toString()!=null&&!bo.GetField("DependsOn").get_NativeValue().toString().equals("")) {
+				s1 = s1 + ";_dependsOn=" + bo.GetField("DependsOn").get_NativeValue().toString();
 			}
+			if (bo.GetField("Description").get_NativeValue().toString()!=null&&!bo.GetField("Description").get_NativeValue().toString().equals("")) {
+				s1 = s1 + ";_description=" + bo.GetField("Description").get_NativeValue().toString();
+			}
+			if (bo.GetField("RefreshGroup").get_NativeValue().toString()!=null&&!bo.GetField("RefreshGroup").get_NativeValue().toString().equals("")) {
+				int i = Integer.parseInt(bo.GetField("RefreshGroup").get_NativeValue().toString());
+				if (bo.GetField("RefreshGroupUtil").get_NativeValue().toString().equals("Minute")) {
+					i = i * 60;
+				} else if (bo.GetField("RefreshGroupUtil").get_NativeValue().toString().equals("Hour")) {
+					i = i * 3600;
+				} else if (bo.GetField("RefreshGroupUtil").get_NativeValue().toString().equals("Day")) {
+					i = i * 86400;
+				}
+				s1 = s1 + ";_frequency=" + i;
+			}
+			s1 = s1 + ";#;";
+		}
+//		String sql = "select * from EccGroup where RecId='" + groupid + "'";
+//		ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
+//		StringBuffer stringBuffer = new StringBuffer();
+//		String s1 = "";
+		try {
+//			while (rs.next()) {
+//				s1 = "_encoding=GBK;_dependsCondition="
+//						+ rs.getString("DependsCondition")
+//						+ ";_fileEncoding=UTF-8;_name="
+//						+ rs.getString("GroupName");
+//				if (rs.getString("DependsOn")!=null&&!rs.getString("DependsOn").equals("")) {
+//					s1 = s1 + ";_dependsOn=" + rs.getString("DependsOn");
+//				}
+//				if (rs.getString("Description")!=null&&!rs.getString("Description").equals("")) {
+//					s1 = s1 + ";_description=" + rs.getString("Description");
+//				}
+//				if (rs.getString("RefreshGroup")!=null&&!rs.getString("RefreshGroup").equals("")) {
+//					int i = rs.getInt("RefreshGroup");
+//					if (rs.getString("RefreshGroupUtil").equals("Minute")) {
+//						i = i * 60;
+//					} else if (rs.getString("RefreshGroupUtil").equals("Hour")) {
+//						i = i * 3600;
+//					} else if (rs.getString("RefreshGroupUtil").equals("Day")) {
+//						i = i * 86400;
+//					}
+//					s1 = s1 + ";_frequency=" + i;
+//				}
+//				s1 = s1 + ";#;";
+//			}
 
 			String query_sql = "select * from Ecc where Groups_Valid ='"
 					+ groupid + "'";
@@ -1414,11 +1479,10 @@ public class FileUtils {
 					stringBuffer.append("\n");
 				}
 				//È¡¼ÆÊýÆ÷
-				String  sql_count="select * from MonitorCounter where ParentLink_RecID='"+eccrs.getString("RecId") + "'";
-				ResultSet coutrs = JDBCForSQL.sql_ConnectExecute_Select(sql_count);
+				BusinessObject object=FileTools.CreateBo("ParentLink_RecID", eccrs.getString("RecId"), "MonitorCounter");
 				int i=0;
-				while(coutrs.next()){
-					String counter=coutrs.getString("Name");
+				if(object!=null){
+					String counter=object.GetField("Name").get_NativeValue().toString();
 					if(counter.contains("Default")){
 						counter=counter.substring(0,counter.lastIndexOf("--")+2)+"Total";
 					}
@@ -1433,38 +1497,75 @@ public class FileUtils {
 				if(i>0){
 					stringBuffer.append(";");
 				}
+//				String  sql_count="select * from MonitorCounter where ParentLink_RecID='"+eccrs.getString("RecId") + "'";
+//				ResultSet coutrs = JDBCForSQL.sql_ConnectExecute_Select(sql_count);
+//				int i=0;
+//				while(coutrs.next()){
+//					String counter=coutrs.getString("Name");
+//					if(counter.contains("Default")){
+//						counter=counter.substring(0,counter.lastIndexOf("--")+2)+"Total";
+//					}
+//					if(i==0){
+//						stringBuffer.append("_counters=");
+//						stringBuffer.append(counter);
+//					}else{
+//						stringBuffer.append(","+counter);
+//					}
+//					i++;
+//				}
+//				if(i>0){
+//					stringBuffer.append(";");
+//				}
 				
-				 sql= "select * from Alarm where ParentLink_RecID='"
-							+ eccrs.getString("RecId") + "'";
-					ResultSet rsAlarm = JDBCForSQL.sql_ConnectExecute_Select(sql);
-					while (rsAlarm.next()) {
-						stringBuffer.append("_classifier=");
-						String monitorType=eccrs.getString("EccType");
-						String value=Config.getReturnStr("itsm_monitorreturnitem.properties", monitorType);
-						stringBuffer.append(rsAlarm.getString(value));
-						stringBuffer.append(" ");
-						stringBuffer.append(rsAlarm.getString("Operator"));
-						stringBuffer.append(" ");
-						stringBuffer.append(rsAlarm.getString("AlramValue"));
-						stringBuffer.append("\t");
-						stringBuffer.append(rsAlarm.getString("AlarmStatus"));
-						stringBuffer.append("\n");
-					} 
+				BusinessObject bb=FileTools.CreateBo("ParentLink_RecID", eccrs.getString("RecId"), "Alarm");
+				if(bb!=null){
+					stringBuffer.append("_classifier=");
+					String monitorType=eccrs.getString("EccType");
+					String value=Config.getReturnStr("itsm_monitorreturnitem.properties", monitorType);
+					stringBuffer.append(bb.GetField(value).get_NativeValue().toString());
+					stringBuffer.append(" ");
+					stringBuffer.append(bb.GetField("Operator").get_NativeValue().toString());
+					stringBuffer.append(" ");
+					stringBuffer.append(bb.GetField("AlramValue").get_NativeValue().toString());
+					stringBuffer.append("\t");
+					stringBuffer.append(bb.GetField("AlarmStatus").get_NativeValue().toString());
+					stringBuffer.append("\n");
+				}
 				stringBuffer.append("#");
 				stringBuffer.toString().substring(0,stringBuffer.toString().length() - 2);
-			}
-		} catch (SQLException e) {
+//				 sql= "select * from Alarm where ParentLink_RecID='"
+//							+ eccrs.getString("RecId") + "'";
+//					ResultSet rsAlarm = JDBCForSQL.sql_ConnectExecute_Select(sql);
+//					while (rsAlarm.next()) {
+//						stringBuffer.append("_classifier=");
+//						String monitorType=eccrs.getString("EccType");
+//						String value=Config.getReturnStr("itsm_monitorreturnitem.properties", monitorType);
+//						stringBuffer.append(rsAlarm.getString(value));
+//						stringBuffer.append(" ");
+//						stringBuffer.append(rsAlarm.getString("Operator"));
+//						stringBuffer.append(" ");
+//						stringBuffer.append(rsAlarm.getString("AlramValue"));
+//						stringBuffer.append("\t");
+//						stringBuffer.append(rsAlarm.getString("AlarmStatus"));
+//						stringBuffer.append("\n");
+//					} 
+//				stringBuffer.append("#");
+//				stringBuffer.toString().substring(0,stringBuffer.toString().length() - 2);
+//			}
+		}
+		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return stringBuffer;
+			return stringBuffer;
 	}
-//	public static boolean isHave(String[] strs, String s) {
-//		for (int i = 0; i < strs.length; i++) {
-//			if (strs[i].indexOf(s) != -1) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
+	public static boolean isHave(String[] strs, String s) {
+		for (int i = 0; i < strs.length; i++) {
+			if (strs[i].indexOf(s) != -1) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
+

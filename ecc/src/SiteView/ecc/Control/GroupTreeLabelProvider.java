@@ -24,7 +24,7 @@ public class GroupTreeLabelProvider extends LabelProvider{
 		}else if(element instanceof MachineModle&& ((MachineModle)element).getMonitors().size()>0){
 			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/shebei.jpg");
 		}else if(element instanceof MonitorModle){
-			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/monitor.jpg");
+			return ImageHelper.LoadImage(Activator.PLUGIN_ID, "icons/Monitor.jpg");
 		}
 		return null;
 	}

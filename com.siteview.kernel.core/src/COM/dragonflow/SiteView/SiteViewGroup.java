@@ -37,6 +37,9 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Vector;
 
+import system.Collections.ICollection;
+import system.Collections.IEnumerator;
+
 import jgl.Array;
 import jgl.HashMap;
 import jgl.HashMapIterator;
@@ -64,6 +67,7 @@ import COM.dragonflow.StandardMonitor.URLListMonitor;
 import COM.dragonflow.StandardMonitor.URLMonitor;
 import COM.dragonflow.StandardMonitor.URLSequenceMonitor;
 import COM.dragonflow.Utils.CommandLine;
+import COM.dragonflow.Utils.FileTools;
 import COM.dragonflow.Utils.FileUtils;
 import COM.dragonflow.Utils.I18N;
 import COM.dragonflow.Utils.LUtils;
@@ -74,6 +78,7 @@ import COM.dragonflow.Utils.TempFileManager;
 import COM.dragonflow.Utils.TextUtils;
 import COM.dragonflow.itsm.data.JDBCForSQL;
 import SiteViewMain.UpdateConfig;
+import Siteview.Api.BusinessObject;
 
 // Referenced classes of package COM.dragonflow.SiteView:
 // MonitorGroup, ProgressLogger, Scheduler, EnterpriseImportMail,
@@ -1472,18 +1477,26 @@ public class SiteViewGroup extends MonitorGroup {
 		while (enumeration.hasMoreElements()) {
 			String group=enumeration.nextElement().toString();
 			if(group.contains("GroupId=")){
-				groups = JDBCForSQL
-						.sql_ConnectExecute_Select("SELECT * FROM EccGroup where RecId='"+group.substring(group.indexOf("=")+1)+"'");
-				try {
-					while (groups.next()) {
-						String s3 = groups.getString("GroupName");
-						MonitorGroup monitorgroup = loadGroup(s3,groups);
-						if (monitorgroup != null) {
-							array1.add(monitorgroup);
-						}
+				BusinessObject bo=FileTools.CreateBo("RecId", group.substring(group.indexOf("=")+1), "EccGroup");
+				if(bo!=null){
+					String s3 =bo.GetField("GroupName").get_NativeValue().toString();
+					MonitorGroup monitorgroup = loadGroup(s3);
+					if(monitorgroup != null){
+						array1.add(monitorgroup);
 					}
-				} catch (SQLException e) {
 				}
+//				groups = JDBCForSQL
+//						.sql_ConnectExecute_Select("SELECT * FROM EccGroup where RecId='"+group.substring(group.indexOf("=")+1)+"'");
+//				try {
+//					while (groups.next()) {
+//						String s3 = groups.getString("GroupName");
+//						MonitorGroup monitorgroup = loadGroup(s3,groups);
+//						if (monitorgroup != null) {
+//							array1.add(monitorgroup);
+//						}
+//					}
+//				} catch (SQLException e) {
+//				}
 				return array1.elements();
 			}
 			File file = new File(group);
@@ -1530,18 +1543,30 @@ public class SiteViewGroup extends MonitorGroup {
 		}
 	//	从数据库读组信息，加入组
 		if (flag && masterfile!=null&&masterconfig) {
-			groups = JDBCForSQL
-					.sql_ConnectExecute_Select("SELECT * FROM EccGroup");
-			try {
-				while (groups.next()) {
-					String s3 = groups.getString("GroupName");
-					MonitorGroup monitorgroup = loadGroup(s3,groups);
+			ICollection icollection=FileTools.getBussCollection("EccGroup");
+			IEnumerator ienum=icollection.GetEnumerator();
+			while(ienum.MoveNext()){
+				BusinessObject bb=(BusinessObject)ienum.get_Current();
+				if(bb!=null){
+					String s3=bb.GetField("GroupName").get_NativeValue().toString();
+					MonitorGroup monitorgroup = loadGroup(s3);
 					if (monitorgroup != null) {
 						array1.add(monitorgroup);
 					}
 				}
-			} catch (SQLException e) {
 			}
+//			groups = JDBCForSQL
+//					.sql_ConnectExecute_Select("SELECT * FROM EccGroup");
+//			try {
+//				while (groups.next()) {
+//					String s3 = groups.getString("GroupName");
+//					MonitorGroup monitorgroup = loadGroup(s3,groups);
+//					if (monitorgroup != null) {
+//						array1.add(monitorgroup);
+//					}
+//				}
+//			} catch (SQLException e) {
+//			}
 		}
 		return array1.elements();
 	}
@@ -2957,7 +2982,7 @@ public class SiteViewGroup extends MonitorGroup {
 	 */
 	public MonitorGroup loadGroup(String s, ResultSet rs) {
 		message("Loading group: " + I18N.toDefaultEncoding(s));
-		MonitorGroup monitorgroup = MonitorGroup.loadGroup(s, rs, false);
+		MonitorGroup monitorgroup = MonitorGroup.loadGroup(s,rs, false);
 		if (monitorgroup != null) {
 			addElement(monitorgroup);
 			User.registerUsers(monitorgroup,

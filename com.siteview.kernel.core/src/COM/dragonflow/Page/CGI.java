@@ -21,6 +21,11 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.Vector;
 
+import Siteview.Api.BusinessObject;
+
+import system.Collections.ICollection;
+import system.Collections.IEnumerator;
+
 import jgl.Array;
 import jgl.HashMap;
 import jgl.LessString;
@@ -38,6 +43,7 @@ import COM.dragonflow.SiteView.SiteViewGroup;
 import COM.dragonflow.SiteView.SiteViewObject;
 import COM.dragonflow.SiteView.SubGroup;
 import COM.dragonflow.SiteView.User;
+import COM.dragonflow.Utils.FileTools;
 import COM.dragonflow.Utils.TextUtils;
 import COM.dragonflow.itsm.data.JDBCForSQL;
 import freemarker.template.Configuration;
@@ -1562,52 +1568,97 @@ public abstract class CGI {
 
 	public static HashMap readMasterConfigFromDataBase() {
 		HashMapOrdered hashmapordered = null;
-		String queryUnixSql = "select * from RemoteUNIX";
-		ResultSet unixRs = JDBCForSQL.sql_ConnectExecute_Select(queryUnixSql);
-		try {
-			while (unixRs.next()) {
+		ICollection icollection=FileTools.getBussCollection("RemoteUNIX");
+		IEnumerator ienum=icollection.GetEnumerator();
+		while(ienum.MoveNext()){
+			BusinessObject bb=(BusinessObject)ienum.get_Current();
+			if(bb!=null){
 				hashmapordered = new HashMapOrdered(true);
-				hashmapordered.add("_host", unixRs.getString("ServerAddress"));
-				hashmapordered.add("_os", unixRs.getString("OS"));
+				hashmapordered = new HashMapOrdered(true);
+				hashmapordered.add("_host", bb.GetField("ServerAddress").get_NativeValue().toString());
+				hashmapordered.add("_os", bb.GetField("OS").get_NativeValue().toString());
 				hashmapordered.add("_secondaryResponse",
-						unixRs.getString("SecondaryResponse"));
+						bb.GetField("SecondaryResponse").get_NativeValue().toString());
 				hashmapordered.add("_disableCache",
-						unixRs.getString("DisableConnectionCaching"));
+						bb.GetField("DisableConnectionCaching").get_NativeValue().toString());
 				hashmapordered.add("_initShellEnvironment",
-						unixRs.getString("InitializeEnvironment"));
-				hashmapordered.add("_sshPort", unixRs.getString("PortNumber"));
-				hashmapordered.add("_prompt", unixRs.getString("Prompt"));
+						bb.GetField("InitializeEnvironment").get_NativeValue().toString());
+				hashmapordered.add("_sshPort", bb.GetField("PortNumber").get_NativeValue().toString());
+				hashmapordered.add("_prompt", bb.GetField("Prompt").get_NativeValue().toString());
 				hashmapordered.add("_id", "11");
 				hashmapordered.add("_version2",
-						unixRs.getString("SSHVersion2Only"));
+						bb.GetField("SSHVersion2Only").get_NativeValue().toString());
 				hashmapordered.add("_passwordPrompt",
-						unixRs.getString("PasswordPrompt"));
-				hashmapordered.add("_trace", unixRs.getString("Trace"));
-				hashmapordered.add("_sshClient", unixRs.getString("SSHClient"));
+						bb.GetField("PasswordPrompt").get_NativeValue().toString());
+				hashmapordered.add("_trace", bb.GetField("Trace").get_NativeValue().toString());
+				hashmapordered.add("_sshClient", bb.GetField("SSHClient").get_NativeValue().toString());
 				hashmapordered.add("_method",
-						unixRs.getString("ConnectionMethod"));
+						bb.GetField("ConnectionMethod").get_NativeValue().toString());
 				hashmapordered.add("_sshCommand",
-						unixRs.getString("CustomCommandline"));
+						bb.GetField("CustomCommandline").get_NativeValue().toString());
 				hashmapordered.add("_keyFile",
-						unixRs.getString("KeyFileforSSHconnections"));
-				String password = unixRs.getString("PasswordUNIX");
+						bb.GetField("KeyFileforSSHconnections").get_NativeValue().toString());
+				String password = bb.GetField("PasswordUNIX").get_NativeValue().toString();
 				password = COM.dragonflow.Utils.TextUtils.obscure(password);
 				hashmapordered.add("_password", password);
 				hashmapordered.add("_sshConnectionsLimit",
-						unixRs.getString("ConnectionLimit"));
-				hashmapordered.add("_login", unixRs.getString("UserName"));
+						bb.GetField("ConnectionLimit").get_NativeValue().toString());
+				hashmapordered.add("_login", bb.GetField("UserName"));
 				hashmapordered.add("_sshAuthMethod",
-						unixRs.getString("SSHAuthentication"));
+						bb.GetField("SSHAuthentication").get_NativeValue().toString());
 				hashmapordered.add("_loginPrompt",
-						unixRs.getString("LoginPrompt"));
+						bb.GetField("LoginPrompt").get_NativeValue().toString());
 				hashmapordered.add("_secondaryPrompt",
-						unixRs.getString("SecondaryPrompt"));
-				hashmapordered.add("_name", unixRs.getString("Title"));
+						bb.GetField("SecondaryPrompt").get_NativeValue().toString());
+				hashmapordered.add("_name", bb.GetField("Title").get_NativeValue().toString());
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+//		String queryUnixSql = "select * from RemoteUNIX";
+//		ResultSet unixRs = JDBCForSQL.sql_ConnectExecute_Select(queryUnixSql);
+//		try {
+//			while (unixRs.next()) {
+//				hashmapordered = new HashMapOrdered(true);
+//				hashmapordered.add("_host", unixRs.getString("ServerAddress"));
+//				hashmapordered.add("_os", unixRs.getString("OS"));
+//				hashmapordered.add("_secondaryResponse",
+//						unixRs.getString("SecondaryResponse"));
+//				hashmapordered.add("_disableCache",
+//						unixRs.getString("DisableConnectionCaching"));
+//				hashmapordered.add("_initShellEnvironment",
+//						unixRs.getString("InitializeEnvironment"));
+//				hashmapordered.add("_sshPort", unixRs.getString("PortNumber"));
+//				hashmapordered.add("_prompt", unixRs.getString("Prompt"));
+//				hashmapordered.add("_id", "11");
+//				hashmapordered.add("_version2",
+//						unixRs.getString("SSHVersion2Only"));
+//				hashmapordered.add("_passwordPrompt",
+//						unixRs.getString("PasswordPrompt"));
+//				hashmapordered.add("_trace", unixRs.getString("Trace"));
+//				hashmapordered.add("_sshClient", unixRs.getString("SSHClient"));
+//				hashmapordered.add("_method",
+//						unixRs.getString("ConnectionMethod"));
+//				hashmapordered.add("_sshCommand",
+//						unixRs.getString("CustomCommandline"));
+//				hashmapordered.add("_keyFile",
+//						unixRs.getString("KeyFileforSSHconnections"));
+//				String password = unixRs.getString("PasswordUNIX");
+//				password = COM.dragonflow.Utils.TextUtils.obscure(password);
+//				hashmapordered.add("_password", password);
+//				hashmapordered.add("_sshConnectionsLimit",
+//						unixRs.getString("ConnectionLimit"));
+//				hashmapordered.add("_login", unixRs.getString("UserName"));
+//				hashmapordered.add("_sshAuthMethod",
+//						unixRs.getString("SSHAuthentication"));
+//				hashmapordered.add("_loginPrompt",
+//						unixRs.getString("LoginPrompt"));
+//				hashmapordered.add("_secondaryPrompt",
+//						unixRs.getString("SecondaryPrompt"));
+//				hashmapordered.add("_name", unixRs.getString("Title"));
+//			}
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		return hashmapordered;
 	}
 
@@ -1628,13 +1679,13 @@ public abstract class CGI {
 	}
 
 	public static void saveMasterToDataBase(jgl.Array array) {
-		String sql = "";
+		//String sql = "";
 		Enumeration enumeration = array.elements();
 		for (boolean flag2 = true; enumeration.hasMoreElements(); flag2 = false) {
 			HashMap hashmap = (HashMap) enumeration.nextElement();
 			// 取出值存入对应业务对象库中
 		}
-		JDBCForSQL.execute_Insert(sql);
+		//JDBCForSQL.execute_Insert(sql);
 	}
 
 	public static jgl.HashMap findMonitor(jgl.Array array, String s)
