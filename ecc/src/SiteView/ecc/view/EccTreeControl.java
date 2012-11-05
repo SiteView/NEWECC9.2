@@ -11,6 +11,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
@@ -23,6 +24,8 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.util.BundleUtility;
 import org.eclipse.ui.part.ViewPart;
+
+import core.reporting.ReportCenterForm;
 
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
@@ -95,7 +98,7 @@ import Siteview.SiteviewQuery;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
 
-public class EccTreeControl extends ViewPart {
+public class EccTreeControl extends ViewPart{			
 	public static EccControlInput eee = new EccControlInput();
 	public static AbsoluteTimeInput ati = new AbsoluteTimeInput();
 	TrendReportInput tren = new TrendReportInput();
@@ -145,7 +148,7 @@ public class EccTreeControl extends ViewPart {
 
 	public EccTreeControl() {
 	}
-
+	
 	public static String ID = "SiteView.ecc.view";
 
 	@Override
@@ -517,4 +520,5 @@ public class EccTreeControl extends ViewPart {
 		}
 		return bo;
 	}
+	
 }

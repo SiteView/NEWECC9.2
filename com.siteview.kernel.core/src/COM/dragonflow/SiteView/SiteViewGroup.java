@@ -1484,7 +1484,11 @@ public class SiteViewGroup extends MonitorGroup {
 					if(monitorgroup != null){
 						array1.add(monitorgroup);
 					}
+					return array1.elements();
 				}
+//		while (enumeration.hasMoreElements()) {
+//			String group=enumeration.nextElement().toString();
+//			if(group.contains("GroupId=")){
 //				groups = JDBCForSQL
 //						.sql_ConnectExecute_Select("SELECT * FROM EccGroup where RecId='"+group.substring(group.indexOf("=")+1)+"'");
 //				try {
@@ -1543,30 +1547,30 @@ public class SiteViewGroup extends MonitorGroup {
 		}
 	//	从数据库读组信息，加入组
 		if (flag && masterfile!=null&&masterconfig) {
-			ICollection icollection=FileTools.getBussCollection("EccGroup");
-			IEnumerator ienum=icollection.GetEnumerator();
-			while(ienum.MoveNext()){
-				BusinessObject bb=(BusinessObject)ienum.get_Current();
-				if(bb!=null){
-					String s3=bb.GetField("GroupName").get_NativeValue().toString();
-					MonitorGroup monitorgroup = loadGroup(s3);
-					if (monitorgroup != null) {
-						array1.add(monitorgroup);
-					}
-				}
-			}
-//			groups = JDBCForSQL
-//					.sql_ConnectExecute_Select("SELECT * FROM EccGroup");
-//			try {
-//				while (groups.next()) {
-//					String s3 = groups.getString("GroupName");
-//					MonitorGroup monitorgroup = loadGroup(s3,groups);
+//			ICollection icollection=FileTools.getBussCollection("EccGroup");
+//			IEnumerator ienum=icollection.GetEnumerator();
+//			while(ienum.MoveNext()){
+//				BusinessObject bb=(BusinessObject)ienum.get_Current();
+//				if(bb!=null){
+//					String s3=bb.GetField("GroupName").get_NativeValue().toString();
+//					MonitorGroup monitorgroup = loadGroup(s3);
 //					if (monitorgroup != null) {
 //						array1.add(monitorgroup);
 //					}
 //				}
-//			} catch (SQLException e) {
 //			}
+			groups = JDBCForSQL
+					.sql_ConnectExecute_Select("SELECT * FROM EccGroup");
+			try {
+				while (groups.next()) {
+					String s3 = groups.getString("GroupName");
+					MonitorGroup monitorgroup = loadGroup(s3,groups);
+					if (monitorgroup != null) {
+						array1.add(monitorgroup);
+					}
+				}
+			} catch (SQLException e) {
+			}
 		}
 		return array1.elements();
 	}
@@ -2982,7 +2986,7 @@ public class SiteViewGroup extends MonitorGroup {
 	 */
 	public MonitorGroup loadGroup(String s, ResultSet rs) {
 		message("Loading group: " + I18N.toDefaultEncoding(s));
-		MonitorGroup monitorgroup = MonitorGroup.loadGroup(s,rs, false);
+		MonitorGroup monitorgroup = MonitorGroup.loadGroup(s, rs, false);
 		if (monitorgroup != null) {
 			addElement(monitorgroup);
 			User.registerUsers(monitorgroup,

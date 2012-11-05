@@ -114,39 +114,39 @@ public class ConfigFileMonitor extends ServerMonitor {
 		String groupName = "";
 		String groups="";
 		// JDBC ²éÑ¯Êý¾Ý
-		//Connection conn = JDBCForSQL.getConnection();
-		BusinessObject businessObj=FileTools.CreateBo("ServerAddress", host, "dbo.RemoteMachine");
-			if(businessObj!=null){
-				group = businessObj.GetField("Groups").get_NativeValue().toString();
-				serviceName = businessObj.GetField("EpuipmentsTypes").get_NativeValue().toString();
-				pwd = businessObj.GetField("PasswordMachine").get_NativeValue().toString();
-				superName = businessObj.GetField("AuthorityName").get_NativeValue().toString();
-				superPwd = businessObj.GetField("AuthorityPwd").get_NativeValue().toString();
-				groups = businessObj.GetField("Groups").get_NativeValue().toString();
-			}
-			BusinessObject Obj=FileTools.CreateBo("RecId", groupName, "dbo.EccGroup");
-			if(Obj!=null){
-				groupName = businessObj.GetField("GroupName").get_NativeValue().toString();
-			}
-//		Statement st = null;
-//		ResultSet rs = null;
+		Connection conn = JDBCForSQL.getConnection();
+//		BusinessObject businessObj=FileTools.CreateBo("ServerAddress", host, "dbo.RemoteMachine");
+//			if(businessObj!=null){
+//				group = businessObj.GetField("Groups").get_NativeValue().toString();
+//				serviceName = businessObj.GetField("EpuipmentsTypes").get_NativeValue().toString();
+//				pwd = businessObj.GetField("PasswordMachine").get_NativeValue().toString();
+//				superName = businessObj.GetField("AuthorityName").get_NativeValue().toString();
+//				superPwd = businessObj.GetField("AuthorityPwd").get_NativeValue().toString();
+//				groups = businessObj.GetField("Groups").get_NativeValue().toString();
+//			}
+//			BusinessObject Obj=FileTools.CreateBo("RecId", groupName, "dbo.EccGroup");
+//			if(Obj!=null){
+//				groupName = businessObj.GetField("GroupName").get_NativeValue().toString();
+//			}
+		Statement st = null;
+		ResultSet rs = null;
 		String sql = "select r.* , e.GroupName from dbo.RemoteMachine as r , dbo.EccGroup as e where ServerAddress='"
 				+ host + "'  and e.RecId=r.groups";
-//
-//		try {
-//			st = conn.createStatement();
-//			rs = st.executeQuery(sql);
-//			while (rs.next()) {
-//				group = rs.getString("Groups");
-//				serviceName = rs.getString("EpuipmentsTypes");
-//				pwd = rs.getString("PasswordMachine");
-//				superName = rs.getString("AuthorityName");
-//				superPwd = rs.getString("AuthorityPwd");
-//				groupName = rs.getString("Groupname");
-//			}
-//		} catch (SQLException e1) {
-//			e1.printStackTrace();
-//		}
+
+		try {
+			st = conn.createStatement();
+			rs = st.executeQuery(sql);
+			while (rs.next()) {
+				group = rs.getString("Groups");
+				serviceName = rs.getString("EpuipmentsTypes");
+				pwd = rs.getString("PasswordMachine");
+				superName = rs.getString("AuthorityName");
+				superPwd = rs.getString("AuthorityPwd");
+				groupName = rs.getString("Groupname");
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 		File file = new File(configName);
 		if (file.listFiles() == null) {
 			try {
