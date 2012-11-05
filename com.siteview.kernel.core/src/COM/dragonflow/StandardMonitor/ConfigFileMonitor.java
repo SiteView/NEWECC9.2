@@ -40,6 +40,7 @@ import system.Collections.ICollection;
 import system.Collections.IEnumerator;
 
 import SiteViewMain.SiteViewSupport;
+import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 
 import COM.dragonflow.HTTP.HTTPRequest;
@@ -211,25 +212,46 @@ public class ConfigFileMonitor extends ServerMonitor {
 			String date1 = dateFormat.format(date);
 			// String date1 = date.toString();
 			// System.out.println(date1);
-			StringBuilder addsql = new StringBuilder(
-					"insert into dbo.ConfigFileManagemant(RecId,Groups,GroupName,EquipmentType,EquipmentAddress,ConfigName,ConfigFileSize,updateTime) values(");
-			addsql.append("'");
-			addsql.append(RecId);
-			addsql.append("','");
-			addsql.append(group);
-			addsql.append("','");
-			addsql.append(groupName);
-			addsql.append("','");
-			addsql.append(serviceName);
-			addsql.append("','");
-			addsql.append(host);
-			addsql.append("','");
-			addsql.append("config.txt");
-			addsql.append("','");
-			addsql.append(filesize);
-			addsql.append("','");
-			addsql.append(date1);
-			addsql.append("')");
+			BusinessObject bb=FileTools.api.get_BusObService().Create("dbo.ConfigFileManagemant");
+			bb.GetField("RecId").SetValue(new
+					 SiteviewValue(RecId));
+			bb.GetField("Groups").SetValue(new
+					 SiteviewValue(group));
+			bb.GetField("GroupName").SetValue(new
+					 SiteviewValue(groupName));
+			bb.GetField("EquipmentType").SetValue(new
+					 SiteviewValue(serviceName));
+			bb.GetField("EquipmentAddress").SetValue(new
+					 SiteviewValue(host));
+			bb.GetField("ConfigName").SetValue(new
+					 SiteviewValue("config.txt"));
+			bb.GetField("ConfigFileSize").SetValue(new
+					 SiteviewValue(filesize));
+			bb.GetField("updateTime").SetValue(new
+					 SiteviewValue(date1));
+//			StringBuilder addsql = new StringBuilder(
+//					"insert into dbo.ConfigFileManagemant(RecId,Groups,GroupName,EquipmentType,EquipmentAddress,ConfigName,ConfigFileSize,updateTime) values(");
+//			addsql.append("'");
+//			addsql.append(RecId);
+//			addsql.append("','");
+//			addsql.append(group);
+//			addsql.append("','");
+//			addsql.append(groupName);
+//			addsql.append("','");
+//			addsql.append(serviceName);
+//			addsql.append("','");
+//			addsql.append(host);
+//			addsql.append("','");
+//			addsql.append("config.txt");
+//			addsql.append("','");
+//			addsql.append(filesize);
+//			addsql.append("','");
+//			addsql.append(date1);
+//			addsql.append("')");
+			
+			
+			
+			
 			// System.out.println(addsql);
 //			try {
 //				int a = st.executeUpdate(addsql.toString());

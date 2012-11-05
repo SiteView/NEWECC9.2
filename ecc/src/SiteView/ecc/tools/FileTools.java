@@ -36,18 +36,25 @@ public class FileTools {
 	public static final String PLUGIN_ID = "ecc";
 
 	// 获取文件路径
-		public static String getRealPath(String fileName) {
-			URL urlentry;
-			String str;
-			  try { 
-		            str = Platform.getConfigurationLocation().getDataArea(fileName).getPath();
-		            
-//		            System.out.println("str----"+str);
-		        } catch (IOException e1) { 
-		            throw new DataException("请文件的路径", e1); 
-		        } 
-			  return str;
+	public static String getRealPath(String fileName) {
+		URL urlentry;
+		String strEntry;
+		try {
+			Bundle bundle = Platform.getBundle(PLUGIN_ID);
+			if (bundle == null)
+				throw new DataException("请检查文件的路径", new NullPointerException());
+			// get path URL
+			urlentry = bundle.getEntry(fileName);
+			if (urlentry == null)
+				throw new DataException("请检查文件的路径", new NullPointerException());
+			strEntry = FileLocator.toFileURL(urlentry).getPath();
+			strEntry=strEntry.substring(1);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			throw new DataException("请检查文件的路径", e);
 		}
+		return strEntry;
+	}
 
 	// 获取插件路径
 	public static String getPluginPath() {

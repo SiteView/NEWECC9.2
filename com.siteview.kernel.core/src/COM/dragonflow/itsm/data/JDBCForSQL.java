@@ -1,9 +1,5 @@
 package COM.dragonflow.itsm.data;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -14,15 +10,9 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Properties;
 
 public class JDBCForSQL {
 	private static Connection conn = getConnection();
-
-	private static String driverName;
-	private static String url;
-	private static String user;
-	private static String password;
 
 	/**
 	 * get Connection
@@ -30,30 +20,13 @@ public class JDBCForSQL {
 	 * @return
 	 */
 	public static Connection getConnection() {
-		Properties p = new Properties();
-		FileReader fr = null;
 		try {
-			fr = new FileReader(new File("db.properties"));
-			p.load(fr);
-			url = p.getProperty("url");
-			user = p.getProperty("user");
-			password = p.getProperty("password");
-			driverName = p.getProperty("driverName");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				fr.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		try {
-			Class.forName(driverName)
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver")
 					.newInstance();
-			conn = DriverManager.getConnection(url, user, password);
+			String URL = "jdbc:sqlserver://192.168.9.33:1433;DatabaseName=EccSiteView";
+			String USER = "sa";
+			String PASSWORD = "siteview";
+			conn = DriverManager.getConnection(URL, USER, PASSWORD);
 		} catch (java.lang.ClassNotFoundException ce) {
 			System.out.println("Get Connection error:");
 			ce.printStackTrace();
@@ -66,7 +39,6 @@ public class JDBCForSQL {
 		}
 		return conn;
 	}
-
 
 	/*
 	 * the Program is to Select the database!!!
