@@ -1238,62 +1238,62 @@ public class FileUtils {
 	}
 
 	public static StringBuffer readFromDataBase(String groupid) {
-		BusinessObject bo=FileTools.CreateBo("RecId", groupid, "EccGroup");
-		StringBuffer stringBuffer = new StringBuffer();
-		String s1 = "";
-		if(bo!=null){
-			s1 = "_encoding=GBK;_dependsCondition="
-					+ bo.GetField("DependsCondition").get_NativeValue().toString()
-					+ ";_fileEncoding=UTF-8;_name="
-					+ bo.GetField("GroupName").get_NativeValue().toString();
-			if (bo.GetField("DependsOn").get_NativeValue().toString()!=null&&!bo.GetField("DependsOn").get_NativeValue().toString().equals("")) {
-				s1 = s1 + ";_dependsOn=" + bo.GetField("DependsOn").get_NativeValue().toString();
-			}
-			if (bo.GetField("Description").get_NativeValue().toString()!=null&&!bo.GetField("Description").get_NativeValue().toString().equals("")) {
-				s1 = s1 + ";_description=" + bo.GetField("Description").get_NativeValue().toString();
-			}
-			if (bo.GetField("RefreshGroup").get_NativeValue().toString()!=null&&!bo.GetField("RefreshGroup").get_NativeValue().toString().equals("")) {
-				int i = Integer.parseInt(bo.GetField("RefreshGroup").get_NativeValue().toString());
-				if (bo.GetField("RefreshGroupUtil").get_NativeValue().toString().equals("Minute")) {
-					i = i * 60;
-				} else if (bo.GetField("RefreshGroupUtil").get_NativeValue().toString().equals("Hour")) {
-					i = i * 3600;
-				} else if (bo.GetField("RefreshGroupUtil").get_NativeValue().toString().equals("Day")) {
-					i = i * 86400;
-				}
-				s1 = s1 + ";_frequency=" + i;
-			}
-			s1 = s1 + ";#;";
-		}
-//		String sql = "select * from EccGroup where RecId='" + groupid + "'";
-//		ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
+//		BusinessObject bo=FileTools.CreateBo("RecId", groupid, "EccGroup");
 //		StringBuffer stringBuffer = new StringBuffer();
 //		String s1 = "";
-		try {
-//			while (rs.next()) {
-//				s1 = "_encoding=GBK;_dependsCondition="
-//						+ rs.getString("DependsCondition")
-//						+ ";_fileEncoding=UTF-8;_name="
-//						+ rs.getString("GroupName");
-//				if (rs.getString("DependsOn")!=null&&!rs.getString("DependsOn").equals("")) {
-//					s1 = s1 + ";_dependsOn=" + rs.getString("DependsOn");
-//				}
-//				if (rs.getString("Description")!=null&&!rs.getString("Description").equals("")) {
-//					s1 = s1 + ";_description=" + rs.getString("Description");
-//				}
-//				if (rs.getString("RefreshGroup")!=null&&!rs.getString("RefreshGroup").equals("")) {
-//					int i = rs.getInt("RefreshGroup");
-//					if (rs.getString("RefreshGroupUtil").equals("Minute")) {
-//						i = i * 60;
-//					} else if (rs.getString("RefreshGroupUtil").equals("Hour")) {
-//						i = i * 3600;
-//					} else if (rs.getString("RefreshGroupUtil").equals("Day")) {
-//						i = i * 86400;
-//					}
-//					s1 = s1 + ";_frequency=" + i;
-//				}
-//				s1 = s1 + ";#;";
+//		if(bo!=null){
+//			s1 = "_encoding=GBK;_dependsCondition="
+//					+ bo.GetField("DependsCondition").get_NativeValue().toString()
+//					+ ";_fileEncoding=UTF-8;_name="
+//					+ bo.GetField("GroupName").get_NativeValue().toString();
+//			if (bo.GetField("DependsOn").get_NativeValue().toString()!=null&&!bo.GetField("DependsOn").get_NativeValue().toString().equals("")) {
+//				s1 = s1 + ";_dependsOn=" + bo.GetField("DependsOn").get_NativeValue().toString();
 //			}
+//			if (bo.GetField("Description").get_NativeValue().toString()!=null&&!bo.GetField("Description").get_NativeValue().toString().equals("")) {
+//				s1 = s1 + ";_description=" + bo.GetField("Description").get_NativeValue().toString();
+//			}
+//			if (bo.GetField("RefreshGroup").get_NativeValue().toString()!=null&&!bo.GetField("RefreshGroup").get_NativeValue().toString().equals("")) {
+//				int i = Integer.parseInt(bo.GetField("RefreshGroup").get_NativeValue().toString());
+//				if (bo.GetField("RefreshGroupUtil").get_NativeValue().toString().equals("Minute")) {
+//					i = i * 60;
+//				} else if (bo.GetField("RefreshGroupUtil").get_NativeValue().toString().equals("Hour")) {
+//					i = i * 3600;
+//				} else if (bo.GetField("RefreshGroupUtil").get_NativeValue().toString().equals("Day")) {
+//					i = i * 86400;
+//				}
+//				s1 = s1 + ";_frequency=" + i;
+//			}
+//			s1 = s1 + ";#;";
+//		}
+		String sql = "select * from EccGroup where RecId='" + groupid + "'";
+		ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
+		StringBuffer stringBuffer = new StringBuffer();
+		String s1 = "";
+		try {
+			while (rs.next()) {
+				s1 = "_encoding=GBK;_dependsCondition="
+						+ rs.getString("DependsCondition")
+						+ ";_fileEncoding=UTF-8;_name="
+						+ rs.getString("GroupName");
+				if (rs.getString("DependsOn")!=null&&!rs.getString("DependsOn").equals("")) {
+					s1 = s1 + ";_dependsOn=" + rs.getString("DependsOn");
+				}
+				if (rs.getString("Description")!=null&&!rs.getString("Description").equals("")) {
+					s1 = s1 + ";_description=" + rs.getString("Description");
+				}
+				if (rs.getString("RefreshGroup")!=null&&!rs.getString("RefreshGroup").equals("")) {
+					int i = rs.getInt("RefreshGroup");
+					if (rs.getString("RefreshGroupUtil").equals("Minute")) {
+						i = i * 60;
+					} else if (rs.getString("RefreshGroupUtil").equals("Hour")) {
+						i = i * 3600;
+					} else if (rs.getString("RefreshGroupUtil").equals("Day")) {
+						i = i * 86400;
+					}
+					s1 = s1 + ";_frequency=" + i;
+				}
+				s1 = s1 + ";#;";
+			}
 
 			String query_sql = "select * from Ecc where Groups_Valid ='"
 					+ groupid + "'";
