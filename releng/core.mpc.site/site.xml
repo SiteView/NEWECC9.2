@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/core.mpc.feature_1.0.0.201211121026.jar" id="core.mpc.feature" version="1.0.0.201211121026">
+      <category name="SiteView Marketplace"/>
+   </feature>
+   <category-def name="SiteView Marketplace" label="SiteView Marketplace">
+      <description>
+         SiteView Marketplace
+      </description>
+   </category-def>
+</site>

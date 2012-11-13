@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="core.mpc.feature"
+      label="Feature"
+      version="1.0.0.201211121026"
+      provider-name="SiteView">
+
+   <description url="http://updates.siteview.com/mpc">
+      SiteView Marketplace
+   </description>
+
+   <copyright url="http://www.siteview.com/copyright">
+      Copyright 2012
+   </copyright>
+
+   <license url="http://www.siteview.com/license">
+      http://www.siteview.com
+   </license>
+
+   <url>
+      <update label="mpc" url="http://updates.siteview.com"/>
+   </url>
+
+   <plugin
+         id="org.eclipse.epp.mpc.help.ui"
+         download-size="0"
+         install-size="0"
+         version="1.1.1.I20110907-0947"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.equinox.p2.discovery"
+         download-size="0"
+         install-size="0"
+         version="1.0.100.v20110502-1955"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.equinox.p2.discovery.compatibility"
+         download-size="0"
+         install-size="0"
+         version="1.0.1.v20110502-1955"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.equinox.p2.ui.discovery"
+         download-size="0"
+         install-size="0"
+         version="1.0.0.v20110502-1955"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epp.mpc.core"
+         download-size="0"
+         install-size="0"
+         version="1.1.1.I20110907-0947"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epp.mpc.ui"
+         download-size="0"
+         install-size="0"
+         version="1.1.1.I20110907-0947"
+         unpack="false"/>
+
+</feature>

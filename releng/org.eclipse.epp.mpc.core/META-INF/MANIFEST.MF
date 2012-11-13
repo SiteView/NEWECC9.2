@@ -1,0 +1,256 @@
+Manifest-Version: 1.0
+Built-By: hudsonbuild
+Bundle-SymbolicName: org.eclipse.epp.mpc.core;singleton:=true
+Require-Bundle: org.eclipse.osgi;bundle-version="3.6.0",
+ org.eclipse.core.runtime;bundle-version="3.6.0",
+ org.apache.commons.logging;bundle-version="1.0.4",
+ org.eclipse.equinox.p2.repository;bundle-version="2.0.0"
+Export-Package: org.eclipse.epp.internal.mpc.core;x-friends:="org.eclipse.epp.mpc.ui",
+ org.eclipse.epp.internal.mpc.core.service;x-friends:="org.eclipse.epp.mpc.ui",
+ org.eclipse.epp.internal.mpc.core.service.xml;x-internal:=true,
+ org.eclipse.epp.internal.mpc.core.util;x-friends:="org.eclipse.epp.mpc.ui"
+Bundle-Version: 1.1.1.I20110907-0947
+Build-Jdk: 1.6.0_21
+Bundle-Vendor: %Bundle-Vendor
+Bundle-ActivationPolicy: lazy
+Bundle-Name: %Bundle-Name
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Import-Package: org.apache.commons.httpclient;version="3.1.0",
+ org.apache.commons.httpclient.methods;version="3.1.0",
+ org.apache.commons.httpclient.params;version="3.1.0",
+ org.eclipse.equinox.p2.core;version="2.0.0"
+Bundle-ManifestVersion: 2
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+
+Name: org/eclipse/epp/internal/mpc/core/service/CachingMarketplaceService$7.class
+SHA1-Digest: Fva6YyOS0M+eRT0TgDLkbuL8a+c=
+
+Name: org/eclipse/epp/internal/mpc/core/service/RemoteMarketplaceService.class
+SHA1-Digest: J9/eX0M40tIB0fCfR/70fSB1nuI=
+
+Name: org/eclipse/epp/internal/mpc/core/service/xml/UnmarshalContentHandler.class
+SHA1-Digest: 9DvbApthYvw2RtcLb8LvW5+itfk=
+
+Name: org/eclipse/epp/internal/mpc/core/service/Platforms.class
+SHA1-Digest: S49upzqDc/Uns4/cWsQcUC8/X4E=
+
+Name: org/eclipse/epp/internal/mpc/core/service/Identifiable.class
+SHA1-Digest: Bn96v+lxIWVVkaAXAGzALrZvpIk=
+
+Name: org/eclipse/epp/internal/mpc/core/service/CachingMarketplaceService$SearchOperation.class
+SHA1-Digest: bujhdq47CVhEWst8FrKKmHGRzec=
+
+Name: org/eclipse/epp/internal/mpc/core/service/Tags.class
+SHA1-Digest: AXpxIBFN94Ys3a8iTRSm/9on7Ss=
+
+Name: org/eclipse/epp/internal/mpc/core/service/CatalogService.class
+SHA1-Digest: /gayHRRyRWcN+e9PTABhns4B82w=
+
+Name: org/eclipse/epp/internal/mpc/core/service/xml/CatalogsContentHandler.class
+SHA1-Digest: 1A4cn9miUGE2VKpYswBPrcjKOIU=
+
+Name: org/eclipse/epp/internal/mpc/core/service/xml/CategoryContentHandler.class
+SHA1-Digest: LgOFo8cK44tbtR8ZLHIVaHQxaAg=
+
+Name: org/eclipse/epp/internal/mpc/core/util/TransportFactory$1.class
+SHA1-Digest: Xj79q/kXszewdwc6+vlhguJt4Rc=
+
+Name: org/eclipse/epp/internal/mpc/core/service/MarketplaceService.class
+SHA1-Digest: qxGN1P2wr48rXhiFIMbqeqdDSlw=
+
+Name: org/eclipse/epp/internal/mpc/core/service/xml/NodeContentHandler.class
+SHA1-Digest: NOSwe6kVJJT50Aol5MBRwJJ/5hI=
+
+Name: META-INF/eclipse.inf
+SHA1-Digest: 09gN05tobgS/MdtqyTNQhOhB73M=
+
+Name: org/eclipse/epp/internal/mpc/core/messages.properties
+SHA1-Digest: 1ymb2lPgfvu4JU9ftpO66UwTyj4=
+
+Name: org/eclipse/epp/internal/mpc/core/service/Catalogs.class
+SHA1-Digest: FQSvFpY2lrtiZrXVSsjtVdN2Glg=
+
+Name: org/eclipse/epp/internal/mpc/core/service/Ius.class
+SHA1-Digest: 2VUhhNJREghCWr2OUpokJQcQ32Y=
+
+Name: org/eclipse/epp/internal/mpc/core/service/Category.class
+SHA1-Digest: ACmUCjYVa+NMjqkv5urz3OAp+bg=
+
+Name: org/eclipse/epp/internal/mpc/core/service/Marketplace.class
+SHA1-Digest: Eiq180E/QkK+qQbq1Oyy94zZGjI=
+
+Name: org/eclipse/epp/internal/mpc/core/util/AbstractP2TransportFactory.class
+SHA1-Digest: jHeKNasWxZtduNqqEL+HMh9UMNo=
+
+Name: org/eclipse/epp/internal/mpc/core/service/xml/TagsContentHandler.class
+SHA1-Digest: 39wfYYI/MpNnDt7trxH/mAuaYss=
+
+Name: org/eclipse/epp/internal/mpc/core/service/Node.class
+SHA1-Digest: jdW/w2mZQejjm8Dm7N0rnA8kFu8=
+
+Name: org/eclipse/epp/internal/mpc/core/util/Eclipse36TransportFactory.class
+SHA1-Digest: JjijGY4UgTUqTxnUUIBSDZlMwPw=
+
+Name: org/eclipse/epp/internal/mpc/core/service/xml/CategoriesContentHandler.class
+SHA1-Digest: 851sThqB4Df++8gXLETYl3lH/jE=
+
+Name: org/eclipse/epp/internal/mpc/core/service/xml/CatalogContentHandler.class
+SHA1-Digest: olkfMCLm7+Ny+9pQhCXP88uHcM4=
+
+Name: org/eclipse/epp/internal/mpc/core/util/Messages.class
+SHA1-Digest: b+6rXiBO0+5rUc+Ti/+bv56Oiio=
+
+Name: org/eclipse/epp/internal/mpc/core/service/xml/TagContentHandler.class
+SHA1-Digest: q6lwF0dit7X1bDOIf9K2xMiHD7k=
+
+Name: org/eclipse/epp/internal/mpc/core/service/Favorites.class
+SHA1-Digest: QvWGhHGY470vNZaYeYTPg8rLBU0=
+
+Name: org/eclipse/epp/internal/mpc/core/service/CachingMarketplaceService$2.class
+SHA1-Digest: Lf9h/KbqOM2Bo4ROuxZvljloQgU=
+
+Name: org/eclipse/epp/internal/mpc/core/service/xml/Unmarshaller.class
+SHA1-Digest: PocVvc+H9/4wE+kumMYuaaIvbMw=
+
+Name: org/eclipse/epp/internal/mpc/core/service/Popular.class
+SHA1-Digest: 2n3qxomudBjY5vMzPygVfgoXRqI=
+
+Name: org/eclipse/epp/internal/mpc/core/service/CachingMarketplaceService$4.class
+SHA1-Digest: ydlZFeJOjw4oMkSCUSG5a3ruREs=
+
+Name: org/eclipse/epp/internal/mpc/core/service/Tag.class
+SHA1-Digest: gHJzH0NtB/HLej9R1pbYtLr3QqU=
+
+Name: org/eclipse/epp/internal/mpc/core/service/CachingMarketplaceService$6.class
+SHA1-Digest: S+WSS5NU5gtzKadMRHIxVLeJja4=
+
+Name: org/eclipse/epp/internal/mpc/core/service/xml/SearchContentHandler.class
+SHA1-Digest: 89R4gaiKyzLjVA8SUgdZvyNkMQY=
+
+Name: org/eclipse/epp/internal/mpc/core/service/NotFoundException.class
+SHA1-Digest: kj6kqig1fZcBcE5kKMKPNvuBOOc=
+
+Name: org/eclipse/epp/internal/mpc/core/service/NodeListing.class
+SHA1-Digest: DywkTd/jekTPxIyTHP3DQT3E4L8=
+
+Name: org/eclipse/epp/internal/mpc/core/service/xml/FeaturedContentHandler.class
+SHA1-Digest: DcqbYOLSQhzOnIImbb6EyOzyFdA=
+
+Name: OSGI-INF/l10n/bundle.properties
+SHA1-Digest: zmnsZQ7mIV//H6ESzyApDGbItG0=
+
+Name: org/eclipse/epp/internal/mpc/core/service/Recent.class
+SHA1-Digest: cHfVXZljoWPD4go3e/fLz65WnmE=
+
+Name: org/eclipse/epp/internal/mpc/core/util/TransportFactory.class
+SHA1-Digest: Z67ExnWF7BscEtHUa/vxTxuIX0U=
+
+Name: org/eclipse/epp/internal/mpc/core/service/Categories.class
+SHA1-Digest: fiNFVGgdfOKy4CTCzMm6buEMl9I=
+
+Name: org/eclipse/epp/internal/mpc/core/service/messages.properties
+SHA1-Digest: H+1Kh5ewybGuGERNywCCSoS4IyA=
+
+Name: org/eclipse/epp/internal/mpc/core/service/xml/CatalogBrandingContentHandler.class
+SHA1-Digest: 8yfveKObqlgbOOuSX0ZATIXpTW0=
+
+Name: org/eclipse/epp/internal/mpc/core/service/xml/MarketContentHandler.class
+SHA1-Digest: dr8vCiDA6ZoFHDhUa12g9pm1IJQ=
+
+Name: org/eclipse/epp/internal/mpc/core/service/SearchResult.class
+SHA1-Digest: MSnvcnvXjdNWk0JNd/pKr3vnhqI=
+
+Name: org/eclipse/epp/internal/mpc/core/service/Search.class
+SHA1-Digest: PHLkT+fCAhJrxabRMHda4XasT/c=
+
+Name: org/eclipse/epp/internal/mpc/core/service/ServiceUnavailableException.class
+SHA1-Digest: poz4rjtZGOZtJudXemPXDi4ZOig=
+
+Name: org/eclipse/epp/internal/mpc/core/service/CatalogBranding.class
+SHA1-Digest: HCv68d24yX+4LH8GvZisJYWANL0=
+
+Name: org/eclipse/epp/internal/mpc/core/service/xml/DefaultContentHandler.class
+SHA1-Digest: 2YCT+Z8WIB3b+MOJkxJsSnwiop8=
+
+Name: org/eclipse/epp/internal/mpc/core/service/Featured.class
+SHA1-Digest: gkT/IxmZt3s35fw971Cs45akSmc=
+
+Name: org/eclipse/epp/internal/mpc/core/service/DefaultCatalogService.class
+SHA1-Digest: xfwzanDkbqIymFPptKFDMZFGQ8c=
+
+Name: org/eclipse/epp/internal/mpc/core/util/JavaPlatformTransportFactory.class
+SHA1-Digest: wI/YcBRScwFJTus9cmPDHV5GHNw=
+
+Name: org/eclipse/epp/internal/mpc/core/Messages.class
+SHA1-Digest: b9Yq5UytI/HHsNXa6dl5i0U3m0M=
+
+Name: org/eclipse/epp/internal/mpc/core/service/xml/IusContentHandler.class
+SHA1-Digest: Q0hqlveh+FRy0BwKF85IUvaj/u0=
+
+Name: org/eclipse/epp/internal/mpc/core/service/xml/MarketplaceContentHandler.class
+SHA1-Digest: H/WHcTvrsyTQ5m0VjweunNvpHSM=
+
+Name: org/eclipse/epp/internal/mpc/core/util/ITransport.class
+SHA1-Digest: IKRaLH8AFFX4Gq4PLQNl7TOrxHU=
+
+Name: about.html
+SHA1-Digest: tbAP97WduhuCJ+f5zkndJKMe6vc=
+
+Name: org/eclipse/epp/internal/mpc/core/service/Market.class
+SHA1-Digest: udHPQl7lyT6Ls+uNTRX3S/LtAqw=
+
+Name: org/eclipse/epp/internal/mpc/core/service/CachingMarketplaceService.class
+SHA1-Digest: YvOuEhq/rjZ0b4e7KfoVZ4+x4B4=
+
+Name: org/eclipse/epp/internal/mpc/core/util/P2TransportFactory.class
+SHA1-Digest: w1EpiFCxY6H0GiOXTahrEV2hVCo=
+
+Name: org/eclipse/epp/internal/mpc/core/service/DefaultMarketplaceService.class
+SHA1-Digest: 1WMqvbBtOPVQ7yMe5FdwLOMdpOc=
+
+Name: META-INF/maven/org.eclipse.epp.mpc/org.eclipse.epp.mpc.core/pom.xml
+SHA1-Digest: 4BeLaueED3Ak8d1gWgil+Tr+qKY=
+
+Name: org/eclipse/epp/internal/mpc/core/MarketplaceClientCore.class
+SHA1-Digest: gvZ6B3bnO/zMyMipCB2Y7FZmd88=
+
+Name: org/eclipse/epp/internal/mpc/core/util/messages.properties
+SHA1-Digest: w7kxrB1zXAcX2gummidDwACHFrE=
+
+Name: org/eclipse/epp/internal/mpc/core/service/xml/FavoritesContentHandler.class
+SHA1-Digest: ycIGN9it3WicXgxkats7mCobOMo=
+
+Name: org/eclipse/epp/internal/mpc/core/service/xml/RecentContentHandler.class
+SHA1-Digest: oCuoHuZlYX1+87k8C/4zeddmZ48=
+
+Name: org/eclipse/epp/internal/mpc/core/service/xml/PopularContentHandler.class
+SHA1-Digest: Idvtl9O73tEalh+ZPFraYimMK2w=
+
+Name: org/eclipse/epp/internal/mpc/core/ServiceLocator.class
+SHA1-Digest: LG11B8MOgj1kDBrWZf9ZmJw70l4=
+
+Name: META-INF/maven/org.eclipse.epp.mpc/org.eclipse.epp.mpc.core/pom.properties
+SHA1-Digest: kjhPkvJW0n2D2pKe+wLIUlS1D+k=
+
+Name: org/eclipse/epp/internal/mpc/core/util/TextUtil.class
+SHA1-Digest: PSIS1l5mE+IY6V7fYqSjnKBmp0M=
+
+Name: org/eclipse/epp/internal/mpc/core/service/CachingMarketplaceService$1.class
+SHA1-Digest: KzIxc3AJwV4f0SvEzteHBpBSk0w=
+
+Name: org/eclipse/epp/internal/mpc/core/service/Messages.class
+SHA1-Digest: yn1gt6o15z2oyT/bS0y3jM91Dfg=
+
+Name: org/eclipse/epp/internal/mpc/core/service/CachingMarketplaceService$3.class
+SHA1-Digest: K/leQEwQ53iX0E8/iC+ytmDrLqE=
+
+Name: org/eclipse/epp/internal/mpc/core/service/Catalog.class
+SHA1-Digest: nP3FYbP5n0Kv1GH6GEJo+J7Ty8Y=
+
+Name: org/eclipse/epp/internal/mpc/core/service/xml/PlatformsContentHandler.class
+SHA1-Digest: A6UwamcKOoLNzFCOb4anstBze4c=
+
+Name: org/eclipse/epp/internal/mpc/core/service/CachingMarketplaceService$5.class
+SHA1-Digest: Dfw7IrN6rzWc75mZs970GvsHB2U=
+
