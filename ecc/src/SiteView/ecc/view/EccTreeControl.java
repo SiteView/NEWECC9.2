@@ -25,7 +25,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.util.BundleUtility;
 import org.eclipse.ui.part.ViewPart;
 
-import core.reporting.ReportCenterForm;
 
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;

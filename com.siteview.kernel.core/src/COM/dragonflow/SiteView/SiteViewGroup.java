@@ -1451,7 +1451,6 @@ public class SiteViewGroup extends MonitorGroup {
 								.log("Debug",
 										"Removing group for: "
 												+ file.getAbsolutePath());
-						//MonitorGroup monitorgroup = (MonitorGroup)findgroupwithfilevisitor.getResult();
 						MonitorGroup monitorgroup = MonitorGroup.monitorgroups.get(s.substring(0,s.indexOf(".")));
 						monitorgroup.saveDynamic();
 						monitorgroup.stopGroup();
@@ -1471,36 +1470,18 @@ public class SiteViewGroup extends MonitorGroup {
 	private Enumeration addGroups(Array array) {
 		Array array1 = new Array();
 		Enumeration enumeration = array.elements();
-		ResultSet groups = null;
+		BusinessObject groups = null;
 		File masterfile=null;
 		masterconfig=(array.size()>1);
 		while (enumeration.hasMoreElements()) {
 			String group=enumeration.nextElement().toString();
 			if(group.contains("GroupId=")){
-				BusinessObject bo=FileTools.CreateBo("RecId", group.substring(group.indexOf("=")+1), "EccGroup");
-				if(bo!=null){
-					String s3 =bo.GetField("GroupName").get_NativeValue().toString();
-					MonitorGroup monitorgroup = loadGroup(s3);
-					if(monitorgroup != null){
-						array1.add(monitorgroup);
-					}
-					return array1.elements();
+				groups=FileTools.CreateBo("RecId", group.substring(group.indexOf("=")+1), "EccGroup");
+				String s3=groups.GetField("GroupName").get_NativeValue().toString();
+				MonitorGroup monitorgroup = loadGroup(s3,groups);
+				if (monitorgroup != null) {
+					array1.add(monitorgroup);
 				}
-//		while (enumeration.hasMoreElements()) {
-//			String group=enumeration.nextElement().toString();
-//			if(group.contains("GroupId=")){
-//				groups = JDBCForSQL
-//						.sql_ConnectExecute_Select("SELECT * FROM EccGroup where RecId='"+group.substring(group.indexOf("=")+1)+"'");
-//				try {
-//					while (groups.next()) {
-//						String s3 = groups.getString("GroupName");
-//						MonitorGroup monitorgroup = loadGroup(s3,groups);
-//						if (monitorgroup != null) {
-//							array1.add(monitorgroup);
-//						}
-//					}
-//				} catch (SQLException e) {
-//				}
 				return array1.elements();
 			}
 			File file = new File(group);
@@ -1547,29 +1528,15 @@ public class SiteViewGroup extends MonitorGroup {
 		}
 	//	从数据库读组信息，加入组
 		if (flag && masterfile!=null&&masterconfig) {
-//			ICollection icollection=FileTools.getBussCollection("EccGroup");
-//			IEnumerator ienum=icollection.GetEnumerator();
-//			while(ienum.MoveNext()){
-//				BusinessObject bb=(BusinessObject)ienum.get_Current();
-//				if(bb!=null){
-//					String s3=bb.GetField("GroupName").get_NativeValue().toString();
-//					MonitorGroup monitorgroup = loadGroup(s3);
-//					if (monitorgroup != null) {
-//						array1.add(monitorgroup);
-//					}
-//				}
-//			}
-			groups = JDBCForSQL
-					.sql_ConnectExecute_Select("SELECT * FROM EccGroup");
-			try {
-				while (groups.next()) {
-					String s3 = groups.getString("GroupName");
-					MonitorGroup monitorgroup = loadGroup(s3,groups);
-					if (monitorgroup != null) {
-						array1.add(monitorgroup);
-					}
+			ICollection ico=FileTools.getBussCollection("EccGroup");
+			IEnumerator ien=ico.GetEnumerator();
+			while(ien.MoveNext()){
+				groups=(BusinessObject) ien.get_Current();
+				String s3=groups.GetField("GroupName").get_NativeValue().toString();
+				MonitorGroup monitorgroup = loadGroup(s3,groups);
+				if (monitorgroup != null) {
+					array1.add(monitorgroup);
 				}
-			} catch (SQLException e) {
 			}
 		}
 		return array1.elements();
@@ -2984,7 +2951,7 @@ public class SiteViewGroup extends MonitorGroup {
 	/*
 	 * 加载组
 	 */
-	public MonitorGroup loadGroup(String s, ResultSet rs) {
+	public MonitorGroup loadGroup(String s, BusinessObject rs) {
 		message("Loading group: " + I18N.toDefaultEncoding(s));
 		MonitorGroup monitorgroup = MonitorGroup.loadGroup(s, rs, false);
 		if (monitorgroup != null) {

@@ -1830,27 +1830,13 @@ public  class AtomicMonitor extends Monitor implements Runnable,
 	    	}
 	    	String MonitorId=propertiedobject.getProperty("_id");
 	    	String ownerID=propertiedobject.getProperty("ownerID");
-	    	String RecId=UUID.randomUUID().toString();
-	    	RecId=RecId.replaceAll("-", "");
-	    	long time=System.currentTimeMillis();		
-	    	SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	    	Timestamp CreatedDateTime=new Timestamp(time);
-	    	BusinessObject bo=FileTools.api.get_BusObService().Create("MonitorLog");
-	    	bo.GetField("RecId").SetValue(new
-					 SiteviewValue(RecId));
-	    	bo.GetField("ownerID").SetValue(new
-					 SiteviewValue(ownerID));
-	    	bo.GetField("MonitorStatus").SetValue(new
-					 SiteviewValue(category));
-	    	bo.GetField("MonitorName").SetValue(new
-					 SiteviewValue(MonitorName));
-	    	bo.GetField("MonitorId").SetValue(new
-					 SiteviewValue(MonitorId));
-	    	bo.GetField("MonitorMassage").SetValue(new
-					 SiteviewValue(stateString));
-	    	bo.GetField("CreatedDateTime").SetValue(new
-					 SiteviewValue(Timestamp.valueOf(f.format(CreatedDateTime))));
-	    	bo.SaveObject(FileTools.api, true, true);
+	    	BusinessObject bo=FileTools.getApi().get_BusObService().Create("MonitorLog");
+	    	bo.GetField("ownerID").SetValue(new SiteviewValue(ownerID));
+	    	bo.GetField("MonitorStatus").SetValue(new SiteviewValue(category));
+	    	bo.GetField("MonitorName").SetValue(new SiteviewValue(MonitorName));
+	    	bo.GetField("MonitorId").SetValue(new SiteviewValue(MonitorId));
+	    	bo.GetField("MonitorMassage").SetValue(new SiteviewValue(stateString));
+	    	bo.SaveObject(FileTools.getApi(), false, true);
 //	    	String sql="insert into MonitorLog(RecId,ownerID,MonitorStatus,MonitorName,MonitorId,MonitorMassage,CreatedDateTime)" +
 //	    			"values('"+RecId+"','"+ownerID+"','"+category+"','"+MonitorName+"','"+MonitorId+"','"+stateString+"','"+Timestamp.valueOf(f.format(CreatedDateTime))+"')";
 //	    	JDBCForSQL.execute_Insert(sql);	

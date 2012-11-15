@@ -495,9 +495,8 @@ public class EccControl extends EditorPart {
 			TableItem tableItem = new TableItem(table, SWT.NONE);
 			tableItem.setData(machine);
 			data[0]=machine.getBo().GetField("Status").get_NativeValue().toString().contains("successful")?"good":"error";
-			data[1]=machine.getBo().GetField("title").get_NativeValue().toString();
+			data[1]=machine.getBo().GetField("title").get_NativeValue().toString()==null?machine.getBo().GetField("ServerAddress").get_NativeValue().toString():machine.getBo().GetField("title").get_NativeValue().toString();
 			data[2]=machine.getBo().GetField("ServerAddress").get_NativeValue().toString();
-//			data[3]=machine.getBo().GetField("RemoteMachineType").get_NativeValue().toString().equals("RemoteNT")?"windows设备":"linux设备";
 			data[3]=machine.getBo().GetField("RemoteMachineType").get_NativeValue().toString().equals("RemoteNT")?"windows设备":machine.getBo().GetField("RemoteMachineType").get_NativeValue().toString().equals("RemoteEquipment")?"网络设备":"linux设备";
 			data[4]=machine.getMonitors().size()+"";
 			tableItem.setText(data);

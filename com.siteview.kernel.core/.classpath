@@ -6,7 +6,6 @@
 	<classpathentry kind="lib" path="lib/ext/ant.jar"/>
 	<classpathentry kind="lib" path="lib/ext/commons-httpclient-2.0-final.jar"/>
 	<classpathentry kind="lib" path="lib/ext/commons-logging.jar"/>
-	<classpathentry kind="lib" path="lib/ext/crimson.jar"/>
 	<classpathentry kind="lib" path="lib/ext/datachannel.jar"/>
 	<classpathentry kind="lib" path="lib/ext/dom.jar"/>
 	<classpathentry kind="lib" path="lib/ext/j2ee.jar"/>

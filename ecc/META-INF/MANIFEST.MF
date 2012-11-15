@@ -10,7 +10,6 @@ Require-Bundle: org.eclipse.ui,
  Siteview.lib;bundle-version="1.0.0",
  Siteview.Forms.Common;bundle-version="1.0.0",
  core.busobmaint;bundle-version="1.0.0",
- AdminLoader;bundle-version="1.0.0",
  Core.AutoTasks;bundle-version="1.0.0",
  com.siteview.kernel.core;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
@@ -36,4 +35,5 @@ Bundle-ClassPath: lib/jcommon-1.0.15.jar,
  lib/my.util.sound.jar
 Import-Package: SiteView.ecc.dialog,
  SiteView.ecc.editors,
+ core.reporting,
  org.apache.commons.httpclient;version="3.1.0"

@@ -576,9 +576,9 @@ public class Machine extends SiteViewObject implements Serializable{
     }
 
     public static boolean isNTSSH(String s) {
-        if (s.startsWith("\\\\")) {
-            s = s.substring(2);
-        }
+//        if (s.startsWith("\\\\")) {
+//            s = s.substring(2);
+//        }
         Machine machine = getNTMachine(s);
         return machine != null && machine.getSetting("_os").equals("NT")
                 && machine.getSetting("_method").equals("ssh");

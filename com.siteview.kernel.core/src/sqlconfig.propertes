@@ -1,5 +1,5 @@
-id=192.168.9.131
+id=192.168.9.33
 port=1433
-DatabaseName=EccSiteView
+DatabaseName=TestEcc
 USER=sa
 PASSWORD=siteview

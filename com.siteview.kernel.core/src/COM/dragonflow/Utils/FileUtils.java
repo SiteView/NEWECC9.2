@@ -31,27 +31,22 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import Siteview.Api.BusinessObject;
-
-import system.Collections.ICollection;
-import system.Collections.IEnumerator;
-
-import COM.dragonflow.Properties.FrameFile;
-import COM.dragonflow.Properties.PropertiedObject;
-import COM.dragonflow.itsm.data.Config;
-import COM.dragonflow.itsm.data.JDBCForSQL;
-
 import jgl.Array;
 import jgl.HashMap;
 import jgl.Pair;
+import system.Collections.ICollection;
+import system.Collections.IEnumerator;
+import COM.dragonflow.Properties.PropertiedObject;
+import COM.dragonflow.itsm.data.Config;
+import Siteview.Api.BusinessObject;
+import Siteview.Api.Relationship;
 
 // Referenced classes of package COM.dragonflow.Utils:
 // Braf, I18N, TextUtils
@@ -527,7 +522,6 @@ public class FileUtils {
 	public static StringBuffer readEncFile(String s, String s1)
 			throws java.io.IOException {
 		if (s.endsWith("chinese.mg")) {
-			System.out.println(s);
 		}
 		java.io.FileInputStream fileinputstream = null;
 
@@ -597,28 +591,25 @@ public class FileUtils {
 			}
 		}
 		if(s.endsWith("master.config")){
-//			ICollection icollecton=FileTools.getBussCollection("RemoteMachine");
-//			 IEnumerator ien=icollecton.GetEnumerator();
-//			 while(ien.MoveNext()){
-//				 BusinessObject  bo=(BusinessObject)ien.get_Current();
-//				 if(bo!=null){
-//					 String s0="";
-//			         jgl.Array array1=new jgl.Array();
-//			         s0=PropertiedObject.;
-//			         stringbuffer.append("\n"+s0); 
-//				 }
-//			 }
-			ResultSet machines = JDBCForSQL.sql_ConnectExecute_Select("SELECT * FROM RemoteMachine");
+			ICollection ico=FileTools.getBussCollection("RemoteMachine");
+			IEnumerator ien=ico.GetEnumerator();
+			String s0="";
+			jgl.Array array1=new jgl.Array();
+			while(ien.MoveNext()){
+				BusinessObject bo=(BusinessObject) ien.get_Current();
+				s0=PropertiedObject.format(bo);
+				stringbuffer.append(s0+"\n");
+			}
+			/*ResultSet machines = JDBCForSQL.sql_ConnectExecute_Select("SELECT * FROM RemoteMachine");
 	        try {
-	        	String s0="";
-	        	jgl.Array array1=new jgl.Array();
+	        	
 				while(machines.next()){
 					s0=PropertiedObject.format(machines);
 					stringbuffer.append("\n"+s0);
 				}
 	        }catch (Exception e) {
 				// TODO: handle exception
-			}
+			}*/
 		}
 		return stringbuffer;
 	}
@@ -864,77 +855,6 @@ public class FileUtils {
 		}
 		return flag;
 	}
-
-	/**
-	 * 
-	 * 
-	 * @param args
-	 */
-	public static void main(String args[]) {
-		if (args.length < 2) {
-			java.lang.System.err
-					.println("FileUtils requires source and dest files");
-		}
-		if (args[0].equals("-tail")) {
-			COM.dragonflow.Utils.Braf braf;
-			try {
-				long l = 2000L;
-				String s = args[1];
-				if (args.length > 2) {
-					l = COM.dragonflow.Utils.TextUtils.toInt(args[2]);
-				}
-				java.lang.System.out.println("reading last " + l
-						+ " bytes from " + s);
-				l = (new File(s)).length() - l;
-				if (l < 0L) {
-					l = 0L;
-				}
-				braf = new Braf(s, l);
-
-				while (true) {
-					String s1;
-					s1 = braf.readLine();
-					if (s1 == null) {
-						return;
-					}
-					java.lang.System.out.println(s1);
-				}
-			} catch (java.lang.Exception exception) {
-				/* empty */
-			}
-		} else {
-
-			String args1[][] = new String[args.length / 2 - 1][2];
-			for (int i = 2; i + 1 < args.length; i += 2) {
-				java.lang.System.err.println(args[i] + " -- " + args[i + 1]);
-				args1[i / 2 - 1][0] = args[i];
-				args1[i / 2 - 1][1] = args[i + 1];
-			}
-
-			if (COM.dragonflow.Utils.FileUtils
-					.copyFile(args[0], args[1], args1)) {
-				java.lang.System.out.println("copy succeeded");
-			} else {
-				java.lang.System.out.println("copy failed");
-			}
-			java.lang.System.exit(0);
-		}
-		if (COM.dragonflow.Utils.FileUtils.copyFile(args[0], args[1])) {
-			java.lang.System.out.println("copy succeeded");
-		} else {
-			java.lang.System.out.println("copy failed");
-		}
-		java.lang.System.exit(0);
-		COM.dragonflow.Utils.FileUtils.deleteDuplicateLines(new File(args[0]),
-				new File(args[1]));
-		java.lang.System.exit(0);
-		long l1 = COM.dragonflow.Utils.FileUtils.findOffsetForDate(
-				"..\\SiteView.log.82597", new Date(97, 7, 10));
-		java.lang.System.err.println("OFFSET=" + l1);
-		java.lang.System.exit(0);
-		return;
-	}
-
 	public static void mergeIniFiles(String filanme, String s1)
 			throws java.io.IOException {
 		StringBuffer stringbuffer = COM.dragonflow.Utils.FileUtils
@@ -1163,142 +1083,277 @@ public class FileUtils {
 	public static StringBuffer readFromFile(String substring) {
 		String s = substring.substring(substring.lastIndexOf("\\") + 1,
 				substring.lastIndexOf("."));
-		BusinessObject bo=FileTools.CreateBo("groupid",s , "EccDyn");
+		long d =0;
+		long d1=0;
+		/*String sql = "select top 1 CreatedDateTime from EccDyn where groupid='"
+				+ s + "' order by CreatedDateTime";
+		ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
+		try {
+			if (rs.next()) {
+				d = rs.getDate("CreatedDateTime").getTime();
+			}
+		} catch (Exception e) {
+		}
+		sql = "select top 1 LastModDateTime from EccDyn where groupid='" + s
+				+ "' order by LastModDateTime desc";
+		rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
+		try {
+			if (rs.next()) {
+				d1 = rs.getDate("LastModDateTime").getTime();
+			} else {
+				d1 = -1;
+			}
+		} catch (Exception e) {
+		}*/
 		StringBuffer stringBuffer = new StringBuffer();
-		long d = System.currentTimeMillis();
-		if(bo!=null){
-			s = bo.GetField("monitorDesc").get_NativeValue().toString();
-			d = Integer.parseInt(bo.GetField("LastModDateTime").get_NativeValue().toString());
+		stringBuffer.append("lastSaved=");
+		stringBuffer.append("\n");
+		stringBuffer.append("id=-1");
+		stringBuffer.append("\n");
+		stringBuffer.append("last=");
+		ICollection ico=FileTools.getBussCollection("groupid", s, "EccDyn");
+		IEnumerator ien=ico.GetEnumerator();
+		while(ien.MoveNext()){
+			BusinessObject bo=(BusinessObject) ien.get_Current();
+			String firstsave=bo.GetField("CreatedDateTime").get_NativeValue().toString();
+			String lastmodify=bo.GetField("LastModDateTime").get_NativeValue().toString();
+			SimpleDateFormat simp=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			try {
+				Date data=simp.parse(firstsave);
+				long l=data.getTime();
+				Date data1=simp.parse(lastmodify);
+				long l1=data1.getTime();
+				if(d==0||d1==0){
+					d=l;
+					d1=l1;
+				}
+				if(d>l){
+					d=l;
+				}
+				if(d1<l1){
+					d1=l1;
+				}
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			s=bo.GetField("monitorDesc").get_NativeValue().toString();
 			stringBuffer.append("\n");
 			stringBuffer.append("#");
 			stringBuffer.append("\n");
+			stringBuffer.insert(stringBuffer.indexOf("lastSaved=")+10, d);
+			stringBuffer.insert(stringBuffer.indexOf("last=")+5, d1);
 			while (s.length() > 1) {
 				s = s.substring(1);
 				stringBuffer.append(s.substring(0, s.indexOf("*")));
 				stringBuffer.append("\n");
 				s = s.substring(s.indexOf("*"));
 			}
-			stringBuffer.append("lastSaved=");
-			stringBuffer.append(d);
-			stringBuffer.append("\n");
-			stringBuffer.append("id=-1");
-			stringBuffer.append("\n");
-			
 			stringBuffer.append("id=" + bo.GetField("monitorid").get_NativeValue().toString());
 		}
-		
-//		String sql = "select top 1 CreatedDateTime from EccDyn where groupid='"
-//				+ s + "' order by CreatedDateTime";
-//		ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
-//		long d = System.currentTimeMillis();
-//		try {
-//			if (rs.next()) {
-//				d = rs.getDate("CreatedDateTime").getTime();
-//			}
-//		} catch (Exception e) {
-//		}
-//		//StringBuffer stringBuffer = new StringBuffer();
-//		stringBuffer.append("lastSaved=");
-//		stringBuffer.append(d);
-//		stringBuffer.append("\n");
-//		stringBuffer.append("id=-1");
-//		stringBuffer.append("\n");
-//		sql = "select top 1 LastModDateTime from EccDyn where groupid='" + s
-//				+ "' order by LastModDateTime desc";
-//		rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
-//		try {
-//			if (rs.next()) {
-//				d = rs.getDate("LastModDateTime").getTime();
-//			} else {
-//				d = -1;
-//			}
-//		} catch (Exception e) {
-//		}
-//		stringBuffer.append("last=");
-//		stringBuffer.append(d);
-//		sql = "select * from EccDyn where groupid='" + s + "'";
-//		rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
-//		try {
-//			while (rs.next()) {
-//				s = rs.getString("monitorDesc");
-//				stringBuffer.append("\n");
-//				stringBuffer.append("#");
-//				stringBuffer.append("\n");
-//				while (s.length() > 1) {
-//					s = s.substring(1);
-//					stringBuffer.append(s.substring(0, s.indexOf("*")));
-//					stringBuffer.append("\n");
-//					s = s.substring(s.indexOf("*"));
-//				}
-//				stringBuffer.append("id=" + rs.getString("monitorid"));
-//			}
-//		} catch (Exception e) {
-//		}
+		/*sql = "select * from EccDyn where groupid='" + s + "'";
+		rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
+		try {
+			while (rs.next()) {
+				s = rs.getString("monitorDesc");
+				stringBuffer.append("\n");
+				stringBuffer.append("#");
+				stringBuffer.append("\n");
+				while (s.length() > 1) {
+					s = s.substring(1);
+					stringBuffer.append(s.substring(0, s.indexOf("*")));
+					stringBuffer.append("\n");
+					s = s.substring(s.indexOf("*"));
+				}
+				stringBuffer.append("id=" + rs.getString("monitorid"));
+			}
+		} catch (Exception e) {
+		}*/
 		return stringBuffer;
 	}
 
 	public static StringBuffer readFromDataBase(String groupid) {
-//		BusinessObject bo=FileTools.CreateBo("RecId", groupid, "EccGroup");
-//		StringBuffer stringBuffer = new StringBuffer();
-//		String s1 = "";
-//		if(bo!=null){
-//			s1 = "_encoding=GBK;_dependsCondition="
-//					+ bo.GetField("DependsCondition").get_NativeValue().toString()
-//					+ ";_fileEncoding=UTF-8;_name="
-//					+ bo.GetField("GroupName").get_NativeValue().toString();
-//			if (bo.GetField("DependsOn").get_NativeValue().toString()!=null&&!bo.GetField("DependsOn").get_NativeValue().toString().equals("")) {
-//				s1 = s1 + ";_dependsOn=" + bo.GetField("DependsOn").get_NativeValue().toString();
-//			}
-//			if (bo.GetField("Description").get_NativeValue().toString()!=null&&!bo.GetField("Description").get_NativeValue().toString().equals("")) {
-//				s1 = s1 + ";_description=" + bo.GetField("Description").get_NativeValue().toString();
-//			}
-//			if (bo.GetField("RefreshGroup").get_NativeValue().toString()!=null&&!bo.GetField("RefreshGroup").get_NativeValue().toString().equals("")) {
-//				int i = Integer.parseInt(bo.GetField("RefreshGroup").get_NativeValue().toString());
-//				if (bo.GetField("RefreshGroupUtil").get_NativeValue().toString().equals("Minute")) {
-//					i = i * 60;
-//				} else if (bo.GetField("RefreshGroupUtil").get_NativeValue().toString().equals("Hour")) {
-//					i = i * 3600;
-//				} else if (bo.GetField("RefreshGroupUtil").get_NativeValue().toString().equals("Day")) {
-//					i = i * 86400;
-//				}
-//				s1 = s1 + ";_frequency=" + i;
-//			}
-//			s1 = s1 + ";#;";
-//		}
-		String sql = "select * from EccGroup where RecId='" + groupid + "'";
-		ResultSet rs = JDBCForSQL.sql_ConnectExecute_Select(sql);
 		StringBuffer stringBuffer = new StringBuffer();
 		String s1 = "";
-		try {
-			while (rs.next()) {
-				s1 = "_encoding=GBK;_dependsCondition="
-						+ rs.getString("DependsCondition")
-						+ ";_fileEncoding=UTF-8;_name="
-						+ rs.getString("GroupName");
-				if (rs.getString("DependsOn")!=null&&!rs.getString("DependsOn").equals("")) {
-					s1 = s1 + ";_dependsOn=" + rs.getString("DependsOn");
-				}
-				if (rs.getString("Description")!=null&&!rs.getString("Description").equals("")) {
-					s1 = s1 + ";_description=" + rs.getString("Description");
-				}
-				if (rs.getString("RefreshGroup")!=null&&!rs.getString("RefreshGroup").equals("")) {
-					int i = rs.getInt("RefreshGroup");
-					if (rs.getString("RefreshGroupUtil").equals("Minute")) {
-						i = i * 60;
-					} else if (rs.getString("RefreshGroupUtil").equals("Hour")) {
-						i = i * 3600;
-					} else if (rs.getString("RefreshGroupUtil").equals("Day")) {
-						i = i * 86400;
-					}
-					s1 = s1 + ";_frequency=" + i;
-				}
-				s1 = s1 + ";#;";
+		BusinessObject bo=FileTools.CreateBo("RecId", groupid, "EccGroup");
+		s1 = "_encoding=GBK;_dependsCondition="
+				+ bo.GetField("DependsCondition").get_NativeValue().toString()
+				+ ";_fileEncoding=UTF-8;_name="
+				+ bo.GetField("GroupName").get_NativeValue().toString();
+		if (bo.GetField("DependsOn").get_NativeValue().toString()!=null&&!bo.GetField("DependsOn").get_NativeValue().toString().equals("")) {
+			s1 = s1 + ";_dependsOn=" + bo.GetField("DependsOn").get_NativeValue().toString();
+		}
+		if (bo.GetField("Description").get_NativeValue().toString()!=null&&!bo.GetField("Description").get_NativeValue().toString().equals("")) {
+			s1 = s1 + ";_description=" + bo.GetField("Description").get_NativeValue().toString();
+		}
+		String ref=bo.GetField("RefreshGroup").get_NativeValue().toString();
+		if (ref!=null&&!ref.equals("")) {
+			if(ref.contains(".")){
+				ref=ref.substring(0,ref.indexOf("."));
+			}else{
+				ref=0+"";
 			}
-
-			String query_sql = "select * from Ecc where Groups_Valid ='"
-					+ groupid + "'";
+			int i = Integer.parseInt(ref);
+			if (bo.GetField("RefreshGroupUtil").get_NativeValue().toString().equals("Minute")) {
+				i = i * 60;
+			} else if (bo.GetField("RefreshGroupUtil").get_NativeValue().toString().equals("Hour")) {
+				i = i * 3600;
+			} else if (bo.GetField("RefreshGroupUtil").get_NativeValue().toString().equals("Day")) {
+				i = i * 86400;
+			}
+			s1 = s1 + ";_frequency=" + i;
+		}
+		s1 = s1 + ";#;";
 			s1 = s1.replaceAll(",", "\n");
 			stringBuffer.append(s1);
+			ICollection ico=FileTools.getBussCollection("Groups", groupid, "Ecc");
+			IEnumerator ien=ico.GetEnumerator();
+			while(ien.MoveNext()){
+				Map<String,String> maps=new java.util.HashMap<String,String>();
+				bo=(BusinessObject)ien.get_Current();
+				String ecctype=bo.GetField("EccType").get_NativeValue().toString();
+				ICollection ico_colum=bo.get_FieldNames();
+				IEnumerator ien_colum=ico_colum.GetEnumerator();
+				while(ien_colum.MoveNext()){
+					String columName = (String) ien_colum.get_Current();// Get colum name
+					String datavalue = bo.GetField(columName).get_NativeValue().toString();// Get data value
+					if (datavalue != null) {
+						if (!datavalue.equals("")) {
+							String parmName = Config.getReturnStr("itsm_eccmonitorparams.properties",columName);
+							if (parmName == null || parmName.equals("")) {
+								// System.err.println("Can not find parms from itsm_eccmonitorparams.properties:"+columName);
+								//¹ýÂËlinkCheck×Ö¶Î
+								if(columName.equals("MaxHops") && datavalue.equals("no limit")){
+									maps.put("MaxHops", "no limit");
+									continue;
+								}else if(columName.equals("MaxHops") && datavalue.equals("main page links")){
+									maps.put("MaxHops", "main page links");
+									continue;
+								}
+								//wpc
+								if(columName.equals("Scale")){
+									if(datavalue.equals("kilobytes")){
+										maps.put("_scale", "9.765625E-4");
+										continue;
+									}else if( datavalue.equals("megabytes")){
+										maps.put("_scale",  "9.536743E-7");
+										continue;
+									}else if( datavalue.equals("Other")){
+										continue;
+									}else{
+										maps.put("_scale", datavalue);
+									}	
+								}
+								continue;
+							} else {
+								//mail¼à²âÆ÷×Ö¶Î¹ýÂË
+								if(parmName.equals("_useIMAP") && datavalue.equals("IMAP4")){
+									datavalue="true";
+								}else if(parmName.equals("_useIMAP") && datavalue.equals("POP3")){
+									continue;
+								}
+								//mail¼à²âÆ÷·¢ËÍ·½Ê½×Ö¶Î¹ýÂË
+								if(parmName.equals("_receiveOnly") && datavalue.equals("Send & Receive")){
+									continue;
+								}
+								//eBusiness Chain¼à²âÆ÷×Ö¶Î¹ýÂË
+								if(parmName.equals("_whenError")&& datavalue.equals("continue")){
+									continue;
+								}
+								//¹ýÂËurl¼à²âÆ÷
+								if(parmName.equals("_checkContent") && datavalue.equals("no content checking")){
+									continue;
+								}else if(parmName.equals("_checkContent")&& (datavalue.equals("compare to saved contents")||datavalue.equals("reset saved contents"))){
+									datavalue="baseline";
+									stringBuffer.append("_checkContentResetTime=");
+									stringBuffer.append(System.currentTimeMillis());
+									stringBuffer.append(";");
+								}else if(parmName.equals("_checkContent") && datavalue.equals("compare to last contents")){
+									datavalue="on";
+									stringBuffer.append("_checkContentResetTime=");
+									stringBuffer.append(System.currentTimeMillis());
+									stringBuffer.append(";");
+								}
+								if(parmName.equals("_URLDropDownEncodePostData")&& datavalue.equals("Use content-type:")){
+									datavalue="contentTypeUrlencoded";
+								}else if(parmName.equals("_URLDropDownEncodePostData") && datavalue.equals("force url encoding")){
+									datavalue="forceEncode";
+								}else if(parmName.equals("_URLDropDownEncodePostData")&& datavalue.equals("force No url encoding")){
+									datavalue="forceNoEncode";
+								}
+								if(parmName.equals("_whenToAuthenticate")&& datavalue.equals("Use Global Preference")){
+									continue;
+								}else if(parmName.equals("_whenToAuthenticate")&& datavalue.equals("Authenticate first request")){
+									datavalue="authOnFirst";
+								}else if(parmName.equals("_whenToAuthenticate")&& datavalue.equals("Authenticate if requested")){
+									datavalue="authOnSecond";
+								}
+								//¹ýÂËWebServerMonitor
+								if(parmName.equals("_serverName")&&datavalue.equals("Microsoft IIS")){
+									datavalue="Microsoft4|";
+								}
+								//¹ýÂËlogfile
+								if(parmName.equals("_alerting")&&datavalue.equals("for each log entry matche")){
+									datavalue="each";
+								}else if(parmName.equals("_alerting")&&datavalue.equals("once afterall log entries")){
+									datavalue="once";
+								}
+								if(parmName.equals("_resetFile")&&(datavalue.equals("Never First Time Only")||datavalue.equals("First Time Only"))){
+									datavalue="once";
+								}
+								if (columName.equals("EccType")) {
+									datavalue = Config.getReturnStr("itsm_siteview9.2.properties",datavalue);
+								}
+								//¹ýÂË LDAPMonitor
+								if(parmName.equals("_securityprincipal")){
+									datavalue=datavalue.replaceAll(",", "*");
+								}
+								//Windows Performance Counter¹ýÂË
+								if(parmName.equals("_pmcfile")&& datavalue.equals("(Custom Object)")){
+									datavalue="none";
+								}				
+								//Âß¼­×Ö¶ÎÖµÎªtrue¶ÔÓ¦ON
+								if (parmName.equals("_verifyError")||parmName.equals("_notLogToTopaz")||parmName.equals("_disabled")
+										||parmName.equals("_externalLinks")||parmName.equals("_challengeResponse")||parmName.equals("_sslAcceptInvalidCerts")
+										||parmName.equals("_getImages")||parmName.equals("_errorOnRedirect")||parmName.equals("_sslAcceptAllUntrustedCerts")
+										||parmName.equals("_measureDetails")||parmName.equals("_HTTPVersion10")||parmName.equals("_HTTPVersion10")||parmName.equals("_getFrames")
+										||parmName.equals("_noFileCheckExist")||parmName.equals("_deepCheck")||parmName.equals("_checkSequentially")
+										||parmName.equals("_singleSession")||parmName.equals("_noRecurse")) {
+									if (!datavalue.equals("0")) {
+										datavalue = "on";
+									}else{
+										continue;
+									}
+								}
+								if (columName.equals("RecId")) {
+									stringBuffer.append("_encoding=GBK"+ ";");
+									stringBuffer.append("_id="+datavalue+ ";");
+								}if (columName.equals("frequency")|| columName.equals("verifyErrorFrequency")) {
+									if(datavalue.contains(".")){
+										datavalue=datavalue.substring(0,datavalue.indexOf("."));
+									}else {
+										datavalue ="10";
+									}
+									int timehs = Integer.parseInt(datavalue);
+									if (bo.GetField("timeUnitSelf").get_NativeValue().toString().equals("Minute")) {
+										timehs = timehs * 60;
+									}
+									if (bo.GetField("timeUnitSelf").get_NativeValue().toString().equals("Hour")) {
+										timehs = timehs * 3600;
+									}
+									if (bo.GetField("timeUnitSelf").get_NativeValue().toString().equals("Day")) {
+										timehs = timehs * 86400;
+									}
+								}
+								stringBuffer.append(parmName + "=" + datavalue+ ";");
+							}
+						}
+					} else {
+						continue;
+					}
+				}
+				/*	}
+			String query_sql = "select * from Ecc where Groups_Valid ='"
+					+ groupid + "'";
 			ResultSet eccrs = JDBCForSQL.sql_ConnectExecute_Select(query_sql);
 			ResultSetMetaData metaData = eccrs.getMetaData();
 			int colum = metaData.getColumnCount();
@@ -1449,57 +1504,55 @@ public class FileUtils {
 //									}	if (stringBuffer.toString().contains("_counters=")) {
 //										stringBuffer.deleteCharAt(stringBuffer.length() - 1);
 //										stringBuffer.append(";");
-//									}	
-//								}
-							}
-						}
+//									}	*/
 
-					} else {
-						continue;
-					}
-				}
 				//linkCheck
 				if(maps.get("MaxHops")!=null && maps.get("MaxHops").equals("no limit")){
 					if(!stringBuffer.toString().contains("_maxSearchDepth=")){
 						stringBuffer.append("_maxSearchDepth=");
 						stringBuffer.append("100");
-						stringBuffer.append("\n");
+						stringBuffer.append(";");
 					}
 				}else if(maps.get("MaxHops")!=null && maps.get("MaxHops").equals("main page links")){
 					if(!stringBuffer.toString().contains("_maxSearchDepth=")){
 						stringBuffer.append("_maxSearchDepth=");
 						stringBuffer.append("1");
-						stringBuffer.append("\n");
+						stringBuffer.append(";");
 					}
 				}
 				//Windows Performance Counter
 				if(!stringBuffer.toString().contains("_scale")&&maps.get("_scale")!=null){
 					stringBuffer.append("_scale=");
 					stringBuffer.append(maps.get("_scale"));
-					stringBuffer.append("\n");
-				}
-				//È¡¼ÆÊýÆ÷
-				BusinessObject object=FileTools.CreateBo("ParentLink_RecID", eccrs.getString("RecId"), "MonitorCounter");
-				int i=0;
-				if(object!=null){
-					String counter=object.GetField("Name").get_NativeValue().toString();
-					if(counter.contains("Default")){
-						counter=counter.substring(0,counter.lastIndexOf("--")+2)+"Total";
-					}
-					if(i==0){
-						stringBuffer.append("_counters=");
-						stringBuffer.append(counter);
-					}else{
-						stringBuffer.append(","+counter);
-					}
-					i++;
-				}
-				if(i>0){
 					stringBuffer.append(";");
 				}
+				int i=0;
+				//È¡¼ÆÊýÆ÷
+				if(isHave(MonitorCounterGroups,ecctype)){
+					Relationship rel=bo.GetRelationship(ecctype+"ContainsCounter");
+					if(rel!=null){
+						ICollection ico_count=rel.get_BusinessObjects();
+						IEnumerator ien_count=ico_count.GetEnumerator();
+						while(ien_count.MoveNext()){
+							BusinessObject count=(BusinessObject) ien_count.get_Current();
+							String counter = count.GetField("Name").get_NativeValue().toString();
+							if (counter.contains("Default")) {
+								counter = counter.substring(0,counter.lastIndexOf("--") + 2)+ "Total";
+							}
+							if (i == 0) {
+								stringBuffer.append("_counters=");
+								stringBuffer.append(counter);
+							} else {
+								stringBuffer.append("," + counter);
+							}
+							i++;
+						}
+					}
+				}
+				
 //				String  sql_count="select * from MonitorCounter where ParentLink_RecID='"+eccrs.getString("RecId") + "'";
 //				ResultSet coutrs = JDBCForSQL.sql_ConnectExecute_Select(sql_count);
-//				int i=0;
+//				
 //				while(coutrs.next()){
 //					String counter=coutrs.getString("Name");
 //					if(counter.contains("Default")){
@@ -1513,51 +1566,31 @@ public class FileUtils {
 //					}
 //					i++;
 //				}
-//				if(i>0){
-//					stringBuffer.append(";");
-//				}
-				
-				BusinessObject bb=FileTools.CreateBo("ParentLink_RecID", eccrs.getString("RecId"), "Alarm");
-				if(bb!=null){
-					stringBuffer.append("_classifier=");
-					String monitorType=eccrs.getString("EccType");
-					String value=Config.getReturnStr("itsm_monitorreturnitem.properties", monitorType);
-					stringBuffer.append(bb.GetField(value).get_NativeValue().toString());
-					stringBuffer.append(" ");
-					stringBuffer.append(bb.GetField("Operator").get_NativeValue().toString());
-					stringBuffer.append(" ");
-					stringBuffer.append(bb.GetField("AlramValue").get_NativeValue().toString());
-					stringBuffer.append("\t");
-					stringBuffer.append(bb.GetField("AlarmStatus").get_NativeValue().toString());
-					stringBuffer.append("\n");
+				if(i>0){
+					stringBuffer.append(";");
 				}
+				Relationship rel=bo.GetRelationship(ecctype+"ContainsAlarm");
+				if(rel!=null){
+					ICollection ico_alarm=rel.get_BusinessObjects();
+					IEnumerator ien_alarm=ico_alarm.GetEnumerator();
+					while(ien_alarm.MoveNext()){
+						BusinessObject alarm=(BusinessObject) ien_alarm.get_Current();
+						stringBuffer.append("_classifier=");
+						String value = Config.getReturnStr("itsm_monitorreturnitem.properties", ecctype);
+						stringBuffer.append(alarm.GetField(value).get_NativeValue().toString());
+						stringBuffer.append(" ");
+						stringBuffer.append(alarm.GetField("Operator").get_NativeValue().toString());
+						stringBuffer.append(" ");
+						stringBuffer.append(alarm.GetField("AlramValue").get_NativeValue().toString());
+						stringBuffer.append("\t");
+						stringBuffer.append(alarm.GetField("AlarmStatus").get_NativeValue().toString());
+						stringBuffer.append(";");
+					}
+				} 
 				stringBuffer.append("#");
 				stringBuffer.toString().substring(0,stringBuffer.toString().length() - 2);
-//				 sql= "select * from Alarm where ParentLink_RecID='"
-//							+ eccrs.getString("RecId") + "'";
-//					ResultSet rsAlarm = JDBCForSQL.sql_ConnectExecute_Select(sql);
-//					while (rsAlarm.next()) {
-//						stringBuffer.append("_classifier=");
-//						String monitorType=eccrs.getString("EccType");
-//						String value=Config.getReturnStr("itsm_monitorreturnitem.properties", monitorType);
-//						stringBuffer.append(rsAlarm.getString(value));
-//						stringBuffer.append(" ");
-//						stringBuffer.append(rsAlarm.getString("Operator"));
-//						stringBuffer.append(" ");
-//						stringBuffer.append(rsAlarm.getString("AlramValue"));
-//						stringBuffer.append("\t");
-//						stringBuffer.append(rsAlarm.getString("AlarmStatus"));
-//						stringBuffer.append("\n");
-//					} 
-//				stringBuffer.append("#");
-//				stringBuffer.toString().substring(0,stringBuffer.toString().length() - 2);
-//			}
-		}
-		}catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-			return stringBuffer;
+			}
+		return stringBuffer;
 	}
 	public static boolean isHave(String[] strs, String s) {
 		for (int i = 0; i < strs.length; i++) {
@@ -1567,5 +1600,5 @@ public class FileUtils {
 		}
 		return false;
 	}
-}
 
+}

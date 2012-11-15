@@ -1,15 +1,11 @@
 package COM.dragonflow.Utils;
-import java.io.IOException;
+
 import java.net.InetAddress;
-import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Platform;
-import org.osgi.framework.Bundle;
 
 
 import Siteview.Operators;
@@ -18,11 +14,9 @@ import Siteview.SiteviewQuery;
 import Siteview.Api.BusinessObject;
 import Siteview.Api.ISiteviewApi;
 import Siteview.Api.SiteviewConnection;
-import Siteview.Windows.Forms.ConnectionBroker;
 
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
-import system.Data.DataException;
 import system.Xml.XmlElement;
 
 /**
@@ -32,37 +26,40 @@ import system.Xml.XmlElement;
  * 
  */
 public class FileTools {
-	public static ISiteviewApi api=getApi();
-	//public static ISiteviewApi api=ConnectionBroker.get_SiteviewApi();
-	public FileTools(){
+	public static ISiteviewApi api=null;
+	static{
 		api=getApi();
-		
+	}
+	public FileTools(){
 	}
 	public static ISiteviewApi getApi(){
 		SiteviewConnection currentAPI=SiteviewConnection
     			.GetInstance("{Common}EccSiteView", "admin", "manage");
 		return currentAPI.GetAPIHandle();
 	}
+	
 	public static ICollection getBussCollection(String s){
 		SiteviewQuery query = new SiteviewQuery();
 		query.AddBusObQuery(s, QueryInfoToGet.All);
 		XmlElement xml=null;
-       // xml=query.get_CriteriaBuilder().FieldAndValueExpression("RecId",Operators.NotNull);
+        xml=query.get_CriteriaBuilder().FieldAndValueExpression("RecId",Operators.NotNull);
 		query.set_BusObSearchCriteria(xml);
-		ICollection iCollenction = api.get_BusObService()
+		ICollection iCollenction = getApi().get_BusObService()
 				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);
 		return iCollenction;
 	}
+	
 	public static ICollection getBussCollection(String key,String value,String s){
 		SiteviewQuery query = new SiteviewQuery();
 		query.AddBusObQuery(s, QueryInfoToGet.All);
 		XmlElement xml=null;
         xml=query.get_CriteriaBuilder().FieldAndValueExpression(key,Operators.Equals,value);
 		query.set_BusObSearchCriteria(xml);
-		ICollection iCollenction = api.get_BusObService()
+		ICollection iCollenction = getApi().get_BusObService()
 				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);
 		return iCollenction;
 	}
+	
 	//ip地址与主机名 互相转换
 	public static String getHostName(String ip){
 		InetAddress	a;
@@ -82,7 +79,7 @@ public class FileTools {
 	}
 	
 	public static ICollection getBussCollection(Map<String,String> map,String s){
-		ISiteviewApi siteviewApi = ConnectionBroker.get_SiteviewApi();
+		ISiteviewApi siteviewApi = getApi();
 		SiteviewQuery query = new SiteviewQuery();
 		query.AddBusObQuery(s, QueryInfoToGet.All);
 		XmlElement[] xmls = new XmlElement[map.size()];
@@ -99,10 +96,11 @@ public class FileTools {
 		query.set_BusObSearchCriteria(query.get_CriteriaBuilder()
 				.AndExpressions(xmls));
 
-		ICollection iCollenction = siteviewApi.get_BusObService()
+		ICollection iCollenction = getApi().get_BusObService()
 				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);
 		return iCollenction;
 	}
+	
 	public static  BusinessObject CreateBo(String key,String s,String s1) {
 		SiteviewQuery query = new SiteviewQuery();
 		query.AddBusObQuery(s1, QueryInfoToGet.All);
@@ -110,8 +108,7 @@ public class FileTools {
 		xml=query.get_CriteriaBuilder().FieldAndValueExpression(key,
 				Operators.Equals, s);
 		query.set_BusObSearchCriteria(xml);
-		ICollection iCollenction = getApi().get_BusObService()
-				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);
+		ICollection iCollenction = getApi().get_BusObService().get_SimpleQueryResolver().ResolveQueryToBusObList(query);
 		BusinessObject bo=null;
 		IEnumerator interfaceTableIEnum = iCollenction.GetEnumerator();
 		if(interfaceTableIEnum.MoveNext()){
@@ -120,8 +117,9 @@ public class FileTools {
 		}
 		return bo;
 	}
+	
 	public static ICollection getLog(Map<String, Object> map,String s) {
-		ISiteviewApi siteviewApi = ConnectionBroker.get_SiteviewApi();
+		ISiteviewApi siteviewApi = getApi();
 		SiteviewQuery query = new SiteviewQuery();
 		query.AddBusObQuery(s, QueryInfoToGet.All);
 		XmlElement[] xmls = new XmlElement[map.size() - 1];
@@ -150,12 +148,13 @@ public class FileTools {
 		query.set_BusObSearchCriteria(query.get_CriteriaBuilder()
 				.AndExpressions(xmls));
 
-		ICollection iCollenction = siteviewApi.get_BusObService()
+		ICollection iCollenction = getApi().get_BusObService()
 				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);
 		return iCollenction;
 	}
+	
 	public static ICollection getLog2(Map<String, Object> map,String s) {
-		ISiteviewApi siteviewApi = ConnectionBroker.get_SiteviewApi();
+		ISiteviewApi siteviewApi = getApi();
 		SiteviewQuery query = new SiteviewQuery();
 		query.AddBusObQuery(s, QueryInfoToGet.All);
 		XmlElement[] xmls = new XmlElement[map.size() - 1];
@@ -183,10 +182,8 @@ public class FileTools {
 		query.AddOrderByDesc("CreatedDateTime");
 		query.set_BusObSearchCriteria(query.get_CriteriaBuilder()
 				.AndExpressions(xmls));
-
-		ICollection iCollenction = siteviewApi.get_BusObService()
+		ICollection iCollenction = getApi().get_BusObService()
 				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);
 		return iCollenction;
 	}
 }
-

@@ -1,14 +1,10 @@
 package SiteView.ecc.Action;
 
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -81,7 +77,6 @@ public class DeleteMachineAction extends Action {
 			}
 			monitor.DeleteObject(ConnectionBroker.get_SiteviewApi());
 		}
-		
 	}
 	
 }
