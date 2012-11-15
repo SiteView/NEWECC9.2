@@ -18,17 +18,19 @@ package COM.dragonflow.StandardMonitor;
  *
  */
 
-import COM.dragonflow.Log.LogManager;
-import COM.dragonflow.Properties.*;
-import COM.dragonflow.SiteView.*;
-import COM.dragonflow.Utils.TextUtils;
-import COM.dragonflow.itsm.data.JDBCForSQL;
-
 import java.net.URLEncoder;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import jgl.Array;
+import COM.dragonflow.Log.LogManager;
+import COM.dragonflow.Properties.NumericProperty;
+import COM.dragonflow.Properties.PercentProperty;
+import COM.dragonflow.Properties.RateProperty;
+import COM.dragonflow.Properties.StringProperty;
+import COM.dragonflow.SiteView.Machine;
+import COM.dragonflow.SiteView.Platform;
+import COM.dragonflow.SiteView.Rule;
+import COM.dragonflow.SiteView.ServerMonitor;
+import COM.dragonflow.Utils.TextUtils;
 
 public class MemoryMonitor extends ServerMonitor
 {

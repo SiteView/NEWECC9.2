@@ -17,29 +17,14 @@ package COM.dragonflow.Log;
  * 
  */
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Enumeration;
-import java.util.UUID;
 import java.util.Vector;
 
-import org.eclipse.swt.widgets.DateTime;
-
-import Siteview.SiteviewValue;
-import Siteview.Api.BusinessObject;
-
 import COM.dragonflow.Properties.FrameFile;
-import COM.dragonflow.Properties.HashMapOrdered;
-import COM.dragonflow.Properties.PropertiedObject;
-import COM.dragonflow.SiteView.AtomicMonitor;
-import COM.dragonflow.SiteView.Monitor;
-import COM.dragonflow.SiteView.SiteViewGroup;
 import COM.dragonflow.Utils.FileTools;
 import COM.dragonflow.itsm.data.Config;
-import COM.dragonflow.itsm.data.JDBCForSQL;
+import Siteview.SiteviewValue;
+import Siteview.Api.BusinessObject;
 
 public abstract class Logger {
 

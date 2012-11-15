@@ -11,8 +11,6 @@ import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -24,8 +22,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Vector;
 
-import javax.swing.JOptionPane;
-
 import jgl.Array;
 
 import org.jdom.Document;
@@ -33,27 +29,17 @@ import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 import org.xml.sax.InputSource;
 
-import COM.dragonflow.Page.WmiService;
 import COM.dragonflow.Page.machinePage;
 import COM.dragonflow.Page.monitorPage;
 import COM.dragonflow.Page.ntmachinePage;
 import COM.dragonflow.Properties.FrameFile;
 import COM.dragonflow.SiteView.AtomicMonitor;
-import COM.dragonflow.SiteView.IServerPropMonitor;
 import COM.dragonflow.SiteView.Machine;
-import COM.dragonflow.SiteView.Monitor;
 import COM.dragonflow.SiteView.MonitorGroup;
-import COM.dragonflow.SiteView.MonitorProxy;
-import COM.dragonflow.SiteView.NTCounterBase;
 import COM.dragonflow.SiteView.Platform;
-import COM.dragonflow.SiteView.ServerMonitor;
 import COM.dragonflow.SiteView.SiteViewGroup;
 import COM.dragonflow.SiteViewException.SiteViewException;
 import COM.dragonflow.StandardMonitor.SNMPCPUMonitor;
-import COM.dragonflow.Utils.MachineUtil;
-import COM.dragonflow.Utils.PerfCounter;
-import COM.dragonflow.Utils.TextUtils;
-import COM.dragonflow.itsm.data.JDBCForSQL;
 
 public class ApiRmiServer extends java.rmi.server.UnicastRemoteObject implements
 		APIInterfaces {

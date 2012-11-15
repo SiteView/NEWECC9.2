@@ -9,22 +9,10 @@
  */
 package COM.dragonflow.Page;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Vector;
-
-import Siteview.Api.BusinessObject;
-
-import system.Collections.ICollection;
-import system.Collections.IEnumerator;
 
 import jgl.Array;
 import jgl.HashMap;
@@ -43,10 +31,6 @@ import COM.dragonflow.SiteView.SiteViewGroup;
 import COM.dragonflow.SiteView.SiteViewObject;
 import COM.dragonflow.SiteView.SubGroup;
 import COM.dragonflow.SiteView.User;
-import COM.dragonflow.Utils.FileTools;
-import COM.dragonflow.Utils.TextUtils;
-import COM.dragonflow.itsm.data.Config;
-import COM.dragonflow.itsm.data.JDBCForSQL;
 import freemarker.template.Configuration;
 
 // Referenced classes of package COM.dragonflow.Page:

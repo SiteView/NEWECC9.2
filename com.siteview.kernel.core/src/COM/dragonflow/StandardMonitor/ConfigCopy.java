@@ -776,7 +776,6 @@ public class ConfigCopy {
 		}
 		return true;
 	}
-
 	/**
 	 * 华为配置文件下载
 	 */
@@ -794,7 +793,6 @@ public class ConfigCopy {
 		telnet1.write(superName);
 		try {
 			String str1 = telnet1.readUntil("Password:");
-
 			telnet1.write(superPwd);
 			boolean success = telnet1.determineCommand(">", "Password:");
 			if (!success) {

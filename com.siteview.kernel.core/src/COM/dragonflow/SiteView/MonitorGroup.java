@@ -16,20 +16,18 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.sql.ResultSet;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Vector;
-
-import system.Collections.ICollection;
-import system.Collections.IEnumerator;
 
 import jgl.Array;
 import jgl.Filtering;
 import jgl.HashMap;
 import jgl.Reversing;
 import jgl.Sorting;
+import system.Collections.ICollection;
+import system.Collections.IEnumerator;
 import COM.dragonflow.HTTP.HTTPRequest;
 import COM.dragonflow.HTTP.HTTPRequestException;
 import COM.dragonflow.Log.DailyFileLogger;
@@ -48,7 +46,6 @@ import COM.dragonflow.Utils.HTTPUtils;
 import COM.dragonflow.Utils.I18N;
 import COM.dragonflow.Utils.LocaleUtils;
 import COM.dragonflow.Utils.TextUtils;
-import COM.dragonflow.itsm.data.JDBCForSQL;
 import SiteViewMain.SiteViewSupport;
 import Siteview.Api.BusinessObject;
 

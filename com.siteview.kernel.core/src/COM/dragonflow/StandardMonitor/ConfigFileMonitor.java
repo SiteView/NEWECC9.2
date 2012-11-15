@@ -28,32 +28,27 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.UUID;
-import java.util.Vector;
+
+import jgl.Array;
+import jgl.HashMap;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
 
-import system.Collections.ICollection;
-import system.Collections.IEnumerator;
-
-import SiteViewMain.SiteViewSupport;
-import Siteview.SiteviewValue;
-import Siteview.Api.BusinessObject;
-
 import COM.dragonflow.HTTP.HTTPRequest;
-import COM.dragonflow.Page.CGI;
-import COM.dragonflow.Properties.*;
-import COM.dragonflow.SiteView.*;
-import COM.dragonflow.SiteViewException.SiteViewException;
+import COM.dragonflow.Properties.NumericProperty;
+import COM.dragonflow.Properties.PercentProperty;
+import COM.dragonflow.Properties.StringProperty;
+import COM.dragonflow.SiteView.Platform;
+import COM.dragonflow.SiteView.Rule;
+import COM.dragonflow.SiteView.ServerMonitor;
 import COM.dragonflow.Utils.FileTools;
 import COM.dragonflow.Utils.I18N;
 import COM.dragonflow.Utils.TextUtils;
-import COM.dragonflow.itsm.data.JDBCForSQL;
-import jgl.Array;
-import jgl.HashMap;
+import Siteview.SiteviewValue;
+import Siteview.Api.BusinessObject;
 
 public class ConfigFileMonitor extends ServerMonitor {
 	static CommandTextProperty pServiceName;
@@ -114,39 +109,39 @@ public class ConfigFileMonitor extends ServerMonitor {
 		String groupName = "";
 		String groups="";
 		// JDBC ²éÑ¯Êý¾Ý
-		Connection conn = JDBCForSQL.getConnection();
-//		BusinessObject businessObj=FileTools.CreateBo("ServerAddress", host, "dbo.RemoteMachine");
-//			if(businessObj!=null){
-//				group = businessObj.GetField("Groups").get_NativeValue().toString();
-//				serviceName = businessObj.GetField("EpuipmentsTypes").get_NativeValue().toString();
-//				pwd = businessObj.GetField("PasswordMachine").get_NativeValue().toString();
-//				superName = businessObj.GetField("AuthorityName").get_NativeValue().toString();
-//				superPwd = businessObj.GetField("AuthorityPwd").get_NativeValue().toString();
-//				groups = businessObj.GetField("Groups").get_NativeValue().toString();
-//			}
-//			BusinessObject Obj=FileTools.CreateBo("RecId", groupName, "dbo.EccGroup");
-//			if(Obj!=null){
-//				groupName = businessObj.GetField("GroupName").get_NativeValue().toString();
-//			}
-		Statement st = null;
-		ResultSet rs = null;
-		String sql = "select r.* , e.GroupName from dbo.RemoteMachine as r , dbo.EccGroup as e where ServerAddress='"
-				+ host + "'  and e.RecId=r.groups";
-
-		try {
-			st = conn.createStatement();
-			rs = st.executeQuery(sql);
-			while (rs.next()) {
-				group = rs.getString("Groups");
-				serviceName = rs.getString("EpuipmentsTypes");
-				pwd = rs.getString("PasswordMachine");
-				superName = rs.getString("AuthorityName");
-				superPwd = rs.getString("AuthorityPwd");
-				groupName = rs.getString("Groupname");
+	//	Connection conn = JDBCForSQL.getConnection();
+		BusinessObject businessObj=FileTools.CreateBo("ServerAddress", host, "dbo.RemoteMachine");
+			if(businessObj!=null){
+				group = businessObj.GetField("Groups").get_NativeValue().toString();
+				serviceName = businessObj.GetField("EpuipmentsTypes").get_NativeValue().toString();
+				pwd = businessObj.GetField("PasswordMachine").get_NativeValue().toString();
+				superName = businessObj.GetField("AuthorityName").get_NativeValue().toString();
+				superPwd = businessObj.GetField("AuthorityPwd").get_NativeValue().toString();
+				groups = businessObj.GetField("Groups").get_NativeValue().toString();
 			}
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
+			BusinessObject Obj=FileTools.CreateBo("RecId", groupName, "dbo.EccGroup");
+			if(Obj!=null){
+				groupName = businessObj.GetField("GroupName").get_NativeValue().toString();
+			}
+//		Statement st = null;
+//		ResultSet rs = null;
+//		String sql = "select r.* , e.GroupName from dbo.RemoteMachine as r , dbo.EccGroup as e where ServerAddress='"
+//				+ host + "'  and e.RecId=r.groups";
+//
+//		try {
+//			st = conn.createStatement();
+//			rs = st.executeQuery(sql);
+//			while (rs.next()) {
+//				group = rs.getString("Groups");
+//				serviceName = rs.getString("EpuipmentsTypes");
+//				pwd = rs.getString("PasswordMachine");
+//				superName = rs.getString("AuthorityName");
+//				superPwd = rs.getString("AuthorityPwd");
+//				groupName = rs.getString("Groupname");
+//			}
+//		} catch (SQLException e1) {
+//			e1.printStackTrace();
+//		}
 		File file = new File(configName);
 		if (file.listFiles() == null) {
 			try {

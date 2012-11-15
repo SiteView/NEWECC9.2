@@ -26,8 +26,6 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -37,14 +35,13 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Vector;
 
-import system.Collections.ICollection;
-import system.Collections.IEnumerator;
-
 import jgl.Array;
 import jgl.HashMap;
 import jgl.HashMapIterator;
 import jgl.Reversing;
 import jgl.Sorting;
+import system.Collections.ICollection;
+import system.Collections.IEnumerator;
 import COM.dragonflow.HTTP.HTTPRequest;
 import COM.dragonflow.HTTP.HTTPRequestException;
 import COM.dragonflow.HTTP.HTTPServer;
@@ -76,7 +73,6 @@ import COM.dragonflow.Utils.MailUtils;
 import COM.dragonflow.Utils.TelnetCommandLine;
 import COM.dragonflow.Utils.TempFileManager;
 import COM.dragonflow.Utils.TextUtils;
-import COM.dragonflow.itsm.data.JDBCForSQL;
 import SiteViewMain.UpdateConfig;
 import Siteview.Api.BusinessObject;
 
