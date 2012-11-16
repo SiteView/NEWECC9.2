@@ -15,6 +15,7 @@ import COM.dragonflow.Properties.StringProperty;
 import COM.dragonflow.SiteView.AtomicMonitor;
 import COM.dragonflow.SiteView.Rule;
 import COM.dragonflow.SiteViewException.SiteViewException;
+import COM.dragonflow.Utils.FileTools;
 import COM.dragonflow.Utils.I18N;
 import Siteview.Operators;
 import Siteview.QueryInfoToGet;
@@ -110,7 +111,8 @@ public class ScaningDeviceMonitor extends AtomicMonitor {
 					
 			    	 //获得API
 			    	if(currentAPI==null){
-			    		currentAPI=SiteviewApi.get_CreateInstance();
+			    		
+			    		currentAPI=FileTools.getApi();
 						
 			    	}
 			    	
@@ -229,7 +231,7 @@ public class ScaningDeviceMonitor extends AtomicMonitor {
 		
 		 //获得API
     	if(currentAPI==null){
-    		currentAPI=SiteviewApi.get_CreateInstance();
+    		currentAPI=FileTools.getApi();
 			
     	}
 		
