@@ -341,20 +341,25 @@ public class EccControl extends EditorPart {
 			TotalTabView.startTime = time.substring(time.indexOf("*") + 1);
 			TotalTabView.endTime = time.substring(0, time.indexOf("*"));
 			TotalTabView.setTotalData(bo);
-			TabItem comaTabItem = new TabItem(tabFolder, SWT.NONE);
-			comaTabItem.setText("概要");
-			Composite c = new Composite(tabFolder, SWT.FULL_SELECTION);
-			EccReportView erv = new EccReportView();
-			erv.createPartControl(c);
-			comaTabItem.setControl(c);
+			
+			if("Ecc.ScaningDevice".equals(bo.get_Name())){
+				
+			}else{
+				TabItem comaTabItem = new TabItem(tabFolder, SWT.NONE);
+				comaTabItem.setText("概要");
+				Composite c = new Composite(tabFolder, SWT.FULL_SELECTION);
+				EccReportView erv = new EccReportView();
+				erv.createPartControl(c);
+				comaTabItem.setControl(c);
 
-			TabItem comaTabItem_2 = new TabItem(tabFolder, SWT.NONE);
-			comaTabItem_2.setText("相关监测器");
-			Composite c2 = new Composite(tabFolder, SWT.FULL_SELECTION);
-			RelativelyMonitor.bo = bo;
-			RelativelyMonitor mo = new RelativelyMonitor(c2);
-			mo.createView(c2);
-			comaTabItem_2.setControl(c2);
+				TabItem comaTabItem_2 = new TabItem(tabFolder, SWT.NONE);
+				comaTabItem_2.setText("相关监测器");
+				Composite c2 = new Composite(tabFolder, SWT.FULL_SELECTION);
+				RelativelyMonitor.bo = bo;
+				RelativelyMonitor mo = new RelativelyMonitor(c2);
+				mo.createView(c2);
+				comaTabItem_2.setControl(c2);
+			}
 
 			TabItem comaTabItem_3 = new TabItem(tabFolder, SWT.NONE);
 			comaTabItem_3.setText("日志数据");

@@ -80,6 +80,8 @@ public class EccReportChart {
 				if (!x.equals("n/a")) {
 					if (x.equals("ok")) {
 						x="200";
+					}else{
+						x="100";
 					}
 					series.add(new Second(Integer.parseInt(ss), m),
 							Double.parseDouble(x));

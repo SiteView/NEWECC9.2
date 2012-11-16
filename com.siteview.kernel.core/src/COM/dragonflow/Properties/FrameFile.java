@@ -392,6 +392,11 @@ public class FrameFile {
 					st = st.delete(st.indexOf("_remoteNTMachine"),
 							st.indexOf("_remoteNTMachine") + sss.length());
 				}
+				if((s0+s2).length()<=0){
+					printwriter.print(st);
+		        }else{
+	        		printwriter.print(s0+s2);
+		        }
 				ss = st.toString();
 				if (file.getName().contains("master.config")
 						&& ss.contains("_remoteMachine")) {

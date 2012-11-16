@@ -206,7 +206,7 @@ public class TotalTabView extends LayoutViewBase {
 				String [] logArrayStr = loginfo.split("\t");
 				for (int k = 0; k < logArrayStr.length; k++) {
 						String str = logArrayStr[k];
-						if (!str.startsWith("no data")) {
+						if (!str.startsWith("no data")&&str.indexOf("=")!=-1) {
 							String key = str.substring(0, str.indexOf("="));
 							String otherValue = str.substring((str.indexOf("=")+1), str.length());
 							if (otherValue.equals("ok")) {

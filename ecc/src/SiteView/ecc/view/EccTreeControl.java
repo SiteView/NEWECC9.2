@@ -121,6 +121,9 @@ public class EccTreeControl extends ViewPart{
 		list.add("Ecc.URLContent");
 		list.add("Ecc.Mail");
 		list.add("Ecc.NetWorkMonitor");
+
+		list.add("Ecc.ScaningDevice");
+		
 		list_1.add("Ecc.DiskSpace");
 		list_1.add("Ecc.Port");
 		list_1.add("Ecc.Memory");

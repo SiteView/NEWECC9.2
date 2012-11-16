@@ -184,6 +184,10 @@
           Class="SiteView.ecc.bundle.SoundAlarmBundle"
           Name="声音报警">
     </AutoTaskExtension>
+    <AutoTaskExtension
+          Class="SiteView.ecc.bundle.RunMonitorBundle"
+          Name="扫描监测器">
+    </AutoTaskExtension>
  </extension>
  <extension
        point="org.eclipse.ui.perspectives">

@@ -81,7 +81,15 @@ public class MonitorLogTabView extends LayoutViewBase {
 	private  Map<String, Object> setMap(BusinessObject bo) {
 		map = new java.util.HashMap<String, Object>();
 		map.put("monitorId", bo.get_RecId());
-		String time = getHoursAgoTime(2);
+//		String time = getHoursAgoTime(2);
+		
+		String time="";
+		if(bo.GetField("EccType").get_NativeValue().toString().equals("ScaningDevice")){
+			time=getHoursAgoTime(24);
+		}else{
+			time = getHoursAgoTime(2);
+		}
+		
 		map.put("endTime", time.substring(0, time.indexOf("*")));
 		map.put("startTime", time.substring(time.indexOf("*") + 1));
 		return map;
