@@ -14,7 +14,6 @@ public class Activator implements BundleActivator {
             SiteViewSupport.InitProcess();
             SiteViewSupport.InitProcess2();
             SiteViewSupport.StartProcess();/*∆Ù∂Øº‡≤‚œﬂ≥Ã*/
-
             SiteViewSupport.WaitForProcess();
         }
         catch(Exception exception)

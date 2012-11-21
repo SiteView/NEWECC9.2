@@ -184,10 +184,6 @@
           Class="SiteView.ecc.bundle.SoundAlarmBundle"
           Name="声音报警">
     </AutoTaskExtension>
-    <AutoTaskExtension
-          Class="SiteView.ecc.bundle.RunMonitorBundle"
-          Name="扫描监测器">
-    </AutoTaskExtension>
  </extension>
  <extension
        point="org.eclipse.ui.perspectives">
@@ -305,6 +301,23 @@
                 style="push">
           </command>
        </menu>
+       <menu
+             id="SiteViewECC"
+             label="监测运维">
+          <visibleWhen>
+             <with
+                   variable="activeWorkbenchWindow.activePerspective">
+                <equals
+                      value="core.apploader.perspective">
+                </equals>
+             </with>
+          </visibleWhen>
+          <command
+                commandId="ecc.monitor"
+                label="监测器视图"
+                style="push">
+          </command>
+       </menu>
     </menuContribution>
  </extension>
  <extension
@@ -373,6 +386,11 @@
           defaultHandler="SiteView.ecc.commands.MonitorSetUpCommands"
           id="ecc.MonitorSetUp"
           name="监测器设置">
+    </command>
+    <command
+          defaultHandler="SiteView.ecc.commands.OpenEcc"
+          id="ecc.monitor"
+          name="监测器视图">
     </command>
  </extension>
  <extension

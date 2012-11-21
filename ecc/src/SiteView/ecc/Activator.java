@@ -3,6 +3,8 @@ package SiteView.ecc;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import SiteView.ecc.ecf.client.ECFClient;
+
 /**
  * The activator class controls the plug-in life cycle
  */

@@ -600,16 +600,6 @@ public class FileUtils {
 				s0=PropertiedObject.format(bo);
 				stringbuffer.append(s0+"\n");
 			}
-			/*ResultSet machines = JDBCForSQL.sql_ConnectExecute_Select("SELECT * FROM RemoteMachine");
-	        try {
-	        	
-				while(machines.next()){
-					s0=PropertiedObject.format(machines);
-					stringbuffer.append("\n"+s0);
-				}
-	        }catch (Exception e) {
-				// TODO: handle exception
-			}*/
 		}
 		return stringbuffer;
 	}
@@ -1351,161 +1341,6 @@ public class FileUtils {
 						continue;
 					}
 				}
-				/*	}
-			String query_sql = "select * from Ecc where Groups_Valid ='"
-					+ groupid + "'";
-			ResultSet eccrs = JDBCForSQL.sql_ConnectExecute_Select(query_sql);
-			ResultSetMetaData metaData = eccrs.getMetaData();
-			int colum = metaData.getColumnCount();
-			while (eccrs.next()) {
-				Map maps=new java.util.HashMap();
-				for (int i = 1; i < colum; i++) {
-					String columName = metaData.getColumnName(i);// Get colum name
-					String datavalue = eccrs.getString(columName);// Get data value
-					if (datavalue != null) {
-						if (!datavalue.equals("")) {
-							String parmName = Config.getReturnStr("itsm_eccmonitorparams.properties",columName);
-							if (parmName == null || parmName.equals("")) {
-								// System.err.println("Can not find parms from itsm_eccmonitorparams.properties:"+columName);
-								//¹ýÂËlinkCheck×Ö¶Î
-								if(columName.equals("MaxHops") && datavalue.equals("no limit")){
-									maps.put("MaxHops", "no limit");
-									continue;
-								}else if(columName.equals("MaxHops") && datavalue.equals("main page links")){
-									maps.put("MaxHops", "main page links");
-									continue;
-								}
-								//wpc
-								if(columName.equals("Scale")){
-									if(datavalue.equals("kilobytes")){
-										maps.put("_scale", "9.765625E-4");
-										continue;
-									}else if( datavalue.equals("megabytes")){
-										maps.put("_scale",  "9.536743E-7");
-										continue;
-									}else if( datavalue.equals("Other")){
-										continue;
-									}else{
-										maps.put("_scale", datavalue);
-									}	
-								}
-								continue;
-							} else {
-								//mail¼à²âÆ÷×Ö¶Î¹ýÂË
-								if(parmName.equals("_useIMAP") && datavalue.equals("IMAP4")){
-									datavalue="true";
-								}else if(parmName.equals("_useIMAP") && datavalue.equals("POP3")){
-									continue;
-								}
-								//mail¼à²âÆ÷·¢ËÍ·½Ê½×Ö¶Î¹ýÂË
-								if(parmName.equals("_receiveOnly") && datavalue.equals("Send & Receive")){
-									continue;
-								}
-								//eBusiness Chain¼à²âÆ÷×Ö¶Î¹ýÂË
-								if(parmName.equals("_whenError")&& datavalue.equals("continue")){
-									continue;
-								}
-								//¹ýÂËurl¼à²âÆ÷
-								if(parmName.equals("_checkContent") && datavalue.equals("no content checking")){
-									continue;
-								}else if(parmName.equals("_checkContent")&& (datavalue.equals("compare to saved contents")||datavalue.equals("reset saved contents"))){
-									datavalue="baseline";
-									stringBuffer.append("_checkContentResetTime=");
-									stringBuffer.append(System.currentTimeMillis());
-									stringBuffer.append(";");
-								}else if(parmName.equals("_checkContent") && datavalue.equals("compare to last contents")){
-									datavalue="on";
-									stringBuffer.append("_checkContentResetTime=");
-									stringBuffer.append(System.currentTimeMillis());
-									stringBuffer.append(";");
-								}
-								if(parmName.equals("_URLDropDownEncodePostData")&& datavalue.equals("Use content-type:")){
-									datavalue="contentTypeUrlencoded";
-								}else if(parmName.equals("_URLDropDownEncodePostData") && datavalue.equals("force url encoding")){
-									datavalue="forceEncode";
-								}else if(parmName.equals("_URLDropDownEncodePostData")&& datavalue.equals("force No url encoding")){
-									datavalue="forceNoEncode";
-								}
-								if(parmName.equals("_whenToAuthenticate")&& datavalue.equals("Use Global Preference")){
-									continue;
-								}else if(parmName.equals("_whenToAuthenticate")&& datavalue.equals("Authenticate first request")){
-									datavalue="authOnFirst";
-								}else if(parmName.equals("_whenToAuthenticate")&& datavalue.equals("Authenticate if requested")){
-									datavalue="authOnSecond";
-								}
-								//¹ýÂËWebServerMonitor
-								if(parmName.equals("_serverName")&&datavalue.equals("Microsoft IIS")){
-									datavalue="Microsoft4|";
-								}
-								//¹ýÂËlogfile
-								if(parmName.equals("_alerting")&&datavalue.equals("for each log entry matche")){
-									datavalue="each";
-								}else if(parmName.equals("_alerting")&&datavalue.equals("once afterall log entries")){
-									datavalue="once";
-								}
-								if(parmName.equals("_resetFile")&&(datavalue.equals("Never First Time Only")||datavalue.equals("First Time Only"))){
-									datavalue="once";
-								}
-								if (columName.equals("EccType")) {
-									datavalue = Config.getReturnStr("itsm_siteview9.2.properties",datavalue);
-								}
-								//¹ýÂË LDAPMonitor
-								if(parmName.equals("_securityprincipal")){
-									datavalue=datavalue.replaceAll(",", "*");
-								}
-								//Windows Performance Counter¹ýÂË
-								if(parmName.equals("_pmcfile")&& datavalue.equals("(Custom Object)")){
-									datavalue="none";
-								}				
-								//Âß¼­×Ö¶ÎÖµÎªtrue¶ÔÓ¦ON
-								if (parmName.equals("_verifyError")||parmName.equals("_notLogToTopaz")||parmName.equals("_disabled")
-										||parmName.equals("_externalLinks")||parmName.equals("_challengeResponse")||parmName.equals("_sslAcceptInvalidCerts")
-										||parmName.equals("_getImages")||parmName.equals("_errorOnRedirect")||parmName.equals("_sslAcceptAllUntrustedCerts")
-										||parmName.equals("_measureDetails")||parmName.equals("_HTTPVersion10")||parmName.equals("_HTTPVersion10")||parmName.equals("_getFrames")
-										||parmName.equals("_noFileCheckExist")||parmName.equals("_deepCheck")||parmName.equals("_checkSequentially")
-										||parmName.equals("_singleSession")||parmName.equals("_noRecurse")) {
-									if (!datavalue.equals("0")) {
-										datavalue = "on";
-									}else{
-										continue;
-									}
-								}
-								if (columName.equals("RecId")) {
-									stringBuffer.append("_encoding=GBK"+ ";");
-									stringBuffer.append("_id="+datavalue+ ";");
-								}if (columName.equals("frequency")|| columName.equals("verifyErrorFrequency")) {
-									String frequency = eccrs.getString(columName);
-									if (frequency.equals(" ")) {
-										frequency ="10";
-									}
-									int timehs = Integer.parseInt(frequency);
-									if (eccrs.getString("timeUnitSelf").equals("Minute")) {
-										timehs = timehs * 60;
-									}
-									if (eccrs.getString("timeUnitSelf").equals("Hour")) {
-										timehs = timehs * 3600;
-									}
-									if (eccrs.getString("timeUnitSelf").equals("Day")) {
-										timehs = timehs * 86400;
-									}
-									datavalue = String.valueOf(timehs);
-								}
-								stringBuffer.append(parmName + "=" + datavalue+ ";");
-//								if (isHave(MonitorCounterGroups, datavalue)) {//the monitor have counter.
-//									String query_counter_sql = "SELECT * FROM MonitorCounter WHERE ParentLink_RecID ='"+ eccrs.getString("RecId") + "'";
-//									ResultSet counterrs = JDBCForSQL.sql_ConnectExecute_Select(query_counter_sql);
-//									while (counterrs.next()) {
-//										if (!stringBuffer.toString().contains("_counters=")) {
-//											stringBuffer.append("_counters=");
-//											stringBuffer.append(counterrs.getString("Name")+",");
-//										}else{
-//											stringBuffer.append(counterrs.getString("Name")+",");
-//										}
-//									}	if (stringBuffer.toString().contains("_counters=")) {
-//										stringBuffer.deleteCharAt(stringBuffer.length() - 1);
-//										stringBuffer.append(";");
-//									}	*/
-
 				//linkCheck
 				if(maps.get("MaxHops")!=null && maps.get("MaxHops").equals("no limit")){
 					if(!stringBuffer.toString().contains("_maxSearchDepth=")){
@@ -1549,23 +1384,7 @@ public class FileUtils {
 						}
 					}
 				}
-				
-//				String  sql_count="select * from MonitorCounter where ParentLink_RecID='"+eccrs.getString("RecId") + "'";
-//				ResultSet coutrs = JDBCForSQL.sql_ConnectExecute_Select(sql_count);
-//				
-//				while(coutrs.next()){
-//					String counter=coutrs.getString("Name");
-//					if(counter.contains("Default")){
-//						counter=counter.substring(0,counter.lastIndexOf("--")+2)+"Total";
-//					}
-//					if(i==0){
-//						stringBuffer.append("_counters=");
-//						stringBuffer.append(counter);
-//					}else{
-//						stringBuffer.append(","+counter);
-//					}
-//					i++;
-//				}
+
 				if(i>0){
 					stringBuffer.append(";");
 				}

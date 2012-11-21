@@ -392,11 +392,6 @@ public class FrameFile {
 					st = st.delete(st.indexOf("_remoteNTMachine"),
 							st.indexOf("_remoteNTMachine") + sss.length());
 				}
-				if((s0+s2).length()<=0){
-					printwriter.print(st);
-		        }else{
-	        		printwriter.print(s0+s2);
-		        }
 				ss = st.toString();
 				if (file.getName().contains("master.config")
 						&& ss.contains("_remoteMachine")) {
@@ -408,7 +403,7 @@ public class FrameFile {
 					st = st.delete(st.indexOf("_remoteMachine"),
 							st.indexOf("_remoteMachine") + sss.length());
 				}
-				if ((s0 + s2).equals("")) {
+				if ((s0 + s2).length()<=0) {
 					printwriter.print(st);
 				} else {
 					printwriter.print(s0 + s2);
@@ -615,7 +610,6 @@ public class FrameFile {
 		String RecId;
 		ICollection ico = null;
 		bo = FileTools.CreateBo("monitorid", monitorid, "EccDyn");
-		ISiteviewApi api=FileTools.getApi();
 		if (bo != null) {
 			RecId = bo.get_RecId();
 			String status = bo.GetField("category").get_NativeValue()
@@ -628,25 +622,24 @@ public class FrameFile {
 			} else {
 				statuscount = 0;
 			}
-			bo.GetField("category").SetValue(new SiteviewValue(category));
-			bo.GetField("monitorDesc").SetValue(new SiteviewValue(so));
-			bo.GetField("groupid").SetValue(new SiteviewValue(groupName));
-			bo.GetField("monitorName").SetValue(new SiteviewValue(monitorName));
-			bo.GetField("Department").SetValue(new SiteviewValue(department));
-			bo.GetField("MonitorType").SetValue(new SiteviewValue(type));
 			bo.GetField("StatusConut").SetValue(new SiteviewValue(statuscount));
 		} else {
-			bo = api.get_BusObService().Create("EccDyn");
-			bo.GetField("category").SetValue(new SiteviewValue(category));
-			bo.GetField("monitorDesc").SetValue(new SiteviewValue(so));
-			bo.GetField("monitorid").SetValue(new SiteviewValue(monitorid));
-			bo.GetField("groupid").SetValue(new SiteviewValue(groupName));
-			bo.GetField("monitorName").SetValue(new SiteviewValue(monitorName));
-			bo.GetField("Department").SetValue(new SiteviewValue(department));
-			bo.GetField("MonitorType").SetValue(new SiteviewValue(type));
+			bo = FileTools.getBusinessObject("EccDyn");
 			bo.GetField("StatusConut").SetValue(new SiteviewValue(0));
 		}
-		bo.SaveObject(api, false, true);
+		bo.GetField("category").SetValue(new SiteviewValue(category));
+		if(!so.equals("")&&!so.equals("*")){
+			bo.GetField("monitorDesc").SetValue(new SiteviewValue(so));
+		}else{
+			bo.GetField("monitorDesc").SetValue(new SiteviewValue(s));
+		}
+		
+		bo.GetField("monitorid").SetValue(new SiteviewValue(monitorid));
+		bo.GetField("groupid").SetValue(new SiteviewValue(groupName));
+		bo.GetField("monitorName").SetValue(new SiteviewValue(monitorName));
+		bo.GetField("Department").SetValue(new SiteviewValue(department));
+		bo.GetField("MonitorType").SetValue(new SiteviewValue(type));
+		bo.SaveObject(FileTools.getApi_1(), false, true);
 		/**
 		 * ÊÇ·ñ±¨¾¯ 
 		 * 
@@ -795,7 +788,7 @@ public class FrameFile {
 		// } catch (SQLException e) {
 		// e.printStackTrace();
 		// }
-		BusinessObject bo_0 = FileTools.api.get_BusObService().Create(
+		BusinessObject bo_0 = FileTools.getBusinessObject(
 				"EccAlarmLog");
 		// bo_0.GetField("RecId").SetValue(new SiteviewValue(getRecId()));
 		// bo_0.GetField("CreatedDateTime").SetValue(new SiteviewValue(ttime));
@@ -805,7 +798,7 @@ public class FrameFile {
 		bo_0.GetField("AlarmType").SetValue(new SiteviewValue(alarmType));
 		bo_0.GetField("ReceiverAddress").SetValue(new SiteviewValue(toAddress));
 		bo_0.GetField("AlarmStatus").SetValue(new SiteviewValue(status));
-		bo_0.SaveObject(FileTools.api, false, true);
+		bo_0.SaveObject(FileTools.getApi_1(), false, true);
 		/*
 		 * String insertSQL =
 		 * "insert into EccAlarmLog (RecId,CreatedDateTime,AlarmName,AlarmGroup,AlarmMonitor,AlarmType,ReceiverAddress,AlarmStatus)"
@@ -911,7 +904,7 @@ public class FrameFile {
 						.get_NativeValue().toString();
 				String receiveEmail = bo.GetField("ReceiveAlarmEmail")
 						.get_NativeValue().toString();
-				BusinessObject bo1 = FileTools.api.get_BusObService().Create(
+				BusinessObject bo1 = FileTools.getBusinessObject(
 						"EccAlarmLog");
 				if (receivePhone != null && receivePhone.length() > 0
 						&& "SMS".equals(list.get(4))) {
@@ -939,7 +932,7 @@ public class FrameFile {
 						new SiteviewValue(list.get(4)));
 				bo1.GetField("AlarmStatus").SetValue(
 						new SiteviewValue(list.get(6)));
-				bo1.SaveObject(FileTools.api, false, true);
+				bo1.SaveObject(FileTools.getApi_1(), false, true);
 			}
 		}
 		/*

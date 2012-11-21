@@ -92,7 +92,7 @@ public class EccControl extends EditorPart {
 			}
 		}
 		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
-		final SashForm sashForm = new SashForm(parent, SWT.NONE);
+		SashForm sashForm = new SashForm(parent, SWT.NONE);
 		sashForm.setOrientation(SWT.VERTICAL);
 		lable = new Label(sashForm, SWT.NONE);
 		lable.setBackground(SWTResourceManager
@@ -114,6 +114,7 @@ public class EccControl extends EditorPart {
 		if(toptable != null && !toptable.isDisposed()) {
 			toptable.dispose();
 		}
+		lable.setText("监测器");
 		toptable = new Table(c, SWT.CHECK | SWT.FULL_SELECTION);
 		toptable.setLinesVisible(true);
 		toptable.setHeaderVisible(true);
@@ -341,7 +342,6 @@ public class EccControl extends EditorPart {
 			TotalTabView.startTime = time.substring(time.indexOf("*") + 1);
 			TotalTabView.endTime = time.substring(0, time.indexOf("*"));
 			TotalTabView.setTotalData(bo);
-			
 			if("Ecc.ScaningDevice".equals(bo.get_Name())){
 				
 			}else{
@@ -351,7 +351,7 @@ public class EccControl extends EditorPart {
 				EccReportView erv = new EccReportView();
 				erv.createPartControl(c);
 				comaTabItem.setControl(c);
-
+	
 				TabItem comaTabItem_2 = new TabItem(tabFolder, SWT.NONE);
 				comaTabItem_2.setText("相关监测器");
 				Composite c2 = new Composite(tabFolder, SWT.FULL_SELECTION);
@@ -360,7 +360,6 @@ public class EccControl extends EditorPart {
 				mo.createView(c2);
 				comaTabItem_2.setControl(c2);
 			}
-
 			TabItem comaTabItem_3 = new TabItem(tabFolder, SWT.NONE);
 			comaTabItem_3.setText("日志数据");
 			Composite c3 = new Composite(tabFolder, SWT.FULL_SELECTION);

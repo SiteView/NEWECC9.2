@@ -1,25 +1,21 @@
 package SiteView.ecc.bundle;
-import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.swt.SWT;
+import org.eclipse.ecf.core.identity.IDCreateException;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.TreeItem;
 
-import SiteView.ecc.Activator;
+import siteview.IAutoTaskExtension;
+import COM.dragonflow.Api.APIInterfaces;
 import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MachineModle;
 import SiteView.ecc.Modle.SiteViewEcc;
 import SiteView.ecc.data.SiteViewData;
+import SiteView.ecc.ecf.client.ECFClient;
 import SiteView.ecc.view.EccTreeControl;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 import Siteview.Windows.Forms.ConnectionBroker;
-import COM.dragonflow.Api.APIInterfaces;
-import COM.dragonflow.SiteViewException.SiteViewException;
-import siteview.IAutoTaskExtension;
-import siteview.windows.forms.ImageHelper;
 
 
 public class addGroupBundle implements IAutoTaskExtension {
@@ -31,6 +27,14 @@ public class addGroupBundle implements IAutoTaskExtension {
 		BusinessObject bo = (BusinessObject) params.get("_CUROBJ_");
 		String groupId=bo.GetField("RecId").get_NativeValue().toString();
 		String parentId=bo.GetField("ParentGroupId").get_NativeValue().toString();//父组ID
+//		ECFClient ecf=new ECFClient("shanghai");
+//		try {
+//			ecf.sendMessages("addGroups(GroupId="+groupId+")");
+//		} catch (IDCreateException e) {
+//			e.printStackTrace();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		//加载本组
 		addGroups("GroupId="+groupId);
 		//存在父组，先加载父组

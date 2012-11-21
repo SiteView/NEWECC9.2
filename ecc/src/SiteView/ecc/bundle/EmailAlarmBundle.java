@@ -21,9 +21,9 @@ import siteview.windows.forms.ImageHelper;
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
 
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 import SiteView.ecc.Activator;
 import SiteView.ecc.Modle.EmailModle;

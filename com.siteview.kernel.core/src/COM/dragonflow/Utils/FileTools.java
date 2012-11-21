@@ -1,10 +1,11 @@
 package COM.dragonflow.Utils;
-
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import org.apache.tools.ant.types.CommandlineJava.SysProperties;
 
 
 
@@ -13,10 +14,13 @@ import Siteview.QueryInfoToGet;
 import Siteview.SiteviewQuery;
 import Siteview.Api.BusinessObject;
 import Siteview.Api.ISiteviewApi;
+import Siteview.Api.SiteviewApi;
 import Siteview.Api.SiteviewConnection;
 
 import system.Collections.ICollection;
 import system.Collections.IEnumerator;
+import system.Security.Principal.IPrincipal;
+import system.Threading.Thread;
 import system.Xml.XmlElement;
 
 /**
@@ -27,14 +31,36 @@ import system.Xml.XmlElement;
  */
 public class FileTools {
 	public static ISiteviewApi api=null;
-	static{
+	private static IPrincipal mainIPrincipal=null;
+	public static void getlog(IPrincipal ip){
 		api=getApi();
 	}
 	public FileTools(){
 	}
+	public static BusinessObject getBusinessObject(String s){
+		if(api==null){
+			api=SiteviewApi.get_CreateInstance();
+			if(!api.get_LoggedIn()){
+				api=getApi();
+			}
+		}
+		BusinessObject bo=api.get_BusObService().Create(s);
+		return bo;
+	}
+	
+	public static ISiteviewApi getApi_1(){
+		if(api==null){
+			api=SiteviewApi.get_CreateInstance();
+			if(!api.get_LoggedIn()){
+				api=getApi();
+			}
+		}
+		return api;
+	}
 	public static ISiteviewApi getApi(){
 		SiteviewConnection currentAPI=SiteviewConnection
-    			.GetInstance("{Common}EccSiteView", "admin", "manage");
+    			.GetInstance("{Common}SiteViewEcc", "admin", "manage");
+		mainIPrincipal=Thread.get_CurrentPrincipal();
 		return currentAPI.GetAPIHandle();
 	}
 	
@@ -44,7 +70,13 @@ public class FileTools {
 		XmlElement xml=null;
         xml=query.get_CriteriaBuilder().FieldAndValueExpression("RecId",Operators.NotNull);
 		query.set_BusObSearchCriteria(xml);
-		ICollection iCollenction = getApi().get_BusObService()
+		if(api==null){
+			api=SiteviewApi.get_CreateInstance();
+			if(!api.get_LoggedIn()){
+				api=getApi();
+			}
+		}
+		ICollection iCollenction =api.get_BusObService()
 				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);
 		return iCollenction;
 	}
@@ -55,7 +87,13 @@ public class FileTools {
 		XmlElement xml=null;
         xml=query.get_CriteriaBuilder().FieldAndValueExpression(key,Operators.Equals,value);
 		query.set_BusObSearchCriteria(xml);
-		ICollection iCollenction = getApi().get_BusObService()
+		if(api==null){
+			api=SiteviewApi.get_CreateInstance();
+			if(!api.get_LoggedIn()){
+				api=getApi();
+			}
+		}
+		ICollection iCollenction =api.get_BusObService()
 				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);
 		return iCollenction;
 	}
@@ -65,6 +103,7 @@ public class FileTools {
 		InetAddress	a;
 		String s="";
 		try {
+			
 			if(ip.startsWith("\\")){
 				a=InetAddress.getByName(ip.substring(ip.indexOf("\\")+2));
 				s= a.getHostAddress();
@@ -79,7 +118,6 @@ public class FileTools {
 	}
 	
 	public static ICollection getBussCollection(Map<String,String> map,String s){
-		ISiteviewApi siteviewApi = getApi();
 		SiteviewQuery query = new SiteviewQuery();
 		query.AddBusObQuery(s, QueryInfoToGet.All);
 		XmlElement[] xmls = new XmlElement[map.size()];
@@ -95,8 +133,13 @@ public class FileTools {
 		}
 		query.set_BusObSearchCriteria(query.get_CriteriaBuilder()
 				.AndExpressions(xmls));
-
-		ICollection iCollenction = getApi().get_BusObService()
+		if(api==null){
+			api=SiteviewApi.get_CreateInstance();
+			if(!api.get_LoggedIn()){
+				api=getApi();
+			}
+		}
+		ICollection iCollenction =getApi().get_BusObService()
 				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);
 		return iCollenction;
 	}
@@ -108,6 +151,12 @@ public class FileTools {
 		xml=query.get_CriteriaBuilder().FieldAndValueExpression(key,
 				Operators.Equals, s);
 		query.set_BusObSearchCriteria(xml);
+		if(api==null){
+			api=SiteviewApi.get_CreateInstance();
+			if(!api.get_LoggedIn()){
+				api=getApi();
+			}
+		}
 		ICollection iCollenction = getApi().get_BusObService().get_SimpleQueryResolver().ResolveQueryToBusObList(query);
 		BusinessObject bo=null;
 		IEnumerator interfaceTableIEnum = iCollenction.GetEnumerator();
@@ -119,7 +168,6 @@ public class FileTools {
 	}
 	
 	public static ICollection getLog(Map<String, Object> map,String s) {
-		ISiteviewApi siteviewApi = getApi();
 		SiteviewQuery query = new SiteviewQuery();
 		query.AddBusObQuery(s, QueryInfoToGet.All);
 		XmlElement[] xmls = new XmlElement[map.size() - 1];
@@ -147,14 +195,18 @@ public class FileTools {
 		query.AddOrderByDesc("CreatedDateTime");
 		query.set_BusObSearchCriteria(query.get_CriteriaBuilder()
 				.AndExpressions(xmls));
-
-		ICollection iCollenction = getApi().get_BusObService()
+		if(api==null){
+			api=SiteviewApi.get_CreateInstance();
+			if(!api.get_LoggedIn()){
+				api=getApi();
+			}
+		}
+		ICollection iCollenction =api.get_BusObService()
 				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);
 		return iCollenction;
 	}
 	
 	public static ICollection getLog2(Map<String, Object> map,String s) {
-		ISiteviewApi siteviewApi = getApi();
 		SiteviewQuery query = new SiteviewQuery();
 		query.AddBusObQuery(s, QueryInfoToGet.All);
 		XmlElement[] xmls = new XmlElement[map.size() - 1];
@@ -182,8 +234,18 @@ public class FileTools {
 		query.AddOrderByDesc("CreatedDateTime");
 		query.set_BusObSearchCriteria(query.get_CriteriaBuilder()
 				.AndExpressions(xmls));
-		ICollection iCollenction = getApi().get_BusObService()
+		if(api==null){
+			api=SiteviewApi.get_CreateInstance();
+			if(!api.get_LoggedIn()){
+				api=getApi();
+			}
+		}
+		ICollection iCollenction =api.get_BusObService()
 				.get_SimpleQueryResolver().ResolveQueryToBusObList(query);
 		return iCollenction;
+	}
+	
+	public static IPrincipal getIPrincipal(){
+		return mainIPrincipal;
 	}
 }

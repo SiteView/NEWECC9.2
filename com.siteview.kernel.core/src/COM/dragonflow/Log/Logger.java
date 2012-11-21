@@ -147,83 +147,33 @@ public abstract class Logger {
 		String MonitorId = s1.substring(s1.indexOf("_id=") + 4);
 		String stateString = MonitorId.substring(MonitorId.indexOf("\t") + 1);
 		MonitorId = MonitorId.substring(0, MonitorId.indexOf(":"));
-//		String RecId = UUID.randomUUID().toString();
-//		RecId = RecId.replaceAll("-", "");
-//		long time = System.currentTimeMillis();
-//		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//		Timestamp CreatedDateTime = new Timestamp(time);
 		BusinessObject bo_0=FileTools.CreateBo("RecId", MonitorId, "Ecc");
 		String monitorType = "";
 		monitorType=bo_0.GetField("EccType").get_NativeValue().toString();
 		monitorType=Config.getReturnStr("itsm_siteview9.2.properties",monitorType);
-		/*String sql = "";
-		String queryMonitorTypeSql = "select EccType from Ecc where RecId ='"+MonitorId+"'";
-		ResultSet monitorTypeRS = JDBCForSQL.sql_ConnectExecute_Select(queryMonitorTypeSql);
-		
-		try {
-			while (monitorTypeRS.next()) {
-				 monitorType = monitorTypeRS.getString("EccType");
-				 monitorType = Config.getReturnStr(
-							"itsm_siteview9.2.properties",
-							monitorType);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		BusinessObject bo=FileTools.api.get_BusObService().Create("MonitorLog");
+		BusinessObject bo=FileTools.getBusinessObject("MonitorLog");
 		if (FrameFile.isHave(FrameFile.MonitorCounterGroups, monitorType)) {
-			String state = counterMonitorStr.substring(counterMonitorStr.indexOf("stateString=")+12, counterMonitorStr.indexOf("_id"));
-			String[] stateArray = state.split(",");
-			String counterMonitorStateString = "";
-			StringBuffer counterSbf = new StringBuffer();
-			for (String indexState : stateArray) {
-				String indexStateKey = indexState.substring(0, indexState.indexOf("="));
-				String indexStateValue = indexState.substring(indexState.indexOf("=")+1, indexState.lastIndexOf("/")).trim();
-				counterMonitorStateString = indexStateKey+"="+indexStateValue+"\t";
-				counterSbf.append(counterMonitorStateString);
-			}
-			bo.GetField("MonitorMassage").SetValue(new SiteviewValue(counterSbf.toString()));
-			/*sql = "insert into MonitorLog(RecId,ownerID,MonitorStatus,MonitorName,MonitorId,MonitorMassage,CreatedDateTime)"
-					+ "values('"
-					+ RecId
-					+ "','"
-					+ ownerID
-					+ "','"
-					+ category
-					+ "','"
-					+ MonitorName
-					+ "','"
-					+ MonitorId
-					+ "','"
-					+ counterSbf.toString()
-					+ "','"
-					+ Timestamp.valueOf(f.format(CreatedDateTime)) + "')";*/
+//			String state = counterMonitorStr.substring(counterMonitorStr.indexOf("stateString=")+12, counterMonitorStr.indexOf("_id"));
+			String state=s1.substring(s1.indexOf("_id="));
+			state=s1.substring(s1.indexOf("\t")+1);
+//			String[] stateArray = state.split(",");
+//			String counterMonitorStateString = "";
+//			StringBuffer counterSbf = new StringBuffer();
+//			for (String indexState : stateArray) {
+//				String indexStateKey = indexState.substring(0, indexState.indexOf("="));
+//				String indexStateValue = indexState.substring(indexState.indexOf("=")+1, indexState.lastIndexOf("/")).trim();
+//				counterMonitorStateString = indexStateKey+"="+indexStateValue+"\t";
+//				counterSbf.append(counterMonitorStateString);
+//			}
+			bo.GetField("MonitorMassage").SetValue(new SiteviewValue(state.toString()));
 		} else {
 			bo.GetField("MonitorMassage").SetValue(new SiteviewValue(stateString));
-			/*sql = "insert into MonitorLog(RecId,ownerID,MonitorStatus,MonitorName,MonitorId,MonitorMassage,CreatedDateTime)"
-					+ "values('"
-					+ RecId
-					+ "','"
-					+ ownerID
-					+ "','"
-					+ category
-					+ "','"
-					+ MonitorName
-					+ "','"
-					+ MonitorId
-					+ "','"
-					+ stateString
-					+ "','"
-					+ Timestamp.valueOf(f.format(CreatedDateTime)) + "')";*/
 		}
 		bo.GetField("ownerID").SetValue(new SiteviewValue(ownerID));
 		bo.GetField("MonitorStatus").SetValue(new SiteviewValue(category));
 		bo.GetField("MonitorName").SetValue(new SiteviewValue(MonitorName));
 		bo.GetField("MonitorId").SetValue(new SiteviewValue(MonitorId));
-		//bo.GetField("CreatedDateTime").SetValue(new SiteviewValue( Timestamp.valueOf(f.format(CreatedDateTime))));
-		bo.SaveObject(FileTools.api, false, true);
-		//JDBCForSQL.execute_Insert(sql);
+		bo.SaveObject(FileTools.getApi_1(), false, true);
 	}
 
 	public void close() {

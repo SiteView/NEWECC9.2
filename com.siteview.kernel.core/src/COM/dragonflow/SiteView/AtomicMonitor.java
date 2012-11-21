@@ -1821,13 +1821,13 @@ public  class AtomicMonitor extends Monitor implements Runnable,
 	    	}
 	    	String MonitorId=propertiedobject.getProperty("_id");
 	    	String ownerID=propertiedobject.getProperty("ownerID");
-	    	BusinessObject bo=FileTools.getApi().get_BusObService().Create("MonitorLog");
+	    	BusinessObject bo=FileTools.getApi_1().get_BusObService().Create("MonitorLog");
 	    	bo.GetField("ownerID").SetValue(new SiteviewValue(ownerID));
 	    	bo.GetField("MonitorStatus").SetValue(new SiteviewValue(category));
 	    	bo.GetField("MonitorName").SetValue(new SiteviewValue(MonitorName));
 	    	bo.GetField("MonitorId").SetValue(new SiteviewValue(MonitorId));
 	    	bo.GetField("MonitorMassage").SetValue(new SiteviewValue(stateString));
-	    	bo.SaveObject(FileTools.getApi(), false, true);
+	    	bo.SaveObject(FileTools.getApi_1(), false, true);
 //	    	String sql="insert into MonitorLog(RecId,ownerID,MonitorStatus,MonitorName,MonitorId,MonitorMassage,CreatedDateTime)" +
 //	    			"values('"+RecId+"','"+ownerID+"','"+category+"','"+MonitorName+"','"+MonitorId+"','"+stateString+"','"+Timestamp.valueOf(f.format(CreatedDateTime))+"')";
 //	    	JDBCForSQL.execute_Insert(sql);	

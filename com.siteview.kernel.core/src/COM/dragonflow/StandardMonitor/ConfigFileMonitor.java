@@ -207,7 +207,7 @@ public class ConfigFileMonitor extends ServerMonitor {
 			String date1 = dateFormat.format(date);
 			// String date1 = date.toString();
 			// System.out.println(date1);
-			BusinessObject bb=FileTools.api.get_BusObService().Create("dbo.ConfigFileManagemant");
+			BusinessObject bb=FileTools.getApi_1().get_BusObService().Create("dbo.ConfigFileManagemant");
 			bb.GetField("RecId").SetValue(new
 					 SiteviewValue(RecId));
 			bb.GetField("Groups").SetValue(new

@@ -36,4 +36,10 @@ Bundle-ClassPath: lib/jcommon-1.0.15.jar,
 Import-Package: SiteView.ecc.dialog,
  SiteView.ecc.editors,
  core.reporting,
- org.apache.commons.httpclient;version="3.1.0"
+ org.eclipse.ecf.core;version="3.0.0",
+ org.eclipse.ecf.core.events,
+ org.eclipse.ecf.core.identity;version="3.2.0",
+ org.eclipse.ecf.core.provider,
+ org.eclipse.ecf.core.security,
+ org.eclipse.ecf.datashare,
+ org.eclipse.ecf.datashare.events
