@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.Scanner;
 
 import org.apache.commons.net.telnet.TelnetClient;
@@ -60,16 +61,67 @@ public class ConfigCopy {
 	private static String localPath;
 	private static Repository localRepo;
 	private static Git git;
+
+	public static boolean success = false;
+	private static String ApacheGitServer;
+	private static String Apacheport;
+	private static String URL;
+	private static String UserName;
+	private static String UserPassword;
 	private static String remotePath;
+	private static String remoteGit;
+	private static String tempUrl;
+	public static String getURL() {
+		return URL;
+	}
+
+	public static String getRemoteGit() {
+		return remoteGit;
+	}
+
+	public static String getTempUrl() {
+		return tempUrl;
+	}
+
 	static {
-		localPath = "C:/CfrConfigFile";
+		getCon();
+		localPath = URL;
 		try {
 			localRepo = new FileRepository(localPath + "/.git");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		remotePath = "http://192.168.9.34:8080/jonee.git";
+		remotePath = "http://"+ApacheGitServer+":"+Apacheport+"/"+remoteGit;
 		git = new Git(localRepo);
+	}
+
+	public static void main(String[] args) {
+		
+	}
+
+	/**
+	 * ¶ÁÈ¡ÊôÐÔÎÄ¼þ
+	 */
+	public static void getCon() {
+
+		// InputStream inputStream = this.getClass().getClassLoader()
+		// .getResourceAsStream("crf.properties");
+
+		Properties p = new Properties();
+		try {
+			FileReader fr = new FileReader("cfr.properties");
+			p.load(fr);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		ApacheGitServer = p.getProperty("ApacheGitServer");
+		Apacheport = p.getProperty("Apacheport");
+		URL = p.getProperty("URL");
+		UserName = p.getProperty("UserName");
+		UserPassword = p.getProperty("UserPassword");
+		remoteGit = p.getProperty("remoteGit");
+		tempUrl=p.getProperty("tempUrl");
+
 	}
 
 	public ConfigCopy(String prompt, String ip, int port, String user,
@@ -82,9 +134,6 @@ public class ConfigCopy {
 			this.prompt = prompt;
 		}
 
-		// System.out.println(this.ip + "~~" + this.port + "~~" + this.user +
-		// "~~"
-		// + "~~" + prompt);
 	}
 
 	public String Connection() {
@@ -93,10 +142,10 @@ public class ConfigCopy {
 			this.telnet.connect(this.ip, this.port);
 			this.telnet.setSoTimeout(20000);
 		} catch (SocketException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 			return "Á¬½ÓÊ§°Ü!" + e.getMessage();
 		} catch (IOException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 			return "Á¬½ÓÊ§°Ü!" + e.getMessage();
 		}
 		this.in = this.telnet.getInputStream();
@@ -291,18 +340,14 @@ public class ConfigCopy {
 				e.printStackTrace();
 			}
 			String content = sb.toString();
-			// System.out.println(content);
 			isNextpage = isCommadSuccess(content, complateStr, nextpageStr);
-			// System.out.println("---------------"+isNextpage+"-----------------------");
 			write(" ");
 		} while (isNextpage);
-		// System.out.println(sb.toString());
 		return sb.toString();
 	}
 
 	private boolean isCommadSuccess(String content, String errorStr,
 			String successStr) {
-		// System.out.println(content);
 		if (content.endsWith(errorStr)) {
 			return false;
 		}
@@ -359,7 +404,6 @@ public class ConfigCopy {
 			e.printStackTrace();
 			return "µÇÂ¼Ê§°Ü!" + e.getMessage();
 		}
-		// System.out.println("µÇÂ¼³É¹¦!");
 		String mess = "";
 		try {
 
@@ -421,13 +465,12 @@ public class ConfigCopy {
 	 */
 	private static boolean CompareFile(File f1, StringBuffer sb1) {
 		StringBuffer sf = new StringBuffer();
-		boolean flag = true;
+		boolean flag = false;
 		if (f1 == null) {
-			flag = false;
-			return flag;
-		} else if (sb1.length() == 0) {
-			System.out.println("Á¬½ÓÊ§°Ü");
 			return true;
+		} else if (sb1.length() == 0) {
+			System.err.println("Á¬½ÓÊ§°Ü3");
+			return false;
 		} else {
 			try {
 				FileReader fr = new FileReader(f1);
@@ -439,7 +482,7 @@ public class ConfigCopy {
 				}
 				if (sb1.toString().equals(sb.toString())) {
 				} else {
-					flag = false;
+					flag = true;
 				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -447,7 +490,7 @@ public class ConfigCopy {
 				e.printStackTrace();
 			}
 		}
-		return flag;
+		return flag;// ·µ»ØfalseÎª2¸öÎÄ¼þÏàÍ¬
 	}
 
 	/**
@@ -464,7 +507,6 @@ public class ConfigCopy {
 		int line = -1;
 		line = this.in.read();
 		char ch = (char) line;
-
 		while (line != -1) {
 			sb.append(ch);
 			line = this.in.read();
@@ -504,15 +546,6 @@ public class ConfigCopy {
 	 */
 	public boolean readCisco(String fileName, ConfigCopy telnet1, String host)
 			throws IOException {
-		// String type = "cisco";
-		// SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
-		// Date date = new Date();
-		// String date1 = dateFormat.format(date);
-		//
-		// // String fileName = "config" + date1 + ".text";
-		// // String fileLocation = FileName + "/cisco" + "/" + host + "/" +
-		// // fileName;
-
 		StringBuffer sb = new StringBuffer();
 		StringBuffer sb1 = new StringBuffer();
 		int line = this.telnet.getInputStream().read();
@@ -534,11 +567,6 @@ public class ConfigCopy {
 			if (sb1.toString().endsWith(" --More--         ")) {
 				String str = " --More--         ";
 				sb1.replace(sb1.length() - str.length(), sb1.length(), "");
-				// } else if (sb1.toString().endsWith("bytes")) {
-				// sb1.replace(0, sb1.length(), "");
-				// } else if (sb1.toString().endsWith("#")) {
-				// int len = strlen.length() + 1;
-				// sb1.replace(sb1.length() - len, sb1.length(), "");
 			}
 		}
 		sb1.delete(0, sb1.indexOf("!"));
@@ -546,7 +574,7 @@ public class ConfigCopy {
 		File cfile = new File(fileName + "/config.txt");
 		cfile.createNewFile();
 		boolean flag = CompareFile(cfile, sb1);
-		if (!flag) {
+		if (flag) {
 			fout = new FileOutputStream(cfile);
 			for (int i = 0; i < sb1.length(); i++) {
 				if (sb1.length() != 0) {
@@ -578,10 +606,6 @@ public class ConfigCopy {
 	 */
 	public boolean readUntil6(String fileName, ConfigCopy telnet1, String host)
 			throws IOException {
-		// String type = "huawei";
-		// SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
-		// Date date = new Date();
-		// String date1 = dateFormat.format(date);
 
 		StringBuffer sb = new StringBuffer();
 		StringBuffer sb1 = new StringBuffer();
@@ -600,29 +624,23 @@ public class ConfigCopy {
 		for (int i = 0; i < sb.length(); i++) {
 			char ch1 = sb.charAt(i);
 			sb1.append(ch1);
-			// if (sb1.toString().endsWith("display current-configuration")) {
-			// String str = "display current-configuration";
-			// sb1.replace(0, str.length(), "");
-			// } else
 			if (sb1.toString()
 					.endsWith(
 							"---- More ----[42D                                          [42D")) {
 				String str = "---- More ----[42D                                          [42D";
 				sb1.replace(sb1.length() - str.length(), sb1.length(), "");
 
-				// } else if (sb1.toString().endsWith("<Quidway>")) {
-				// sb1.replace(sb1.length() - "<Quidway>".length(),
-				// sb1.length(),
-				// "");
 			}
 		}
 		File cfile = new File(fileName + "/config.txt");
 
 		cfile.createNewFile();
-		sb1.delete(0, sb1.indexOf("#"));
+		if (sb1.indexOf("#") > 0) {
+			sb1.delete(0, sb1.indexOf("#"));
+		}
 		sb1.delete(sb1.lastIndexOf("return") + "return".length(), sb1.length());
 		boolean flag = CompareFile(cfile, sb1);
-		if (!flag) {
+		if (flag) {
 			fout = new FileOutputStream(cfile);
 			for (int i = 0; i < sb1.length(); i++) {
 				if (sb1.length() != 0) {
@@ -666,11 +684,10 @@ public class ConfigCopy {
 		clone.setCloneAllBranches(true);
 		clone.setDirectory(f).setURI(remotePath);
 		UsernamePasswordCredentialsProvider user = new UsernamePasswordCredentialsProvider(
-				"jonee", "123456");
+				UserName, UserPassword);
 		clone.setCredentialsProvider(user);
 		// System.out.println("clone=" + clone);
 		clone.call();
-		System.out.println("clone success");
 
 	}
 
@@ -683,8 +700,7 @@ public class ConfigCopy {
 
 		cfile.createNewFile();
 		git.add().addFilepattern(".").call();
-		RevCommit commit = git.commit().setMessage("config File have update")
-				.call();
+		RevCommit commit = git.commit().setMessage("ÅäÖÃÎÄ¼þÓÐ¸üÐÂ").call();
 		String s = commit.getName();
 		try {
 		} catch (Exception e) {
@@ -708,7 +724,7 @@ public class ConfigCopy {
 		PushCommand push = git.push();
 		push.setRemote(remotePath);
 		UsernamePasswordCredentialsProvider user = new UsernamePasswordCredentialsProvider(
-				"jonee", "123456");
+				UserName, UserPassword);
 		push.setCredentialsProvider(user);
 		push.call();
 	}
@@ -729,7 +745,7 @@ public class ConfigCopy {
 	public static void testpull() throws Exception {
 		PullCommand pull = git.pull();
 		UsernamePasswordCredentialsProvider user = new UsernamePasswordCredentialsProvider(
-				"jonee", "123456");
+				UserName, UserPassword);
 		pull.setCredentialsProvider(user);
 		pull.call();
 	}
@@ -742,93 +758,74 @@ public class ConfigCopy {
 			String groupname, String serverName) {
 		ConfigCopy telnet1 = new ConfigCopy(">", host, 23, "3", pwd);
 		String str = telnet1.Connection();// Á¬½Ó
+		boolean flag = false;
 		if (!("µÇÂ¼³É¹¦!".equals(str))) {
-			System.out.println("Á¬½ÓÊ§°Ü!");
-			return false;
+			System.out.println("Á¬½ÓÊ§°ÜIPÎ´Á¬½ÓÉÏ");
+			return success = false;
 		}
 		// System.out.println(str);
 		telnet1.write(superName);// È¨ÏÞ
 		try {
 			String str1 = telnet1.readUntil("Password:");//
 			telnet1.write(superPwd);// È¨ÏÞÃÜÂë
-			boolean success = telnet1.determineCommand("#", "Password:");// Á¬½ÓÊÇ·ñ³É¹¦
+			success = telnet1.determineCommand("#", "Password:");// Á¬½ÓÊÇ·ñ³É¹¦
 			if (!success) {
-				System.out.println("ÃÜÂë´íÎó");
-				return false;
+				// System.out.println("ÃÜÂë´íÎó");
+				return success = false;
 			}
 			String f = configName + "/" + groupname + "/" + serverName + "/"
 					+ host;
 			File ciscofile = new File(f);
 			ciscofile.mkdirs();
 			telnet1.write(command);
-			boolean flag = telnet1.readCisco(f, telnet1, host);
-			if (!flag) {
-				// System.out.println("Ë¼¿ÆÓÐÐÂÅäÖÃÎÄ¼þ");
-			} else {
-				// System.out.println("Ë¼¿ÆÅäÖÃÃ»ÓÐ¸üÐÂ");
-				return false;
-			}
+			flag = telnet1.readCisco(f, telnet1, host);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			telnet1.write("exit");
 			telnet1.write("exit");
 		}
-		return true;
+		return flag;
 	}
+
 	/**
 	 * »ªÎªÅäÖÃÎÄ¼þÏÂÔØ
 	 */
 	public static boolean ConfigHuaWei(String host, String configName,
 			String pwd, String superName, String superPwd, String command,
 			String groupname, String serverName) {
-
+		boolean flag = false;
 		ConfigCopy telnet1 = new ConfigCopy(">", host, 23, "3", pwd);
 		String str = telnet1.Connection();
 		// System.out.println(str);
 		if (!("µÇÂ¼³É¹¦!".equals(str))) {
-			System.out.println("Á¬½ÓÊ§°Ü");
-			return false;
+			System.out.println("Á¬½ÓÊ§°ÜIPÎ´Á¬½ÓÉÏ");
+			return success = false;
 		}
 		telnet1.write(superName);
 		try {
 			String str1 = telnet1.readUntil("Password:");
+
 			telnet1.write(superPwd);
-			boolean success = telnet1.determineCommand(">", "Password:");
+			success = telnet1.determineCommand(">", "Password:");
 			if (!success) {
 				System.out.println("Á¬½ÓÊ§°Ü£¬È¨ÏÞÃû»òÃÜÂë´íÎó");
-				return false;
+				return success = false;
 			}
 			String f = configName + "/" + groupname + "/" + serverName + "/"
 					+ host;
 			File huafile = new File(f);
 			huafile.mkdirs();
 			telnet1.write(command);
-			boolean flag = telnet1.readUntil6(f, telnet1, host);
-			if (!flag) {
-				// System.out.println("»ªÎªÓÐÐÂÅäÖÃÎÄ¼þ");
-			} else {
-				// System.out.println("»ªÎªÅäÖÃÃ»ÓÐ¸üÐÂ");
-				return false;
-			}
+			flag = telnet1.readUntil6(f, telnet1, host);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			telnet1.write("exit");
 			telnet1.write("exit");
 		}
-		return true;
-	}
-
-	public static void main(String[] args) throws Exception {
-		// File f= new File(localPath);
-		// Git git=Git.open(f);
-		// List<DiffEntry> diffEntries = git.diff()
-		// .setPathFilter(PathFilterGroup.createFromStrings(files))
-		// .setShowNameAndStatusOnly(true).call();
-		testClone();
-		// String revision = "5cffef8";// »ñÈ¡°æ±¾ºÅ
-		// rollBackFile(localPath, revision);
+		return flag;
 	}
 
 }

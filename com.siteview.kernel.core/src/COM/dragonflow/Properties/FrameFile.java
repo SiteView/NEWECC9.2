@@ -639,7 +639,7 @@ public class FrameFile {
 		bo.GetField("monitorName").SetValue(new SiteviewValue(monitorName));
 		bo.GetField("Department").SetValue(new SiteviewValue(department));
 		bo.GetField("MonitorType").SetValue(new SiteviewValue(type));
-		bo.SaveObject(FileTools.getApi_1(), false, true);
+		bo.SaveObject(FileTools.getApi_1(), true, true);
 		/**
 		 * ÊÇ·ñ±¨¾¯ 
 		 * 

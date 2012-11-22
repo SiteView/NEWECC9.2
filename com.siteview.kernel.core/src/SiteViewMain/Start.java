@@ -2,7 +2,6 @@ package SiteViewMain;
 import java.io.IOException;
 
 import COM.dragonflow.Api.ApiRmiServer;
-import COM.dragonflow.Api.ECFServer;
 import COM.dragonflow.Log.LogManager;
 import COM.dragonflow.SiteView.Platform;
 import COM.dragonflow.Utils.FileTools;
@@ -17,7 +16,7 @@ public class Start {
     {
         SiteViewSupport.argv = args;
         try {
-        	Class.forName("COM.dragonflow.Api.ECFServer");
+        	//Class.forName("COM.dragonflow.Api.ECFServer");
 			//ECFServer.start();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -25,6 +24,7 @@ public class Start {
 		};
         try
         {
+        	TftpServerStart.StartServer();//启动TFTP服务器
             SiteViewSupport.InitProcess();
             SiteViewSupport.InitProcess2();
             SiteViewSupport.StartProcess();/*启动监测线程*/

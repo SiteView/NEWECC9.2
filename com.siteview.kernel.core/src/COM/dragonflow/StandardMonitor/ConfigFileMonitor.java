@@ -37,6 +37,10 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
 
+import system.Collections.ICollection;
+import system.Collections.IEnumerator;
+import system.Xml.XmlElement;
+
 import COM.dragonflow.HTTP.HTTPRequest;
 import COM.dragonflow.Properties.NumericProperty;
 import COM.dragonflow.Properties.PercentProperty;
@@ -47,6 +51,10 @@ import COM.dragonflow.SiteView.ServerMonitor;
 import COM.dragonflow.Utils.FileTools;
 import COM.dragonflow.Utils.I18N;
 import COM.dragonflow.Utils.TextUtils;
+import Siteview.Operators;
+import Siteview.QueryInfoToGet;
+import Siteview.SearchCriteria;
+import Siteview.SiteviewQuery;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
 
@@ -71,6 +79,7 @@ public class ConfigFileMonitor extends ServerMonitor {
 	static int kRetryPacketCount = 3;
 	static StringProperty pCommand;
 	File f1;
+	static boolean success=false;
 
 	public ConfigFileMonitor() {
 	}
@@ -97,9 +106,8 @@ public class ConfigFileMonitor extends ServerMonitor {
 	protected boolean update() {
 		boolean flag = false;
 		String host = getProperty(pHost);
-
 		// String configName = getProperty(pConfigName);
-		String configName = "C:/CfrConfigFile";
+		String configName = ConfigCopy.getURL();
 		String pwd = getProperty(pPwd);
 		String superName = getProperty(pSuperName);
 		String superPwd = getProperty(pSuperPwd);
@@ -107,41 +115,22 @@ public class ConfigFileMonitor extends ServerMonitor {
 		String command = getProperty(pCommand);
 		String group = "";
 		String groupName = "";
-		String groups="";
+//		String groups="";
 		// JDBC 查询数据
 	//	Connection conn = JDBCForSQL.getConnection();
-		BusinessObject businessObj=FileTools.CreateBo("ServerAddress", host, "dbo.RemoteMachine");
+		BusinessObject businessObj=FileTools.CreateBo("ServerAddress", host, "RemoteMachine");
 			if(businessObj!=null){
 				group = businessObj.GetField("Groups").get_NativeValue().toString();
 				serviceName = businessObj.GetField("EpuipmentsTypes").get_NativeValue().toString();
-				pwd = businessObj.GetField("PasswordMachine").get_NativeValue().toString();
+				pwd = businessObj.GetField("EquipmentPassWord").get_NativeValue().toString();
 				superName = businessObj.GetField("AuthorityName").get_NativeValue().toString();
 				superPwd = businessObj.GetField("AuthorityPwd").get_NativeValue().toString();
-				groups = businessObj.GetField("Groups").get_NativeValue().toString();
+//				groups = businessObj.GetField("Groups").get_NativeValue().toString();
 			}
-			BusinessObject Obj=FileTools.CreateBo("RecId", groupName, "dbo.EccGroup");
+			BusinessObject Obj=FileTools.CreateBo("RecId", group, "EccGroup");
 			if(Obj!=null){
-				groupName = businessObj.GetField("GroupName").get_NativeValue().toString();
+				groupName = Obj.GetField("GroupName").get_NativeValue().toString();
 			}
-//		Statement st = null;
-//		ResultSet rs = null;
-//		String sql = "select r.* , e.GroupName from dbo.RemoteMachine as r , dbo.EccGroup as e where ServerAddress='"
-//				+ host + "'  and e.RecId=r.groups";
-//
-//		try {
-//			st = conn.createStatement();
-//			rs = st.executeQuery(sql);
-//			while (rs.next()) {
-//				group = rs.getString("Groups");
-//				serviceName = rs.getString("EpuipmentsTypes");
-//				pwd = rs.getString("PasswordMachine");
-//				superName = rs.getString("AuthorityName");
-//				superPwd = rs.getString("AuthorityPwd");
-//				groupName = rs.getString("Groupname");
-//			}
-//		} catch (SQLException e1) {
-//			e1.printStackTrace();
-//		}
 		File file = new File(configName);
 		if (file.listFiles() == null) {
 			try {
@@ -163,26 +152,33 @@ public class ConfigFileMonitor extends ServerMonitor {
 				e.printStackTrace();
 			}
 		}
-
-//		System.out.println("host=" + host);
-//		System.out.println("configName=" + configName);
-//		System.out.println("pwd=" + pwd);
-//		System.out.println("superName=" + superName);
-//		System.out.println("superPwd=" + superPwd);
-//		System.out.println("command=" + command);
-//		System.out.println("groupName=" + groupName);
-//		System.out.println("serviceName=" + serviceName);
-		
-		if ("cisco".equals(serviceName)) {
+		if ("思科".equals(serviceName)) {
 			flag = ConfigCopy.ConfigCisco(host, configName, pwd, superName,
 					superPwd, command, groupName, serviceName);
-		} else if ("huawei".equals(serviceName)) {
+		} else if ("华为".equals(serviceName)) {
 			flag = ConfigCopy.ConfigHuaWei(host, configName, pwd, superName,
 					superPwd, command, groupName, serviceName);
 		} else {
 			return false;
 		}
 		if (flag) {
+			
+			SiteviewQuery siteviewquery = new SiteviewQuery();
+			siteviewquery.AddBusObQuery("ConfigFileManagemant", QueryInfoToGet.All);
+			SearchCriteria sqlbuilder = siteviewquery.get_CriteriaBuilder();
+			XmlElement xmlelement1 = sqlbuilder.FieldAndValueExpression("ConfigName",Operators.Equals,"config.txt");
+			XmlElement xmlelement2 = sqlbuilder.FieldAndValueExpression("EquipmentAddress",Operators.Equals,host);
+			XmlElement sqlxmlelment = sqlbuilder.AndExpressions(new XmlElement[]{xmlelement1,xmlelement2});
+			siteviewquery.set_BusObSearchCriteria(sqlxmlelment);
+			ICollection busCollection = FileTools.getApi().get_BusObService().get_SimpleQueryResolver().ResolveQueryToBusObList(siteviewquery);
+			
+			if(busCollection!=null){
+			IEnumerator ienumbus = busCollection.GetEnumerator();
+			while(ienumbus.MoveNext()){
+				BusinessObject busob = (BusinessObject)ienumbus.get_Current();
+				busob.DeleteObject(FileTools.getApi());
+			}
+			}
 
 			File file2 = new File(configName + "/" + groupName + "/"
 					+ serviceName + "/" + host + "/" + "config.txt");
@@ -193,21 +189,16 @@ public class ConfigFileMonitor extends ServerMonitor {
 				filesize = in.available();
 			} catch (FileNotFoundException e2) {
 				e2.printStackTrace();
-
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
-			// long file2Size = file2.getFreeSpace();
 			String RecId = UUID.randomUUID().toString().replace("-", "");
 			SimpleDateFormat dateFormat = new SimpleDateFormat(
 					"yyyy-MM-dd HH:mm:ss");
 			Date date = new Date();
 			String date1 = dateFormat.format(date);
-			// String date1 = date.toString();
-			// System.out.println(date1);
-			BusinessObject bb=FileTools.getApi_1().get_BusObService().Create("dbo.ConfigFileManagemant");
+			BusinessObject bb=FileTools.getApi_1().get_BusObService().Create("ConfigFileManagemant");
 			bb.GetField("RecId").SetValue(new
 					 SiteviewValue(RecId));
 			bb.GetField("Groups").SetValue(new
@@ -224,44 +215,13 @@ public class ConfigFileMonitor extends ServerMonitor {
 					 SiteviewValue(filesize));
 			bb.GetField("updateTime").SetValue(new
 					 SiteviewValue(date1));
-//			StringBuilder addsql = new StringBuilder(
-//					"insert into dbo.ConfigFileManagemant(RecId,Groups,GroupName,EquipmentType,EquipmentAddress,ConfigName,ConfigFileSize,updateTime) values(");
-//			addsql.append("'");
-//			addsql.append(RecId);
-//			addsql.append("','");
-//			addsql.append(group);
-//			addsql.append("','");
-//			addsql.append(groupName);
-//			addsql.append("','");
-//			addsql.append(serviceName);
-//			addsql.append("','");
-//			addsql.append(host);
-//			addsql.append("','");
-//			addsql.append("config.txt");
-//			addsql.append("','");
-//			addsql.append(filesize);
-//			addsql.append("','");
-//			addsql.append(date1);
-//			addsql.append("')");
+			bb.SaveObject(FileTools.getApi(), true, true);
+			try {
+				ConfigCopy.testpush();//提交数据			
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			
-			
-			
-			
-			// System.out.println(addsql);
-//			try {
-//				int a = st.executeUpdate(addsql.toString());
-//				if (a > 0) {
-//					System.out.println("本地库跟新");
-//					try {
-//						ConfigCopy.testpush();
-//						System.out.println("提交到服务器成功");
-//					} catch (Exception e) {
-//						e.printStackTrace();
-//					}
-//				}
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
 		}
 		int timeout = getPropertyAsInteger(pTimeout);
 		int size = getPropertyAsInteger(pSize);
@@ -279,9 +239,10 @@ public class ConfigFileMonitor extends ServerMonitor {
 		currentStatus = "ConfigPingMonitor analyzing results...";
 		if (stillActive()) {
 			synchronized (this) {
-//				if (flag == false) {
-//					packetReceived = -1;
-//				}
+				success=ConfigCopy.success;
+				if(success=false){
+					packetReceived=-1;
+				}
 				if (packetReceived > 0) {
 					setProperty(pStatus, "ok");
 					float f = (float) j1 / (float) packetReceived;
@@ -334,7 +295,9 @@ public class ConfigFileMonitor extends ServerMonitor {
 				}
 			}
 		}
+		
 		return true;
+		
 	}
 
 	public Array getLogProperties() {

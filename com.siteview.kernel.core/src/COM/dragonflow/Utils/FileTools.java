@@ -59,7 +59,7 @@ public class FileTools {
 	}
 	public static ISiteviewApi getApi(){
 		SiteviewConnection currentAPI=SiteviewConnection
-    			.GetInstance("{Common}SiteViewEcc", "admin", "manage");
+    			.GetInstance("{Common}EccSiteView", "admin", "manage");
 		mainIPrincipal=Thread.get_CurrentPrincipal();
 		return currentAPI.GetAPIHandle();
 	}

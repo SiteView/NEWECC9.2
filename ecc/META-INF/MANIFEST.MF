@@ -11,7 +11,10 @@ Require-Bundle: org.eclipse.ui,
  Siteview.Forms.Common;bundle-version="1.0.0",
  core.busobmaint;bundle-version="1.0.0",
  Core.AutoTasks;bundle-version="1.0.0",
- com.siteview.kernel.core;bundle-version="1.0.0"
+ com.siteview.kernel.core;bundle-version="1.0.0",
+ org.eclipse.jgit;bundle-version="2.2.0",
+ org.eclipse.egit.ui;bundle-version="2.2.0",
+ org.eclipse.core.resources;bundle-version="3.7.101"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: SiteView.ecc.dialog,
@@ -32,7 +35,9 @@ Bundle-ClassPath: lib/jcommon-1.0.15.jar,
  swing2swt.jar,
  lib/mail/mail.jar,
  lib/mail/my.mail.jar,
- lib/my.util.sound.jar
+ lib/my.util.sound.jar,
+ lib/commons-httpclient-2.0-final.jar,
+ lib/config/commons-net-2.0.jar
 Import-Package: SiteView.ecc.dialog,
  SiteView.ecc.editors,
  core.reporting,
@@ -42,4 +47,5 @@ Import-Package: SiteView.ecc.dialog,
  org.eclipse.ecf.core.provider,
  org.eclipse.ecf.core.security,
  org.eclipse.ecf.datashare,
- org.eclipse.ecf.datashare.events
+ org.eclipse.ecf.datashare.events,
+ org.eclipse.team.ui.history

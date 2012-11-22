@@ -143,6 +143,7 @@ public class EccTreeControl extends ViewPart{
 		list_2.add("Ecc.Memory");
 		list_2.add("Ecc.Service");
 		list_4.add("Ecc.ConfigFileReadMonitor");
+		list_4.add("Ecc.ConfigDownLoadUploadMonitor");
 	}
 
 	public static TreeViewer getTreeViewer() {
@@ -522,6 +523,26 @@ public class EccTreeControl extends ViewPart{
 			bo = (BusinessObject) interfaceTableIEnum.get_Current();
 		}
 		return bo;
+	}
+	public static List<BusinessObject> CreateConfigBo(String key, String s, String s1) {
+		SiteviewQuery query = new SiteviewQuery();
+		query.AddBusObQuery(s1, QueryInfoToGet.All);
+		XmlElement xml;
+		xml = query.get_CriteriaBuilder().FieldAndValueExpression(key,
+				Operators.Equals, s);
+		query.set_BusObSearchCriteria(xml);
+		ICollection iCollenction = ConnectionBroker.get_SiteviewApi()
+				.get_BusObService().get_SimpleQueryResolver()
+				.ResolveQueryToBusObList(query);
+		List<BusinessObject> list = new ArrayList<BusinessObject>();
+		BusinessObject bo=null;
+		IEnumerator interfaceTableIEnum = iCollenction.GetEnumerator();
+		
+		while (interfaceTableIEnum.MoveNext()) {
+			bo = (BusinessObject) interfaceTableIEnum.get_Current();
+			list.add(bo);
+		}
+		return list;
 	}
 	
 }
