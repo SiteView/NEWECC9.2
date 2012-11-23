@@ -9,10 +9,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.swing.text.View;
 
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.egit.ui.internal.history.HistoryPageInput;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepository;
@@ -98,6 +101,11 @@ public class EccControl extends EditorPart {
 	public Composite c;
 	static Color[] color;
 	static Table configTab;
+	static String URL;
+//	static {
+//		System.out.println("-----");
+//		getconfig();
+//	}
 
 	public void createPartControl(Composite parent) {
 		bo1 = null;
@@ -474,8 +482,9 @@ public class EccControl extends EditorPart {
 							.get_NativeValue().toString();
 					String Equipmenttype = conbo.GetField("EquipmentType")
 							.get_NativeValue().toString();
-					String url = ConfigListFileName.getURL()+"/" + groupName + "/"
-							+ Equipmenttype + "/" + ServerAddress;
+							getconfig();
+					String url = URL + "/" + groupName
+							+ "/" + Equipmenttype + "/" + ServerAddress;
 					configData[4] = url;
 					TableItem tableItem = new TableItem(configTab, SWT.NONE);
 					tableItem.setText(configData);
@@ -782,7 +791,7 @@ public class EccControl extends EditorPart {
 							.getWorkbench().getActiveWorkbenchWindow()
 							.getActivePage().showView(IHistoryView.VIEW_ID);
 
-					String localPath = "C:/CfrConfigFile/";
+					String localPath = URL;
 					// url.substring(0, url.);
 					File file = new File(url + "/" + name);
 					List<File> list = new ArrayList<File>(); // Arrays.asList(file.listFiles());
@@ -972,5 +981,23 @@ public class EccControl extends EditorPart {
 				}
 			}
 		}
+	}
+
+	public static void getconfig() {
+		Properties p = new Properties();
+	String	path="";
+		try {
+			
+			path = FileLocator.toFileURL(
+					Platform.getBundle("ecc").getEntry("cfr.properties")).getPath();
+			FileReader fr = new FileReader(path);
+			p.load(fr);
+			URL = p.getProperty("URL");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public static void main(String[] args) {
+		getconfig();
 	}
 }

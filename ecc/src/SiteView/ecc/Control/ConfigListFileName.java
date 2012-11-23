@@ -44,18 +44,21 @@ public class ConfigListFileName {
 	public static boolean success = false;
 	private static ArrayList<String> list = null;
 	private static String URL;
+	static{
+//		getCon();
+	}
 	
 
 	public static String getURL() {
 		return URL;
 	}
 
-	public static void main(String[] args) {
-		LinkCisco("192.168.0.248", "rootroot", "en", "siteview", "dir");
-	}
+//	public static void main(String[] args) {
+//		LinkCisco("192.168.0.248", "rootroot", "en", "siteview", "dir");
+//	}
 
 	public static ArrayList<String> TelnetInfo(String host) {
-		getCon();
+	
 
 		BusinessObject bo = EccTreeControl.CreateBo("ServerAddress", host,
 				"RemoteMachine");
@@ -380,4 +383,5 @@ public class ConfigListFileName {
 //		tempUrl=p.getProperty("tempUrl");
 
 	}
+	
 }
