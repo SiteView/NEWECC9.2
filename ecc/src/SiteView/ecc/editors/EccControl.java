@@ -683,11 +683,15 @@ public class EccControl extends EditorPart {
 			tableItem.setData(machine);
 			data[0] = machine.getBo().GetField("Status").get_NativeValue()
 					.toString().contains("successful") ? "good" : "error";
-			data[1] = machine.getBo().GetField("title").get_NativeValue()
-					.toString() == null ? machine.getBo()
-					.GetField("ServerAddress").get_NativeValue().toString()
-					: machine.getBo().GetField("title").get_NativeValue()
-							.toString();
+			String ss= null;
+			if(machine.getBo().get_Name().contains("RemoteMachine.RemoteEquipment")){
+				ss= machine.getBo().GetField("RemoteName").get_NativeValue()
+						.toString();
+			}else{
+				ss=machine.getBo().GetField("title").get_NativeValue()
+						.toString();
+			}
+			data[1] =ss == null ? machine.getBo().GetField("ServerAddress").get_NativeValue().toString(): ss;
 			data[2] = machine.getBo().GetField("ServerAddress")
 					.get_NativeValue().toString();
 			data[3] = machine.getBo().GetField("RemoteMachineType")
@@ -723,61 +727,28 @@ public class EccControl extends EditorPart {
 	// 配置文件监测器历史信息右击Menu
 	public static Menu getConfigMenu(Table tableItem) {
 		Menu menu = new Menu(tableItem);
-		// MenuItem m1 = new MenuItem(menu, SWT.NONE);
-		// m1.setEnabled(true);
-		// m1.setText("打开文件");
+		 MenuItem m1 = new MenuItem(menu, SWT.NONE);
+//		 m1.setEnabled(true);
+//		 m1.setText("上传");
 		MenuItem m3 = new MenuItem(menu, SWT.SEPARATOR);
 		MenuItem m2 = new MenuItem(menu, SWT.NONE);
 		m2.setText("历史记录");
 		MenuItem m4 = new MenuItem(menu, SWT.SEPARATOR);
 		// MenuItem m5 = new MenuItem(menu, SWT.NONE);
 		// m5.setText("加标记");
-		// m1.addSelectionListener(new SelectionListener() {
+		 m1.addSelectionListener(new SelectionListener() {
 
-		// public void widgetSelected(SelectionEvent e) {
-		//
-		// String url = item2.getText(4);
-		// String name = item2.getText(0);
-		// File file = new File(url + "/" + name);
-		// TabItem[] itemarr = tabFolder.getItems();
-		// for (TabItem tabItem : itemarr) {
-		// if (tabItem.getText().equals("配置文件")) {
-		// break;
-		// } else {
-		// if (tabItem == itemarr[itemarr.length - 1]) {
-		// FileReader fr;
-		// StringBuffer sb = null;
-		// try {
-		// fr = new FileReader(file);
-		// sb = new StringBuffer();
-		// int line = fr.read();
-		// while (line != -1) {
-		// sb.append((char) line);
-		// line = fr.read();
-		// }
-		// } catch (FileNotFoundException e1) {
-		// e1.printStackTrace();
-		// } catch (IOException e2) {
-		// e2.printStackTrace();
-		// }
-		// TabItem comaTabItem_5 = new TabItem(tabFolder,
-		// SWT.NONE);
-		// comaTabItem_5.setText("配置文件");
-		// Composite c4 = new Composite(tabFolder,
-		// SWT.FULL_SELECTION);
-		// c4.setLayout(new FillLayout());
-		// Text t = new Text(c4, SWT.WRAP | SWT.V_SCROLL);
-		//
-		// t.setText(sb.toString());
-		// comaTabItem_5.setControl(c4);
-		// }
-		// }
-		// }
-		// }
-		//
-		// public void widgetDefaultSelected(SelectionEvent e) {
-		// }
-		// });
+		 public void widgetSelected(SelectionEvent e) {
+		
+		 String url = item2.getText(4);
+		 String name = item2.getText(0);
+		 File file = new File(url + "/" + name);
+		 
+		 }
+		
+		 public void widgetDefaultSelected(SelectionEvent e) {
+		 }
+		 });
 		m2.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent e) {
@@ -869,9 +840,9 @@ public class EccControl extends EditorPart {
 				BusinessObject monitor = (BusinessObject) item.getData();
 				String monitorid = monitor.get_RecId();
 				APIInterfaces rmiServer = EditGroupBundle.createAmiServer();
+				String str=monitor.GetField("Groups").get_NativeValue().toString();
 				try {
-					rmiServer.Refresh(monitorid, monitor.GetField("Groups")
-							.get_NativeValue().toString());
+					rmiServer.Refresh(monitorid, str);
 				} catch (RemoteException e1) {
 					e1.printStackTrace();
 				}
@@ -987,7 +958,6 @@ public class EccControl extends EditorPart {
 		Properties p = new Properties();
 	String	path="";
 		try {
-			
 			path = FileLocator.toFileURL(
 					Platform.getBundle("ecc").getEntry("cfr.properties")).getPath();
 			FileReader fr = new FileReader(path);
