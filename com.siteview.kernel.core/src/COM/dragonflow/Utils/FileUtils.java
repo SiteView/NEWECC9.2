@@ -1205,6 +1205,7 @@ public class FileUtils {
 				IEnumerator ien_colum=ico_colum.GetEnumerator();
 				while(ien_colum.MoveNext()){
 					String columName = (String) ien_colum.get_Current();// Get colum name
+					System.out.println(columName);
 					String datavalue = bo.GetField(columName).get_NativeValue().toString();// Get data value
 					if (datavalue != null) {
 						if (!datavalue.equals("")) {

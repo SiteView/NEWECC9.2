@@ -236,8 +236,7 @@ public class WmiService {
 			m_Session.useSessionSecurity(true);
 			m_Session.setGlobalSocketTimeout(5000);
 
-			m_ComStub = new JIComServer(JIProgId.valueOf(WMI_PROGID),
-					m_Address, m_Session);
+			m_ComStub = new JIComServer(JIProgId.valueOf(WMI_PROGID),m_Address, m_Session);
 
 			IJIComObject unknown = m_ComStub.createInstance();
 			m_ComObject = unknown.queryInterface(WMI_CLSID);

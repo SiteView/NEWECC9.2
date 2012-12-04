@@ -1,16 +1,11 @@
 package SiteView.ecc.Action;
 
-import java.util.ArrayList;
-import java.util.Map;
-
-import org.apache.commons.net.telnet.TelnetClient;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 import SiteView.ecc.Control.ConfigListFileName;
-import SiteView.ecc.Modle.GroupModle;
 import SiteView.ecc.Modle.MachineModle;
 import SiteView.ecc.tools.Config;
 import SiteView.ecc.tools.FileTools;
@@ -18,7 +13,6 @@ import SiteView.ecc.view.EccTreeControl;
 import Siteview.LegalUtils;
 import Siteview.SiteviewValue;
 import Siteview.Api.BusinessObject;
-import Siteview.Api.Field;
 import Siteview.Windows.Forms.ConnectionBroker;
 import core.busobmaint.BusObMaintView;
 import core.busobmaint.BusObNewInput;
@@ -36,8 +30,6 @@ public class DNSAction extends Action {
 				.toString();
 		Siteview.Api.BusinessObject busOb = ConnectionBroker.get_SiteviewApi()
 				.get_BusObService().Create(this.getText());
-		// System.out.println("busOb==========="+busOb);
-		// System.out.println("machinebo=========="+machinebo);
 		busOb.GetField("Groups").SetValue(new SiteviewValue(groupId));
 		String filePath = FileTools.getRealPath("\\files\\HostName.properties");
 		String s = Config.getReturnStr(filePath, this.getText());
@@ -47,6 +39,9 @@ public class DNSAction extends Action {
 		if ("ConfigDownLoadUploadMonitor".equals(EccType)) {
 			ConfigListFileName.TelnetInfo(m);
 			
+		}
+		if(!m.startsWith("\\\\")&&!EccType.equals("ping")){
+			m="\\\\"+m;
 		}
 		if (s != null) {
 			busOb.GetField(s).SetValue(new SiteviewValue(m));
@@ -80,7 +75,6 @@ public class DNSAction extends Action {
 					e1.getMessage());
 			e1.printStackTrace();
 		}
-		// BusObMaintView.newBusOb(ConnectionBroker.get_SiteviewApi(),this.getText());
 	}
 
 }

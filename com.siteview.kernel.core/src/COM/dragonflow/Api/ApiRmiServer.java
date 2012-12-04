@@ -490,7 +490,6 @@ public class ApiRmiServer extends java.rmi.server.UnicastRemoteObject implements
 		String RootFilePath=System.getProperty("user.dir");
 		RootFilePath=RootFilePath.substring(0,RootFilePath.lastIndexOf("\\")+1);
 		RootFilePath=RootFilePath+"com.siteview.kernel.core\\groups\\history.config";
-	
 		if(s2.equals("add")){
 			array.add(s);
 		}else if(s2.equals("edit")){

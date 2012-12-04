@@ -16,6 +16,7 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.ui.PlatformUI;
 
 import system.Configuration.SettingValueElement;
 
@@ -35,12 +36,14 @@ public class BatchAddMachine extends Dialog {
 	public String group;
 	public String hostname;
 	public String machineId;
+	private BusinessObject bo1;
 	
 	Button btnPing;
 	Button btnCheckButton;
 	Button btnMemory;
-	public BatchAddMachine(Shell Shell) {
+	public BatchAddMachine(Shell Shell,BusinessObject bo) {
 		super(Shell);
+		this.bo1=bo;
 	}
 	/*
 	 * ≥ı ºªØ≈‰÷√
@@ -263,11 +266,9 @@ public class BatchAddMachine extends Dialog {
 				if(bo!=null){
 					bo.GetField("frequency").SetValue(new SiteviewValue(10));
 					bo.GetField("timeUnitSelf").SetValue(new SiteviewValue("Minute"));
-					//bo.GetField("timeUnitList_Valid").SetValue(new SiteviewValue("4DCE3849C1CD4F73B927A417ADBEA659"));
 					bo.GetField("verifyErrorFrequency").SetValue(new SiteviewValue(0));
 					bo.GetField("ErrorFrequency").SetValue(new SiteviewValue("Minute"));
 					bo.GetField("dependscondition").SetValue(new SiteviewValue("good"));
-					//bo.GetField("dependscondition_Valid").SetValue(new SiteviewValue("B2FC0D40C49D46CF987DE8F3D250A5C7"));
 					bo.GetField("title").SetValue(new SiteviewValue(hostname+":"+s));
 					bo.GetField("Machine").SetValue(new SiteviewValue(machineId));
 					bo.SaveObject(ConnectionBroker.get_SiteviewApi(), false, true);

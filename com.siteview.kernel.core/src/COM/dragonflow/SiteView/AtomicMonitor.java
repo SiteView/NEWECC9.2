@@ -1804,32 +1804,5 @@ public  class AtomicMonitor extends Monitor implements Runnable,
 		// TODO Auto-generated method stub
 		return null;
 	}
-	//往sql数据库中写入日志文件
-	 public static void savaLog(PropertiedObject propertiedobject) {
-			// TODO Auto-generated method stub
-	    	String category=propertiedobject.getProperty("category");
-	    	String MonitorName=propertiedobject.getProperty("_name");
-	    	String stateString=propertiedobject.getProperty("stateString")+"*"+propertiedobject.getProperty("sample");
-	    	if(!propertiedobject.getProperty("percentFull").equals("")){
-	    		stateString=stateString+"*"+propertiedobject.getProperty("percentFull");
-	    	}
-	    	if(!propertiedobject.getProperty("freeSpace").equals("")){
-	    		stateString=stateString+"*"+propertiedobject.getProperty("freeSpace");
-	    	}
-	    	if(!propertiedobject.getProperties("percentGood").equals("")){
-	    		stateString=stateString+"*"+propertiedobject.getProperty("percentGood");
-	    	}
-	    	String MonitorId=propertiedobject.getProperty("_id");
-	    	String ownerID=propertiedobject.getProperty("ownerID");
-	    	BusinessObject bo=FileTools.getApi_1().get_BusObService().Create("MonitorLog");
-	    	bo.GetField("ownerID").SetValue(new SiteviewValue(ownerID));
-	    	bo.GetField("MonitorStatus").SetValue(new SiteviewValue(category));
-	    	bo.GetField("MonitorName").SetValue(new SiteviewValue(MonitorName));
-	    	bo.GetField("MonitorId").SetValue(new SiteviewValue(MonitorId));
-	    	bo.GetField("MonitorMassage").SetValue(new SiteviewValue(stateString));
-	    	bo.SaveObject(FileTools.getApi_1(), false, true);
-//	    	String sql="insert into MonitorLog(RecId,ownerID,MonitorStatus,MonitorName,MonitorId,MonitorMassage,CreatedDateTime)" +
-//	    			"values('"+RecId+"','"+ownerID+"','"+category+"','"+MonitorName+"','"+MonitorId+"','"+stateString+"','"+Timestamp.valueOf(f.format(CreatedDateTime))+"')";
-//	    	JDBCForSQL.execute_Insert(sql);	
-		}
+
 }

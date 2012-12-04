@@ -20,6 +20,9 @@ public class ReturnDiskSpace implements IAutoTaskExtension {
 	public String run(Map<String, Object> params) throws Exception {
 		BusinessObject bo = (BusinessObject) params.get("_CUROBJ_");
 		String address=bo.GetField("HostNameDiskSpace").get_NativeValue().toString();
+		if(!address.startsWith("\\")){
+			address="\\\\"+address;
+		}
 		rmiServer=EditGroupBundle.createAmiServer();
 		String s="";
 		BusinessObject machine=FileTools.CreateBo("RecId", bo.GetField("Machine").get_NativeValue().toString(), "RemoteMachine");

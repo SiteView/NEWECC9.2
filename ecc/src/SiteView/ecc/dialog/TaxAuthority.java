@@ -738,7 +738,6 @@ public class TaxAuthority extends Dialog {
 				}
 			}
 			applyButton.setEnabled(true);
-			this.close();
 		}else if(buttonId ==IDialogConstants.CLOSE_ID){
 			closeButton.setEnabled(false);
 			TreeItem[] items = tree.getItems();
@@ -802,7 +801,6 @@ public class TaxAuthority extends Dialog {
 				}
 			}
 			closeButton.setEnabled(true);
-			this.close();
 		}else{
 			this.close();
 		}

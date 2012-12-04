@@ -407,7 +407,10 @@ public class ntmachinePage extends COM.dragonflow.Page.remoteBase
     	String address = (String)hashMap.get("_host");
     	String user = (String)hashMap.get("_login");
     	String pw = (String)hashMap.get("_password");
-    	WmiService ws = new WmiService(address.substring(2));
+    	if(address.startsWith("\\")){
+    		address=address.substring(address.lastIndexOf("\\")+1);
+    	}
+    	WmiService ws = new WmiService(address);
     	ws.connect("", user, pw);
     	int a = ws.query("select DeviceID from Win32_LogicalDisk where DriveType=3");
     	ws.disconnect();

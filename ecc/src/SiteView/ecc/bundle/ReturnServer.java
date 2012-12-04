@@ -2,7 +2,9 @@ package SiteView.ecc.bundle;
 
 import java.util.Map;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 
 import SiteView.ecc.dialog.ChooseService;
 import SiteView.ecc.tools.FileTools;
@@ -25,6 +27,9 @@ public class ReturnServer implements IAutoTaskExtension {
 	public String run(Map<String, Object> params) throws Exception {
 		BusinessObject bo = (BusinessObject) params.get("_CUROBJ_");
 		String address=bo.GetField("Service").get_NativeValue().toString();
+		if(!address.startsWith("\\")){
+			address="\\\\"+address;
+		}
 		rmiServer=EditGroupBundle.createAmiServer();
 		String s="";
 		BusinessObject machine=FileTools.CreateBo("RecId", bo.GetField("Machine").get_NativeValue().toString(), "RemoteMachine");
@@ -32,8 +37,9 @@ public class ReturnServer implements IAutoTaskExtension {
 			s="remote:"+bo.GetField("Machine").get_NativeValue().toString();
 		}
 		String[] service = rmiServer.getServer(address,s);
-		for (int i = 0; i < service.length; i++) {
-			System.out.println(service[i]);
+		if(service.length<=0){
+			MessageDialog.openInformation(new Shell(), "提示", "未找到远程设备的服务");
+			return null;
 		}
 		ChooseService cs=new ChooseService(null, service, bo);
 		cs.open();

@@ -131,6 +131,7 @@ public class MonitorSetUp extends Dialog {
 
 	@Override
 	protected Control createDialogArea(Composite parent) {
+		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		Composite composite = (Composite) super.createDialogArea(parent);
 		composite.setLayout(new FillLayout());
 
@@ -282,6 +283,7 @@ public class MonitorSetUp extends Dialog {
 		tableState.setText("\u72B6\u6001");
 
 		tabFolder = new TabFolder(sashForm_1, SWT.NONE);
+		tabFolder.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 
 		TabItem tbtmNewItem = new TabItem(tabFolder, SWT.NONE);
 		tbtmNewItem.setText("\u57FA\u7840\u4FE1\u606F");
@@ -662,6 +664,7 @@ public class MonitorSetUp extends Dialog {
 
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
+		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND));
 		subButton = createButton(parent, IDialogConstants.OK_ID, "È·¶¨",
 				true);
 		Button cancelButton = createButton(parent, IDialogConstants.CANCEL_ID,
@@ -788,7 +791,6 @@ public class MonitorSetUp extends Dialog {
 				bo.SaveObject(ConnectionBroker.get_SiteviewApi(), true, true);
 			}
 			subButton.setEnabled(true);
-		this.close();
 		} else if (buttonId == IDialogConstants.FINISH_ID) {
 			BusinessObject bo = (BusinessObject) tableItem.getData();
 			bo = FileTools.CreateBo("RecId",
@@ -814,7 +816,7 @@ public class MonitorSetUp extends Dialog {
 			}
 		} else if (buttonId == IDialogConstants.HELP_ID) {
 
-		} else {
+		} else if(buttonId == IDialogConstants.CANCEL_ID){
 			this.close();
 		}
 	}

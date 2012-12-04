@@ -27,7 +27,7 @@ public class EditorRemoteMacheineBundle implements IAutoTaskExtension {
 		BusinessObject bo = (BusinessObject) params.get("_CUROBJ_");
 		rmiServer=EditGroupBundle.createAmiServer();
 		String hostname=bo.GetField("ServerAddress").get_NativeValue().toString();
-		String remoteMachineInfo = RemoteMacheineBundle.getMachineMassage(bo);
+		String remoteMachineInfo = MyRunableWithProgress.getMachineMassage(bo);
 		List<String[]> c=rmiServer.doTestMachine(remoteMachineInfo,hostname,bo.get_RecId());
 		String s=c.get(0)[0].replaceAll(" ", ".");
 		bo.GetField("Status").SetValue(new SiteviewValue(s));
