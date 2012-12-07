@@ -40,7 +40,7 @@ public class DNSAction extends Action {
 			ConfigListFileName.TelnetInfo(m);
 			
 		}
-		if(!m.startsWith("\\\\")&&!EccType.equals("ping")){
+		if(!m.startsWith("\\\\")&&!(EccType.equals("ping")||EccType.equals("ConfigFileReadMonitor")||EccType.equals("ConfigDownLoadUploadMonitor"))){
 			m="\\\\"+m;
 		}
 		if (s != null) {
