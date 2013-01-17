@@ -64,6 +64,7 @@ public class ConfigDownLoadUploadMonitor extends ServerMonitor {
 	static CommandTextProperty pServiceName;
 	static StringProperty pHost;// 所请求服务器IP
 //	static StringProperty pConfigName;// 用户保存配置文件的全路径
+	static StringProperty puName;//用户
 	static StringProperty pPwd; // 所请求服务器的密码
 	static StringProperty pSuperName; // 所请求服务器的超级用户名
 	static StringProperty pSuperPwd; // 所请求服务器的超级密码
@@ -102,7 +103,8 @@ public class ConfigDownLoadUploadMonitor extends ServerMonitor {
 	}
   
 	public static boolean getSuccecc(){
-		boolean success=ConfigFileListDownLoad.success;
+		ConfigFileListDownLoad cdlf= new ConfigFileListDownLoad();
+		boolean success=cdlf.isSuccess();
 		 return success;
 	}
 	public static String  getUrl(String url,String groupName,String host, 
@@ -110,7 +112,6 @@ public class ConfigDownLoadUploadMonitor extends ServerMonitor {
 		File f= new File(ConfigCopy.getTempUrl());
 		f.mkdirs();
 		ConfigURL= ConfigCopy.getTempUrl()+"/"+ConfigFileName;
-		
 		ConfigAllURl=url+"/"+groupName+"/"+serviceName+"/"+host+"/"+ConfigFileName;
 		return null;
 	}
@@ -129,12 +130,14 @@ public class ConfigDownLoadUploadMonitor extends ServerMonitor {
 		String superPwd = getProperty(pSuperPwd);
 		String serviceName = getProperty(pServiceName);
 		String ConfigFileName = getProperty(pConfigFileName);
+		String UserName=getProperty(puName);
 		String group = "";
 		String groupName = "";
 		BusinessObject businessObj=FileTools.CreateBo("ServerAddress", host, "RemoteMachine");
 		if(businessObj!=null){
 			group = businessObj.GetField("Groups").get_NativeValue().toString();
 			serviceName = businessObj.GetField("EpuipmentsTypes").get_NativeValue().toString();
+			UserName=businessObj.GetField("UserName").get_NativeValue().toString();
 			pwd = businessObj.GetField("EquipmentPassWord").get_NativeValue().toString();
 			superName = businessObj.GetField("AuthorityName").get_NativeValue().toString();
 			superPwd = businessObj.GetField("AuthorityPwd").get_NativeValue().toString();
@@ -164,8 +167,7 @@ public class ConfigDownLoadUploadMonitor extends ServerMonitor {
 				System.err.println("Git pull Execption");;
 			}
 		}
-		getUrl(url,groupName,host,ConfigFileName,serviceName);//获取指定下载的文件路径
-	flag=ConfigFileListDownLoad.Link(host, pwd, superName, superPwd,ConfigFileName,serviceName);
+		
 	//flag为false 代表没有更新
 			if (flag) {
 				
@@ -202,7 +204,9 @@ public class ConfigDownLoadUploadMonitor extends ServerMonitor {
 						Date date = new Date();
 						String date1 = dateFormat.format(date);
 						BusinessObject bb=FileTools.getApi_1().get_BusObService().Create("ConfigFileManagemant");
-						bb.GetField("RecId").SetValue(new
+//						String URL = ConfigCopy.getURL();
+						bb.GetField("URL").SetValue(new SiteviewValue(url));
+                        bb.GetField("RecId").SetValue(new
 								 SiteviewValue(RecId));
 						bb.GetField("Groups").SetValue(new
 								 SiteviewValue(group));
@@ -220,6 +224,7 @@ public class ConfigDownLoadUploadMonitor extends ServerMonitor {
 								 SiteviewValue(date1));
 						bb.SaveObject(FileTools.getApi(), true, true);
 						try {
+							System.out.println("提交数据");
 							ConfigCopy.testpush();//提交数据			
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -245,7 +250,7 @@ public class ConfigDownLoadUploadMonitor extends ServerMonitor {
 			boolean success=getSuccecc();//判断telnet是否连接上
 			if (stillActive()) {
 				synchronized (this) {
-					 if (success == false) {
+					 if (!success) {
 					 packetReceived = -1;
 					 }else{
 						 packetReceived=1;
@@ -257,47 +262,31 @@ public class ConfigDownLoadUploadMonitor extends ServerMonitor {
 								&& getSetting("_singleDigitMillis").length() <= 0) {
 							f = 10F;
 						}
-						String s1;
-						if (getSetting("_singleDigitMillis").length() <= 0) {
-							s1 = TextUtils.floatToString(f / 1000F, 2) + " sec";
-						} else {
-							s1 = TextUtils.floatToString(f / 1000F, 3) + " sec";
-						}
-						if (packetReceived != initialPacketCount) {
-							int k1 = initialPacketCount - packetReceived;
-							s1 = k1 + " out of " + initialPacketCount
-									+ " missing, " + s1;
-						}
+						String s1=ConfigFileListDownLoad.description;
+						System.out.println("s1=="+s1);
+							
+					
 						setProperty(pPacketsReceived, packetReceived);
-						setProperty(
-								pPercentGood,
-								TextUtils
-										.floatToString(
-												((float) packetReceived / (float) initialPacketCount) * 100F,
-												0));
-						setProperty(
-								pPercentFailed,
-								TextUtils
-										.floatToString(
-												(((float) initialPacketCount - (float) packetReceived) / (float) initialPacketCount) * 100F,
-												0));
-						setProperty(pRoundTripTime, f);
-						setProperty(pMeasurement,
-								getMeasurement(pRoundTripTime, 200L));
+						setProperty(pPercentGood,TextUtils.floatToString(((float) packetReceived / (float) initialPacketCount) * 100F,0));
+						setProperty(pPercentFailed,TextUtils.floatToString((((float) initialPacketCount - (float) packetReceived) / (float) initialPacketCount) * 100F,0));
+//						setProperty(pRoundTripTime, f);
+//						setProperty(pMeasurement,
+//								getMeasurement(pRoundTripTime, 200L));
 						setProperty(pStateString, s1);
+						
 					} else {
 						setProperty(pPacketsReceived, 0);
 						setProperty(pPercentGood, 0);
 						setProperty(pPercentFailed, 0);
 						setProperty(pMeasurement, 0);
-						setProperty(pRoundTripTime, "n/a");
+//						setProperty(pRoundTripTime, "n/a");
 						setProperty(pStatus, "failed");
 						if (j1 == Platform.PING_COMMAND_FAILED) {
 							setProperty(pNoData, "n/a");
 							setProperty(pStateString,
-									"Data Unavailable command failed to execute");
+									"数据不可用下载失败");
 						} else {
-							setProperty(pStateString, "failed");
+							setProperty(pStateString, "未连接上");
 						}
 					}
 				}
@@ -310,8 +299,9 @@ public class ConfigDownLoadUploadMonitor extends ServerMonitor {
 	public Array getLogProperties() {
 		Array array = super.getLogProperties();
 		array.add(pStatus);
-		array.add(pRoundTripTime);
-		array.add(pPercentGood);
+//		array.add(pRoundTripTime);
+//		array.add(pPercentGood);
+		array.add(pStateString);
 		return array;
 	}
 
@@ -377,21 +367,22 @@ public class ConfigDownLoadUploadMonitor extends ServerMonitor {
 		pHost = new StringProperty("_hostname", "", "host name");
 	
 		pHost.setParameterOptions(true, 2, false);
-
+		puName= new StringProperty("_uName","","user name");
+       puName.setParameterOptions(true, 3, false);
 		pPwd = new StringProperty("_pPwd", "", "pPwd");
 		
-		pPwd.setParameterOptions(true, 3, false);
+		pPwd.setParameterOptions(true, 4, false);
 
 		pSuperName = new StringProperty("_pSuperName", "", "pSuperName");
 		
-		pSuperName.setParameterOptions(true, 4, false);
+		pSuperName.setParameterOptions(true, 5, false);
 
 		pSuperPwd = new StringProperty("_pSuperPwd", "", "pSuperPwd");
 		
-		pSuperPwd.setParameterOptions(true, 5, false);
+		pSuperPwd.setParameterOptions(true, 6, false);
 		
 		pConfigFileName= new StringProperty("_pConfigFileName", "", "pConfigFileName");
-		pConfigFileName.setParameterOptions(true, 6, false);
+		pConfigFileName.setParameterOptions(true, 7, false);
 
 		pTimeout = new NumericProperty("_timeout", "5000", "milliseconds");
 		pTimeout.setDisplayText("Timeout",
@@ -400,11 +391,11 @@ public class ConfigDownLoadUploadMonitor extends ServerMonitor {
 		pSize = new NumericProperty("_packetSize", "32", "bytes");
 		pSize.setDisplayText("Size", "the size, in bytes, of the ping message");
 		pSize.setParameterOptions(true, 9, true);
-		pRoundTripTime = new NumericProperty("roundTripTime", "0",
-				"milliseconds");
-		
-		pRoundTripTime.setLabel("round trip time");
-		pRoundTripTime.setStateOptions(1);
+//		pRoundTripTime = new NumericProperty("roundTripTime", "0",
+//				"milliseconds");
+//		
+//		pRoundTripTime.setLabel("round trip time");
+//		pRoundTripTime.setStateOptions(1);
 		pStatus = new StringProperty("status", "no data");
 		pPercentGood = new PercentProperty("percentGood");
 		pPercentGood.setLabel("% packets good");
@@ -417,14 +408,18 @@ public class ConfigDownLoadUploadMonitor extends ServerMonitor {
 		pPacketsReceived.setLabel("packets received");
 		StringProperty astringproperty[] = { pServiceName, pHost, pPwd,
 				pSuperName, pSuperPwd,pConfigFileName, pTimeout, pSize,
-				pStatus, pRoundTripTime, pPacketsSent, pPacketsReceived,
+				pStatus, pPacketsSent, pPacketsReceived,
 				pPercentGood, pPercentFailed };
+//		StringProperty astringproperty[] = { pServiceName, pHost, pPwd,
+//				pSuperName, pSuperPwd,pConfigFileName, pTimeout, pSize,
+//				pStatus, pRoundTripTime, pPacketsSent, pPacketsReceived,
+//			pPercentGood, pPercentFailed };
 		addProperties("COM.dragonflow.StandardMonitor.ConfigDownLoadUploadMonitor",
 				astringproperty);
 		addClassElement("COM.dragonflow.StandardMonitor.ConfigDownLoadUploadMonitor",
 				Rule.stringToClassifier("percentGood == 0\terror", true));
-		addClassElement("COM.dragonflow.StandardMonitor.ConfigDownLoadUploadMonitor",
-				Rule.stringToClassifier("roundTripTime == n/a\terror"));
+//		addClassElement("COM.dragonflow.StandardMonitor.ConfigDownLoadUploadMonitor",
+//				Rule.stringToClassifier("roundTripTime == n/a\terror"));
 		addClassElement("COM.dragonflow.StandardMonitor.ConfigDownLoadUploadMonitor",
 				Rule.stringToClassifier("percentGood < 100\twarning", true));
 		addClassElement("COM.dragonflow.StandardMonitor.ConfigDownLoadUploadMonitor",

@@ -47,6 +47,7 @@ import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import com.mindbright.jca.security.MessageDigest;
 
 public class ConfigCopy {
+	public static ConfigCopy cc= new ConfigCopy();
 	private int i = 0;
 	private TelnetClient telnet = new TelnetClient();
 	private InputStream in;
@@ -62,7 +63,7 @@ public class ConfigCopy {
 	private static Repository localRepo;
 	private static Git git;
 
-	public static boolean success = false;
+	public  boolean success = false;
 	private static String ApacheGitServer;
 	private static String Apacheport;
 	private static String URL;
@@ -71,6 +72,9 @@ public class ConfigCopy {
 	private static String remotePath;
 	private static String remoteGit;
 	private static String tempUrl;
+public ConfigCopy (){
+	
+}
 	public static String getURL() {
 		return URL;
 	}
@@ -91,12 +95,13 @@ public class ConfigCopy {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		remotePath = "http://"+ApacheGitServer+":"+Apacheport+"/"+remoteGit;
+		remotePath = "http://" + ApacheGitServer + ":" + Apacheport + "/"
+				+ remoteGit;
 		git = new Git(localRepo);
 	}
 
 	public static void main(String[] args) {
-		
+
 	}
 
 	/**
@@ -120,7 +125,7 @@ public class ConfigCopy {
 		UserName = p.getProperty("UserName");
 		UserPassword = p.getProperty("UserPassword");
 		remoteGit = p.getProperty("remoteGit");
-		tempUrl=p.getProperty("tempUrl");
+		tempUrl = p.getProperty("tempUrl");
 
 	}
 
@@ -184,7 +189,6 @@ public class ConfigCopy {
 			}
 			ch = (char) this.in.read();
 		}
-		// System.out.println(sb.toString());
 		return sb.toString();
 	}
 
@@ -569,7 +573,11 @@ public class ConfigCopy {
 				sb1.replace(sb1.length() - str.length(), sb1.length(), "");
 			}
 		}
+
+		// if(sb1.toString().endsWith("!")){
 		sb1.delete(0, sb1.indexOf("!"));
+		// }
+
 		sb1.delete(sb1.lastIndexOf("end") + "end".length(), sb1.length());
 		File cfile = new File(fileName + "/config.txt");
 		cfile.createNewFile();
@@ -695,10 +703,12 @@ public class ConfigCopy {
 	 * 将配置文件存到一个git库中
 	 */
 
-	public void commitConifgFile(File cfile) throws IOException,
+	public static void commitConifgFile(File cfile) throws IOException,
 			NoFilepatternException, GitAPIException {
-
-		cfile.createNewFile();
+		if (!cfile.isFile()) {
+			cfile.createNewFile();
+		}
+System.out.println(cfile);
 		git.add().addFilepattern(".").call();
 		RevCommit commit = git.commit().setMessage("配置文件有更新").call();
 		String s = commit.getName();
@@ -761,17 +771,17 @@ public class ConfigCopy {
 		boolean flag = false;
 		if (!("登录成功!".equals(str))) {
 			System.out.println("连接失败IP未连接上");
-			return success = false;
+			return cc.success = false;
 		}
 		// System.out.println(str);
 		telnet1.write(superName);// 权限
 		try {
 			String str1 = telnet1.readUntil("Password:");//
 			telnet1.write(superPwd);// 权限密码
-			success = telnet1.determineCommand("#", "Password:");// 连接是否成功
-			if (!success) {
+			cc.success = telnet1.determineCommand("#", "Password:");// 连接是否成功
+			if (!cc.success) {
 				// System.out.println("密码错误");
-				return success = false;
+				return cc.success = false;
 			}
 			String f = configName + "/" + groupname + "/" + serverName + "/"
 					+ host;
@@ -789,6 +799,44 @@ public class ConfigCopy {
 	}
 
 	/**
+	 * 中兴配置文件下载
+	 */
+	public static boolean ConfigZhongXin(String host, String configName,
+			String pwd, String superName, String superPwd, String command,
+			String groupname, String serverName) {
+		boolean flag = false;
+		ConfigCopy telnet1 = new ConfigCopy(">", host, 23, "3", pwd);
+		String str = telnet1.Connection();
+		// System.out.println(str);
+		if (!("登录成功!".equals(str))) {
+			System.out.println("连接失败IP未连接上");
+			return cc.success = false;
+		}
+		telnet1.write(superName);
+		try {
+			String str1 = telnet1.readUntil("Password:");
+			telnet1.write(superPwd);
+			cc.success = telnet1.determineCommand(">", "Password:");
+			if (!cc.success) {
+				System.out.println("连接失败，权限名或密码错误");
+				return cc.success = false;
+			}
+			String f = configName + "/" + groupname + "/" + serverName + "/"
+					+ host;
+			File huafile = new File(f);
+			huafile.mkdirs();
+			telnet1.write(command);
+			//flag = telnet1.readUntil6(f, telnet1, host);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			telnet1.write("exit");
+			telnet1.write("exit");
+		}
+		return flag;
+	}
+	/**
 	 * 华为配置文件下载
 	 */
 	public static boolean ConfigHuaWei(String host, String configName,
@@ -800,17 +848,17 @@ public class ConfigCopy {
 		// System.out.println(str);
 		if (!("登录成功!".equals(str))) {
 			System.out.println("连接失败IP未连接上");
-			return success = false;
+			return cc.success = false;
 		}
 		telnet1.write(superName);
 		try {
 			String str1 = telnet1.readUntil("Password:");
 
 			telnet1.write(superPwd);
-			success = telnet1.determineCommand(">", "Password:");
-			if (!success) {
+			cc.success = telnet1.determineCommand(">", "Password:");
+			if (!cc.success) {
 				System.out.println("连接失败，权限名或密码错误");
-				return success = false;
+				return cc.success = false;
 			}
 			String f = configName + "/" + groupname + "/" + serverName + "/"
 					+ host;

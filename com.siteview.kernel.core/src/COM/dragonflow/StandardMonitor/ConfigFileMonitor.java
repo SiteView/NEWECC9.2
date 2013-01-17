@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -78,8 +79,17 @@ public class ConfigFileMonitor extends ServerMonitor {
 	static int kInitialPacketCount = 1;
 	static int kRetryPacketCount = 3;
 	static StringProperty pCommand;
+	static StringProperty pCommandText;
+	static StringProperty pCFDirectory;
+	static StringProperty phostIP;
+	static StringProperty pCFName;
+	private String localhost;
+	private static ConfigFileListDownLoad telnet1;
+
 	File f1;
-	static boolean success=false;
+	static boolean success = false;
+	public static String ConfigURL = null;// 文件比较位置
+	public static String ConfigAllURl = null;// 存储位置
 
 	public ConfigFileMonitor() {
 	}
@@ -100,10 +110,23 @@ public class ConfigFileMonitor extends ServerMonitor {
 						.toDefaultEncoding(getProperty(pGroupID)));
 	}
 
+	private void getUrl(String configName, String groupName, String host,
+			String ConfigFileName, String serviceName, String downConfigName) {
+		ConfigURL = ConfigCopy.getTempUrl() + "/" + downConfigName;
+		ConfigAllURl = "D:/cfrManage/ConfigFile" + "/" + groupName + "/"
+				+ serviceName + "/" + host + "/" + ConfigFileName;
+	}
+
 	/**
 	 * 按钮事件
 	 */
 	protected boolean update() {
+		try {
+			localhost = java.net.InetAddress.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
 		boolean flag = false;
 		String host = getProperty(pHost);
 		// String configName = getProperty(pConfigName);
@@ -113,24 +136,36 @@ public class ConfigFileMonitor extends ServerMonitor {
 		String superPwd = getProperty(pSuperPwd);
 		String serviceName = getProperty(pServiceName);
 		String command = getProperty(pCommand);
+		String CommandText = getProperty(pCommandText);
+		String CFDirectory = getProperty(pCFDirectory);
+		String CFName = getProperty(pCFName);
+		String hostIP = getProperty(phostIP);
 		String group = "";
 		String groupName = "";
-//		String groups="";
+		String UserName = "";
+		String ConfigFileName = "";
+		// String groups="";
 		// JDBC 查询数据
-	//	Connection conn = JDBCForSQL.getConnection();
-		BusinessObject businessObj=FileTools.CreateBo("ServerAddress", host, "RemoteMachine");
-			if(businessObj!=null){
-				group = businessObj.GetField("Groups").get_NativeValue().toString();
-				serviceName = businessObj.GetField("EpuipmentsTypes").get_NativeValue().toString();
-				pwd = businessObj.GetField("EquipmentPassWord").get_NativeValue().toString();
-				superName = businessObj.GetField("AuthorityName").get_NativeValue().toString();
-				superPwd = businessObj.GetField("AuthorityPwd").get_NativeValue().toString();
-//				groups = businessObj.GetField("Groups").get_NativeValue().toString();
-			}
-			BusinessObject Obj=FileTools.CreateBo("RecId", group, "EccGroup");
-			if(Obj!=null){
-				groupName = Obj.GetField("GroupName").get_NativeValue().toString();
-			}
+		// Connection conn = JDBCForSQL.getConnection();
+		BusinessObject businessObj = FileTools.CreateBo("ServerAddress", host,
+				"RemoteMachine");
+		if (businessObj != null) {
+			group = businessObj.GetField("Groups").get_NativeValue().toString();
+			serviceName = businessObj.GetField("EpuipmentsTypes")
+					.get_NativeValue().toString();
+			pwd = businessObj.GetField("EquipmentPassWord").get_NativeValue()
+					.toString();
+			superName = businessObj.GetField("AuthorityName").get_NativeValue()
+					.toString();
+			superPwd = businessObj.GetField("AuthorityPwd").get_NativeValue()
+					.toString();
+			UserName = businessObj.GetField("UserName").get_NativeValue()
+					.toString();
+		}
+		BusinessObject Obj = FileTools.CreateBo("RecId", group, "EccGroup");
+		if (Obj != null) {
+			groupName = Obj.GetField("GroupName").get_NativeValue().toString();
+		}
 		File file = new File(configName);
 		if (file.listFiles() == null) {
 			try {
@@ -152,36 +187,87 @@ public class ConfigFileMonitor extends ServerMonitor {
 				e.printStackTrace();
 			}
 		}
-		if ("思科".equals(serviceName)) {
-			flag = ConfigCopy.ConfigCisco(host, configName, pwd, superName,
-					superPwd, command, groupName, serviceName);
+		SimpleDateFormat simple = new SimpleDateFormat("yyyyMMdd");
+		String data = simple.format(new java.util.Date());
+		serviceName = serviceName.substring(0, 2);
+		if (!("".equals(CFDirectory.trim()))) {
+			String downConfigName = host + "config.txt";
+			ConfigFileName = host + "config.txt";
+			getUrl(configName, groupName, host, ConfigFileName, serviceName,
+					downConfigName);// 获取指定下载的文件路径
+			flag = ConfigFileListDownLoad.Link(serviceName, downConfigName,
+					ConfigFileName, host, command, UserName, pwd, superName,
+					superPwd, CFDirectory, CommandText, CFName, hostIP);
+		} else if ("思科".equals(serviceName)) {
+			// flag = ConfigCopy.ConfigCisco(host, configName, pwd, superName,
+			// superPwd, command, groupName, serviceName);
+			String downConfigName = host + "config.txt";
+			ConfigFileName = host + "config.txt";
+			getUrl(configName, groupName, host, ConfigFileName, serviceName,
+					downConfigName);// 获取指定下载的文件路径
+			flag = ConfigFileListDownLoad.Link(serviceName, downConfigName,
+					ConfigFileName, host, command, UserName, pwd, superName,
+					superPwd);
 		} else if ("华为".equals(serviceName)) {
-			flag = ConfigCopy.ConfigHuaWei(host, configName, pwd, superName,
-					superPwd, command, groupName, serviceName);
+			// flag = ConfigCopy.ConfigHuaWei(host, configName, pwd, superName,
+			// superPwd, command, groupName, serviceName);
+			String downConfigName = host + "config.txt";
+			ConfigFileName = host + "config.txt";
+			getUrl(configName, groupName, host, ConfigFileName, serviceName,
+					downConfigName);// 获取指定下载的文件路径
+			flag = ConfigFileListDownLoad.Link(serviceName, downConfigName,
+					ConfigFileName, host, command, UserName, pwd, superName,
+					superPwd);
+		} else if ("中兴".equals(serviceName)) {
+			String downConfigName = host + "config.txt";
+			ConfigFileName = host + "config.txt";
+			getUrl(configName, groupName, host, ConfigFileName, serviceName,
+					downConfigName);// 获取指定下载的文件路径
+			flag = ConfigFileListDownLoad.Link(serviceName, downConfigName,
+					ConfigFileName, host, command, UserName, pwd, superName,
+					superPwd);
+		} else if ("锐捷".equals(serviceName)) {
+			String downConfigName = host + "config.txt";
+			ConfigFileName = host + "config.txt";
+			getUrl(configName, groupName, host, ConfigFileName, serviceName,
+					downConfigName);// 获取指定下载的文件路径
+			flag = ConfigFileListDownLoad.Link(serviceName, downConfigName,
+					ConfigFileName, host, command, UserName, pwd, superName,
+					superPwd);
 		} else {
-			return false;
+			String downConfigName = host + "config.txt";
+			ConfigFileName = host + "config.txt";
+			getUrl(configName, groupName, host, ConfigFileName, serviceName,
+					downConfigName);// 获取指定下载的文件路径
+			flag = ConfigFileListDownLoad.Link(serviceName, downConfigName,
+					ConfigFileName, host, command, UserName, pwd, superName,
+					superPwd, CFDirectory, CommandText, CFName, hostIP);
 		}
 		if (flag) {
-			
 			SiteviewQuery siteviewquery = new SiteviewQuery();
-			siteviewquery.AddBusObQuery("ConfigFileManagemant", QueryInfoToGet.All);
+			siteviewquery.AddBusObQuery("ConfigFileManagemant",
+					QueryInfoToGet.All);
 			SearchCriteria sqlbuilder = siteviewquery.get_CriteriaBuilder();
-			XmlElement xmlelement1 = sqlbuilder.FieldAndValueExpression("ConfigName",Operators.Equals,"config.txt");
-			XmlElement xmlelement2 = sqlbuilder.FieldAndValueExpression("EquipmentAddress",Operators.Equals,host);
-			XmlElement sqlxmlelment = sqlbuilder.AndExpressions(new XmlElement[]{xmlelement1,xmlelement2});
+			XmlElement xmlelement1 = sqlbuilder.FieldAndValueExpression(
+					"ConfigName", Operators.Equals, host + "config.txt");
+			XmlElement xmlelement2 = sqlbuilder.FieldAndValueExpression(
+					"EquipmentAddress", Operators.Equals, host);
+			XmlElement sqlxmlelment = sqlbuilder
+					.AndExpressions(new XmlElement[] { xmlelement1, xmlelement2 });
 			siteviewquery.set_BusObSearchCriteria(sqlxmlelment);
-			ICollection busCollection = FileTools.getApi().get_BusObService().get_SimpleQueryResolver().ResolveQueryToBusObList(siteviewquery);
-			
-			if(busCollection!=null){
-			IEnumerator ienumbus = busCollection.GetEnumerator();
-			while(ienumbus.MoveNext()){
-				BusinessObject busob = (BusinessObject)ienumbus.get_Current();
-				busob.DeleteObject(FileTools.getApi());
+			ICollection busCollection = FileTools.getApi().get_BusObService()
+					.get_SimpleQueryResolver()
+					.ResolveQueryToBusObList(siteviewquery);
+			if (busCollection != null) {
+				IEnumerator ienumbus = busCollection.GetEnumerator();
+				while (ienumbus.MoveNext()) {
+					BusinessObject busob = (BusinessObject) ienumbus
+							.get_Current();
+					busob.DeleteObject(FileTools.getApi());
+				}
 			}
-			}
-
 			File file2 = new File(configName + "/" + groupName + "/"
-					+ serviceName + "/" + host + "/" + "config.txt");
+					+ serviceName + "/" + host + "/" + host + "config.txt");
 			FileInputStream in = null;
 			long filesize = 0;
 			try {
@@ -198,30 +284,28 @@ public class ConfigFileMonitor extends ServerMonitor {
 					"yyyy-MM-dd HH:mm:ss");
 			Date date = new Date();
 			String date1 = dateFormat.format(date);
-			BusinessObject bb=FileTools.getApi_1().get_BusObService().Create("ConfigFileManagemant");
-			bb.GetField("RecId").SetValue(new
-					 SiteviewValue(RecId));
-			bb.GetField("Groups").SetValue(new
-					 SiteviewValue(group));
-			bb.GetField("GroupName").SetValue(new
-					 SiteviewValue(groupName));
-			bb.GetField("EquipmentType").SetValue(new
-					 SiteviewValue(serviceName));
-			bb.GetField("EquipmentAddress").SetValue(new
-					 SiteviewValue(host));
-			bb.GetField("ConfigName").SetValue(new
-					 SiteviewValue("config.txt"));
-			bb.GetField("ConfigFileSize").SetValue(new
-					 SiteviewValue(filesize));
-			bb.GetField("updateTime").SetValue(new
-					 SiteviewValue(date1));
+			BusinessObject bb = FileTools.getApi_1().get_BusObService()
+					.Create("ConfigFileManagemant");
+			String URL = ConfigCopy.getURL();
+			// System.out.println(URL);
+			bb.GetField("RecId").SetValue(new SiteviewValue(RecId));
+			bb.GetField("Groups").SetValue(new SiteviewValue(group));
+			bb.GetField("URL").SetValue(new SiteviewValue(URL));
+			bb.GetField("GroupName").SetValue(new SiteviewValue(groupName));
+			bb.GetField("EquipmentType").SetValue(
+					new SiteviewValue(serviceName));
+			bb.GetField("EquipmentAddress").SetValue(new SiteviewValue(host));
+			bb.GetField("ConfigName").SetValue(
+					new SiteviewValue(host + "config.txt"));
+			bb.GetField("ConfigFileSize").SetValue(new SiteviewValue(filesize));
+			bb.GetField("updateTime").SetValue(new SiteviewValue(date1));
 			bb.SaveObject(FileTools.getApi(), true, true);
 			try {
-				ConfigCopy.testpush();//提交数据			
+				ConfigCopy.testpush();// 提交数据
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 		}
 		int timeout = getPropertyAsInteger(pTimeout);
 		int size = getPropertyAsInteger(pSize);
@@ -236,12 +320,13 @@ public class ConfigFileMonitor extends ServerMonitor {
 		}
 		int packetReceived = ai[1];
 		int j1 = ai[0];
-		currentStatus = "ConfigPingMonitor analyzing results...";
+		currentStatus = "ConfigFileMonitor analyzing results...";
 		if (stillActive()) {
 			synchronized (this) {
-				success=ConfigCopy.success;
-				if(success=false){
-					packetReceived=-1;
+				ConfigCopy cc = new ConfigCopy();
+				success = cc.success;
+				if (success == false) {
+					packetReceived = -1;
 				}
 				if (packetReceived > 0) {
 					setProperty(pStatus, "ok");
@@ -250,17 +335,17 @@ public class ConfigFileMonitor extends ServerMonitor {
 							&& getSetting("_singleDigitMillis").length() <= 0) {
 						f = 10F;
 					}
-					String s1;
-					if (getSetting("_singleDigitMillis").length() <= 0) {
-						s1 = TextUtils.floatToString(f / 1000F, 2) + " sec";
-					} else {
-						s1 = TextUtils.floatToString(f / 1000F, 3) + " sec";
-					}
-					if (packetReceived != initialPacketCount) {
-						int k1 = initialPacketCount - packetReceived;
-						s1 = k1 + " out of " + initialPacketCount
-								+ " missing, " + s1;
-					}
+					String s1 = "正常";
+					// if (getSetting("_singleDigitMillis").length() <= 0) {
+					// s1 = TextUtils.floatToString(f / 1000F, 2) + " sec";
+					// } else {
+					// s1 = TextUtils.floatToString(f / 1000F, 3) + " sec";
+					// }
+					// if (packetReceived != initialPacketCount) {
+					// int k1 = initialPacketCount - packetReceived;
+					// s1 = k1 + " out of " + initialPacketCount
+					// + " missing, " + s1;
+					// }
 					setProperty(pPacketsReceived, packetReceived);
 					setProperty(
 							pPercentGood,
@@ -287,17 +372,16 @@ public class ConfigFileMonitor extends ServerMonitor {
 					setProperty(pStatus, "failed");
 					if (j1 == Platform.PING_COMMAND_FAILED) {
 						setProperty(pNoData, "n/a");
-						setProperty(pStateString,
-								"Data Unavailable command failed to execute");
+						setProperty(pStateString, "数据不可用下载失败");
 					} else {
-						setProperty(pStateString, "failed");
+						setProperty(pStateString, "获取失败");
 					}
 				}
 			}
 		}
-		
+
 		return true;
-		
+
 	}
 
 	public Array getLogProperties() {
@@ -392,29 +476,48 @@ public class ConfigFileMonitor extends ServerMonitor {
 		pSuperPwd.setDisplayText("Super Password",
 				"the User login server super user password"
 						+ Platform.exampleDomain + ")");
-
 		pSuperPwd.setParameterOptions(true, 5, false);
+
+		pCFDirectory = new StringProperty("_pCFDirectory", "", "pCFDirectory");
+		pCFDirectory.setDisplayText("cd pCFDirectory", "config file directory"
+				+ Platform.exampleDomain + ")");
+		pCFDirectory.setParameterOptions(true, 6, false);
 
 		pCommand = new StringProperty("_pCommand", "", "pSuperPwd");
 		pCommand.setDisplayText("Super Password", "the open configfile command"
 				+ Platform.exampleDomain + ")");
+		pCommand.setParameterOptions(true, 7, false);
 
-		pCommand.setParameterOptions(true, 6, false);
+		pCommandText = new StringProperty("_pCommandText", "", "pCommandText");
+		pCommandText
+				.setDisplayText("pCommandText",
+						"the User login server password"
+								+ Platform.exampleDomain + ")");
+		pCommandText.setParameterOptions(true, 8, false);
 
 		pConfigName = new StringProperty("_configname", "", "config name");
 		pConfigName.setDisplayText("Config Name",
 				"The Users download configuration files full path  "
 						+ Platform.exampleDomain + ")");
+		pConfigName.setParameterOptions(true, 9, false);
 
-		pConfigName.setParameterOptions(true, 7, false);
+		phostIP = new StringProperty("_phostIP", "", "phostIP");
+		phostIP.setDisplayText("phostIP", "phostIP" + Platform.exampleDomain
+				+ ")");
+		phostIP.setParameterOptions(true, 10, false);
+
+		pCFName = new StringProperty("_pCFName", "", "pCFName");
+		pCFName.setDisplayText("pCFName", "pCFName" + Platform.exampleDomain
+				+ ")");
+		pCFName.setParameterOptions(true, 11, false);
 
 		pTimeout = new NumericProperty("_timeout", "5000", "milliseconds");
 		pTimeout.setDisplayText("Timeout",
 				"the time out per packet, in milliseconds, to wait for ping replies\n");
-		pTimeout.setParameterOptions(true, 8, true);
+		pTimeout.setParameterOptions(true, 10, true);
 		pSize = new NumericProperty("_packetSize", "32", "bytes");
 		pSize.setDisplayText("Size", "the size, in bytes, of the ping message");
-		pSize.setParameterOptions(true, 9, true);
+		pSize.setParameterOptions(true, 11, true);
 		pRoundTripTime = new NumericProperty("roundTripTime", "0",
 				"milliseconds");
 		pRoundTripTime.setLabel("round trip time");
@@ -430,9 +533,10 @@ public class ConfigFileMonitor extends ServerMonitor {
 		pPacketsReceived = new NumericProperty("packetsReceived");
 		pPacketsReceived.setLabel("packets received");
 		StringProperty astringproperty[] = { pServiceName, pHost, pPwd,
-				pSuperName, pSuperPwd, pConfigName, pCommand, pTimeout, pSize,
-				pStatus, pRoundTripTime, pPacketsSent, pPacketsReceived,
-				pPercentGood, pPercentFailed };
+				pSuperName, pSuperPwd, pConfigName, pCFDirectory, pCommand,
+				pCommandText, pTimeout, pSize, pStatus, pRoundTripTime,
+				pPacketsSent, pPacketsReceived, pPercentGood, pPercentFailed,
+				pCFName, phostIP };
 		addProperties("COM.dragonflow.StandardMonitor.ConfigFileMonitor",
 				astringproperty);
 		addClassElement("COM.dragonflow.StandardMonitor.ConfigFileMonitor",
